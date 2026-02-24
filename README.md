@@ -10,10 +10,10 @@ Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo de
 
 ## Integrantes
 
-* [Nome completo do aluno 1](docs/atas/aluno1.md)
-* [Nome completo do aluno 2](docs/atas/aluno2.md)
-* [Nome completo do aluno 3](docs/atas/aluno3.md)
-* [Nome completo do aluno 4](docs/atas/aluno4.md)
+* [Alice Abreu dos Reis](docs/atas/aluno1.md)
+* [Gabriel dos Reis Nascimento](docs/atas/aluno2.md)
+* [Martha Beatriz Siqueira da Silva](docs/atas/aluno3.md)
+* [Omar Petronilio Martins de Abreu](docs/atas/aluno4.md)
 * [Nome completo do aluno 5](docs/atas/aluno5.md)
 * [Nome completo do aluno 6](docs/atas/aluno6.md)
 
