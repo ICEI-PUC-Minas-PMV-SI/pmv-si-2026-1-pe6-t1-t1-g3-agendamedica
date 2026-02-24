@@ -1,11 +1,11 @@
-# ATA de Acompanhamento - Nome completo do aluno 1
+# ATA de Acompanhamento - Alice Abreu dos Reis
 
 ## Registro de Atividades Semanais
 
 | Período | Microfundamento | Estudou? | Atividade Prevista | Atividade Realizada |
 |:-------:|:---------------:|:--------:|:------------------:|:-------------------:|
-| 09/02 - 15/02 | Gestão de Serviços de TI - Unidade 1 | ⬜ |  |  |
-| 16/02 - 22/02 | Gestão de Serviços de TI - Unidade 2 | ⬜ |  |  |
+| 09/02 - 15/02 | Gestão de Serviços de TI - Unidade 1 | ✅ |  |  |
+| 16/02 - 22/02 | Gestão de Serviços de TI - Unidade 2 | ✅ |  |  |
 | 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ⬜ |  |  |
 | 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ⬜ |  |  |
 | 09/03 - 15/03 | APIs e Web Services - Unidade 1 | ⬜ |  |  |
