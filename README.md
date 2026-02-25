@@ -14,7 +14,7 @@ Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo de
 * [Gabriel dos Reis Nascimento](docs/atas/aluno2.md)
 * [Martha Beatriz Siqueira da Silva](docs/atas/aluno3.md)
 * [Omar Petronilio Martins de Abreu](docs/atas/aluno4.md)
-* [Nome completo do aluno 5](docs/atas/aluno5.md)
+* [Letícia Oliveira Aquino](docs/atas/aluno5.md)
 * [Nome completo do aluno 6](docs/atas/aluno6.md)
 
 ## Orientador
