@@ -19,7 +19,7 @@ Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thin
 ### Obejetivo geral
 Desenvolver um sistema distribuído de agenda médica que permita a integração e sincronização de horários entre diferentes clínicas, hospitais e consultórios, oferecendo uma visão unificada da agenda dos profissionais de saúde e facilitando o agendamento para pacientes.
 
-### Objetivos especcíficos
+### Objetivos específicos
 - Projetar uma arquitetura distribuída escalável que permita a comunicação entre diferentes sistemas de gestão médica, garantindo interoperabilidade entre instituições distintas.
 
 - Implementar um mecanismo de sincronização de agendas em tempo real ou quase em tempo real, reduzindo inconsistências e evitando conflitos de horários.
