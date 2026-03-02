@@ -16,12 +16,21 @@ Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thin
 
 ## Objetivos
 
-Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é desenvolver um software para solucionar o problema apresentado acima. 
+### Obejetivo geral
+Desenvolver um sistema distribuído de agenda médica que permita a integração e sincronização de horários entre diferentes clínicas, hospitais e consultórios, oferecendo uma visão unificada da agenda dos profissionais de saúde e facilitando o agendamento para pacientes.
 
-Apresente também alguns (pelo menos 2) objetivos específicos dependendo de onde você vai querer concentrar a sua prática investigativa, ou como você vai aprofundar no seu trabalho.
- 
-> **Links Úteis**:
-> - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/)
+### Objetivos especcíficos
+- Projetar uma arquitetura distribuída escalável que permita a comunicação entre diferentes sistemas de gestão médica, garantindo interoperabilidade entre instituições distintas.
+
+- Implementar um mecanismo de sincronização de agendas em tempo real ou quase em tempo real, reduzindo inconsistências e evitando conflitos de horários.
+
+- Desenvolver um modelo de consistência adequado para garantir a integridade dos dados de agendamento em um ambiente distribuído.
+
+- Criar uma API centralizada (ou gateway de serviços) que permita o acesso seguro às agendas médicas por diferentes aplicações (web e mobile).
+
+- Implementar mecanismos de tolerância a falhas e alta disponibilidade, assegurando que o sistema permaneça operacional mesmo diante de falhas parciais.
+
+- Garantir segurança e controle de acesso aos dados médicos, respeitando princípios de confidencialidade e privacidade.
 
 ## Justificativa
 
