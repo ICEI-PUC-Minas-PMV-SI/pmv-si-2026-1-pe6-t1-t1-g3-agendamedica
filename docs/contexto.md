@@ -16,7 +16,7 @@ Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thin
 
 ## Objetivos
 
-### Obejetivo geral
+### Objetivo geral
 Desenvolver um sistema distribuído de agenda médica que permita a integração e sincronização de horários entre diferentes clínicas, hospitais e consultórios, oferecendo uma visão unificada da agenda dos profissionais de saúde e facilitando o agendamento para pacientes.
 
 ### Objetivos específicos
