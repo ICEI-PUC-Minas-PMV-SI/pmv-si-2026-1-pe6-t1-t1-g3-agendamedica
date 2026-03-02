@@ -74,7 +74,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |-------|-------------------------|----|
 |RNF-001| O sistema deve permitir acessos baseados por funções (RBAC). | MÉDIA | 
 |RNF-002| O sistema deve garantir a proteção e minimização dos dados pessoais e sensíveis, respeitando a LGPD. | ALTA | 
-|RNF-003| O sistema deve retornar as consultas de dados em até 3 segundos. | ALTA | 
+|RNF-003| O sistema deve retornar as consultas de dados em até 3 segundos. | MÉDIA | 
 
 Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
 
