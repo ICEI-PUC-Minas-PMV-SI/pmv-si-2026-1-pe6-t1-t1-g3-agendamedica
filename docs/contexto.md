@@ -34,12 +34,13 @@ Desenvolver um sistema distribuído de agenda médica que permita a integração
 
 ## Justificativa
 
-Descreva a importância ou a motivação para trabalhar com esta aplicação que você escolheu. Indique as razões pelas quais você escolheu seus objetivos específicos ou as razões para aprofundar em certos aspectos do software.
-
-O grupo de trabalho pode fazer uso de questionários, entrevistas e dados estatísticos, que podem ser apresentados, com o objetivo de esclarecer detalhes do problema que será abordado pelo grupo.
-
-> **Links Úteis**:
-> - [Como montar a justificativa](https://guiadamonografia.com.br/como-montar-justificativa-do-tcc/)
+A gestão de agendas médicas no Brasil enfrenta sérios desafios de interoperabilidade e sincronização entre diferentes clínicas, hospitais e consultórios. Segundo levantamento da Associação Nacional de Hospitais Privados (ANAHP), cerca de 42% das instituições privadas relatam dificuldades recorrentes na confirmação de consultas, o que gera perdas financeiras que podem ultrapassar R$ 140 mil anuais por clínica devido a horários vagos e cancelamentos não gerenciados.
+ 
+No âmbito público, dados do Ministério da Saúde indicam que em 2023, 3 em cada 10 pacientes faltaram às consultas ou exames sem realizar desmarcação prévia, comprometendo a eficiência do Sistema Único de Saúde (SUS).
+ 
+Além disso, plataformas de reclamação como o Reclame Aqui evidenciam a insatisfação dos pacientes com os processos de agendamento. As queixas mais frequentes incluem dificuldade de contato com clínicas, demora em respostas via canais digitais (como WhatsApp) e ausência de integração entre sistemas de atendimento. Esse cenário gera frustração, perda de confiança e impacto direto na reputação das instituições de saúde.
+ 
+Portanto, a implementação de um sistema distribuído de agenda médica não apenas responde às demandas técnicas de interoperabilidade e segurança, mas também atua como solução estratégica para reduzir perdas financeiras, melhorar a experiência dos pacientes e aumentar a eficiência do setor de saúde no Brasil.
 
 ## Público-Alvo
 
