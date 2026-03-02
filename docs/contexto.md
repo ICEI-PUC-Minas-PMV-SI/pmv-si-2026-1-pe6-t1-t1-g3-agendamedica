@@ -65,15 +65,16 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 |ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|----|
-|RF-001| Permitir que o usuário cadastre tarefas | ALTA | 
-|RF-002| Emitir um relatório de tarefas no mês   | MÉDIA |
+|RF-001| Agendar Consulta Médica | ALTA | 
+|RF-002| Visualizar Agenda Médica | ALTA |
 
 ### Requisitos não Funcionais
 
 |ID     | Descrição do Requisito  |Prioridade |
 |-------|-------------------------|----|
-|RNF-001| O sistema deve ser responsivo para rodar em um dispositivos móvel | MÉDIA | 
-|RNF-002| Deve processar requisições do usuário em no máximo 3s |  BAIXA | 
+|RNF-001| O sistema deve permitir acessos baseados por funções (RBAC). | MÉDIA | 
+|RNF-002| O sistema deve garantir a proteção e minimização dos dados pessoais e sensíveis, respeitando a LGPD. | ALTA | 
+|RNF-003| O sistema deve retornar as consultas de dados em até 3 segundos. | ALTA | 
 
 Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
 
