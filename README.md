@@ -6,8 +6,9 @@
 
 `SEMESTRE: 6º`
 
-Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo desenvolvido.
+O projeto consiste no desenvolvimento de um sistema de Agenda Médica Distribuída que permite o agendamento de consultas médicas entre diferentes clínicas, hospitais e profissionais de saúde de forma integrada. A solução propõe a unificação das agendas de médicos que atuam em múltiplos locais, garantindo sincronização entre os sistemas e evitando conflitos de horário, desperdício de vagas e inconsistências de informação.
 
+A arquitetura será baseada em princípios de Sistemas Distribuídos, contemplando comunicação entre serviços, controle de consistência de dados, tolerância a falhas e alta disponibilidade. O sistema buscará oferecer uma visão global da agenda dos profissionais, permitindo que horários cancelados ou disponíveis sejam rapidamente atualizados e refletidos em todos os pontos de atendimento conectados, otimizando o tempo dos médicos e facilitando o acesso dos pacientes aos serviços de saúde.
 ## Integrantes
 
 * [Alice Abreu dos Reis](docs/atas/aluno1.md)
@@ -15,7 +16,6 @@ Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo de
 * [Martha Beatriz Siqueira da Silva](docs/atas/aluno3.md)
 * [Omar Petronilio Martins de Abreu](docs/atas/aluno4.md)
 * [Letícia Oliveira Aquino](docs/atas/aluno5.md)
-* [Nome completo do aluno 6](docs/atas/aluno6.md)
 
 ## Orientador
 
