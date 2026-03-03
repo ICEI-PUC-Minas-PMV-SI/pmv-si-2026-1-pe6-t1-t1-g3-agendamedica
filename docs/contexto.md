@@ -17,20 +17,18 @@ Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thin
 ## Objetivos
 
 ### Objetivo geral
-Desenvolver um sistema distribuído de agenda médica que permita a integração e sincronização de horários entre diferentes clínicas, hospitais e consultórios, oferecendo uma visão unificada da agenda dos profissionais de saúde e facilitando o agendamento para pacientes.
+Desenvolver um sistema distribuído de agenda médica que permita o compartilhamento de horários entre diferentes unidades de atendimento, oferecendo uma visualização centralizada da agenda dos profissionais de saúde.
 
 ### Objetivos específicos
 - Projetar uma arquitetura distribuída escalável que permita a comunicação entre diferentes sistemas de gestão médica, garantindo interoperabilidade entre instituições distintas.
 
-- Implementar um mecanismo de sincronização de agendas em tempo real ou quase em tempo real, reduzindo inconsistências e evitando conflitos de horários.
+- Projetar uma arquitetura distribuída composta por múltiplos serviços independentes que compartilham informações de agenda por meio de comunicação via API.
 
-- Desenvolver um modelo de consistência adequado para garantir a integridade dos dados de agendamento em um ambiente distribuído.
+- Implementar um mecanismo simples de sincronização periódica de dados entre os serviços, evitando conflitos de horário de forma controlada.
 
-- Criar uma API centralizada (ou gateway de serviços) que permita o acesso seguro às agendas médicas por diferentes aplicações (web e mobile).
+- Garantir consistência dos dados por meio de validações no momento do agendamento, prevenindo duplicidade de horários.
 
-- Implementar mecanismos de tolerância a falhas e alta disponibilidade, assegurando que o sistema permaneça operacional mesmo diante de falhas parciais.
-
-- Garantir segurança e controle de acesso aos dados médicos, respeitando princípios de confidencialidade e privacidade.
+- Desenvolver uma interface simples para visualização e marcação de consultas, demonstrando o funcionamento do sistema distribuído.
 
 ## Justificativa
 
