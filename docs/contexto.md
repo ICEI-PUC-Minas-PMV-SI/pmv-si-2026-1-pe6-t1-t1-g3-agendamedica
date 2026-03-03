@@ -34,16 +34,27 @@ O grupo de trabalho pode fazer uso de questionários, entrevistas e dados estat�
 
 ## Público-Alvo
 
-Descreva quem serão as pessoas que usarão a sua aplicação indicando os diferentes perfis. O objetivo aqui não é definir quem serão os clientes ou quais serão os papéis dos usuários na aplicação. A ideia é, dentro do possível, conhecer um pouco mais sobre o perfil dos usuários: conhecimentos prévios, relação com a tecnologia, relações
-hierárquicas, etc.
+A aplicação para gestão de agendas médicas é projetada para diferentes perfis que sofrem com as lacunas atuais do setor de saúde. Um dos principais beneficiários é o paciente, que necessita de um canal de agendamento que resolva problemas comuns de mercado, como a lentidão de respostas em chats e a falta de integração entre clínicas. Este grupo varia entre usuários mobile (jovens/adultos) e aqueles com menor domínio digital (idosos), exigindo uma interface que minimize erros e desistências. O sistema também atende, de forma estratégica, o corpo administrativo da clínica. Ao oferecer clareza e facilidade de contato, a plataforma visa mitigar as perdas financeiras causadas por faltas não gerenciadas e cancelamentos tardios. Assim, o público-alvo encontrará uma experiência de agendamento integrada, rápida e confiável.
 
-Adicione informações sobre o público-alvo por meio de uma descrição textual, diagramas de personas e mapa de stakeholders.
+Persona 1: A facilitadora	
+Márcia, 42 anos
+Recepcionista de Clínica	Médica
+Trabalha em duas clínicas que usam sistemas diferentes.
+Dor Principal:	Ter que conferir dois computadores em duas agendas direferentes para não marcar horários conflitantes para o médico da clínica. 
 
-> **Links Úteis**:
-> - [Público-alvo](https://blog.hotmart.com/pt-br/publico-alvo/)
-> - [Como definir o público alvo](https://exame.com/pme/5-dicas-essenciais-para-definir-o-publico-alvo-do-seu-negocio/)
-> - [Público-alvo: o que é, tipos, como definir seu público e exemplos](https://klickpages.com.br/blog/publico-alvo-o-que-e/)
-> - [Qual a diferença entre público-alvo e persona?](https://rockcontent.com/blog/diferenca-publico-alvo-e-persona/)
+Persona 2: O médico
+Dr. Roberto, 55 anos
+Médico Ortopedista
+Atende no SUS, em um hospital e em consultório próprio.	
+Dor principal: Ociosidade. Quando algum paciente falta na Clínica A, ele fica ocioso sem saber que a Clínica B tinha fila.
+
+Persona 3: O paciente
+Tiago, 29 anos
+Engenheiro
+Tem rotina corrida e precisa marcar fisioterapia para o pós-operatório.
+Dor principal: Perder 20 minutos no telefone ou horas esperando resposta no WhatsApp.
+
+
 
 # Especificações do Projeto
 
