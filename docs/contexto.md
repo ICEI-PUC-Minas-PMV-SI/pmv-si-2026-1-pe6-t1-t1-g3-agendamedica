@@ -20,11 +20,9 @@ Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thin
 Desenvolver um sistema distribuído de agenda médica que permita o compartilhamento de horários entre diferentes unidades de atendimento, oferecendo uma visualização centralizada da agenda dos profissionais de saúde.
 
 ### Objetivos específicos
-- Projetar uma arquitetura distribuída escalável que permita a comunicação entre diferentes sistemas de gestão médica, garantindo interoperabilidade entre instituições distintas.
-
 - Projetar uma arquitetura distribuída composta por múltiplos serviços independentes que compartilham informações de agenda por meio de comunicação via API.
 
-- Implementar um mecanismo simples de sincronização periódica de dados entre os serviços, evitando conflitos de horário de forma controlada.
+- Implementar um mecanismo de sincronização periódica de dados entre os serviços, evitando conflitos de horário de forma controlada.
 
 - Garantir consistência dos dados por meio de validações no momento do agendamento, prevenindo duplicidade de horários.
 
