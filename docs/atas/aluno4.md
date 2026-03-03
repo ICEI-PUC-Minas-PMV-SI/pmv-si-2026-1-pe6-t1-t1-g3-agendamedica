@@ -1,4 +1,4 @@
-# ATA de Acompanhamento - Nome completo do aluno 4
+# ATA de Acompanhamento - Omar Petronílio Martins de Abreu
 
 ## Registro de Atividades Semanais
 
