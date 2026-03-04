@@ -34,25 +34,14 @@ O grupo de trabalho pode fazer uso de questionários, entrevistas e dados estat�
 
 ## Público-Alvo
 
-A aplicação para gestão de agendas médicas é projetada para diferentes perfis que sofrem com as lacunas atuais do setor de saúde. Um dos principais beneficiários é o paciente, que necessita de um canal de agendamento que resolva problemas comuns de mercado, como a lentidão de respostas em chats e a falta de integração entre clínicas. Este grupo varia entre usuários mobile (jovens/adultos) e aqueles com menor domínio digital (idosos), exigindo uma interface que minimize erros e desistências. O sistema também atende, de forma estratégica, o corpo administrativo da clínica. Ao oferecer clareza e facilidade de contato, a plataforma visa mitigar as perdas financeiras causadas por faltas não gerenciadas e cancelamentos tardios. Assim, o público-alvo encontrará uma experiência de agendamento integrada, rápida e confiável.
+Proficionais da área de saúde:
+Os profissionais de saúde possuem experiência prévia com sistemas de prontuário eletrônico e plataformas de gestão hospitalar. Para esses, o impacto é a unificação da vida profissional. Estão habituados ao uso de ferramentas digitais no cotidiano, mas enfrentam dificuldades ao conciliar agendas em diferentes instituições, pois muitos dividem o dia entre consultórios próprios, hospitais e clínicas de terceiros.  Por isso, precisam de uma solução integrada que facilite o gerenciamento de compromissos, evitando assim o estresse de conflitos de horários, diminuindo também o problema do tempo ocioso pela desmarcação de consultas em cima da hora. 
 
-Persona 1: A facilitadora	
-Márcia, 42 anos
-Recepcionista de Clínica	Médica
-Trabalha em duas clínicas que usam sistemas diferentes.
-Dor Principal:	Ter que conferir dois computadores em duas agendas direferentes para não marcar horários conflitantes para o médico da clínica. 
+Corpo administrativo:
+O corpo administrativo possui experiência com sistemas de agendamento e gestão de pacientes, mas muitas vezes em plataformas pouco integradas. Necessitam de uma ferramenta que simplifique os processos, reduza falhas e a carga de trabalho manual,  apoie diretamente na organização das agendas dos profissionais de saúde.
 
-Persona 2: O médico
-Dr. Roberto, 55 anos
-Médico Ortopedista
-Atende no SUS, em um hospital e em consultório próprio.	
-Dor principal: Ociosidade. Quando algum paciente falta na Clínica A, ele fica ocioso sem saber que a Clínica B tinha fila.
-
-Persona 3: O paciente
-Tiago, 29 anos
-Engenheiro
-Tem rotina corrida e precisa marcar fisioterapia para o pós-operatório.
-Dor principal: Perder 20 minutos no telefone ou horas esperando resposta no WhatsApp.
+Pacientes:
+O grupo dos pacientes é composto por um espectro diverso que vai desde jovens e adultos com alta familiaridade digital, que buscam resolver tudo pelo smartphone com poucos cliques, até idosos com menor domínio tecnológico, que podem se sentir intimidados por interfaces complexas e que também podem enfrentar dificuldades no processo de agendamento e verificação de consultas. Em comum, todos necessitam de uma solução que proporcione praticidade, rapidez e simplicidade.
 
 
 
