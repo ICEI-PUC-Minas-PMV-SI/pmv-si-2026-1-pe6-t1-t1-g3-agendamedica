@@ -30,13 +30,13 @@ Desenvolver um sistema distribuído de agenda médica que permita o compartilham
 
 ## Justificativa
 
-A gestão de agendas médicas no Brasil enfrenta sérios desafios de interoperabilidade e sincronização entre diferentes clínicas, hospitais e consultórios. Segundo levantamento da Associação Nacional de Hospitais Privados (ANAHP), cerca de 42% das instituições privadas relatam dificuldades recorrentes na confirmação de consultas, o que gera perdas financeiras que podem ultrapassar R$ 140 mil anuais por clínica devido a horários vagos e cancelamentos não gerenciados.
- 
-No âmbito público, dados do Ministério da Saúde indicam que em 2023, 3 em cada 10 pacientes faltaram às consultas ou exames sem realizar desmarcação prévia, comprometendo a eficiência do Sistema Único de Saúde (SUS).
- 
-Além disso, plataformas de reclamação como o Reclame Aqui evidenciam a insatisfação dos pacientes com os processos de agendamento. As queixas mais frequentes incluem dificuldade de contato com clínicas, demora em respostas via canais digitais (como WhatsApp) e ausência de integração entre sistemas de atendimento. Esse cenário gera frustração, perda de confiança e impacto direto na reputação das instituições de saúde.
- 
-Portanto, a implementação de um sistema distribuído de agenda médica não apenas responde às demandas técnicas de interoperabilidade e segurança, mas também atua como solução estratégica para reduzir perdas financeiras, melhorar a experiência dos pacientes e aumentar a eficiência do setor de saúde no Brasil.
+A gestão de agendas médicas no Brasil enfrenta sérios desafios de interoperabilidade e sincronização entre diferentes clínicas, hospitais e consultórios. Segundo levantamento da Associação Nacional de Hospitais Privados (ANAHP), cerca de 42% das instituições privadas relatam dificuldades recorrentes na confirmação de consultas, o que gera perdas financeiras que podem ultrapassar R$ 140 mil anuais por clínica, em decorrência de horários vagos e cancelamentos não gerenciados (ANAHP, 2022).
+
+No âmbito público, dados do Ministério da Saúde indicam que, em 2023, 3 em cada 10 pacientes faltaram a consultas ou exames sem realizar desmarcação prévia, comprometendo diretamente a eficiência do Sistema Único de Saúde (SUS) (Ministério da Saúde, 2023).
+
+Além disso, plataformas de reclamação como o Reclame Aqui evidenciam a insatisfação dos pacientes em relação aos processos de agendamento. As queixas mais frequentes incluem dificuldade de contato com clínicas, demora nas respostas via canais digitais, como WhatsApp, e ausência de integração entre sistemas de atendimento (RECLAME AQUI, 2023).
+
+Diante desse cenário, a implementação de um sistema distribuído de agenda médica não atende exclusivamente às demandas técnicas de interoperabilidade, escalabilidade e segurança, como também se configura como uma solução estratégica para reduzir perdas financeiras, melhorar a experiência do paciente e aumentar a eficiência operacional do setor de saúde no Brasil.
 
 ## Público-Alvo
 
