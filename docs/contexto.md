@@ -58,43 +58,38 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 ### Requisitos Funcionais
 
-| ID     | Descrição do Requisito                  | Prioridade |
-| ------ | --------------------------------------- | ---------- |
-| RF-001 | Permitir que o usuário cadastre tarefas | ALTA       |
-| RF-002 | Emitir um relatório de tarefas no mês   | MÉDIA      |
+| ID     | Descrição do Requisito                                                                                          | Prioridade |
+| ------ | --------------------------------------------------------------------------------------------------------------- | ---------- |
+| RF-001 | O sistema deve permitir que os pacientes agendem, visualizem e cancelem consultas médicas pelo aplicativo.      | ALTA       |
+| RF-002 | O sistema deve permitir que médicos e recepcionistas gerenciem a agenda de marcações através da interface web.  | ALTA       |
+| RF-003 | O sistema deve sincronizar as informações de consultas entre as aplicações web e móvel de maneira centralizada. | ALTA       |
+| RF-004 | O sistema deve permitir o cadastro e o login de todos os usuários (pacientes, médicos e recepcionistas).        | ALTA       |
+| RF-005 | O sistema deve notificar os usuários caso ocorra um cancelamento de consulta.                                   | MÉDIA      |
 
 ### Requisitos não Funcionais
 
-| ID      | Descrição do Requisito                                            | Prioridade |
-| ------- | ----------------------------------------------------------------- | ---------- |
-| RNF-001 | O sistema deve ser responsivo para rodar em um dispositivos móvel | MÉDIA      |
-| RNF-002 | Deve processar requisições do usuário em no máximo 3s             | BAIXA      |
-
-Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
-
-- [Requisitos Funcionais
- (RF)](https://pt.wikipedia.org/wiki/Requisito_funcional):
- correspondem a uma funcionalidade que deve estar presente na
-  plataforma (ex: cadastro de usuário).
-- [Requisitos Não Funcionais
-  (RNF)](https://pt.wikipedia.org/wiki/Requisito_n%C3%A3o_funcional):
-  correspondem a uma característica técnica, seja de usabilidade,
-  desempenho, confiabilidade, segurança ou outro (ex: suporte a
-  dispositivos iOS e Android).
-Lembre-se que cada requisito deve corresponder à uma e somente uma
-característica alvo da sua solução. Além disso, certifique-se de que
-todos os aspectos capturados nas Histórias de Usuário foram cobertos.
+| ID      | Descrição do Requisito                                                                                                                                      | Prioridade |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| RNF-001 | A comunicação entre as aplicações (web e mobile) e o servidor deve ser padronizada por meio de uma API REST.                                                | ALTA       |
+| RNF-002 | O sistema deve possuir tempo de resposta até 3 segundos para pesquisas e ações na agenda.                                                                   | MÉDIA      |
+| RNF-003 | A interface web deve ser responsiva para se adaptar e funcionar corretamente em diferentes tamanhos de tela.                                                | ALTA       |
+| RNF-004 | O aplicativo móvel deve ser compatível com as plataformas Android e iOS.                                                                                    | ALTA       |
+| RNF-005 | O sistema deve utilizar tokens JWT para garantir a autenticação e autorização segura em todas as requisições entre as aplicações e a API.                   | ALTA       |
+| RNF-006 | O sistema deve ser compatível com as versões mais recentes dos principais navegadores do mercado (Google Chrome, Mozilla Firefox, Safari e Microsoft Edge). | ALTA       |
 
 ## Restrições
 
-O projeto está restrito pelos itens apresentados na tabela a seguir.
+O projeto está restrito pelas condições e limitações apresentadas na tabela a seguir:
 
-| ID  | Restrição                                             |
-| --- | ----------------------------------------------------- |
-| 01  | O projeto deverá ser entregue até o final do semestre |
-| 02  | Não pode ser desenvolvido um módulo de backend        |
+| ID  | Restrição                                                                                              |
+| --- | ------------------------------------------------------------------------------------------------------ |
+| 01  | O projeto deverá ser entregue dentro do prazo estabelecido até o final do semestre letivo.             |
+| 02  | O fluxo do sistema deve focar apenas no agendamento, não contemplando a gestão de prontuários médicos. |
+| 03  | O sistema não realiza processamento de pagamentos ou cobranças pelos serviços médicos.                 |
+| 04  | O sistema não deve permitir o agendamento de consultas sem validação do perfil do usuário.             |
+| 05  | O sistema não deve permitir o agendamento de consultas para o mesmo médico em horários iguais.         |
+| 06  | O sistema deve permitir apenas 1 cadastro por CPF e e-mail.                                            |
 
-Enumere as restrições à sua solução. Lembre-se de que as restrições geralmente limitam a solução candidata.
 
 > **Links Úteis**:
 > - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
