@@ -1,12 +1,12 @@
-# ATA de Acompanhamento - Nome completo do aluno 4
+# ATA de Acompanhamento - Omar Petronílio Martins de Abreu
 
 ## Registro de Atividades Semanais
 
 | Período | Microfundamento | Estudou? | Atividade Prevista | Atividade Realizada |
 |:-------:|:---------------:|:--------:|:------------------:|:-------------------:|
 | 09/02 - 15/02 | Gestão de Serviços de TI - Unidade 1 | ✅ |  |  |
-| 16/02 - 22/02 | Gestão de Serviços de TI - Unidade 2 | ✅ |  |  |
-| 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ⬜ |  |  |
+| 16/02 - 22/02 | Gestão de Serviços de TI - Unidade 2 | ✅ | Configuração e estruturação do fluxo de trabalho utilizando o GitHub Projects, com definição de colunas e automações para acompanhamento das atividades. Criação e organização das issues para distribuição das tarefas entre os membros da equipe. | ✅ |
+| 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ✅ | Execução da [issue #1](https://github.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe6-t1-t1-g3-agendamedica/issues/1) (Introdução em context.md). Suporte à integrante Letícia na compreensão e aplicação dos conceitos de branches, pull requests e organização de issues, garantindo alinhamento com o padrão de versionamento e fluxo de trabalho adotado pelo grupo. | ✅ |
 | 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ⬜ |  |  |
 | 09/03 - 15/03 | APIs e Web Services - Unidade 1 | ⬜ |  |  |
 | 16/03 - 22/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
