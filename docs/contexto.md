@@ -48,16 +48,16 @@ Fontes disponíveis em: [Referências](./Referências)
 
 ## Público-Alvo
 
-Descreva quem serão as pessoas que usarão a sua aplicação indicando os diferentes perfis. O objetivo aqui não é definir quem serão os clientes ou quais serão os papéis dos usuários na aplicação. A ideia é, dentro do possível, conhecer um pouco mais sobre o perfil dos usuários: conhecimentos prévios, relação com a tecnologia, relações
-hierárquicas, etc.
+Proficionais da área de saúde:
+Os profissionais de saúde possuem experiência prévia com sistemas de prontuário eletrônico e plataformas de gestão hospitalar. Para esses, o impacto é a unificação da vida profissional. Estão habituados ao uso de ferramentas digitais no cotidiano, mas enfrentam dificuldades ao conciliar agendas em diferentes instituições, pois muitos dividem o dia entre consultórios próprios, hospitais e clínicas de terceiros.  Por isso, precisam de uma solução integrada que facilite o gerenciamento de compromissos, evitando assim o estresse de conflitos de horários, diminuindo também o problema do tempo ocioso pela desmarcação de consultas em cima da hora. 
 
-Adicione informações sobre o público-alvo por meio de uma descrição textual, diagramas de personas e mapa de stakeholders.
+Corpo administrativo:
+O corpo administrativo possui experiência com sistemas de agendamento e gestão de pacientes, mas muitas vezes em plataformas pouco integradas. Necessitam de uma ferramenta que simplifique os processos, reduza falhas e a carga de trabalho manual,  apoie diretamente na organização das agendas dos profissionais de saúde.
 
-> **Links Úteis**:
-> - [Público-alvo](https://blog.hotmart.com/pt-br/publico-alvo/)
-> - [Como definir o público alvo](https://exame.com/pme/5-dicas-essenciais-para-definir-o-publico-alvo-do-seu-negocio/)
-> - [Público-alvo: o que é, tipos, como definir seu público e exemplos](https://klickpages.com.br/blog/publico-alvo-o-que-e/)
-> - [Qual a diferença entre público-alvo e persona?](https://rockcontent.com/blog/diferenca-publico-alvo-e-persona/)
+Pacientes:
+O grupo dos pacientes é composto por um espectro diverso que vai desde jovens e adultos com alta familiaridade digital, que buscam resolver tudo pelo smartphone com poucos cliques, até idosos com menor domínio tecnológico, que podem se sentir intimidados por interfaces complexas e que também podem enfrentar dificuldades no processo de agendamento e verificação de consultas. Em comum, todos necessitam de uma solução que proporcione praticidade, rapidez e simplicidade.
+
+
 
 # Especificações do Projeto
 
