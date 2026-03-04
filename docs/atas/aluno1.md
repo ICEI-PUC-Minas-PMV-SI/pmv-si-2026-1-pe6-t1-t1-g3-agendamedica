@@ -7,7 +7,7 @@
 | 09/02 - 15/02 | Gestão de Serviços de TI - Unidade 1 | ✅ | - | N/A |
 | 16/02 - 22/02 | Gestão de Serviços de TI - Unidade 2 | ✅ | - | N/A |
 | 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ✅ | - | Elaboração da seção "Objetivos" no [contexto.md](../contexto.md) |
-| 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ⬜ |  |  |
+| 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ⬜ | Elaboração dos Requisistos | Foi realizada uma reunião entre os integrantes do grupo para discutir e definir os requisitos do projeto. |
 | 09/03 - 15/03 | APIs e Web Services - Unidade 1 | ⬜ |  |  |
 | 16/03 - 22/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
 | 23/03 - 29/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
