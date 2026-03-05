@@ -105,7 +105,19 @@ Enumere as restrições à sua solução. Lembre-se de que as restrições geral
 
 # Catálogo de Serviços
 
-Descreva aqui todos os serviços que serão disponibilizados pelo seu projeto, detalhando suas características e funcionalidades.
+Os serviços de Tecnologia da Informação do MedHub foram pensados para apoiar diretamente os objetivos estratégicos da organização. A TI atua como uma parceira do negócio, oferecendo suporte e soluções que facilitam o acesso e o uso adequado dos recursos tecnológicos sempre que necessário.
+
+A seguir, apresentamos os serviços de TI disponibilizados pelo MedHub e como eles podem apoiar as atividades dos usuários.
+
+# Catálogo de Serviços – MedHub
+
+| Serviço | Descrição | Público-alvo | Benefícios | Nível de Serviço | Solicitação |
+|--------|-----------|--------------|------------|------------------|-------------|
+| Agendamento de Consulta | Permite que pacientes agendem consultas médicas diretamente pelo aplicativo MedHub, escolhendo profissional, especialidade e horário disponível. | Pacientes | Reduz tempo de agendamento, diminui dependência de atendimento telefônico e melhora a organização da agenda médica. | Disponível continuamente via aplicativo com atualização automática dos horários disponíveis. | Acesso direto no aplicativo MedHub pela opção **Agendar Consulta**. |
+| Consulta de Agenda Médica | Permite que pacientes e profissionais visualizem consultas agendadas e horários disponíveis de forma centralizada. | Pacientes e profissionais de saúde | Melhor planejamento da agenda, redução de conflitos de horário e maior transparência das consultas. | Disponível continuamente no aplicativo com sincronização automática das agendas. | Acesso pela seção **Minhas Consultas** no aplicativo. |
+| Cancelamento e Remarcação de Consultas | Permite cancelar ou alterar consultas previamente agendadas diretamente pelo aplicativo. | Pacientes | Maior flexibilidade para alteração de compromissos, redução de faltas e otimização da agenda médica. | Disponível continuamente com atualização automática após alterações na agenda. | Realizado pela seção **Minhas Consultas** no aplicativo MedHub. |
+| Notificações e Alertas de Consulta | Envia notificações automáticas quando consultas são criadas, alteradas ou canceladas, além de lembretes antes do horário da consulta. | Pacientes e profissionais de saúde | Redução de esquecimentos e melhoria na comunicação entre sistema e usuários. | Notificações enviadas automaticamente via aplicativo e push notifications. | Ativado automaticamente para usuários do aplicativo MedHub. |
+
 
 # Arquitetura da Solução
 
