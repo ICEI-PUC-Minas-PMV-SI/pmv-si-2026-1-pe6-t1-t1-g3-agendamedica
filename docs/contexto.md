@@ -103,13 +103,11 @@ Enumere as restrições à sua solução. Lembre-se de que as restrições geral
 > - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
 > - [O que são requisitos funcionais e requisitos não funcionais?](https://analisederequisitos.com.br/requisitos-funcionais-e-requisitos-nao-funcionais-o-que-sao/)
 
-# Catálogo de Serviços
+# Catálogo de Serviços - MedHub
 
 Os serviços de Tecnologia da Informação do MedHub foram pensados para apoiar diretamente os objetivos estratégicos da organização. A TI atua como uma parceira do negócio, oferecendo suporte e soluções que facilitam o acesso e o uso adequado dos recursos tecnológicos sempre que necessário.
 
 A seguir, apresentamos os serviços de TI disponibilizados pelo MedHub e como eles podem apoiar as atividades dos usuários.
-
-# Catálogo de Serviços – MedHub
 
 | Serviço | Descrição | Público-alvo | Benefícios | Nível de Serviço | Solicitação |
 |--------|-----------|--------------|------------|------------------|-------------|
