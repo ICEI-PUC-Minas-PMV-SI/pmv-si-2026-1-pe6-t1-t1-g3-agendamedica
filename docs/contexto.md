@@ -21,18 +21,22 @@ Para os profissionais de saúde que dividem seu tempo entre vários locais, esse
 No fim das contas, a falta de sincronização entre os diferentes pontos de atendimento gera informações desatualizadas, desperdiça o tempo útil dos médicos e dificulta o acesso rápido dos pacientes aos serviços de saúde.
 
 ## Objetivos
-
-### Objetivo geral
-Desenvolver um sistema distribuído de agenda médica que permita o compartilhamento de horários entre diferentes unidades de atendimento, oferecendo uma visualização centralizada da agenda dos profissionais de saúde.
+Desenvolver um sistema de agenda médica online que permita aos pacientes visualizar horários disponíveis e agendar consultas, enquanto médicos podem cadastrar serviços e disponibilizar seus horários de atendimento.
 
 ### Objetivos específicos
-- Projetar uma arquitetura distribuída composta por múltiplos serviços independentes que compartilham informações de agenda por meio de comunicação via API.
+- Desenvolver uma aplicação web para que pacientes e médicos possam acessar o sistema.
 
-- Implementar um mecanismo de sincronização periódica de dados entre os serviços, evitando conflitos de horário de forma controlada.
+- Permitir o cadastro e gerenciamento de médicos na plataforma.
 
-- Garantir consistência dos dados por meio de validações no momento do agendamento, prevenindo duplicidade de horários.
+- Permitir que médicos cadastrem os serviços oferecidos.
 
-- Desenvolver uma interface simples para visualização e marcação de consultas, demonstrando o funcionamento do sistema distribuído.
+- Permitir que médicos disponibilizem horários para atendimento.
+
+- Permitir que pacientes visualizem horários disponíveis e realizem agendamentos de consultas.
+
+- Armazenar e gerenciar as informações do sistema em um banco de dados.
+
+- Desenvolver uma API para comunicação entre a aplicação web e o banco de dados.
 
 ## Justificativa
 
