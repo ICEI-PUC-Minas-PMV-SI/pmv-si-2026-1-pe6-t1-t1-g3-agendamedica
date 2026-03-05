@@ -2,9 +2,9 @@
 
 A gestão de agendas médicas é parte fundamental da organização dos serviços de saúde, envolvendo o controle de horários, profissionais e atendimentos em diferentes unidades. Com a informatização desses processos, clínicas e hospitais passaram a utilizar sistemas digitais para realizar o agendamento e o acompanhamento de consultas.
 
-Em contextos nos quais profissionais atuam em mais de uma instituição, ou em que diferentes unidades utilizam sistemas distintos, surgem dificuldades na integração das informações, gerando inconsistências, duplicidade de dados e falta de coordenação entre agendas médicas. Nesse cenário, conceitos de sistemas distribuídos tornam-se relevantes para permitir o compartilhamento estruturado de dados entre serviços independentes.
+Apesar da adoção de ferramentas tecnológicas, clínicas e hospitais ainda enfrentam desafios relacionados à organização das agendas, como conflitos de horários, falhas no registro de consultas e dificuldade de visualizar a disponibilidade dos profissionais.
 
-A aplicação desses conceitos possibilita a construção de soluções baseadas em múltiplos componentes que se comunicam por meio de APIs, mantendo organização, controle e consistência das informações relacionadas às agendas médicas.
+Nesse contexto, o desenvolvimento de uma aplicação baseada em uma arquitetura composta por diferentes componentes, como interface de usuário (frontend), backend e banco de dados, permite estruturar de forma eficiente o gerenciamento das informações. A comunicação entre esses componentes ocorre por meio de APIs, possibilitando o acesso e a manipulação dos dados de forma segura e controlada.
 
 A proposta destina-se a profissionais de saúde, equipes administrativas de clínicas e hospitais e pacientes que dependem de processos de agendamento eficientes e integrados.
 
