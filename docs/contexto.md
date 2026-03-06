@@ -106,9 +106,119 @@ O projeto está restrito pelas condições e limitações apresentadas na tabela
 > - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
 > - [O que são requisitos funcionais e requisitos não funcionais?](https://analisederequisitos.com.br/requisitos-funcionais-e-requisitos-nao-funcionais-o-que-sao/)
 
-# Catálogo de Serviços
+# Catálogo de Serviços - MedHub
 
-Descreva aqui todos os serviços que serão disponibilizados pelo seu projeto, detalhando suas características e funcionalidades.
+Os serviços de Tecnologia da Informação do MedHub foram pensados para apoiar diretamente os objetivos estratégicos da organização. A TI atua como uma parceira do negócio, oferecendo suporte e soluções que facilitam o acesso e o uso adequado dos recursos tecnológicos.
+
+A seguir, apresentamos os serviços de TI disponibilizados pelo MedHub e como eles podem apoiar as atividades dos usuários.
+
+## Visão Geral
+
+A tabela a seguir apresenta um resumo de todos os serviços disponíveis no portfólio de TI do MedHub:
+
+| ID  | Serviço                               | Categoria              | Público-alvo                          |
+|-----|---------------------------------------|------------------------|---------------------------------------|
+| S01 | Agendamento de Consulta               | Serviço de Negócio     | Pacientes e corpo administrativo      |
+| S02 | Consulta de Agenda Médica             | Serviço de Informação  | Pacientes e profissionais de saúde    |
+| S03 | Cancelamento e Remarcação de Consultas| Serviço de Negócio     | Pacientes e corpo administrativo      |
+| S04 | Notificações e Alertas de Consulta    | Serviço de Suporte     | Todos os usuários                     |
+| S05 | Autenticação de Usuário (Login)       | Serviço de TI          | Todos os usuários                     |
+| S06 | Recuperação de Senha                  | Serviço de TI          | Todos os usuários                     |
+
+## Descrição Detalhada
+
+### S01 — Agendamento de Consulta
+
+| Campo | Detalhe |
+|-------|---------|
+| **Categoria** | Serviço de Negócio |
+| **Tipo** | Autoatendimento |
+| **Descrição** | Permite que pacientes agendem consultas médicas diretamente pelo aplicativo MedHub, com seleção de profissional, especialidade e horário disponível. |
+| **Funcionalidades** | ▸ Busca de profissionais por especialidade e disponibilidade <br> ▸ Seleção de data e horário <br> |
+| **Público-alvo** | Pacientes e corpo administrativo |
+| **Acesso** | Menu principal → Agendar Consulta |
+| **Disponibilidade** | Contínua via aplicativo (24/7) |
+
+---
+
+### S02 — Consulta de Agenda Médica
+
+| Campo | Detalhe |
+|-------|---------|
+| **Categoria** | Serviço de Informação |
+| **Tipo** | Autoatendimento |
+| **Descrição** | Permite que pacientes e profissionais de saúde visualizem, de forma centralizada, as consultas agendadas e os horários disponíveis. |
+| **Funcionalidades** | ▸ Visualização da agenda pessoal do paciente <br> ▸ Consulta de disponibilidade de profissionais de saúde <br> |
+| **Público-alvo** | Pacientes e profissionais de saúde |
+| **Acesso** | Menu → Minhas Consultas |
+| **Disponibilidade** | Contínua via aplicativo (24/7)  |
+
+---
+
+### S03 — Cancelamento e Remarcação de Consultas
+
+| Campo | Detalhe |
+|-------|---------|
+| **Categoria** | Serviço de Negócio |
+| **Tipo** | Autoatendimento |
+| **Descrição** | Permite que pacientes e o corpo administrativo cancelem ou remarquem consultas previamente agendadas diretamente pelo aplicativo. |
+| **Funcionalidades** | ▸ Cancelamento de consulta com registro de motivo <br> ▸ Remarcação para nova data e horário disponível <br> |
+| **Público-alvo** | Pacientes e corpo administrativo |
+| **Acesso** | Menu → Minhas Consultas → Alterar/Cancelar |
+| **Disponibilidade** | Contínua via aplicativo (24/7)  |
+
+---
+
+### S04 — Notificações de Consulta
+
+| Campo | Detalhe |
+|-------|---------|
+| **Categoria** | Serviço de Suporte |
+| **Tipo** | Automático |
+| **Descrição** | Serviço de comunicação automática que envia notificações aos usuários sobre criação, alteração ou cancelamento de consultas. |
+| **Funcionalidades** | ▸ Notificação ao confirmar, alterar ou cancelar consulta <br> |
+| **Público-alvo** | Todos os usuários do aplicativo |
+| **Acesso** | Ativado automaticamente em Configurações → Notificações |
+| **Disponibilidade** | Contínua via aplicativo (24/7) |
+
+---
+
+### S05 — Autenticação de Usuário (Login)
+
+| Campo | Detalhe |
+|-------|---------|
+| **Categoria** | Serviço de TI |
+| **Tipo** | Infraestrutura / Segurança |
+| **Descrição** | Controla o acesso ao sistema MedHub por meio de autenticação segura com credenciais cadastradas. |
+| **Funcionalidades** | ▸ Login com e-mail e senha cadastrados <br> |
+| **Público-alvo** | Todos os usuários |
+| **Acesso** | Tela inicial do aplicativo MedHub → Login |
+| **Disponibilidade** | Contínua via aplicativo (24/7)  |
+
+---
+
+### S06 — Recuperação de Senha
+
+| Campo | Detalhe |
+|-------|---------|
+| **Categoria** | Serviço de TI |
+| **Tipo** | Autoatendimento/Segurança |
+| **Descrição** | Permite que usuários que esqueceram sua senha redefinem o acesso à conta. |
+| **Funcionalidades** | ▸ Envio de link de redefinição para o e-mail cadastrado <br> ▸ Verificação de identidade antes da redefinição <br> ▸ Confirmação de redefinição bem-sucedida por notificação |
+| **Público-alvo** | Todos os usuários |
+| **Acesso** | Tela de Login → Esqueci minha senha |
+| **Disponibilidade** | Contínua via aplicativo (24/7) |
+
+---
+
+## Glossário
+
+| Termo | Definição |
+|-------|-----------|
+| **Serviço de Negócio** | Serviço que apoia diretamente as atividades da organização, com impacto direto na experiência do usuário final. |
+| **Serviço de TI** | Serviço técnico que sustenta a infraestrutura e a segurança da plataforma. |
+| **Serviço de Suporte** | Serviço auxiliar que garante o funcionamento e a usabilidade dos demais serviços. |
+| **Disponibilidade** | Tempo em que o serviço está operacional e acessível aos usuários. |
 
 # Arquitetura da Solução
 
