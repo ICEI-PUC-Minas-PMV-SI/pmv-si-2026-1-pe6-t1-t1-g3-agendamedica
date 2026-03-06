@@ -166,13 +166,13 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 
 ---
 
-### S04 — Notificações e Alertas de Consulta
+### S04 — Notificações de Consulta
 
 | Campo | Detalhe |
 |-------|---------|
 | **Categoria** | Serviço de Suporte |
 | **Tipo** | Automático |
-| **Descrição** | Serviço de comunicação automática que envia notificações e lembretes aos usuários sobre criação, alteração ou cancelamento de consultas. |
+| **Descrição** | Serviço de comunicação automática que envia notificações aos usuários sobre criação, alteração ou cancelamento de consultas. |
 | **Funcionalidades** | ▸ Notificação ao confirmar, alterar ou cancelar consulta <br> |
 | **Público-alvo** | Todos os usuários do aplicativo |
 | **Acesso** | Ativado automaticamente em Configurações → Notificações |
@@ -200,7 +200,7 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 |-------|---------|
 | **Categoria** | Serviço de TI |
 | **Tipo** | Autoatendimento/Segurança |
-| **Descrição** | Permite que usuários que esqueceram sua senha redefinem o acesso à conta por meio de um fluxo seguro de verificação de identidade. |
+| **Descrição** | Permite que usuários que esqueceram sua senha redefinem o acesso à conta. |
 | **Funcionalidades** | ▸ Envio de link de redefinição para o e-mail cadastrado <br> ▸ Verificação de identidade antes da redefinição <br> ▸ Confirmação de redefinição bem-sucedida por notificação |
 | **Público-alvo** | Todos os usuários |
 | **Acesso** | Tela de Login → Esqueci minha senha |
