@@ -6,9 +6,11 @@
 
 `SEMESTRE: 6º`
 
-O projeto consiste no desenvolvimento de um sistema de Agenda Médica Distribuída que permite o agendamento de consultas médicas entre diferentes clínicas, hospitais e profissionais de saúde de forma integrada. A solução propõe a unificação das agendas de médicos que atuam em múltiplos locais, garantindo sincronização entre os sistemas e evitando conflitos de horário, desperdício de vagas e inconsistências de informação.
+O projeto consiste no desenvolvimento de um sistema de Agenda Médica Distribuída que permite o gerenciamento e o agendamento online de consultas entre pacientes e profissionais de saúde. A plataforma possibilita que médicos cadastrem seus horários disponíveis e serviços oferecidos, enquanto os pacientes podem consultar essas informações e realizar agendamentos de forma prática e organizada.
 
-A arquitetura será baseada em princípios de Sistemas Distribuídos, contemplando comunicação entre serviços, controle de consistência de dados, tolerância a falhas e alta disponibilidade. O sistema buscará oferecer uma visão global da agenda dos profissionais, permitindo que horários cancelados ou disponíveis sejam rapidamente atualizados e refletidos em todos os pontos de atendimento conectados, otimizando o tempo dos médicos e facilitando o acesso dos pacientes aos serviços de saúde.
+A solução será estruturada com base em uma arquitetura distribuída, na qual diferentes componentes do sistema serão responsáveis por funções específicas, como interface com o usuário, processamento das regras de negócio e armazenamento dos dados. Essa separação contribui para maior organização, escalabilidade e facilidade de manutenção do sistema.
+
+O sistema tem como objetivo otimizar o processo de agendamento, reduzir conflitos de horário e facilitar o acesso dos pacientes às consultas médicas, proporcionando uma gestão mais eficiente das agendas dos profissionais de saúde.
 ## Integrantes
 
 * [Alice Abreu dos Reis](docs/atas/aluno1.md)
