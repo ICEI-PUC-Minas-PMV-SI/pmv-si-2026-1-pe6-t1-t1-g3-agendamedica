@@ -7,7 +7,7 @@
 | 09/02 - 15/02 | Gestão de Serviços de TI - Unidade 1 | ✅ |  |  |
 | 16/02 - 22/02 | Gestão de Serviços de TI - Unidade 2 | ✅ |  |  |
 | 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ✅ |  | Realização da justificativa do projeto, com levantamento de referências e dados estatísticos relevantes.|
-| 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ✅ |  | Contribuição com comentários em Pull Requests para apoiar a elaboração dos textos de introdução e público-alvo do projeto. Responsável pela elaboração do catálogo de serviços do MedHub, além de realizar revisões e ajustes no texto de introdução do projeto. |
+| 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ✅ |  | Contribuição com comentários em Pull Requests para apoiar a elaboração dos textos de introdução e público-alvo do projeto. Responsável pela elaboração do catálogo de serviços do MedHub (adicionado na branch marthabeatriz_justificativa), além de realizar revisões e ajustes no texto de introdução do projeto (na branch marthabeatriz_atualizacoes). |
 | 09/03 - 15/03 | APIs e Web Services - Unidade 1 | ⬜ |  |  |
 | 16/03 - 22/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
 | 23/03 - 29/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
