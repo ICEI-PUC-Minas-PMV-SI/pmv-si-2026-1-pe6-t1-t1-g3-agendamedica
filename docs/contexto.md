@@ -71,13 +71,16 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 ### Requisitos Funcionais
 
-| ID     | Descrição do Requisito                                                                                          | Prioridade |
-| ------ | --------------------------------------------------------------------------------------------------------------- | ---------- |
-| RF-001 | O sistema deve permitir que os pacientes agendem, visualizem e cancelem consultas médicas pelo aplicativo.      | ALTA       |
-| RF-002 | O sistema deve permitir que médicos e recepcionistas gerenciem a agenda de marcações através da interface web.  | ALTA       |
-| RF-003 | O sistema deve sincronizar as informações de consultas entre as aplicações web e móvel de maneira centralizada. | ALTA       |
-| RF-004 | O sistema deve permitir o cadastro e o login de todos os usuários (pacientes, médicos e recepcionistas).        | ALTA       |
-| RF-005 | O sistema deve notificar os usuários caso ocorra um cancelamento de consulta.                                   | MÉDIA      |
+| ID     | Descrição do Requisito                                                                                                                                                  | Prioridade |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| RF-001 | O sistema deve permitir que os pacientes agendem, visualizem e cancelem consultas médicas pelo aplicativo.                                                              | ALTA       |
+| RF-002 | O sistema deve permitir que médicos e recepcionistas gerenciem a agenda de marcações através da interface web.                                                          | ALTA       |
+| RF-003 | O sistema deve armazenar todas as informações de consultas em uma base de dados centralizada, compartilhada entre as aplicações web e móvel.                            | ALTA       |
+| RF-004 | O sistema deve permitir o cadastro e o login de todos os usuários (pacientes, médicos e recepcionistas), garantindo um único cadastro por CPF e por e-mail.             | ALTA       |
+| RF-005 | O sistema deve notificar os usuários sobre confirmações e cancelamentos de consultas.                                                                                   | MÉDIA      |
+| RF-006 | O sistema deve permitir o cadastro e o gerenciamento de clínicas como entidades independentes na plataforma, cada uma com seus próprios médicos e horários disponíveis. | ALTA       |
+| RF-007 | O sistema deve impedir o agendamento de consultas sem que o perfil do usuário esteja devidamente cadastrado e validado.                                                 | ALTA       |
+| RF-008 | O sistema deve impedir o agendamento de mais de uma consulta para o mesmo médico no mesmo horário.                                                                      | ALTA       |
 
 ### Requisitos não Funcionais
 
@@ -94,15 +97,10 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 O projeto está restrito pelas condições e limitações apresentadas na tabela a seguir:
 
-| ID  | Restrição                                                                                              |
-| --- | ------------------------------------------------------------------------------------------------------ |
-| 01  | O projeto deverá ser entregue dentro do prazo estabelecido até o final do semestre letivo.             |
-| 02  | O fluxo do sistema deve focar apenas no agendamento, não contemplando a gestão de prontuários médicos. |
-| 03  | O sistema não realiza processamento de pagamentos ou cobranças pelos serviços médicos.                 |
-| 04  | O sistema não deve permitir o agendamento de consultas sem validação do perfil do usuário.             |
-| 05  | O sistema não deve permitir o agendamento de consultas para o mesmo médico em horários iguais.         |
-| 06  | O sistema deve permitir apenas 1 cadastro por CPF e e-mail.                                            |
-
+| ID  | Restrição                                                                                                                                |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 01  | O projeto deverá ser entregue dentro do prazo estabelecido até o final do semestre letivo.                                               |
+| 02  | O projeto deve ser desenvolvido exclusivamente com ferramentas e softwares gratuitos ou de código aberto, sem fomento financeiro externo.|
 
 > **Links Úteis**:
 > - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
