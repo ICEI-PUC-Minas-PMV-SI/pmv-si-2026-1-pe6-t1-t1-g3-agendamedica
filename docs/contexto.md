@@ -222,17 +222,161 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 
 # Arquitetura da Solução
 
-Definição de como o software é estruturado em termos dos componentes que fazem parte da solução e do ambiente de hospedagem da aplicação.
+O MedHub é um **sistema distribuído** estruturado em uma arquitetura cliente-servidor de três camadas, onde cada camada opera de forma autônoma em infraestrutura própria e a comunicação entre os componentes ocorre exclusivamente por meio de rede, sem memória ou estado compartilhado entre eles.
 
-![arq](https://github.com/user-attachments/assets/b9402e05-8445-47c3-9d47-f11696e38a3d)
+Essa separação garante que cada componente possa ser implantado, escalado e atualizado de forma independente, sem impactar os demais — característica fundamental de sistemas distribuídos segundo Tanenbaum & Van Steen.
 
+As camadas que compõem o sistema são:
+
+- **Frontend Web** — aplicação React executada no navegador do usuário, voltada a médicos e recepcionistas. Não possui acesso direto ao banco de dados; toda comunicação passa pela API.
+- **Frontend Mobile** — aplicativo React Native (Expo) voltado principalmente aos pacientes. Igualmente desacoplado do backend, comunica-se apenas via API REST.
+- **Backend (API REST)** — servidor Node.js responsável pela lógica de negócio, autenticação e orquestração do acesso aos dados. É o único ponto de entrada para o banco de dados.
+- **Banco de Dados** — instância PostgreSQL acessada exclusivamente pelo backend via Prisma ORM.
+
+Todos os componentes são escritos em **TypeScript**. A comunicação entre clientes e backend utiliza **HTTPS + REST**, com autenticação **stateless via JWT**.
+
+```mermaid
+graph TD
+    subgraph Clientes
+        A["Frontend Web<br/>React + TypeScript<br/>(Vite / SPA)<br/>— Médicos e Recepcionistas —"]
+        B["Frontend Mobile<br/>React Native + TypeScript<br/>(Expo)<br/>— Pacientes —"]
+    end
+
+    subgraph Backend ["Backend (AWS EC2)"]
+        C["API REST<br/>Node.js + Express + TypeScript<br/>Autenticação JWT · Validação Zod · RBAC"]
+        E["Serviço de Notificações<br/>Nodemailer (e-mail)<br/>Expo Push Notifications (mobile)"]
+    end
+
+    subgraph Persistência ["Persistência (AWS RDS)"]
+        D[("PostgreSQ<br/>Banco de Dados")]
+    end
+
+    A -- "HTTPS · JSON + JWT" --> C
+    B -- "HTTPS · JSON + JWT" --> C
+    C -- "Prisma ORM" --> D
+    C -- "Eventos de consulta" --> E
+    E -- "E-mail" --> A
+    E -- "Push Notification" --> B
+```
+
+## Perfis de Usuário e Controle de Acesso
+
+O sistema possui três perfis distintos de usuário, cada um com permissões específicas:
+
+| Perfil          | Acesso principal     | Permissões                                                                              |
+| --------------- | -------------------- | --------------------------------------------------------------------------------------- |
+| **Paciente**    | Frontend Mobile      | Agendar, visualizar e cancelar as próprias consultas; consultar disponibilidade médica. |
+| **Médico**      | Frontend Web         | Gerenciar própria agenda, horários disponíveis e serviços oferecidos.                   |
+| **Recepcionista** | Frontend Web       | Gerenciar agendamentos em nome de pacientes; administrar agenda dos médicos da clínica.  |
+
+O controle de acesso é implementado via **RBAC (Role-Based Access Control)** no backend. O perfil do usuário é codificado como uma claim (`role`) dentro do token JWT no momento do login. A cada requisição, o middleware de autenticação valida o token e o middleware de autorização verifica se o perfil possui permissão para acessar o recurso solicitado.
+
+## Modelo de Dados
+
+As principais entidades do sistema e seus relacionamentos:
+
+```mermaid
+erDiagram
+    USUARIO {
+        uuid id PK
+        string nome
+        string email
+        string senha_hash
+        string cpf
+        enum perfil
+    }
+    PACIENTE {
+        uuid id PK
+        uuid usuario_id FK
+        date data_nascimento
+        string telefone
+    }
+    RECEPCIONISTA {
+        uuid id PK
+        uuid usuario_id FK
+        uuid clinica_id FK
+    }
+    MEDICO {
+        uuid id PK
+        uuid usuario_id FK
+        string crm
+        string especialidade
+    }
+    CLINICA {
+        uuid id PK
+        string nome
+        string endereco
+    }
+    DISPONIBILIDADE {
+        uuid id PK
+        uuid medico_id FK
+        uuid clinica_id FK
+        datetime inicio
+        datetime fim
+    }
+    CONSULTA {
+        uuid id PK
+        uuid paciente_id FK
+        uuid disponibilidade_id FK
+        enum status
+        string motivo_cancelamento
+    }
+
+    USUARIO ||--o| PACIENTE : "é"
+    USUARIO ||--o| MEDICO : "é"
+    USUARIO ||--o| RECEPCIONISTA : "é"
+    RECEPCIONISTA }o--|| CLINICA : "pertence a"
+    MEDICO }o--o{ CLINICA : "atende em"
+    MEDICO ||--o{ DISPONIBILIDADE : "oferece"
+    DISPONIBILIDADE ||--o| CONSULTA : "origina"
+    PACIENTE ||--o{ CONSULTA : "agenda"
+```
 
 ## Tecnologias Utilizadas
 
-Descreva aqui qual(is) tecnologias você vai usar para resolver o seu problema, ou seja, implementar a sua solução. Liste todas as tecnologias envolvidas, linguagens a serem utilizadas, serviços web, frameworks, bibliotecas, IDEs de desenvolvimento, e ferramentas.
+A tabela abaixo lista as tecnologias utilizadas em cada camada da solução:
 
-Apresente também uma figura explicando como as tecnologias estão relacionadas ou como uma interação do usuário com o sistema vai ser conduzida, por onde ela passa até retornar uma resposta ao usuário.
+| Camada          | Tecnologia                  | Descrição                                                                                                                          |
+| --------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Linguagem base  | TypeScript                  | Linguagem principal em todas as camadas (backend, web e mobile), garantindo tipagem estática e maior segurança no desenvolvimento. |
+| Backend         | Node.js                     | Ambiente de execução JavaScript no servidor.                                                                                       |
+| Backend         | Express.js                  | Framework web minimalista para construção da API REST.                                                                             |
+| Backend         | Prisma ORM                  | ORM para modelagem e acesso ao banco de dados PostgreSQL com TypeScript.                                                           |
+| Backend         | JSON Web Token (JWT)        | Mecanismo de autenticação e autorização stateless entre clientes e API.                                                            |
+| Backend         | Zod                         | Biblioteca de validação e parsing de dados em TypeScript.                                                                          |
+| Backend         | Nodemailer                  | Envio de notificações por e-mail (confirmação, cancelamento e remarcação de consultas).                                            |
+| Banco de dados  | PostgreSQL                  | Banco de dados relacional utilizado para persistência centralizada das informações.                                                |
+| Frontend Web    | React                       | Biblioteca JavaScript para construção da interface web como Single Page Application (SPA).                                         |
+| Frontend Web    | Vite                        | Ferramenta de build e bundling para o projeto React.                                                                               |
+| Frontend Web    | React Router                | Gerenciamento de rotas na aplicação web.                                                                                           |
+| Frontend Web    | Axios                       | Cliente HTTP para consumo da API REST.                                                                                             |
+| Frontend Web    | Tailwind CSS                | Framework de utilitários CSS para estilização da interface.                                                                        |
+| Frontend Mobile | React Native                | Framework para desenvolvimento do aplicativo móvel multiplataforma (Android e iOS).                                                |
+| Frontend Mobile | Expo                        | Plataforma que simplifica o desenvolvimento, build e distribuição do app React Native.                                             |
+| Frontend Mobile | Expo Router                 | Gerenciamento de rotas baseado em arquivos no aplicativo mobile.                                                                   |
+| Frontend Mobile | Expo Push Notifications     | Envio de notificações push para dispositivos Android e iOS.                                                                        |
+
+## Fluxo de uma Requisição
+
+1. O usuário interage com a interface (web ou mobile).
+2. A aplicação cliente envia uma requisição HTTPS com o token JWT no cabeçalho `Authorization`.
+3. O middleware de autenticação do backend valida o token JWT.
+4. O middleware de autorização (RBAC) verifica se o perfil do usuário tem permissão para a operação.
+5. O handler da rota aplica a lógica de negócio (ex.: verificar conflito de horários antes de criar uma consulta).
+6. O Prisma ORM traduz as operações para queries SQL e acessa o PostgreSQL.
+7. Quando aplicável, o serviço de notificações dispara e-mails e/ou push notifications.
+8. O backend retorna a resposta em JSON para o cliente, que atualiza a interface.
 
 ## Hospedagem
 
-Explique como a hospedagem e o lançamento da plataforma foi feita.
+A plataforma será hospedada na **Amazon Web Services (AWS)**. A arquitetura contempla dois ambientes distintos:
+
+- **Desenvolvimento**: executado localmente com Docker Compose, subindo instâncias locais do PostgreSQL e da API para agilizar o ciclo de desenvolvimento e testes.
+- **Produção**: cada componente é implantado em um serviço AWS dedicado, conforme a tabela abaixo.
+
+| Componente                  | Serviço AWS                     | Justificativa                                                                                                                                  |
+| --------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Backend (API Node.js)       | AWS EC2                         | Instância para execução do servidor Node.js, permitindo configuração direta do ambiente, variáveis e regras de rede via Security Groups.       |
+| Banco de dados (PostgreSQL) | AWS RDS (PostgreSQL)            | Banco de dados relacional gerenciado, isolado do servidor de aplicação, reforçando a separação de camadas da arquitetura distribuída.          |
+| Frontend Web (React/Vite)   | AWS S3 + CloudFront             | O build estático da SPA é hospedado no S3 e distribuído via CloudFront, sem necessidade de servidor dedicado para o frontend.                  |
+| Frontend Mobile (Expo)      | Expo Application Services (EAS) | Build e geração dos pacotes para Android (APK/AAB) e iOS (IPA), com distribuição via Google Play e App Store em produção.                     |
