@@ -109,15 +109,168 @@ Os serviços de Tecnologia da Informação do MedHub foram pensados para apoiar 
 
 A seguir, apresentamos os serviços de TI disponibilizados pelo MedHub e como eles podem apoiar as atividades dos usuários.
 
-| Serviço | Descrição | Público-alvo | Benefícios | Nível de Serviço | Solicitação |
-|--------|-----------|--------------|------------|------------------|-------------|
-| Agendamento de Consulta | Permite que pacientes agendem consultas médicas diretamente pelo aplicativo MedHub, escolhendo profissional, especialidade e horário disponível. | Pacientes e corpo administrativo | Reduz tempo de agendamento, diminui dependência de atendimento telefônico e melhora a organização da agenda médica. | Disponível continuamente via aplicativo com atualização automática dos horários disponíveis. | Acesso direto no aplicativo MedHub pela opção **Agendar Consulta**. |
-| Consulta de Agenda Médica | Permite que pacientes e profissionais visualizem consultas agendadas e horários disponíveis de forma centralizada. | Pacientes e profissionais de saúde | Melhor planejamento da agenda, redução de conflitos de horário e maior transparência das consultas. | Disponível continuamente no aplicativo a agenda. | Acesso pela seção **Minhas Consultas** no aplicativo. |
-| Cancelamento e Remarcação de Consultas | Permite cancelar ou alterar consultas previamente agendadas diretamente pelo aplicativo. | Pacientes e corpo administrativo | Maior flexibilidade para alteração de compromissos, redução de faltas e otimização da agenda médica. | Disponível continuamente com atualização automática após alterações na agenda. | Realizado pela seção **Minhas Consultas** no aplicativo MedHub. |
-| Notificações e Alertas de Consulta | Envia notificações automáticas quando consultas são criadas, alteradas ou canceladas, além de lembretes antes do horário da consulta. | Todos | Redução de esquecimentos e melhoria na comunicação entre sistema e usuários. | Notificações enviadas automaticamente via aplicativo | Ativado automaticamente para usuários do aplicativo MedHub. | 
-| Autenticação de Usuário (Login) | Permite que usuários acessem o sistema MedHub utilizando suas credenciais cadastradas, garantindo acesso seguro às funcionalidades da plataforma. | Todos | Controle de acesso ao sistema, proteção das informações do usuário e personalização da experiência dentro do aplicativo. | Disponível continuamente no aplicativo MedHub com validação segura de credenciais. | Acesso realizado pela tela de **Login** do aplicativo. |
- Recuperação de Senha | Permite que usuários redefinam sua senha caso a tenham esquecido, através de um processo de recuperação seguro. | Todos | Recuperação rápida do acesso ao sistema e redução de bloqueios de conta. | Disponível continuamente através do aplicativo ou página de login. | Acesso pela opção **Esqueci minha senha** na tela de login. |
+## Visão Geral
 
+A tabela a seguir apresenta um resumo de todos os serviços disponíveis no portfólio de TI do MedHub:
+
+| ID  | Serviço                               | Categoria              | Público-alvo                          |
+|-----|---------------------------------------|------------------------|---------------------------------------|
+| S01 | Agendamento de Consulta               | Serviço de Negócio     | Pacientes e corpo administrativo      |
+| S02 | Consulta de Agenda Médica             | Serviço de Informação  | Pacientes e profissionais de saúde    |
+| S03 | Cancelamento e Remarcação de Consultas| Serviço de Negócio     | Pacientes e corpo administrativo      |
+| S04 | Notificações e Alertas de Consulta    | Serviço de Suporte     | Todos os usuários                     |
+| S05 | Autenticação de Usuário (Login)       | Serviço de TI          | Todos os usuários                     |
+| S06 | Recuperação de Senha                  | Serviço de TI          | Todos os usuários                     |
+| S07 | Suporte e Auxílio ao Usuário          | Serviço de Suporte     | Todos os usuários                     |
+
+## Descrição Detalhada
+
+### S01 — Agendamento de Consulta
+
+| **Categoria** | Serviço de Negócio | **Tipo** | Autoatendimento |
+|---------------|--------------------|----------|-----------------|
+
+**Descrição:**
+Permite que pacientes agendem consultas médicas diretamente pelo aplicativo MedHub, com seleção de profissional, especialidade e horário disponível, de forma autônoma e sem necessidade de contato telefônico.
+
+**Funcionalidades:**
+- ▸ Busca de profissionais por especialidade e disponibilidade
+- ▸ Seleção de data e horário em tempo real
+- ▸ Confirmação automática do agendamento por notificação
+- ▸ Histórico de consultas agendadas pelo paciente
+
+| **Público-alvo** | Pacientes e corpo administrativo | **Acesso** | Menu principal → Agendar Consulta |
+|------------------|----------------------------------|------------|-----------------------------------|
+| **Disponibilidade** | 24/7 via aplicativo MedHub |
+
+---
+
+### S02 — Consulta de Agenda Médica
+
+| **Categoria** | Serviço de Informação | **Tipo** | Autoatendimento |
+|---------------|-----------------------|----------|-----------------|
+
+**Descrição:**
+Permite que pacientes e profissionais de saúde visualizem, de forma centralizada, as consultas agendadas e os horários disponíveis, promovendo maior transparência e planejamento da agenda.
+
+**Funcionalidades:**
+- ▸ Visualização da agenda pessoal do paciente
+- ▸ Consulta de disponibilidade de profissionais de saúde
+- ▸ Filtro por data, especialidade e profissional
+- ▸ Exibição do status de cada consulta (confirmada, pendente, cancelada)
+
+| **Público-alvo** | Pacientes e profissionais de saúde | **Acesso** | Menu → Minhas Consultas |
+|------------------|-------------------------------------|------------|-------------------------|
+| **Disponibilidade** | 24/7 via aplicativo MedHub |
+
+---
+
+### S03 — Cancelamento e Remarcação de Consultas
+
+| **Categoria** | Serviço de Negócio | **Tipo** | Autoatendimento |
+|---------------|--------------------|----------|-----------------|
+
+**Descrição:**
+Permite que pacientes e o corpo administrativo cancelem ou remarquem consultas previamente agendadas diretamente pelo aplicativo, com atualização automática da agenda médica.
+
+**Funcionalidades:**
+- ▸ Cancelamento de consulta com registro de motivo
+- ▸ Remarcação para nova data e horário disponível
+- ▸ Atualização automática da agenda após alteração
+- ▸ Notificação de confirmação enviada ao paciente e ao profissional
+
+| **Público-alvo** | Pacientes e corpo administrativo | **Acesso** | Menu → Minhas Consultas → Alterar/Cancelar |
+|------------------|----------------------------------|------------|--------------------------------------------|
+| **Disponibilidade** | 24/7 via aplicativo MedHub |
+
+---
+
+### S04 — Notificações e Alertas de Consulta
+
+| **Categoria** | Serviço de Suporte | **Tipo** | Automático |
+|---------------|--------------------|----------|------------|
+
+**Descrição:**
+Serviço de comunicação automática que envia notificações e lembretes aos usuários sobre criação, alteração ou cancelamento de consultas, reduzindo faltas e melhorando a comunicação entre o sistema e os usuários.
+
+**Funcionalidades:**
+- ▸ Notificação imediata ao confirmar, alterar ou cancelar consulta
+- ▸ Lembrete automático 24h e 1h antes do horário agendado
+- ▸ Alertas de disponibilidade de vaga para consultas em espera
+- ▸ Configuração de preferência de notificação pelo usuário
+
+| **Público-alvo** | Todos os usuários do aplicativo | **Acesso** | Ativado automaticamente; configurável em Configurações → Notificações |
+|------------------|----------------------------------|------------|-----------------------------------------------------------------------|
+| **Disponibilidade** | Contínua; ativada automaticamente no cadastro |
+
+---
+
+### S05 — Autenticação de Usuário (Login)
+
+| **Categoria** | Serviço de TI | **Tipo** | Infraestrutura / Segurança |
+|---------------|---------------|----------|----------------------------|
+
+**Descrição:**
+Controla o acesso ao sistema MedHub por meio de autenticação segura com credenciais cadastradas, garantindo que apenas usuários autorizados acessem as funcionalidades da plataforma conforme seu perfil.
+
+**Funcionalidades:**
+- ▸ Login com e-mail e senha cadastrados
+- ▸ Controle de acesso baseado em perfil (paciente, profissional, administrador)
+- ▸ Encerramento automático de sessão por inatividade
+- ▸ Registro de tentativas de acesso para fins de auditoria
+
+| **Público-alvo** | Todos os usuários | **Acesso** | Tela inicial do aplicativo MedHub → Login |
+|------------------|-------------------|------------|------------------------------------------|
+| **Disponibilidade** | 24/7, com tempo de resposta ≤ 3 segundos |
+
+---
+
+### S06 — Recuperação de Senha
+
+| **Categoria** | Serviço de TI | **Tipo** | Autoatendimento / Segurança |
+|---------------|---------------|----------|-----------------------------|
+
+**Descrição:**
+Permite que usuários que esqueceram sua senha redefinem o acesso à conta por meio de um fluxo seguro de verificação de identidade, minimizando interrupções no uso do aplicativo.
+
+**Funcionalidades:**
+- ▸ Envio de link de redefinição para o e-mail cadastrado
+- ▸ Verificação de identidade antes da redefinição
+- ▸ Expiração automática do link de recuperação após 30 minutos
+- ▸ Confirmação de redefinição bem-sucedida por notificação
+
+| **Público-alvo** | Todos os usuários | **Acesso** | Tela de Login → Esqueci minha senha |
+|------------------|-------------------|------------|-------------------------------------|
+| **Disponibilidade** | 24/7 |
+
+---
+
+### S07 — Suporte e Auxílio ao Usuário
+
+| **Categoria** | Serviço de Suporte | **Tipo** | Suporte Técnico |
+|---------------|--------------------|----------|-----------------|
+
+**Descrição:**
+Canal de atendimento destinado a esclarecer dúvidas e auxiliar os usuários no uso das funcionalidades do aplicativo MedHub, garantindo uma experiência satisfatória e reduzindo interrupções no fluxo de uso.
+
+**Funcionalidades:**
+- ▸ Central de ajuda com perguntas frequentes (FAQ)
+- ▸ Abertura de chamados para suporte especializado
+- ▸ Acompanhamento do status do chamado pelo usuário
+- ▸ Retorno por e-mail ou notificação no aplicativo
+
+| **Público-alvo** | Todos os usuários | **Acesso** | Menu → Ajuda / Suporte |
+|------------------|-------------------|------------|------------------------|
+| **Disponibilidade** | Contínua acessando diretamente o recurso no aplicativo |
+
+## Glossário
+
+| Termo | Definição |
+|-------|-----------|
+| **Serviço de Negócio** | Serviço que apoia diretamente as atividades da organização, com impacto direto na experiência do usuário final. |
+| **Serviço de TI** | Serviço técnico que sustenta a infraestrutura e a segurança da plataforma. |
+| **Serviço de Suporte** | Serviço auxiliar que garante o funcionamento e a usabilidade dos demais serviços. |
+| **Disponibilidade** | Tempo em que o serviço está operacional e acessível aos usuários. |
 
 # Arquitetura da Solução
 
