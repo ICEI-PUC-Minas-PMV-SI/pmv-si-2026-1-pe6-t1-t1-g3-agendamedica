@@ -6,8 +6,8 @@
 |:-------:|:---------------:|:--------:|:------------------:|:-------------------:|
 | 09/02 - 15/02 | Gestão de Serviços de TI - Unidade 1 | ✅ | - | N/A |
 | 16/02 - 22/02 | Gestão de Serviços de TI - Unidade 2 | ✅ | - | N/A |
-| 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ✅ | Estruturar e organizar a divisão do documento de contexto |  |
-| 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ✅ | Elaboração dos requisitos, do catálogo de serviços e da arquitetura da solução. |  |
+| 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ✅ | Estruturar e organizar a divisão do documento de contexto | Elaboração da seção "Público-alvo". Correção da seção "Público-alvo" a partir de sugestões do grupo. Reuniões com integrante Omar para melhorar minha compreensão e aplicação dos conceitos de branches, pull requests e organização de issues. |
+| 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ✅ | Elaboração dos requisitos, do catálogo de serviços e da arquitetura da solução. | Participação em reuniões de alinhamento do grupo para revisão dos requisitos funcionais e não funcionais.|
 | 09/03 - 15/03 | APIs e Web Services - Unidade 1 | ⬜ |  |  |
 | 16/03 - 22/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
 | 23/03 - 29/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
