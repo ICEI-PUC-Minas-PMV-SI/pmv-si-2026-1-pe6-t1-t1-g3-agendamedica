@@ -6,8 +6,8 @@
 |:-------:|:---------------:|:--------:|:------------------:|:-------------------:|
 | 09/02 - 15/02 | Gestão de Serviços de TI - Unidade 1 | ✅ | - | N/A |
 | 16/02 - 22/02 | Gestão de Serviços de TI - Unidade 2 | ✅ | - | N/A |
-| 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ✅ | Elaborar o documento de contexto | Elaboração da seção "Objetivos" no [contexto.md](../contexto.md); correção da seção objetivos; revisão dos PRs.|
-| 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ✅ | Elaboração dos Requisistos, do catálogo de serviços e da Arquitetura de soluões | Realização de reunião para discussão e definição dos requisitos do projeto. Aplicação das correções sugeridas pelo professor nas etapas anteriores. Revisão do catálogo de serviços. Revisão da seção de arquitetura da solução no arquivo [contexto.md](../contexto.md), incluindo o diagrama de arquitetura.|
+| 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ✅ | Estruturar e organizar a divisão do documento de contexto | Elaboração da seção "Objetivos" no [contexto.md](../contexto.md); correção da seção objetivos; revisão dos PRs.|
+| 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ✅ | Elaboração dos requisitos, do catálogo de serviços e da arquitetura da solução. | Realização de reunião para discussão e definição dos requisitos do projeto. Aplicação das correções sugeridas pelo professor nas etapas anteriores. Revisão do catálogo de serviços. Revisão da seção de arquitetura da solução no arquivo [contexto.md](../contexto.md), incluindo o diagrama de arquitetura.|
 | 09/03 - 15/03 | APIs e Web Services - Unidade 1 | ⬜ |  |  |
 | 16/03 - 22/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
 | 23/03 - 29/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
