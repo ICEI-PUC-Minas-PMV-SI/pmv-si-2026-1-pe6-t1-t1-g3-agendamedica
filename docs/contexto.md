@@ -64,7 +64,7 @@ Fontes disponíveis em: [Referências](./referencia.md)
 
 ## Requisitos
 
-As tabelas que se seguem apresentam os requisitos funcionais e não funcionais que detalham o escopo do projeto. Para determinar a prioridade de requisitos, aplicar uma técnica de priorização de requisitos e detalhar como a técnica foi aplicada.
+Nesta seção são apresentados os requisitos funcionais e não funcionais do sistema, responsáveis por definir as funcionalidades e as características necessárias para o funcionamento da solução proposta, MedHub. Os requisitos foram identificados a partir da análise do problema e das necessidades dos usuários do sistema. Para organizar sua implementação, foi aplicada uma técnica de priorização de requisitos, permitindo classificar cada requisito de acordo com seu nível de importância para o desenvolvimento do projeto.
 
 ### Requisitos Funcionais
 
@@ -120,7 +120,7 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 
 ## Descrição Detalhada
 
-### S01 — Agendamento de Consulta
+### S01 - Agendamento de Consulta
 
 | Campo               | Detalhe                                                                                                                                              |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -134,7 +134,7 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 
 ---
 
-### S02 — Consulta de Agenda Médica
+### S02 - Consulta de Agenda Médica
 
 | Campo               | Detalhe                                                                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -148,7 +148,7 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 
 ---
 
-### S03 — Cancelamento e Remarcação de Consultas
+### S03 - Cancelamento e Remarcação de Consultas
 
 | Campo               | Detalhe                                                                                                                           |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -162,7 +162,7 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 
 ---
 
-### S04 — Notificações de Consulta
+### S04 - Notificações de Consulta
 
 | Campo               | Detalhe                                                                                                                      |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -176,7 +176,7 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 
 ---
 
-### S05 — Autenticação de Usuário (Login)
+### S05 - Autenticação de Usuário (Login)
 
 | Campo               | Detalhe                                                                                          |
 | ------------------- | ------------------------------------------------------------------------------------------------ |
@@ -190,7 +190,7 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 
 ---
 
-### S06 — Recuperação de Senha
+### S06 - Recuperação de Senha
 
 | Campo               | Detalhe                                                                                                                                                                      |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
