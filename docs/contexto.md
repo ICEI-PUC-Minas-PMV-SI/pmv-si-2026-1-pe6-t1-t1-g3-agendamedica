@@ -21,9 +21,11 @@ Para os profissionais de saúde que dividem seu tempo entre vários locais, esse
 No fim das contas, a falta de sincronização entre os diferentes pontos de atendimento gera informações desatualizadas, desperdiça o tempo útil dos médicos e dificulta o acesso rápido dos pacientes aos serviços de saúde.
 
 ## Objetivos
+
 Desenvolver um sistema de agenda médica online que permita aos pacientes visualizar horários disponíveis e agendar consultas, enquanto médicos podem cadastrar serviços e disponibilizar seus horários de atendimento.
 
 ### Objetivos específicos
+
 - Desenvolver uma aplicação web para que pacientes e médicos possam acessar o sistema.
 
 - Permitir o cadastro e gerenciamento de médicos na plataforma.
@@ -53,15 +55,13 @@ Fontes disponíveis em: [Referências](./referencia.md)
 ## Público-Alvo
 
 - Profissionais da área de saúde:
-Os profissionais de saúde possuem experiência prévia com sistemas de prontuário eletrônico e plataformas de gestão hospitalar. Para esses, o impacto é a unificação da vida profissional. Estão habituados ao uso de ferramentas digitais no cotidiano, mas enfrentam dificuldades ao conciliar agendas em diferentes instituições, pois muitos dividem o dia entre consultórios próprios, hospitais e clínicas de terceiros.  Por isso, precisam de uma solução integrada que facilite o gerenciamento de compromissos, evitando assim o estresse de conflitos de horários, diminuindo também o problema do tempo ocioso pela desmarcação de consultas em cima da hora. 
+  Os profissionais de saúde possuem experiência prévia com sistemas de prontuário eletrônico e plataformas de gestão hospitalar. Para esses, o impacto é a unificação da vida profissional. Estão habituados ao uso de ferramentas digitais no cotidiano, mas enfrentam dificuldades ao conciliar agendas em diferentes instituições, pois muitos dividem o dia entre consultórios próprios, hospitais e clínicas de terceiros. Por isso, precisam de uma solução integrada que facilite o gerenciamento de compromissos, evitando assim o estresse de conflitos de horários, diminuindo também o problema do tempo ocioso pela desmarcação de consultas em cima da hora.
 
 - Corpo administrativo:
-O corpo administrativo possui experiência com sistemas de agendamento e gestão de pacientes, mas muitas vezes em plataformas pouco integradas. Necessitam de uma ferramenta que simplifique os processos, reduza falhas e a carga de trabalho manual,  apoie diretamente na organização das agendas dos profissionais de saúde.
+  O corpo administrativo possui experiência com sistemas de agendamento e gestão de pacientes, mas muitas vezes em plataformas pouco integradas. Necessitam de uma ferramenta que simplifique os processos, reduza falhas e a carga de trabalho manual, apoie diretamente na organização das agendas dos profissionais de saúde.
 
 - Pacientes:
-O grupo dos pacientes é composto por um espectro diverso que vai desde jovens e adultos com alta familiaridade digital, que buscam resolver tudo pelo smartphone com poucos cliques, até idosos com menor domínio tecnológico, que podem se sentir intimidados por interfaces complexas e que também podem enfrentar dificuldades no processo de agendamento e verificação de consultas. Em comum, todos necessitam de uma solução que proporcione praticidade, rapidez e simplicidade.
-
-
+  O grupo dos pacientes é composto por um espectro diverso que vai desde jovens e adultos com alta familiaridade digital, que buscam resolver tudo pelo smartphone com poucos cliques, até idosos com menor domínio tecnológico, que podem se sentir intimidados por interfaces complexas e que também podem enfrentar dificuldades no processo de agendamento e verificação de consultas. Em comum, todos necessitam de uma solução que proporcione praticidade, rapidez e simplicidade.
 
 # Especificações do Projeto
 
@@ -97,12 +97,13 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 O projeto está restrito pelas condições e limitações apresentadas na tabela a seguir:
 
-| ID  | Restrição                                                                                                                                |
-| --- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| 01  | O projeto deverá ser entregue dentro do prazo estabelecido até o final do semestre letivo.                                               |
-| 02  | O projeto deve ser desenvolvido exclusivamente com ferramentas e softwares gratuitos ou de código aberto, sem fomento financeiro externo.|
+| ID  | Restrição                                                                                                                                 |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| 01  | O projeto deverá ser entregue dentro do prazo estabelecido até o final do semestre letivo.                                                |
+| 02  | O projeto deve ser desenvolvido exclusivamente com ferramentas e softwares gratuitos ou de código aberto, sem fomento financeiro externo. |
 
 > **Links Úteis**:
+>
 > - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
 > - [O que são requisitos funcionais e requisitos não funcionais?](https://analisederequisitos.com.br/requisitos-funcionais-e-requisitos-nao-funcionais-o-que-sao/)
 
@@ -116,109 +117,109 @@ A seguir, apresentamos os serviços de TI disponibilizados pelo MedHub e como el
 
 A tabela a seguir apresenta um resumo de todos os serviços disponíveis no portfólio de TI do MedHub:
 
-| ID  | Serviço                               | Categoria              | Público-alvo                          |
-|-----|---------------------------------------|------------------------|---------------------------------------|
-| S01 | Agendamento de Consulta               | Serviço de Negócio     | Pacientes e corpo administrativo      |
-| S02 | Consulta de Agenda Médica             | Serviço de Informação  | Pacientes e profissionais de saúde    |
-| S03 | Cancelamento e Remarcação de Consultas| Serviço de Negócio     | Pacientes e corpo administrativo      |
-| S04 | Notificações e Alertas de Consulta    | Serviço de Suporte     | Todos os usuários                     |
-| S05 | Autenticação de Usuário (Login)       | Serviço de TI          | Todos os usuários                     |
-| S06 | Recuperação de Senha                  | Serviço de TI          | Todos os usuários                     |
+| ID  | Serviço                                | Categoria             | Público-alvo                       |
+| --- | -------------------------------------- | --------------------- | ---------------------------------- |
+| S01 | Agendamento de Consulta                | Serviço de Negócio    | Pacientes e corpo administrativo   |
+| S02 | Consulta de Agenda Médica              | Serviço de Informação | Pacientes e profissionais de saúde |
+| S03 | Cancelamento e Remarcação de Consultas | Serviço de Negócio    | Pacientes e corpo administrativo   |
+| S04 | Notificações e Alertas de Consulta     | Serviço de Suporte    | Todos os usuários                  |
+| S05 | Autenticação de Usuário (Login)        | Serviço de TI         | Todos os usuários                  |
+| S06 | Recuperação de Senha                   | Serviço de TI         | Todos os usuários                  |
 
 ## Descrição Detalhada
 
 ### S01 — Agendamento de Consulta
 
-| Campo | Detalhe |
-|-------|---------|
-| **Categoria** | Serviço de Negócio |
-| **Tipo** | Autoatendimento |
-| **Descrição** | Permite que pacientes agendem consultas médicas diretamente pelo aplicativo MedHub, com seleção de profissional, especialidade e horário disponível. |
-| **Funcionalidades** | ▸ Busca de profissionais por especialidade e disponibilidade <br> ▸ Seleção de data e horário <br> |
-| **Público-alvo** | Pacientes e corpo administrativo |
-| **Acesso** | Menu principal → Agendar Consulta |
-| **Disponibilidade** | Contínua via aplicativo (24/7) |
+| Campo               | Detalhe                                                                                                                                              |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Categoria**       | Serviço de Negócio                                                                                                                                   |
+| **Tipo**            | Autoatendimento                                                                                                                                      |
+| **Descrição**       | Permite que pacientes agendem consultas médicas diretamente pelo aplicativo MedHub, com seleção de profissional, especialidade e horário disponível. |
+| **Funcionalidades** | ▸ Busca de profissionais por especialidade e disponibilidade <br> ▸ Seleção de data e horário <br>                                                   |
+| **Público-alvo**    | Pacientes e corpo administrativo                                                                                                                     |
+| **Acesso**          | Menu principal → Agendar Consulta                                                                                                                    |
+| **Disponibilidade** | Contínua via aplicativo (24/7)                                                                                                                       |
 
 ---
 
 ### S02 — Consulta de Agenda Médica
 
-| Campo | Detalhe |
-|-------|---------|
-| **Categoria** | Serviço de Informação |
-| **Tipo** | Autoatendimento |
-| **Descrição** | Permite que pacientes e profissionais de saúde visualizem, de forma centralizada, as consultas agendadas e os horários disponíveis. |
-| **Funcionalidades** | ▸ Visualização da agenda pessoal do paciente <br> ▸ Consulta de disponibilidade de profissionais de saúde <br> |
-| **Público-alvo** | Pacientes e profissionais de saúde |
-| **Acesso** | Menu → Minhas Consultas |
-| **Disponibilidade** | Contínua via aplicativo (24/7)  |
+| Campo               | Detalhe                                                                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Categoria**       | Serviço de Informação                                                                                                               |
+| **Tipo**            | Autoatendimento                                                                                                                     |
+| **Descrição**       | Permite que pacientes e profissionais de saúde visualizem, de forma centralizada, as consultas agendadas e os horários disponíveis. |
+| **Funcionalidades** | ▸ Visualização da agenda pessoal do paciente <br> ▸ Consulta de disponibilidade de profissionais de saúde <br>                      |
+| **Público-alvo**    | Pacientes e profissionais de saúde                                                                                                  |
+| **Acesso**          | Menu → Minhas Consultas                                                                                                             |
+| **Disponibilidade** | Contínua via aplicativo (24/7)                                                                                                      |
 
 ---
 
 ### S03 — Cancelamento e Remarcação de Consultas
 
-| Campo | Detalhe |
-|-------|---------|
-| **Categoria** | Serviço de Negócio |
-| **Tipo** | Autoatendimento |
-| **Descrição** | Permite que pacientes e o corpo administrativo cancelem ou remarquem consultas previamente agendadas diretamente pelo aplicativo. |
-| **Funcionalidades** | ▸ Cancelamento de consulta com registro de motivo <br> ▸ Remarcação para nova data e horário disponível <br> |
-| **Público-alvo** | Pacientes e corpo administrativo |
-| **Acesso** | Menu → Minhas Consultas → Alterar/Cancelar |
-| **Disponibilidade** | Contínua via aplicativo (24/7)  |
+| Campo               | Detalhe                                                                                                                           |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Categoria**       | Serviço de Negócio                                                                                                                |
+| **Tipo**            | Autoatendimento                                                                                                                   |
+| **Descrição**       | Permite que pacientes e o corpo administrativo cancelem ou remarquem consultas previamente agendadas diretamente pelo aplicativo. |
+| **Funcionalidades** | ▸ Cancelamento de consulta com registro de motivo <br> ▸ Remarcação para nova data e horário disponível <br>                      |
+| **Público-alvo**    | Pacientes e corpo administrativo                                                                                                  |
+| **Acesso**          | Menu → Minhas Consultas → Alterar/Cancelar                                                                                        |
+| **Disponibilidade** | Contínua via aplicativo (24/7)                                                                                                    |
 
 ---
 
 ### S04 — Notificações de Consulta
 
-| Campo | Detalhe |
-|-------|---------|
-| **Categoria** | Serviço de Suporte |
-| **Tipo** | Automático |
-| **Descrição** | Serviço de comunicação automática que envia notificações aos usuários sobre criação, alteração ou cancelamento de consultas. |
-| **Funcionalidades** | ▸ Notificação ao confirmar, alterar ou cancelar consulta <br> |
-| **Público-alvo** | Todos os usuários do aplicativo |
-| **Acesso** | Ativado automaticamente em Configurações → Notificações |
-| **Disponibilidade** | Contínua via aplicativo (24/7) |
+| Campo               | Detalhe                                                                                                                      |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Categoria**       | Serviço de Suporte                                                                                                           |
+| **Tipo**            | Automático                                                                                                                   |
+| **Descrição**       | Serviço de comunicação automática que envia notificações aos usuários sobre criação, alteração ou cancelamento de consultas. |
+| **Funcionalidades** | ▸ Notificação ao confirmar, alterar ou cancelar consulta <br>                                                                |
+| **Público-alvo**    | Todos os usuários do aplicativo                                                                                              |
+| **Acesso**          | Ativado automaticamente em Configurações → Notificações                                                                      |
+| **Disponibilidade** | Contínua via aplicativo (24/7)                                                                                               |
 
 ---
 
 ### S05 — Autenticação de Usuário (Login)
 
-| Campo | Detalhe |
-|-------|---------|
-| **Categoria** | Serviço de TI |
-| **Tipo** | Infraestrutura / Segurança |
-| **Descrição** | Controla o acesso ao sistema MedHub por meio de autenticação segura com credenciais cadastradas. |
-| **Funcionalidades** | ▸ Login com e-mail e senha cadastrados <br> |
-| **Público-alvo** | Todos os usuários |
-| **Acesso** | Tela inicial do aplicativo MedHub → Login |
-| **Disponibilidade** | Contínua via aplicativo (24/7)  |
+| Campo               | Detalhe                                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------------------ |
+| **Categoria**       | Serviço de TI                                                                                    |
+| **Tipo**            | Infraestrutura / Segurança                                                                       |
+| **Descrição**       | Controla o acesso ao sistema MedHub por meio de autenticação segura com credenciais cadastradas. |
+| **Funcionalidades** | ▸ Login com e-mail e senha cadastrados <br>                                                      |
+| **Público-alvo**    | Todos os usuários                                                                                |
+| **Acesso**          | Tela inicial do aplicativo MedHub → Login                                                        |
+| **Disponibilidade** | Contínua via aplicativo (24/7)                                                                   |
 
 ---
 
 ### S06 — Recuperação de Senha
 
-| Campo | Detalhe |
-|-------|---------|
-| **Categoria** | Serviço de TI |
-| **Tipo** | Autoatendimento/Segurança |
-| **Descrição** | Permite que usuários que esqueceram sua senha redefinem o acesso à conta. |
+| Campo               | Detalhe                                                                                                                                                                      |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Categoria**       | Serviço de TI                                                                                                                                                                |
+| **Tipo**            | Autoatendimento/Segurança                                                                                                                                                    |
+| **Descrição**       | Permite que usuários que esqueceram sua senha redefinem o acesso à conta.                                                                                                    |
 | **Funcionalidades** | ▸ Envio de link de redefinição para o e-mail cadastrado <br> ▸ Verificação de identidade antes da redefinição <br> ▸ Confirmação de redefinição bem-sucedida por notificação |
-| **Público-alvo** | Todos os usuários |
-| **Acesso** | Tela de Login → Esqueci minha senha |
-| **Disponibilidade** | Contínua via aplicativo (24/7) |
+| **Público-alvo**    | Todos os usuários                                                                                                                                                            |
+| **Acesso**          | Tela de Login → Esqueci minha senha                                                                                                                                          |
+| **Disponibilidade** | Contínua via aplicativo (24/7)                                                                                                                                               |
 
 ---
 
 ## Glossário
 
-| Termo | Definição |
-|-------|-----------|
+| Termo                  | Definição                                                                                                       |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------- |
 | **Serviço de Negócio** | Serviço que apoia diretamente as atividades da organização, com impacto direto na experiência do usuário final. |
-| **Serviço de TI** | Serviço técnico que sustenta a infraestrutura e a segurança da plataforma. |
-| **Serviço de Suporte** | Serviço auxiliar que garante o funcionamento e a usabilidade dos demais serviços. |
-| **Disponibilidade** | Tempo em que o serviço está operacional e acessível aos usuários. |
+| **Serviço de TI**      | Serviço técnico que sustenta a infraestrutura e a segurança da plataforma.                                      |
+| **Serviço de Suporte** | Serviço auxiliar que garante o funcionamento e a usabilidade dos demais serviços.                               |
+| **Disponibilidade**    | Tempo em que o serviço está operacional e acessível aos usuários.                                               |
 
 # Arquitetura da Solução
 
@@ -239,11 +240,11 @@ Todos os componentes são escritos em **TypeScript**. A comunicação entre clie
 
 ## Tecnologias Utilizadas
 
-| Camada          | Tecnologias                                                         |
-| --------------- | ------------------------------------------------------------------- |
-| Backend         | Node.js · Express.js · TypeScript · Prisma ORM · JWT · Zod · Nodemailer |
-| Banco de dados  | PostgreSQL                                                          |
-| Frontend Web    | React · Vite · TypeScript · React Router · Axios · Tailwind CSS    |
+| Camada          | Tecnologias                                                              |
+| --------------- | ------------------------------------------------------------------------ |
+| Backend         | Node.js · Express.js · TypeScript · Prisma ORM · JWT · Zod · Nodemailer  |
+| Banco de dados  | PostgreSQL                                                               |
+| Frontend Web    | React · Vite · TypeScript · React Router · Axios · Tailwind CSS          |
 | Frontend Mobile | React Native · Expo · TypeScript · Expo Router · Expo Push Notifications |
 
 ## Hospedagem
