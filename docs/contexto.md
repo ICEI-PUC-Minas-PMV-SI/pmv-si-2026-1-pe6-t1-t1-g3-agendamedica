@@ -222,17 +222,40 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 
 # Arquitetura da Solução
 
-Definição de como o software é estruturado em termos dos componentes que fazem parte da solução e do ambiente de hospedagem da aplicação.
+O MedHub é um **sistema distribuído** estruturado em uma arquitetura cliente-servidor de três camadas, onde cada camada opera de forma autônoma em infraestrutura própria e a comunicação entre os componentes ocorre exclusivamente por meio de rede, sem memória ou estado compartilhado entre eles.
 
-![arq](https://github.com/user-attachments/assets/b9402e05-8445-47c3-9d47-f11696e38a3d)
+Essa separação garante que cada componente possa ser implantado, escalado e atualizado de forma independente, sem impactar os demais — característica fundamental de sistemas distribuídos segundo Tanenbaum & Van Steen.
 
+As camadas que compõem o sistema são:
+
+- **Frontend Web** — aplicação React executada no navegador do usuário, voltada a médicos e recepcionistas. Não possui acesso direto ao banco de dados; toda comunicação passa pela API.
+- **Frontend Mobile** — aplicativo React Native (Expo) voltado principalmente aos pacientes. Igualmente desacoplado do backend, comunica-se apenas via API REST.
+- **Backend (API REST)** — servidor Node.js responsável pela lógica de negócio, autenticação e orquestração do acesso aos dados. É o único ponto de entrada para o banco de dados.
+- **Banco de Dados** — instância PostgreSQL acessada exclusivamente pelo backend via Prisma ORM.
+
+Todos os componentes são escritos em **TypeScript**. A comunicação entre clientes e backend utiliza **HTTPS + REST**, com autenticação **stateless via JWT**.
+
+![Diagrama de Arquitetura do MedHub](../docs/img/arquitetura.png)
 
 ## Tecnologias Utilizadas
 
-Descreva aqui qual(is) tecnologias você vai usar para resolver o seu problema, ou seja, implementar a sua solução. Liste todas as tecnologias envolvidas, linguagens a serem utilizadas, serviços web, frameworks, bibliotecas, IDEs de desenvolvimento, e ferramentas.
-
-Apresente também uma figura explicando como as tecnologias estão relacionadas ou como uma interação do usuário com o sistema vai ser conduzida, por onde ela passa até retornar uma resposta ao usuário.
+| Camada          | Tecnologias                                                         |
+| --------------- | ------------------------------------------------------------------- |
+| Backend         | Node.js · Express.js · TypeScript · Prisma ORM · JWT · Zod · Nodemailer |
+| Banco de dados  | PostgreSQL                                                          |
+| Frontend Web    | React · Vite · TypeScript · React Router · Axios · Tailwind CSS    |
+| Frontend Mobile | React Native · Expo · TypeScript · Expo Router · Expo Push Notifications |
 
 ## Hospedagem
 
-Explique como a hospedagem e o lançamento da plataforma foi feita.
+A plataforma será hospedada na **Amazon Web Services (AWS)**. A arquitetura contempla dois ambientes distintos:
+
+- **Desenvolvimento**: executado localmente com Docker Compose, subindo instâncias locais do PostgreSQL e da API para agilizar o ciclo de desenvolvimento e testes.
+- **Produção**: cada componente é implantado em um serviço AWS dedicado, conforme a tabela abaixo.
+
+| Componente                  | Serviço AWS                     | Justificativa                                                                                                                            |
+| --------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Backend (API Node.js)       | AWS EC2                         | Instância para execução do servidor Node.js, permitindo configuração direta do ambiente, variáveis e regras de rede via Security Groups. |
+| Banco de dados (PostgreSQL) | AWS RDS (PostgreSQL)            | Banco de dados relacional gerenciado, isolado do servidor de aplicação, reforçando a separação de camadas da arquitetura distribuída.    |
+| Frontend Web (React/Vite)   | AWS S3 + CloudFront             | O build estático da SPA é hospedado no S3 e distribuído via CloudFront, sem necessidade de servidor dedicado para o frontend.            |
+| Frontend Mobile (Expo)      | Expo Application Services (EAS) | Build e geração dos pacotes para Android (APK/AAB) e iOS (IPA), com distribuição via Google Play e App Store em produção.                |
