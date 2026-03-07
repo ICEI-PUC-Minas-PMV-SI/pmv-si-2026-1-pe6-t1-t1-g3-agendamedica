@@ -54,14 +54,11 @@ Fontes disponíveis em: [Referências](./referencia.md)
 
 ## Público-Alvo
 
-- Profissionais da área de saúde:
-  Os profissionais de saúde possuem experiência prévia com sistemas de prontuário eletrônico e plataformas de gestão hospitalar. Para esses, o impacto é a unificação da vida profissional. Estão habituados ao uso de ferramentas digitais no cotidiano, mas enfrentam dificuldades ao conciliar agendas em diferentes instituições, pois muitos dividem o dia entre consultórios próprios, hospitais e clínicas de terceiros. Por isso, precisam de uma solução integrada que facilite o gerenciamento de compromissos, evitando assim o estresse de conflitos de horários, diminuindo também o problema do tempo ocioso pela desmarcação de consultas em cima da hora.
+- **Profissionais da área de saúde**: Os profissionais de saúde possuem experiência prévia com sistemas de prontuário eletrônico e plataformas de gestão hospitalar. Para esses, o impacto é a unificação da vida profissional. Estão habituados ao uso de ferramentas digitais no cotidiano, mas enfrentam dificuldades ao conciliar agendas em diferentes instituições, pois muitos dividem o dia entre consultórios próprios, hospitais e clínicas de terceiros. Por isso, precisam de uma solução integrada que facilite o gerenciamento de compromissos, evitando assim o estresse de conflitos de horários, diminuindo também o problema do tempo ocioso pela desmarcação de consultas em cima da hora.
 
-- Corpo administrativo:
-  O corpo administrativo possui experiência com sistemas de agendamento e gestão de pacientes, mas muitas vezes em plataformas pouco integradas. Necessitam de uma ferramenta que simplifique os processos, reduza falhas e a carga de trabalho manual, apoie diretamente na organização das agendas dos profissionais de saúde.
+- **Corpo administrativo**: O corpo administrativo possui experiência com sistemas de agendamento e gestão de pacientes, mas muitas vezes em plataformas pouco integradas. Necessitam de uma ferramenta que simplifique os processos, reduza falhas e a carga de trabalho manual, apoie diretamente na organização das agendas dos profissionais de saúde.
 
-- Pacientes:
-  O grupo dos pacientes é composto por um espectro diverso que vai desde jovens e adultos com alta familiaridade digital, que buscam resolver tudo pelo smartphone com poucos cliques, até idosos com menor domínio tecnológico, que podem se sentir intimidados por interfaces complexas e que também podem enfrentar dificuldades no processo de agendamento e verificação de consultas. Em comum, todos necessitam de uma solução que proporcione praticidade, rapidez e simplicidade.
+- **Pacientes**: O grupo dos pacientes é composto por um espectro diverso que vai desde jovens e adultos com alta familiaridade digital, que buscam resolver tudo pelo smartphone com poucos cliques, até idosos com menor domínio tecnológico, que podem se sentir intimidados por interfaces complexas e que também podem enfrentar dificuldades no processo de agendamento e verificação de consultas. Em comum, todos necessitam de uma solução que proporcione praticidade, rapidez e simplicidade.
 
 # Especificações do Projeto
 
@@ -101,11 +98,6 @@ O projeto está restrito pelas condições e limitações apresentadas na tabela
 | --- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | 01  | O projeto deverá ser entregue dentro do prazo estabelecido até o final do semestre letivo.                                                |
 | 02  | O projeto deve ser desenvolvido exclusivamente com ferramentas e softwares gratuitos ou de código aberto, sem fomento financeiro externo. |
-
-> **Links Úteis**:
->
-> - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
-> - [O que são requisitos funcionais e requisitos não funcionais?](https://analisederequisitos.com.br/requisitos-funcionais-e-requisitos-nao-funcionais-o-que-sao/)
 
 # Catálogo de Serviços - MedHub
 
@@ -225,14 +217,14 @@ A tabela a seguir apresenta um resumo de todos os serviços disponíveis no port
 
 O MedHub é um **sistema distribuído** estruturado em uma arquitetura cliente-servidor de três camadas, onde cada camada opera de forma autônoma em infraestrutura própria e a comunicação entre os componentes ocorre exclusivamente por meio de rede, sem memória ou estado compartilhado entre eles.
 
-Essa separação garante que cada componente possa ser implantado, escalado e atualizado de forma independente, sem impactar os demais — característica fundamental de sistemas distribuídos segundo Tanenbaum & Van Steen.
+Essa separação garante que cada componente possa ser implantado, escalado e atualizado de forma independente, sem impactar os demais, característica fundamental de sistemas distribuídos segundo Tanenbaum & Van Steen.
 
 As camadas que compõem o sistema são:
 
-- **Frontend Web** — aplicação React executada no navegador do usuário, voltada a médicos e recepcionistas. Não possui acesso direto ao banco de dados; toda comunicação passa pela API.
-- **Frontend Mobile** — aplicativo React Native (Expo) voltado principalmente aos pacientes. Igualmente desacoplado do backend, comunica-se apenas via API REST.
-- **Backend (API REST)** — servidor Node.js responsável pela lógica de negócio, autenticação e orquestração do acesso aos dados. É o único ponto de entrada para o banco de dados.
-- **Banco de Dados** — instância PostgreSQL acessada exclusivamente pelo backend via Prisma ORM.
+- **Frontend Web**: aplicação React executada no navegador do usuário, voltada a médicos e recepcionistas. Não possui acesso direto ao banco de dados; toda comunicação passa pela API.
+- **Frontend Mobile**: aplicativo React Native (Expo) voltado principalmente aos pacientes. Igualmente desacoplado do backend, comunica-se apenas via API REST.
+- **Backend (API REST)**: servidor Node.js responsável pela lógica de negócio, autenticação e orquestração do acesso aos dados. É o único ponto de entrada para o banco de dados.
+- **Banco de Dados**: instância PostgreSQL acessada exclusivamente pelo backend via Prisma ORM.
 
 Todos os componentes são escritos em **TypeScript**. A comunicação entre clientes e backend utiliza **HTTPS + REST**, com autenticação **stateless via JWT**.
 
