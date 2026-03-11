@@ -68,7 +68,7 @@ Nesta seção são apresentados os requisitos funcionais e não funcionais do si
 
 ### Requisitos Funcionais
 
-| ID     | Descrição do Requisito                                                                                                                                                  | Prioridade |
+| ID     | Descrição do Requisito                                                                                                                                                  | Prioridade |     Responsável |
 | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
 | RF-001 | O sistema deve permitir que os pacientes agendem, visualizem e cancelem consultas médicas pelo aplicativo.                                                              | ALTA       |
 | RF-002 | O sistema deve permitir que médicos e recepcionistas gerenciem a agenda de marcações através da interface web.                                                          | ALTA       |
@@ -81,7 +81,7 @@ Nesta seção são apresentados os requisitos funcionais e não funcionais do si
 
 ### Requisitos não Funcionais
 
-| ID      | Descrição do Requisito                                                                                                                                      | Prioridade |
+| ID      | Descrição do Requisito                                                                                                                                      | Prioridade | 
 | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
 | RNF-001 | A comunicação entre as aplicações (web e mobile) e o servidor deve ser padronizada por meio de uma API REST.                                                | ALTA       |
 | RNF-002 | O sistema deve possuir tempo de resposta até 3 segundos para pesquisas e ações na agenda.                                                                   | MÉDIA      |
