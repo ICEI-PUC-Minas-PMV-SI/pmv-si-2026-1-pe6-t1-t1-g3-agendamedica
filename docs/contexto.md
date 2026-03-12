@@ -70,14 +70,13 @@ Nesta seção são apresentados os requisitos funcionais e não funcionais do si
 
 | ID | Descrição do Requisito | Prioridade | Responsável |
 |--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|-------------|
-| RF-001 | O sistema deve permitir que os pacientes agendem, visualizem e cancelem consultas médicas pelo aplicativo. | ALTA | |
+| RF-001 | O sistema deve permitir que os pacientes agendem, visualizem e cancelem consultas médicas pelo aplicativo. | ALTA | Alice |
 | RF-002 | O sistema deve permitir que médicos e recepcionistas gerenciem a agenda de marcações através da interface web. | ALTA | |
-| RF-003 | O sistema deve armazenar todas as informações de consultas em uma base de dados centralizada, compartilhada entre as aplicações web e móvel. | ALTA | |
-| RF-004 | O sistema deve permitir o cadastro e o login de todos os usuários (pacientes, médicos e recepcionistas), garantindo um único cadastro por CPF e por e-mail. | ALTA | |
-| RF-005 | O sistema deve notificar os usuários sobre confirmações e cancelamentos de consultas. | MÉDIA | |
-| RF-006 | O sistema deve permitir o cadastro e o gerenciamento de clínicas como entidades independentes na plataforma, cada uma com seus próprios médicos e horários disponíveis. | ALTA | |
-| RF-007 | O sistema deve impedir o agendamento de consultas sem que o perfil do usuário esteja devidamente cadastrado e validado. | ALTA | |
-| RF-008 | O sistema deve impedir o agendamento de mais de uma consulta para o mesmo médico no mesmo horário. | ALTA | |
+| RF-003 | O sistema deve impedir o agendamento de consultas sem que o perfil do usuário esteja devidamente cadastrado e validado. | ALTA | |
+| RF-004 | O sistema deve impedir o agendamento de mais de uma consulta para o mesmo médico no mesmo horário. | ALTA | |
+| RF-005 | O sistema deve permitir o cadastro e o login de todos os usuários (pacientes, médicos e recepcionistas), garantindo um único cadastro por CPF e por e-mail. | ALTA | Martha |
+| RF-006 | O sistema deve notificar os usuários sobre confirmações e cancelamentos de consultas. | MÉDIA | |
+| RF-007 | O sistema deve permitir o cadastro e o gerenciamento de clínicas como entidades independentes na plataforma, cada uma com seus próprios médicos e horários disponíveis. | ALTA | |
 
 ### Requisitos não Funcionais
 
@@ -89,6 +88,7 @@ Nesta seção são apresentados os requisitos funcionais e não funcionais do si
 | RNF-004 | O aplicativo móvel deve ser compatível com as plataformas Android e iOS.                                                                                    | ALTA       |
 | RNF-005 | O sistema deve utilizar tokens JWT para garantir a autenticação e autorização segura em todas as requisições entre as aplicações e a API.                   | ALTA       |
 | RNF-006 | O sistema deve ser compatível com as versões mais recentes dos principais navegadores do mercado (Google Chrome, Mozilla Firefox, Safari e Microsoft Edge). | ALTA       |
+| RF-007 | O sistema deve armazenar todas as informações de consultas em uma base de dados centralizada, compartilhada entre as aplicações web e móvel. | ALTA |
 
 ## Restrições
 
