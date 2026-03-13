@@ -75,7 +75,7 @@ Nesta seção são apresentados os requisitos funcionais e não funcionais do si
 | RF-003 | O sistema deve impedir o agendamento de consultas sem que o perfil do usuário esteja devidamente cadastrado e validado. | ALTA | |
 | RF-004 | O sistema deve impedir o agendamento de mais de uma consulta para o mesmo médico no mesmo horário. | ALTA | |
 | RF-005 | O sistema deve permitir o cadastro e o login de todos os usuários (pacientes, médicos e recepcionistas), garantindo um único cadastro por CPF e por e-mail. | ALTA | Martha |
-| RF-006 | O sistema deve notificar os usuários sobre confirmações e cancelamentos de consultas. | MÉDIA | |
+| RF-006 | O sistema deve notificar os usuários sobre confirmações e cancelamentos de consultas. | MÉDIA | Gabriel |
 | RF-007 | O sistema deve permitir o cadastro e o gerenciamento de clínicas como entidades independentes na plataforma, cada uma com seus próprios médicos e horários disponíveis. | ALTA | |
 
 ### Requisitos não Funcionais
