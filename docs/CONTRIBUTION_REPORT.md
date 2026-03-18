@@ -1,6 +1,6 @@
 # 📊 Relatório de Contribuições do Projeto
 
-**Última atualização:** 18/03/2026 23:19
+**Última atualização:** 18/03/2026 23:22
 
 ---
 
@@ -8,18 +8,18 @@
 
 | Aluno                 |   Commits |   Linhas+ |   Linhas- |   Arquivos |   Docs Commits |   Docs Arquivos |
 |-----------------------|-----------|-----------|-----------|------------|----------------|-----------------|
-| Alice Abreu           |        36 |       106 |       103 |          8 |             34 |               8 |
+| Alice Abreu           |        37 |       115 |       113 |          8 |             35 |               8 |
 | Gabriel Nascimento    |        13 |      4377 |       232 |         20 |              9 |               2 |
 | LeticiaOliAquino      |         9 |        36 |        36 |          3 |              9 |               3 |
 | Martha Beatriz        |        36 |       311 |       180 |          3 |             36 |               2 |
 | Omar Martins          |         7 |        14 |         8 |          2 |              7 |               2 |
-| github-actions[bot]   |         1 |        27 |        31 |          3 |              1 |               1 |
+| github-actions[bot]   |         2 |        33 |        36 |          3 |              2 |               1 |
 | github-classroom[bot] |         1 |      2152 |         0 |         45 |              1 |              13 |
 
 
 ## 📅 Contribuições Semanais (Todo o Semestre)
 
-**2026-03-11**: Alice Abreu: 4, Gabriel Nascimento: 6, Martha Beatriz: 5, github-actions[bot]: 1
+**2026-03-11**: Alice Abreu: 5, Gabriel Nascimento: 6, Martha Beatriz: 5, github-actions[bot]: 2
 
 **2026-03-04**: Alice Abreu: 16, Gabriel Nascimento: 4, LeticiaOliAquino: 3, Martha Beatriz: 16, Omar Martins: 1
 
