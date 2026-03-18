@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: medhub-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: medhub
+      POSTGRES_PASSWORD: medhub
+      POSTGRES_DB: medhub
+    ports:
+      - "5432:5432"
+    volumes:
+      - medhub_pgdata:/var/lib/postgresql/data
+
+volumes:
+  medhub_pgdata:
