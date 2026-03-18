@@ -1,0 +1,38 @@
+{
+  "name": "medhub-backend",
+  "version": "1.0.0",
+  "description": "MedHub — Backend API (Node.js · Express · TypeScript · Prisma)",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "format:check": "prettier --check src/"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "expo-server-sdk": "^3.13.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.16",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.10.2",
+    "@types/nodemailer": "^6.4.17",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.2",
+    "prettier": "^3.5.3",
+    "prisma": "^6.6.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.29.1"
+  }
+}
