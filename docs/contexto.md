@@ -70,6 +70,7 @@ Nesta seção são apresentados os requisitos funcionais e não funcionais do si
 
 | ID | Descrição do Requisito | Prioridade | Responsável |
 |--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|-------------|
+
 | RF-001 | O sistema deve permitir que os pacientes agendem, visualizem e cancelem consultas médicas pelo aplicativo. | ALTA | Alice |
 | RF-002 | O sistema deve permitir que médicos e recepcionistas gerenciem a agenda de marcações através da interface web. | ALTA | Omar |
 | RF-003 | O sistema deve impedir o agendamento de consultas sem que o perfil do usuário esteja devidamente cadastrado e validado. | ALTA | Omar |
