@@ -24,9 +24,14 @@ A API do MedHub tem como objetivo centralizar e controlar toda a comunicação e
 
 ## Tecnologias Utilizadas
 
-Existem muitas tecnologias diferentes que podem ser usadas para desenvolver APIs Web. A tecnologia certa para o seu projeto dependerá dos seus objetivos, dos seus clientes e dos recursos que a API deve fornecer.
+A seguir, as tecnologias definidas para serem utilizadas no desenvolvimento do projeto.
 
-[Lista das tecnologias principais que serão utilizadas no projeto.]
+| Camada          | Tecnologias                                                              |
+| --------------- | ------------------------------------------------------------------------ |
+| Backend         | Node.js · Express.js · TypeScript · Prisma ORM · JWT · Zod · Nodemailer  |
+| Banco de dados  | PostgreSQL                                                               |
+| Frontend Web    | React · Vite · TypeScript · React Router · Axios · Tailwind CSS          |
+| Frontend Mobile | React Native · Expo · TypeScript · Expo Router · Expo Push Notifications |
 
 ## API Endpoints
 
