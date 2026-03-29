@@ -9,8 +9,8 @@
 | 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ✅ | Estruturar e organizar a divisão do documento de contexto | Realização da justificativa do projeto, com levantamento de referências e dados estatísticos relevantes.|
 | 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ✅ | Elaboração dos requisitos, do catálogo de serviços e da arquitetura da solução. | Contribuição com comentários em Pull Requests para apoiar a elaboração dos textos de introdução e público-alvo do projeto. Responsável pela elaboração do catálogo de serviços do MedHub (adicionado na branch marthabeatriz_justificativa), além de realizar revisões e ajustes no texto de introdução do projeto (na branch marthabeatriz_atualizacoes). |
 | 09/03 - 15/03 | APIs e Web Services - Unidade 1 | ✅ |  |  |
-| 16/03 - 22/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
-| 23/03 - 29/03 | APIs e Web Services - Unidade 2 | ⬜ |  |  |
+| 16/03 - 22/03 | APIs e Web Services - Unidade 2 | ✅ |  |  |
+| 23/03 - 29/03 | APIs e Web Services - Unidade 2 | ✅ |  |  |
 | 30/03 - 05/04 | Recuperação de Informação na Web e Redes Sociais - Unidade 1 | ⬜ |  |  |
 | 06/04 - 12/04 | Recuperação de Informação na Web e Redes Sociais - Unidade 2 | ⬜ |  |  |
 | 13/04 - 19/04 | Computação Ubíqua e Pervasiva e IoT - Unidade 1 | ⬜ |  |  |
