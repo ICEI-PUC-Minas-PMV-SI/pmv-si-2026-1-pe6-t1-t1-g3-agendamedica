@@ -37,44 +37,92 @@ A seguir, as tecnologias definidas para serem utilizadas no desenvolvimento do p
 
 [Liste os principais endpoints da API, incluindo as operações disponíveis, os parâmetros esperados e as respostas retornadas.]
 
-### Endpoint 1
-- Método: GET
-- URL: /endpoint1
+### Endpoint 1 - Cadastro de Usuário
+- Método: POST
+- URL: /auth/register
 - Parâmetros:
-  - param1: [descrição]
-- Resposta:
-  - Sucesso (200 OK)
-    ```
-    {
-      "message": "Success",
-      "data": {
-        ...
-      }
-    }
-    ```
-  - Erro (4XX, 5XX)
-    ```
-    {
-      "message": "Error",
-      "error": {
-        ...
-      }
-    }
-    ```
+
+| Campo       | Tipo   | Descrição                                                |
+| ----------- | ------ | -------------------------------------------------------- |
+| `name`      | string | Nome completo do usuário                                 |
+| `email`     | string | E-mail único do usuário                                  |
+| `cpf`       | string | CPF único do usuário (11 dígitos)                        |
+| `password`  | string | Senha do usuário                                         |
+| `role`      | string | Tipo de usuário: `PATIENT`, `DOCTOR` ou `RECEPTIONIST`   |
+| `specialty` | string | Especialidade médica, obrigatório se `role` for `DOCTOR` |
+| `crm`       | string | CRM do médico, obrigatório se `role` for `DOCTOR`        |
+
+- **Respostas:**
+ 
+  - **Sucesso (201 Created):**
+ 
+```json
+{
+  "id": "uuid",
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "role": "PATIENT"
+}
+```
+ 
+  - **Erro (400 Bad Request):**
+ 
+```json
+{
+  "message": "E-mail já cadastrado"
+}
+```
+ 
+```json
+{
+  "message": "CPF já cadastrado"
+}
+```
+ 
+---
+ 
+### Endpoint 2 — Login
+ 
+- Método: POST
+- URL: /auth/login
+- Parâmetros:
+ 
+| Campo      | Tipo   | Descrição         |
+| ---------- | ------ | ----------------- |
+| `email`    | string | E-mail cadastrado |
+| `password` | string | Senha do usuário  |
+ 
+- **Respostas:**
+ 
+  - **Sucesso (200 OK):**
+ 
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "uuid",
+    "name": "João Silva",
+    "role": "PATIENT"
+  }
+}
+```
+ 
+  - **Erro (401 Unauthorized):**
+ 
+```json
+{
+  "message": "Credenciais inválidas"
+}
+```
 
 ## Considerações de Segurança
 
-[Discuta as considerações de segurança relevantes para a aplicação distribuída, como autenticação, autorização, proteção contra ataques, etc.]
+- **Senhas:** As senhas nunca são armazenadas em texto puro. O bcrypt é utilizado para gerar um hash seguro com 10 rounds antes de salvar no banco.
+- **Unicidade:** O banco garante um único cadastro por CPF e por e-mail através de constraints @unique no schema do Prisma.
 
 ## Implantação
 
-[Instruções para implantar a aplicação distribuída em um ambiente de produção.]
-
-1. Defina os requisitos de hardware e software necessários para implantar a aplicação em um ambiente de produção.
-2. Escolha uma plataforma de hospedagem adequada, como um provedor de nuvem ou um servidor dedicado.
-3. Configure o ambiente de implantação, incluindo a instalação de dependências e configuração de variáveis de ambiente.
-4. Faça o deploy da aplicação no ambiente escolhido, seguindo as instruções específicas da plataforma de hospedagem.
-5. Realize testes para garantir que a aplicação esteja funcionando corretamente no ambiente de produção.
+[inserir]
 
 ## Testes
 
