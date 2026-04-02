@@ -35,4 +35,13 @@ export class AppointmentRepository {
       },
     });
   }
+
+  async findByUser(userId: string): Promise<Appointment[]> {
+    return prisma.appointment.findMany({
+      where: {
+        OR: [{ patientId: userId }, { doctorId: userId }],
+      },
+      orderBy: { date: "asc" },
+    });
+  }
 }

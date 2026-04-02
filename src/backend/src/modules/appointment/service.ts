@@ -21,3 +21,11 @@ export class CreateAppointmentService {
     return this.repository.create(data);
   }
 }
+
+export class ListAppointmentsByUserService {
+  constructor(private readonly repository: AppointmentRepository) {}
+
+  async execute(userId: string) {
+    return this.repository.findByUser(userId);
+  }
+}
