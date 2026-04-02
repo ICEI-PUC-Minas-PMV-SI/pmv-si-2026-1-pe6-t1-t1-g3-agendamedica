@@ -1,10 +1,12 @@
 import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
 import { logger } from "./utils/logger";
+import appointmentRoutes from "./modules/appointment/routes";
 
 const app = express();
 
 app.use(express.json());
+app.use("/consultas", appointmentRoutes);
 
 app.get("/health", (_req: Request, res: Response) => {
     res.json({ status: "ok" });
