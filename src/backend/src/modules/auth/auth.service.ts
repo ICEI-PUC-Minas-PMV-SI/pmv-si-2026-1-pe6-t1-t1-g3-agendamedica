@@ -22,31 +22,38 @@ export async function registerUser(data: RegisterDTO) {
         throw new Error("CPF já cadastrado!");
     }
 
+    // Se for médico, valida os campos obrigatórios antes de persistir
+    if (data.role === "DOCTOR" && (!data.specialty || !data.crm)) {
+        throw new Error("Especialidade e CRM são obrigatórios para médico");
+    }
+
     // Criptografa a senha
     const passwordHash = await bcrypt.hash(data.password, 10);
 
-    // Cria o usuário no banco
-    const user = await prisma.user.create({
-        data: {
-            name: data.name,
-            email: data.email,
-            cpf: data.cpf,
-            passwordHash,
-            role: data.role,
-        },
-    });
-
-    // Se for médico, cria o registro na tabela Doctor
-    if (data.role === "DOCTOR") {
-        await prisma.doctor.create({
+    const user = await prisma.$transaction(async (tx) => {
+        const createdUser = await tx.user.create({
             data: {
-                userId: user.id,
-                specialty: data.specialty!,
-                crm: data.crm!,
+                name: data.name,
+                email: data.email,
+                cpf: data.cpf,
+                passwordHash,
+                role: data.role,
             },
         });
-    }
 
+        // Se for médico, cria o registro na tabela Doctor
+        if (data.role === "DOCTOR") {
+            await tx.doctor.create({
+                data: {
+                    userId: createdUser.id,
+                    specialty: data.specialty!,
+                    crm: data.crm!,
+                },
+            });
+        }
+
+        return createdUser;
+    });
     return { id: user.id, name: user.name, email: user.email, role: user.role };
 }
 
