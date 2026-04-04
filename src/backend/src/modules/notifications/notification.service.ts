@@ -84,8 +84,8 @@ class NotificationService {
             appointmentId: params.appointmentId,
         });
 
-        void this.sendEmail(params.userEmail, params.emailSubject, params.emailHtml).catch((err) =>
-            logger.error("email:failed", err),
+        void this.sendEmail(params.userEmail, params.emailSubject, params.emailHtml).catch(
+            (err: Error) => logger.error("email:failed", { message: err.message, stack: err.stack }),
         );
 
         if (params.expoPushToken) {
@@ -94,7 +94,9 @@ class NotificationService {
                 params.title,
                 params.message,
                 params.pushData,
-            ).catch((err) => logger.error("push:failed", err));
+            ).catch((err: Error) =>
+                logger.error("push:failed", { message: err.message, stack: err.stack }),
+            );
         }
 
         return notification;
