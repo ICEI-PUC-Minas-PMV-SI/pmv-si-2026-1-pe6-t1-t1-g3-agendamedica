@@ -1,5 +1,5 @@
 // Uso: node scripts/seed.js
-// Cria dados de teste: 1 paciente, 1 médico (com clínica), 1 consulta e 3 notificações.
+// Cria dados de teste: 2 pacientes, 1 médico (com clínica), 1 consulta e 4 notificações.
 // Idempotente — pode ser re-executado sem duplicar dados.
 require("dotenv/config");
 const { PrismaClient } = require("@prisma/client");
@@ -83,11 +83,12 @@ async function main() {
         },
     });
 
-    // Notificações do paciente 1
+    // Notificações do paciente 1 — IDs determinísticos para skipDuplicates funcionar
     await prisma.notification.createMany({
         skipDuplicates: true,
         data: [
             {
+                id: "00000000-0000-0000-0000-000000000010",
                 userId: patient.id,
                 type: "APPOINTMENT_CREATED",
                 title: "Consulta agendada",
@@ -96,6 +97,7 @@ async function main() {
                 read: false,
             },
             {
+                id: "00000000-0000-0000-0000-000000000011",
                 userId: patient.id,
                 type: "APPOINTMENT_CONFIRMED",
                 title: "Consulta confirmada",
@@ -104,6 +106,7 @@ async function main() {
                 read: false,
             },
             {
+                id: "00000000-0000-0000-0000-000000000012",
                 userId: patient.id,
                 type: "APPOINTMENT_CANCELLED",
                 title: "Consulta cancelada",
@@ -118,6 +121,7 @@ async function main() {
         skipDuplicates: true,
         data: [
             {
+                id: "00000000-0000-0000-0000-000000000020",
                 userId: patient2.id,
                 type: "APPOINTMENT_CREATED",
                 title: "Consulta agendada — Bruno",
