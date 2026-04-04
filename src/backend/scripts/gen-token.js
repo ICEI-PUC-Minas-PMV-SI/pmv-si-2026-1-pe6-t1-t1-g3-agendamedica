@@ -9,7 +9,13 @@ if (!userId) {
     process.exit(1);
 }
 
-const token = jwt.sign({ sub: userId }, process.env.JWT_SECRET, {
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+    console.error("Configuração ausente: defina a variável de ambiente JWT_SECRET.");
+    process.exit(1);
+}
+
+const token = jwt.sign({ sub: userId }, jwtSecret, {
     expiresIn: process.env.JWT_EXPIRES_IN || "1h",
 });
 
