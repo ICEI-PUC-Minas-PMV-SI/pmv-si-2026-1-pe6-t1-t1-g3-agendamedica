@@ -1,10 +1,19 @@
-// src/backend/src/utils/notification-templates.ts
+// src/backend/src/modules/notifications/notification-templates.ts
 
 export interface NotificationTemplate {
     title: string;
     message: string;
     emailSubject: string;
     emailHtml: string;
+}
+
+function escapeHtml(str: string): string {
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
 }
 
 function formatDate(date: Date): string {
@@ -50,14 +59,16 @@ export function appointmentCreatedTemplate(
     date: Date,
 ): NotificationTemplate {
     const d = formatDate(date);
+    const p = escapeHtml(patientName);
+    const dr = escapeHtml(doctorName);
     return {
         title: "Consulta agendada",
         message: `Sua consulta com ${doctorName} foi agendada para ${d}.`,
         emailSubject: "MedHub — Consulta agendada",
         emailHtml: baseHtml(
             "Consulta agendada",
-            `Olá, <strong>${patientName}</strong>!<br><br>
-       Sua consulta com o(a) Dr(a). <strong>${doctorName}</strong> foi agendada para:<br>
+            `Olá, <strong>${p}</strong>!<br><br>
+       Sua consulta com o(a) Dr(a). <strong>${dr}</strong> foi agendada para:<br>
        <strong>${d}</strong><br><br>
        Fique de olho nas próximas atualizações.`,
         ),
@@ -70,14 +81,16 @@ export function appointmentConfirmedTemplate(
     date: Date,
 ): NotificationTemplate {
     const d = formatDate(date);
+    const p = escapeHtml(patientName);
+    const dr = escapeHtml(doctorName);
     return {
         title: "Consulta confirmada",
         message: `Sua consulta com ${doctorName} em ${d} foi confirmada.`,
         emailSubject: "MedHub — Consulta confirmada",
         emailHtml: baseHtml(
             "Consulta confirmada ✓",
-            `Olá, <strong>${patientName}</strong>!<br><br>
-       Sua consulta com o(a) Dr(a). <strong>${doctorName}</strong> em <strong>${d}</strong> foi <strong>confirmada</strong>.<br><br>
+            `Olá, <strong>${p}</strong>!<br><br>
+       Sua consulta com o(a) Dr(a). <strong>${dr}</strong> em <strong>${d}</strong> foi <strong>confirmada</strong>.<br><br>
        Lembre-se de comparecer com 15 minutos de antecedência.`,
         ),
     };
@@ -89,14 +102,16 @@ export function appointmentCancelledTemplate(
     date: Date,
 ): NotificationTemplate {
     const d = formatDate(date);
+    const p = escapeHtml(patientName);
+    const dr = escapeHtml(doctorName);
     return {
         title: "Consulta cancelada",
         message: `Sua consulta com ${doctorName} em ${d} foi cancelada.`,
         emailSubject: "MedHub — Consulta cancelada",
         emailHtml: baseHtml(
             "Consulta cancelada",
-            `Olá, <strong>${patientName}</strong>!<br><br>
-       Infelizmente, sua consulta com o(a) Dr(a). <strong>${doctorName}</strong> agendada para <strong>${d}</strong> foi <strong>cancelada</strong>.<br><br>
+            `Olá, <strong>${p}</strong>!<br><br>
+       Infelizmente, sua consulta com o(a) Dr(a). <strong>${dr}</strong> agendada para <strong>${d}</strong> foi <strong>cancelada</strong>.<br><br>
        Acesse o MedHub para reagendar.`,
         ),
     };
@@ -110,14 +125,16 @@ export function appointmentRescheduledTemplate(
 ): NotificationTemplate {
     const oldD = formatDate(oldDate);
     const newD = formatDate(newDate);
+    const p = escapeHtml(patientName);
+    const dr = escapeHtml(doctorName);
     return {
         title: "Consulta remarcada",
         message: `Sua consulta com ${doctorName} foi remarcada de ${oldD} para ${newD}.`,
         emailSubject: "MedHub — Consulta remarcada",
         emailHtml: baseHtml(
             "Consulta remarcada",
-            `Olá, <strong>${patientName}</strong>!<br><br>
-       Sua consulta com o(a) Dr(a). <strong>${doctorName}</strong> foi <strong>remarcada</strong>:<br>
+            `Olá, <strong>${p}</strong>!<br><br>
+       Sua consulta com o(a) Dr(a). <strong>${dr}</strong> foi <strong>remarcada</strong>:<br>
        <s style="color:#999">${oldD}</s><br>
        <strong>${newD}</strong>`,
         ),
