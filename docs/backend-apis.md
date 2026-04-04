@@ -1,17 +1,22 @@
 # APIs e Web Services
 
-O planejamento de uma aplicação de APIS Web é uma etapa fundamental para o sucesso do projeto. Ao planejar adequadamente, você pode evitar muitos problemas e garantir que a sua API seja segura, escalável e eficiente.
+O MedHub é uma plataforma de agendamento médico que conecta pacientes e profissionais de saúde de forma simples, prática e organizada. A solução permite que médicos se cadastrem e disponibilizem horários de atendimento, enquanto pacientes podem consultar essas informações e realizar agendamentos.
 
-Aqui estão algumas etapas importantes que devem ser consideradas no planejamento de uma aplicação de APIS Web.
-
-[Inclua uma breve descrição do projeto.]
+O sistema é estruturado em uma arquitetura distribuída, na qual cada componente possui responsabilidades bem definidas: interface com o usuário, processamento das regras de negócio e armazenamento dos dados. A comunicação entre a interface web e o banco de dados é realizada por meio de API, assegurando o armazenamento e o gerenciamento seguro de todas as informações.
+O objetivo do MedHub é otimizar o processo de agendamento, contribuindo para a satisfação do usuário e proporcionando uma gestão mais eficiente das agendas dos profissionais de saúde.
 
 ## Objetivos da API
 
-O primeiro passo é definir os objetivos da sua API. O que você espera alcançar com ela? Você quer que ela seja usada por clientes externos ou apenas por aplicações internas? Quais são os recursos que a API deve fornecer?
+A API do MedHub tem como objetivo centralizar e controlar toda a comunicação entre as aplicações clientes web e mobile, além do banco de dados, sendo o único ponto de entrada para os dados do sistema. A API deve atender exclusivamente os frontends do próprio MedHub (React e React Native), não sendo exposta a clientes externos.
 
-[Inclua os objetivos da sua api.]
+**Os recursos que a API deve fornecer são:**
 
+- **Autenticação e autorização** de usuários (pacientes, médicos e recepcionistas) via JWT, garantindo acesso seguro e controlado por perfil.
+- **Gestão de usuários**, incluindo cadastro, login e recuperação de senha, com validação de CPF e e-mail únicos.
+- **Gestão de médicos e clínicas**, permitindo cadastro, atualização e vinculação de profissionais a clínicas.
+- **Gestão de serviços e horários**, permitindo que médicos cadastrem os serviços oferecidos e disponibilizem horários de atendimento.
+- **Gestão de agendamentos**, permitindo que pacientes agendem, visualizem e cancelem consultas, com prevenção de conflitos de horário.
+- **Notificações**, disparando alertas aos usuários em confirmações, alterações e cancelamentos de consultas.
 
 ## Modelagem da Aplicação
 [Descreva a modelagem da aplicação, incluindo a estrutura de dados, diagramas de classes ou entidades, e outras representações visuais relevantes.]
@@ -19,52 +24,105 @@ O primeiro passo é definir os objetivos da sua API. O que você espera alcança
 
 ## Tecnologias Utilizadas
 
-Existem muitas tecnologias diferentes que podem ser usadas para desenvolver APIs Web. A tecnologia certa para o seu projeto dependerá dos seus objetivos, dos seus clientes e dos recursos que a API deve fornecer.
+A seguir, as tecnologias definidas para serem utilizadas no desenvolvimento do projeto.
 
-[Lista das tecnologias principais que serão utilizadas no projeto.]
+| Camada          | Tecnologias                                                              |
+| --------------- | ------------------------------------------------------------------------ |
+| Backend         | Node.js · Express.js · TypeScript · Prisma ORM · JWT · Zod · Nodemailer  |
+| Banco de dados  | PostgreSQL                                                               |
+| Frontend Web    | React · Vite · TypeScript · React Router · Axios · Tailwind CSS          |
+| Frontend Mobile | React Native · Expo · TypeScript · Expo Router · Expo Push Notifications |
 
 ## API Endpoints
 
-[Liste os principais endpoints da API, incluindo as operações disponíveis, os parâmetros esperados e as respostas retornadas.]
+Esta seção descreve os endpoints disponíveis na API do MedHub, detalhando os parâmetros esperados em cada requisição e os possíveis retornos em casos de sucesso e erro.
 
-### Endpoint 1
-- Método: GET
-- URL: /endpoint1
+### Endpoint 1 - Cadastro de Usuário
+- Método: POST
+- URL: /auth/register
 - Parâmetros:
-  - param1: [descrição]
-- Resposta:
-  - Sucesso (200 OK)
-    ```
-    {
-      "message": "Success",
-      "data": {
-        ...
-      }
-    }
-    ```
-  - Erro (4XX, 5XX)
-    ```
-    {
-      "message": "Error",
-      "error": {
-        ...
-      }
-    }
-    ```
+
+| Campo       | Tipo   | Descrição                                                |
+| ----------- | ------ | -------------------------------------------------------- |
+| `name`      | string | Nome completo do usuário                                 |
+| `email`     | string | E-mail único do usuário                                  |
+| `cpf`       | string | CPF único do usuário (11 dígitos)                        |
+| `password`  | string | Senha do usuário                                         |
+| `role`      | string | Tipo de usuário: `PATIENT`, `DOCTOR` ou `RECEPTIONIST`   |
+| `specialty` | string | Especialidade médica, obrigatório se `role` for `DOCTOR` |
+| `crm`       | string | CRM do médico, obrigatório se `role` for `DOCTOR`        |
+
+- **Respostas:**
+ 
+  - **Sucesso (201 Created):**
+ 
+```json
+{
+  "id": "uuid",
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "role": "PATIENT"
+}
+```
+ 
+  - **Erro (400 Bad Request):**
+ 
+```json
+{
+  "message": "E-mail já cadastrado"
+}
+```
+ 
+```json
+{
+  "message": "CPF já cadastrado"
+}
+```
+ 
+---
+ 
+### Endpoint 2 — Login
+ 
+- Método: POST
+- URL: /auth/login
+- Parâmetros:
+ 
+| Campo      | Tipo   | Descrição         |
+| ---------- | ------ | ----------------- |
+| `email`    | string | E-mail cadastrado |
+| `password` | string | Senha do usuário  |
+ 
+- **Respostas:**
+ 
+  - **Sucesso (200 OK):**
+ 
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "uuid",
+    "name": "João Silva",
+    "role": "PATIENT"
+  }
+}
+```
+ 
+  - **Erro (401 Unauthorized):**
+ 
+```json
+{
+  "message": "Credenciais inválidas"
+}
+```
 
 ## Considerações de Segurança
 
-[Discuta as considerações de segurança relevantes para a aplicação distribuída, como autenticação, autorização, proteção contra ataques, etc.]
+- **Senhas:** As senhas nunca são armazenadas em texto puro. O bcrypt é utilizado para gerar um hash seguro com 10 rounds antes de salvar no banco.
+- **Unicidade:** O banco garante um único cadastro por CPF e por e-mail através de constraints @unique no schema do Prisma.
 
 ## Implantação
 
-[Instruções para implantar a aplicação distribuída em um ambiente de produção.]
-
-1. Defina os requisitos de hardware e software necessários para implantar a aplicação em um ambiente de produção.
-2. Escolha uma plataforma de hospedagem adequada, como um provedor de nuvem ou um servidor dedicado.
-3. Configure o ambiente de implantação, incluindo a instalação de dependências e configuração de variáveis de ambiente.
-4. Faça o deploy da aplicação no ambiente escolhido, seguindo as instruções específicas da plataforma de hospedagem.
-5. Realize testes para garantir que a aplicação esteja funcionando corretamente no ambiente de produção.
+[inserir]
 
 ## Testes
 
