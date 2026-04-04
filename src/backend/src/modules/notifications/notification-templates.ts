@@ -1,26 +1,26 @@
 // src/backend/src/utils/notification-templates.ts
 
 export interface NotificationTemplate {
-  title: string;
-  message: string;
-  emailSubject: string;
-  emailHtml: string;
+    title: string;
+    message: string;
+    emailSubject: string;
+    emailHtml: string;
 }
 
 function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat("pt-BR", {
-    timeZone: "America/Sao_Paulo",
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(date);
+    return new Intl.DateTimeFormat("pt-BR", {
+        timeZone: "America/Sao_Paulo",
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    }).format(date);
 }
 
 function baseHtml(title: string, body: string): string {
-  return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif">
@@ -45,81 +45,81 @@ function baseHtml(title: string, body: string): string {
 }
 
 export function appointmentCreatedTemplate(
-  patientName: string,
-  doctorName: string,
-  date: Date,
+    patientName: string,
+    doctorName: string,
+    date: Date,
 ): NotificationTemplate {
-  const d = formatDate(date);
-  return {
-    title: "Consulta agendada",
-    message: `Sua consulta com ${doctorName} foi agendada para ${d}.`,
-    emailSubject: "MedHub — Consulta agendada",
-    emailHtml: baseHtml(
-      "Consulta agendada",
-      `Olá, <strong>${patientName}</strong>!<br><br>
+    const d = formatDate(date);
+    return {
+        title: "Consulta agendada",
+        message: `Sua consulta com ${doctorName} foi agendada para ${d}.`,
+        emailSubject: "MedHub — Consulta agendada",
+        emailHtml: baseHtml(
+            "Consulta agendada",
+            `Olá, <strong>${patientName}</strong>!<br><br>
        Sua consulta com o(a) Dr(a). <strong>${doctorName}</strong> foi agendada para:<br>
        <strong>${d}</strong><br><br>
        Fique de olho nas próximas atualizações.`,
-    ),
-  };
+        ),
+    };
 }
 
 export function appointmentConfirmedTemplate(
-  patientName: string,
-  doctorName: string,
-  date: Date,
+    patientName: string,
+    doctorName: string,
+    date: Date,
 ): NotificationTemplate {
-  const d = formatDate(date);
-  return {
-    title: "Consulta confirmada",
-    message: `Sua consulta com ${doctorName} em ${d} foi confirmada.`,
-    emailSubject: "MedHub — Consulta confirmada",
-    emailHtml: baseHtml(
-      "Consulta confirmada ✓",
-      `Olá, <strong>${patientName}</strong>!<br><br>
+    const d = formatDate(date);
+    return {
+        title: "Consulta confirmada",
+        message: `Sua consulta com ${doctorName} em ${d} foi confirmada.`,
+        emailSubject: "MedHub — Consulta confirmada",
+        emailHtml: baseHtml(
+            "Consulta confirmada ✓",
+            `Olá, <strong>${patientName}</strong>!<br><br>
        Sua consulta com o(a) Dr(a). <strong>${doctorName}</strong> em <strong>${d}</strong> foi <strong>confirmada</strong>.<br><br>
        Lembre-se de comparecer com 15 minutos de antecedência.`,
-    ),
-  };
+        ),
+    };
 }
 
 export function appointmentCancelledTemplate(
-  patientName: string,
-  doctorName: string,
-  date: Date,
+    patientName: string,
+    doctorName: string,
+    date: Date,
 ): NotificationTemplate {
-  const d = formatDate(date);
-  return {
-    title: "Consulta cancelada",
-    message: `Sua consulta com ${doctorName} em ${d} foi cancelada.`,
-    emailSubject: "MedHub — Consulta cancelada",
-    emailHtml: baseHtml(
-      "Consulta cancelada",
-      `Olá, <strong>${patientName}</strong>!<br><br>
+    const d = formatDate(date);
+    return {
+        title: "Consulta cancelada",
+        message: `Sua consulta com ${doctorName} em ${d} foi cancelada.`,
+        emailSubject: "MedHub — Consulta cancelada",
+        emailHtml: baseHtml(
+            "Consulta cancelada",
+            `Olá, <strong>${patientName}</strong>!<br><br>
        Infelizmente, sua consulta com o(a) Dr(a). <strong>${doctorName}</strong> agendada para <strong>${d}</strong> foi <strong>cancelada</strong>.<br><br>
        Acesse o MedHub para reagendar.`,
-    ),
-  };
+        ),
+    };
 }
 
 export function appointmentRescheduledTemplate(
-  patientName: string,
-  doctorName: string,
-  oldDate: Date,
-  newDate: Date,
+    patientName: string,
+    doctorName: string,
+    oldDate: Date,
+    newDate: Date,
 ): NotificationTemplate {
-  const oldD = formatDate(oldDate);
-  const newD = formatDate(newDate);
-  return {
-    title: "Consulta remarcada",
-    message: `Sua consulta com ${doctorName} foi remarcada de ${oldD} para ${newD}.`,
-    emailSubject: "MedHub — Consulta remarcada",
-    emailHtml: baseHtml(
-      "Consulta remarcada",
-      `Olá, <strong>${patientName}</strong>!<br><br>
+    const oldD = formatDate(oldDate);
+    const newD = formatDate(newDate);
+    return {
+        title: "Consulta remarcada",
+        message: `Sua consulta com ${doctorName} foi remarcada de ${oldD} para ${newD}.`,
+        emailSubject: "MedHub — Consulta remarcada",
+        emailHtml: baseHtml(
+            "Consulta remarcada",
+            `Olá, <strong>${patientName}</strong>!<br><br>
        Sua consulta com o(a) Dr(a). <strong>${doctorName}</strong> foi <strong>remarcada</strong>:<br>
        <s style="color:#999">${oldD}</s><br>
        <strong>${newD}</strong>`,
-    ),
-  };
+        ),
+    };
 }

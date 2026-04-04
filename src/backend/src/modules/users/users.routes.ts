@@ -1,7 +1,7 @@
 // src/backend/src/routes/user.routes.ts
 import { Router } from "express";
-import { authenticate } from "../middleware/authenticate";
-import { updatePushToken } from "../controllers/user.controller";
+import { authenticate } from "../../middleware/authenticate";
+import { updatePushToken } from "./users.controller";
 
 const router = Router();
 
