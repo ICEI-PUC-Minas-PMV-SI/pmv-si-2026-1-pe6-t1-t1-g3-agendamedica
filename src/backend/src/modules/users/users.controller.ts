@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UpdatePushTokenSchema } from "../notifications/notification.schema";
+import { UpdatePushTokenSchema } from "./user.schema";
 import { userRepository } from "./user.repository";
 
 export async function updatePushToken(req: Request, res: Response): Promise<void> {
