@@ -1,4 +1,4 @@
-// src/backend/src/controllers/user.controller.ts
+// src/backend/src/modules/users/users.controller.ts
 import { Request, Response } from "express";
 import { UpdatePushTokenSchema } from "../notifications/notification.schema";
 import { userRepository } from "./user.repository";

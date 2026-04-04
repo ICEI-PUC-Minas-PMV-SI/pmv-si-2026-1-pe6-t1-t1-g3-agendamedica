@@ -1,4 +1,4 @@
-// src/backend/src/schemas/notification.schema.ts
+// src/backend/src/modules/notifications/notification.schema.ts
 import { z } from "zod";
 import { NotificationType } from "@prisma/client";
 

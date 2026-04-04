@@ -1,4 +1,4 @@
-// src/backend/src/routes/notification.routes.ts
+// src/backend/src/modules/notifications/notification.routes.ts
 import { Router } from "express";
 import { UserRole } from "@prisma/client";
 import { authenticate } from "../../middleware/authenticate";

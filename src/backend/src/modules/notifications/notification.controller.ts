@@ -1,4 +1,4 @@
-// src/backend/src/controllers/notification.controller.ts
+// src/backend/src/modules/notifications/notification.controller.ts
 import { Request, Response } from "express";
 import { UserRole } from "@prisma/client";
 import { ListNotificationsQuerySchema, SendNotificationSchema } from "./notification.schema";
