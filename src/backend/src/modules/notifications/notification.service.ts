@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { Expo, ExpoPushToken } from "expo-server-sdk";
-import { NotificationType, Notification } from "@prisma/client";
+import { Notification } from "@prisma/client";
 import { notificationRepository, NotificationCreateParams } from "./notification.repository";
 import { logger } from "../../utils/logger";
 
