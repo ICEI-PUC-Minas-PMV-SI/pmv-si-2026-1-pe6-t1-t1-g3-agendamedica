@@ -1,19 +1,10 @@
-// src/backend/src/services/notification.service.ts
 import nodemailer from "nodemailer";
 import { Expo, ExpoPushToken } from "expo-server-sdk";
 import { NotificationType, Notification } from "@prisma/client";
-import { prisma } from "../../lib/prisma";
+import { notificationRepository, NotificationCreateParams } from "./notification.repository";
 import { logger } from "../../utils/logger";
 
-interface CreateParams {
-    userId: string;
-    type: NotificationType;
-    title: string;
-    message: string;
-    appointmentId?: string;
-}
-
-export interface NotifyParams extends CreateParams {
+export interface NotifyParams extends NotificationCreateParams {
     userEmail: string;
     emailSubject: string;
     emailHtml: string;
@@ -35,52 +26,29 @@ class NotificationService {
         accessToken: process.env.EXPO_ACCESS_TOKEN,
     });
 
-    async create(params: CreateParams) {
-        return prisma.notification.create({ data: params });
-    }
-
     async listByUser(userId: string, opts: { page: number; limit: number; unreadOnly?: boolean }) {
-        const { page, limit, unreadOnly } = opts;
-        const where = { userId, ...(unreadOnly ? { read: false } : {}) };
-        const [data, total] = await Promise.all([
-            prisma.notification.findMany({
-                where,
-                skip: (page - 1) * limit,
-                take: limit,
-                orderBy: { createdAt: "desc" },
-            }),
-            prisma.notification.count({ where }),
-        ]);
+        const [data, total] = await notificationRepository.listByUser(userId, opts);
         return {
             data,
-            pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
+            pagination: {
+                page: opts.page,
+                limit: opts.limit,
+                total,
+                totalPages: Math.ceil(total / opts.limit),
+            },
         };
     }
 
-    async countUnread(userId: string) {
-        return prisma.notification.count({ where: { userId, read: false } });
+    countUnread(userId: string) {
+        return notificationRepository.countUnread(userId);
     }
 
-    async markRead(userId: string, notificationId: string) {
-        const notification = await prisma.notification.findFirst({
-            where: { id: notificationId, userId },
-        });
-        if (!notification) {
-            const err = new Error("Notification not found");
-            (err as NodeJS.ErrnoException).code = "NOT_FOUND";
-            throw err;
-        }
-        return prisma.notification.update({
-            where: { id: notificationId },
-            data: { read: true },
-        });
+    markRead(userId: string, notificationId: string) {
+        return notificationRepository.markRead(userId, notificationId);
     }
 
-    async markAllRead(userId: string) {
-        return prisma.notification.updateMany({
-            where: { userId, read: false },
-            data: { read: true },
-        });
+    markAllRead(userId: string) {
+        return notificationRepository.markAllRead(userId);
     }
 
     async sendEmail(to: string, subject: string, html: string) {
@@ -108,7 +76,7 @@ class NotificationService {
     }
 
     async notify(params: NotifyParams): Promise<Notification> {
-        const notification = await this.create({
+        const notification = await notificationRepository.create({
             userId: params.userId,
             type: params.type,
             title: params.title,
