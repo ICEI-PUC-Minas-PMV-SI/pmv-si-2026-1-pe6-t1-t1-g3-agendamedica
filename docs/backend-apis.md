@@ -35,7 +35,7 @@ A seguir, as tecnologias definidas para serem utilizadas no desenvolvimento do p
 
 ## API Endpoints
 
-[Liste os principais endpoints da API, incluindo as operações disponíveis, os parâmetros esperados e as respostas retornadas.]
+Esta seção descreve os endpoints disponíveis na API do MedHub, detalhando os parâmetros esperados em cada requisição e os possíveis retornos em casos de sucesso e erro.
 
 ### Endpoint 1 - Cadastro de Usuário
 - Método: POST
