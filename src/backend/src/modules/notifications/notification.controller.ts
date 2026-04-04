@@ -12,17 +12,20 @@ export async function listNotifications(req: Request, res: Response): Promise<vo
     }
     const data = await notificationService.listByUser(req.userId, result.data);
     res.json(data);
+    return;
 }
 
 export async function getUnreadCount(req: Request, res: Response): Promise<void> {
     const count = await notificationService.countUnread(req.userId);
     res.json({ count });
+    return;
 }
 
 export async function markAsRead(req: Request, res: Response): Promise<void> {
     try {
         const notification = await notificationService.markRead(req.userId, req.params.id);
         res.json(notification);
+        return;
     } catch (err: unknown) {
         if ((err as NodeJS.ErrnoException).code === "NOT_FOUND") {
             res.status(404).json({ error: "Notificação não encontrada." });
@@ -35,6 +38,7 @@ export async function markAsRead(req: Request, res: Response): Promise<void> {
 export async function markAllAsRead(req: Request, res: Response): Promise<void> {
     await notificationService.markAllRead(req.userId);
     res.status(204).send();
+    return;
 }
 
 export async function sendNotification(req: Request, res: Response): Promise<void> {
@@ -66,4 +70,5 @@ export async function sendNotification(req: Request, res: Response): Promise<voi
     });
 
     res.status(201).json(notification);
+    return;
 }
