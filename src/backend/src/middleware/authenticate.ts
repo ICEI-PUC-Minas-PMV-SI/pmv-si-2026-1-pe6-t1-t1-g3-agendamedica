@@ -20,9 +20,15 @@ export function authenticate(req: Request, res: Response, next: NextFunction): v
 
     try {
         const token = auth.slice(7);
-        const payload = jwt.verify(token, process.env.JWT_SECRET as string) as { sub: string };
+        const payload = jwt.verify(token, process.env.JWT_SECRET as string, {
+            algorithms: ["HS256"],
+        }) as jwt.JwtPayload;
+        if (typeof payload.sub !== "string") {
+            res.status(401).json({ error: "Token inválido ou expirado." });
+            return;
+        }
         req.userId = payload.sub;
-        next();
+        return next();
     } catch {
         res.status(401).json({ error: "Token inválido ou expirado." });
     }
