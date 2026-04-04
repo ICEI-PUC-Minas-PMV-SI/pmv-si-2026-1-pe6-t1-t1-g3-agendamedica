@@ -5,6 +5,7 @@
         "esbenp.prettier-vscode",
         "usernamehw.errorlens",
         "yzhang.markdown-all-in-one",
-        "yoavbls.pretty-ts-errors"
+        "yoavbls.pretty-ts-errors",
+        "editorconfig.editorconfig"
     ]
 }
