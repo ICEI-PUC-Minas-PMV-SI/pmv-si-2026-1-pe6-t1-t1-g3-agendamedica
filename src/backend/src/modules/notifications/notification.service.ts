@@ -62,7 +62,7 @@ class NotificationService {
 
     async sendPush(token: string, title: string, body: string, data?: Record<string, unknown>) {
         if (!Expo.isExpoPushToken(token)) {
-            logger.warn("push:invalid-token", { token });
+            logger.warn("push:invalid-token", { token: `...${(token as string).slice(-8)}` });
             return;
         }
         const tickets = await this.expo.sendPushNotificationsAsync([
