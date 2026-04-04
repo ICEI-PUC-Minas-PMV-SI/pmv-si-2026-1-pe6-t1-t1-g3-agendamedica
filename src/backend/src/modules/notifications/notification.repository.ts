@@ -33,18 +33,16 @@ class NotificationRepository {
     }
 
     async markRead(userId: string, notificationId: string) {
-        const notification = await prisma.notification.findFirst({
+        const result = await prisma.notification.updateMany({
             where: { id: notificationId, userId },
+            data: { read: true },
         });
-        if (!notification) {
+        if (result.count === 0) {
             const err = new Error("Notification not found");
             (err as NodeJS.ErrnoException).code = "NOT_FOUND";
             throw err;
         }
-        return prisma.notification.update({
-            where: { id: notificationId },
-            data: { read: true },
-        });
+        return prisma.notification.findUnique({ where: { id: notificationId } });
     }
 
     markAllRead(userId: string) {
