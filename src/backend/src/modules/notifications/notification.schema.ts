@@ -3,15 +3,21 @@ import { z } from "zod";
 import { NotificationType } from "@prisma/client";
 
 export const UpdatePushTokenSchema = z.object({
-    expoPushToken: z.string().regex(/^ExponentPushToken\[.+\]$/, {
-        message: "O token deve estar no formato ExponentPushToken[...]",
+    expoPushToken: z.string().regex(/^(ExponentPushToken|ExpoPushToken)\[.+\]$/, {
+        message: "O token deve estar no formato ExponentPushToken[...] ou ExpoPushToken[...]",
     }),
 });
 
 export const ListNotificationsQuerySchema = z.object({
     page: z.coerce.number().int().positive().default(1),
     limit: z.coerce.number().int().min(1).max(50).default(20),
-    unreadOnly: z.coerce.boolean().optional(),
+    unreadOnly: z.preprocess((value) => {
+        if (value === undefined) return undefined;
+        if (value === true || value === false) return value;
+        if (value === "true") return true;
+        if (value === "false") return false;
+        return value;
+    }, z.boolean().optional()),
 });
 
 export const SendNotificationSchema = z.object({
