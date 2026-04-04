@@ -16,6 +16,8 @@ export default tseslint.config(
       ],
       // Allow explicit `any` with a warning instead of error
       "@typescript-eslint/no-explicit-any": "warn",
+      // Allow `declare global { namespace ... }` — needed for Express type augmentation
+      "@typescript-eslint/no-namespace": ["error", { allowDeclarations: true }],
     },
   },
   {
