@@ -3,6 +3,7 @@ import { Expo, ExpoPushToken } from "expo-server-sdk";
 import { Notification } from "@prisma/client";
 import { notificationRepository, NotificationCreateParams } from "./notification.repository";
 import { logger } from "../../utils/logger";
+import { env } from "../../config/env";
 
 export interface NotifyParams extends NotificationCreateParams {
     userEmail: string;
@@ -14,16 +15,16 @@ export interface NotifyParams extends NotificationCreateParams {
 
 class NotificationService {
     private transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT) || 587,
+        host: env.SMTP_HOST,
+        port: env.SMTP_PORT,
         auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
+            user: env.SMTP_USER,
+            pass: env.SMTP_PASS,
         },
     });
 
     private expo = new Expo({
-        accessToken: process.env.EXPO_ACCESS_TOKEN,
+        accessToken: env.EXPO_ACCESS_TOKEN,
     });
 
     async listByUser(userId: string, opts: { page: number; limit: number; unreadOnly?: boolean }) {
@@ -53,7 +54,7 @@ class NotificationService {
 
     async sendEmail(to: string, subject: string, html: string) {
         await this.transporter.sendMail({
-            from: process.env.EMAIL_FROM,
+            from: env.EMAIL_FROM,
             to,
             subject,
             html,

@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
 import { logger } from "./utils/logger";
+import { env } from "./config/env"; // validates required env vars — throws on missing
 import notificationRoutes from "./modules/notifications/notification.routes";
 import userRoutes from "./modules/users/users.routes";
 
@@ -19,14 +20,8 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     res.status(500).json({ error: "Erro interno do servidor." });
 });
 
-if (!process.env.JWT_SECRET) {
-    logger.error("FATAL: JWT_SECRET não definido — servidor não pode iniciar.");
-    process.exit(1);
-}
-
-const PORT = Number(process.env.PORT) || 3000;
-app.listen(PORT, () => {
-    logger.info(`MedHub API iniciada`, { port: PORT, env: process.env.NODE_ENV });
+app.listen(env.PORT, () => {
+    logger.info(`MedHub API iniciada`, { port: env.PORT, env: env.NODE_ENV });
 });
 
 export default app;

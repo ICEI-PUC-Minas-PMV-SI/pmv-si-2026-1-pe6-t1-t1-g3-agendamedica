@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import type { UserRole } from "@prisma/client";
+import { env } from "../config/env";
 
 declare global {
     namespace Express {
@@ -20,7 +21,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction): v
 
     try {
         const token = auth.slice(7);
-        const payload = jwt.verify(token, process.env.JWT_SECRET as string, {
+        const payload = jwt.verify(token, env.JWT_SECRET, {
             algorithms: ["HS256"],
         }) as jwt.JwtPayload;
         if (typeof payload.sub !== "string") {
