@@ -8,7 +8,7 @@ export function authorize(...roles: UserRole[]) {
             const user = await userRepository.findById(req.userId);
 
             if (!user) {
-                res.status(401).json({ error: "Usuário não encontrado." });
+                res.status(401).json({ error: "Token inválido ou expirado." });
                 return;
             }
 
