@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { UserRole } from "@prisma/client";
 import { ListNotificationsQuerySchema, SendNotificationSchema } from "./notification.schema";
 import { notificationService } from "./notification.service";
-import { prisma } from "../../lib/prisma";
+import { userRepository } from "../users/user.repository";
 
 export async function listNotifications(req: Request, res: Response): Promise<void> {
     const result = ListNotificationsQuerySchema.safeParse(req.query);
@@ -52,10 +52,7 @@ export async function sendNotification(req: Request, res: Response): Promise<voi
         return;
     }
 
-    const targetUser = await prisma.user.findUnique({
-        where: { id: targetUserId },
-        select: { email: true, expoPushToken: true },
-    });
+    const targetUser = await userRepository.findById(targetUserId);
 
     if (!targetUser) {
         res.status(404).json({ error: "Usuário destinatário não encontrado." });
