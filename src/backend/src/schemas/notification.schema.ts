@@ -1,5 +1,6 @@
 // src/backend/src/schemas/notification.schema.ts
 import { z } from "zod";
+import { NotificationType } from "@prisma/client";
 
 export const UpdatePushTokenSchema = z.object({
   expoPushToken: z
@@ -15,5 +16,16 @@ export const ListNotificationsQuerySchema = z.object({
   unreadOnly: z.coerce.boolean().optional(),
 });
 
+export const SendNotificationSchema = z.object({
+  userId: z.string().uuid(),
+  type: z.nativeEnum(NotificationType),
+  title: z.string().min(1),
+  message: z.string().min(1),
+  emailSubject: z.string().min(1),
+  emailHtml: z.string().min(1),
+  appointmentId: z.string().uuid().optional(),
+});
+
 export type UpdatePushTokenInput = z.infer<typeof UpdatePushTokenSchema>;
 export type ListNotificationsQuery = z.infer<typeof ListNotificationsQuerySchema>;
+export type SendNotificationInput = z.infer<typeof SendNotificationSchema>;

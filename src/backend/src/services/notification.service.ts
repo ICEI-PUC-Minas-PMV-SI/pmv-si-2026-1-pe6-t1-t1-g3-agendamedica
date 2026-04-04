@@ -1,7 +1,7 @@
 // src/backend/src/services/notification.service.ts
 import nodemailer from "nodemailer";
 import { Expo, ExpoPushToken } from "expo-server-sdk";
-import { NotificationType } from "@prisma/client";
+import { NotificationType, Notification } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 import { logger } from "../utils/logger";
 
@@ -115,8 +115,8 @@ class NotificationService {
     });
   }
 
-  async notify(params: NotifyParams) {
-    await this.create({
+  async notify(params: NotifyParams): Promise<Notification> {
+    const notification = await this.create({
       userId: params.userId,
       type: params.type,
       title: params.title,
@@ -136,6 +136,8 @@ class NotificationService {
         params.pushData,
       ).catch((err) => logger.error("push:failed", err));
     }
+
+    return notification;
   }
 }
 

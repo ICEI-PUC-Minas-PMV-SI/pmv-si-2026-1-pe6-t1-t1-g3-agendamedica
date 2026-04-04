@@ -1,7 +1,12 @@
 // src/backend/src/controllers/notification.controller.ts
 import { Request, Response } from "express";
-import { ListNotificationsQuerySchema } from "../schemas/notification.schema";
+import { UserRole } from "@prisma/client";
+import {
+  ListNotificationsQuerySchema,
+  SendNotificationSchema,
+} from "../schemas/notification.schema";
 import { notificationService } from "../services/notification.service";
+import { prisma } from "../lib/prisma";
 
 export async function listNotifications(req: Request, res: Response): Promise<void> {
   const result = ListNotificationsQuerySchema.safeParse(req.query);
@@ -34,4 +39,38 @@ export async function markAsRead(req: Request, res: Response): Promise<void> {
 export async function markAllAsRead(req: Request, res: Response): Promise<void> {
   await notificationService.markAllRead(req.userId);
   res.status(204).send();
+}
+
+export async function sendNotification(req: Request, res: Response): Promise<void> {
+  const result = SendNotificationSchema.safeParse(req.body);
+  if (!result.success) {
+    res.status(400).json({ error: result.error.flatten() });
+    return;
+  }
+
+  const { userId: targetUserId, ...rest } = result.data;
+
+  if (req.userRole === UserRole.PATIENT && targetUserId !== req.userId) {
+    res.status(403).json({ error: "Pacientes só podem enviar notificações para si mesmos." });
+    return;
+  }
+
+  const targetUser = await prisma.user.findUnique({
+    where: { id: targetUserId },
+    select: { email: true, expoPushToken: true },
+  });
+
+  if (!targetUser) {
+    res.status(404).json({ error: "Usuário destinatário não encontrado." });
+    return;
+  }
+
+  const notification = await notificationService.notify({
+    userId: targetUserId,
+    userEmail: targetUser.email,
+    expoPushToken: targetUser.expoPushToken,
+    ...rest,
+  });
+
+  res.status(201).json(notification);
 }
