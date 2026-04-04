@@ -18,9 +18,9 @@ export function authorize(...roles: UserRole[]) {
             }
 
             req.userRole = user.role;
-            next();
-        } catch {
-            next(new Error("Erro ao verificar permissões."));
+            return next();
+        } catch (err) {
+            return next(err);
         }
     };
 }
