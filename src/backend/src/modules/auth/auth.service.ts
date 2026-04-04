@@ -1,36 +1,52 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
-import * as jwt from "jsonwebtoken";
-import { RegisterDTO, LoginDTO } from "./auth.dto";
-
-const prisma = new PrismaClient();
+function badRequest(message: string) {
+    throw Object.assign(new Error(message), { status: 400 });
+}
 
 export async function registerUser(data: RegisterDTO) {
-    // Verifica se e-mail já existe
-    const emailExists = await prisma.user.findUnique({
-        where: { email: data.email },
-    });
-    if (emailExists) {
-        throw new Error("E-mail já cadastrado!");
-    }
+    const specialty = data.specialty?.trim();
+    const crm = data.crm?.trim();
 
-    // Verifica se CPF já existe
-    const cpfExists = await prisma.user.findUnique({
-        where: { cpf: data.cpf },
-    });
-    if (cpfExists) {
-        throw new Error("CPF já cadastrado!");
-    }
+    if (data.role === "DOCTOR") {
+        if (!specialty) {
+            badRequest("Especialidade é obrigatória para médico.");
+        }
 
-    // Se for médico, valida os campos obrigatórios antes de persistir
-    if (data.role === "DOCTOR" && (!data.specialty || !data.crm)) {
-        throw new Error("Especialidade e CRM são obrigatórios para médico");
+        if (!crm) {
+            badRequest("CRM é obrigatório para médico.");
+        }
     }
 
     // Criptografa a senha
     const passwordHash = await bcrypt.hash(data.password, 10);
 
     const user = await prisma.$transaction(async (tx) => {
+        // Verifica se e-mail já existe
+        const emailExists = await tx.user.findUnique({
+            where: { email: data.email },
+        });
+        if (emailExists) {
+            badRequest("E-mail já cadastrado!");
+        }
+
+        // Verifica se CPF já existe
+        const cpfExists = await tx.user.findUnique({
+            where: { cpf: data.cpf },
+        });
+        if (cpfExists) {
+            badRequest("CPF já cadastrado!");
+        }
+
+        if (data.role === "DOCTOR") {
+            const crmExists = await tx.doctor.findUnique({
+                where: { crm: crm! },
+            });
+            if (crmExists) {
+                badRequest("CRM já cadastrado!");
+            }
+        }
+
+        // Cria o usuário no banco
         const createdUser = await tx.user.create({
             data: {
                 name: data.name,
@@ -41,6 +57,19 @@ export async function registerUser(data: RegisterDTO) {
             },
         });
 
+        // Se for médico, cria o registro na tabela Doctor
+        if (data.role === "DOCTOR") {
+            await tx.doctor.create({
+                data: {
+                    userId: createdUser.id,
+                    specialty: specialty!,
+                    crm: crm!,
+                },
+            });
+        }
+
+        return createdUser;
+    });
         // Se for médico, cria o registro na tabela Doctor
         if (data.role === "DOCTOR") {
             await tx.doctor.create({
