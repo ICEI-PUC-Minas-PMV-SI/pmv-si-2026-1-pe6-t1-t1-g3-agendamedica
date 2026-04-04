@@ -85,7 +85,8 @@ class NotificationService {
         });
 
         void this.sendEmail(params.userEmail, params.emailSubject, params.emailHtml).catch(
-            (err: Error) => logger.error("email:failed", { message: err.message, stack: err.stack }),
+            (err: Error) =>
+                logger.error("email:failed", { message: err.message, stack: err.stack }),
         );
 
         if (params.expoPushToken) {
