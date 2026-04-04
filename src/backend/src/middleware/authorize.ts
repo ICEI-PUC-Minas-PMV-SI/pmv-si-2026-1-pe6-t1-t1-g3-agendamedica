@@ -1,4 +1,3 @@
-// src/backend/src/middleware/authorize.ts
 import { Request, Response, NextFunction } from "express";
 import { UserRole } from "@prisma/client";
 import { userRepository } from "../modules/users/user.repository";

@@ -1,5 +1,3 @@
-// src/backend/src/modules/notifications/notification-templates.ts
-
 export interface NotificationTemplate {
     title: string;
     message: string;
