@@ -9,6 +9,11 @@ export async function updatePushToken(req: Request, res: Response): Promise<void
         res.status(400).json({ error: result.error.flatten() });
         return;
     }
+    const existing = await userRepository.findById(req.userId);
+    if (!existing) {
+        res.status(401).json({ error: "Usuário não encontrado." });
+        return;
+    }
     const user = await userRepository.updatePushToken(req.userId, result.data.expoPushToken);
     res.json(user);
 }
