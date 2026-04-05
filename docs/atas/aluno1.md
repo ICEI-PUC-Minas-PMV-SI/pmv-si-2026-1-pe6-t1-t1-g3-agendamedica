@@ -8,10 +8,10 @@
 | 16/02 - 22/02 | Gestão de Serviços de TI - Unidade 2 | ✅ | - | N/A |
 | 23/02 - 01/03 | Arquitetura de Software Distribuído - Unidade 1 e 2 | ✅ | Estruturar e organizar a divisão do documento de contexto | Elaboração da seção "Objetivos" no [contexto.md](../contexto.md); correção da seção objetivos; revisão dos PRs.|
 | 02/03 - 08/03 | Arquitetura de Software Distribuído - Unidade 3 | ✅ | Elaboração dos requisitos, do catálogo de serviços e da arquitetura da solução. | Realização de reunião para discussão e definição dos requisitos do projeto. Aplicação das correções sugeridas pelo professor nos tópicos anteriores. Revisão a aprovação do PR do catálogo de serviços. Revisão a aprovacão do PR da seção de arquitetura da solução no arquivo [contexto.md](../contexto.md), incluindo o diagrama de arquitetura e demais tópicos.|
-| 09/03 - 15/03 | APIs e Web Services - Unidade 1 | ✅ | Reunião pra divosão do trabalho| Divisão de requisitos entre os membros do grupo |
+| 09/03 - 15/03 | APIs e Web Services - Unidade 1 | ✅ | Reunião para divisão do trabalho| Divisão de requisitos entre os membros do grupo |
 | 16/03 - 22/03 | APIs e Web Services - Unidade 2 | ✅ | Montar a base de desenvolvimento | Testar e entender como funciona a estrturuação inicial do projeto que o Gabriel montou |
-| 23/03 - 29/03 | APIs e Web Services - Unidade 2 | ✅ | Iniciar a implementação | Responsável por implementar a RF-001: O sistema deve permitir que os pacientes agendem, visualizem e cancelem consultas médicas pelo aplicativo.|
-| 30/03 - 05/04 | Recuperação de Informação na Web e Redes Sociais - Unidade 1 | ✅ | Ciar as APIs | Implementação de endpoints para: Agendamento de consultas; Visualização de consultas e Cancelamento de consultas e criação das issues. |
+| 23/03 - 29/03 | APIs e Web Services - Unidade 2 | ✅ | Iniciar a implementação | Responsável por implementar a RF-001: o sistema deve permitir que os pacientes agendem, visualizem e cancelem consultas médicas pelo aplicativo.|
+| 30/03 - 05/04 | Recuperação de Informação na Web e Redes Sociais - Unidade 1 | ✅ | Desenvolvimento | Criação das APIs, incluindo endpoints para: agendamento, visualização e cancelamento de consultas, além da criação das issues. |
 | 06/04 - 12/04 | Recuperação de Informação na Web e Redes Sociais - Unidade 2 | ⬜ |  |  |
 | 13/04 - 19/04 | Computação Ubíqua e Pervasiva e IoT - Unidade 1 | ⬜ |  |  |
 | 20/04 - 26/04 | Computação Ubíqua e Pervasiva e IoT - Unidade 2 | ⬜ |  |  |
