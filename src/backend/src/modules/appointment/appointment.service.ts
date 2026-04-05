@@ -1,4 +1,4 @@
-import { AppointmentRepository, CreateAppointmentDTO } from "./repository";
+import { AppointmentRepository, CreateAppointmentDTO } from "./appointment.repository";
 
 export class CreateAppointmentService {
   constructor(private readonly repository: AppointmentRepository) {}
@@ -27,5 +27,13 @@ export class ListAppointmentsByUserService {
 
   async execute(userId: string) {
     return this.repository.findByUser(userId);
+  }
+}
+
+export class CancelAppointmentService {
+  constructor(private readonly repository: AppointmentRepository) {}
+
+  async execute(appointmentId: string) {
+    return this.repository.cancelAppointment(appointmentId);
   }
 }

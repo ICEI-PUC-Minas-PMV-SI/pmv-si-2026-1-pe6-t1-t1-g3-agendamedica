@@ -44,4 +44,19 @@ export class AppointmentRepository {
       orderBy: { date: "asc" },
     });
   }
+
+  async cancelAppointment(appointmentId: string): Promise<Appointment> {
+    const existingAppointment = await prisma.appointment.findUnique({
+      where: { id: appointmentId },
+    });
+
+    if (!existingAppointment) {
+      throw new Error("Consulta não encontrada.");
+    }
+
+    return prisma.appointment.update({
+      where: { id: appointmentId },
+      data: { status: "CANCELLED" },
+    });
+  }
 }

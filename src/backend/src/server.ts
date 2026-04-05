@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
 import { logger } from "./utils/logger";
-import appointmentRoutes from "./modules/appointment/routes";
+import appointmentRoutes from "./modules/appointment/appointment.routes";
 
 const app = express();
 
