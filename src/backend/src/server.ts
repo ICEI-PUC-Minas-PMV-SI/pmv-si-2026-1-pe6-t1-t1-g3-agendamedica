@@ -6,7 +6,7 @@ import appointmentRoutes from "./modules/appointment/appointment.routes";
 const app = express();
 
 app.use(express.json());
-app.use("/consultas", appointmentRoutes);
+app.use("/appointments", appointmentRoutes);
 
 app.get("/health", (_req: Request, res: Response) => {
     res.json({ status: "ok" });
