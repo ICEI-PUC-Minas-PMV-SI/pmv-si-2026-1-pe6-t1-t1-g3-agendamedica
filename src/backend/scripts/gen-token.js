@@ -2,6 +2,9 @@
 // Exemplo: node scripts/gen-token.js 20e52f63-149a-4197-89cd-00b7bc1dced6
 require("dotenv/config");
 const jwt = require("jsonwebtoken");
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
 
 const userId = process.argv[2];
 if (!userId) {
@@ -15,8 +18,18 @@ if (!jwtSecret) {
     process.exit(1);
 }
 
-const token = jwt.sign({ sub: userId }, jwtSecret, {
-    expiresIn: process.env.JWT_EXPIRES_IN || "1h",
-});
+async function main() {
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { role: true } });
+    if (!user) {
+        console.error(`Usuário não encontrado: ${userId}`);
+        process.exit(1);
+    }
 
-console.log(token);
+    const token = jwt.sign({ sub: userId, role: user.role }, jwtSecret, {
+        expiresIn: process.env.JWT_EXPIRES_IN || "1h",
+    });
+
+    console.log(token);
+}
+
+main().finally(() => prisma.$disconnect());

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import type { UserRole } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 import { env } from "../config/env";
 
 declare global {
@@ -29,6 +29,9 @@ export function authenticate(req: Request, res: Response, next: NextFunction): v
             return;
         }
         req.userId = payload.sub;
+        if (Object.values(UserRole).includes(payload.role as UserRole)) {
+            req.userRole = payload.role as UserRole;
+        }
         return next();
     } catch {
         res.status(401).json({ error: "Token inválido ou expirado." });
