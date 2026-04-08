@@ -74,6 +74,10 @@ Content-Type: application/json
 
 Abra o Prisma Studio (`npx prisma studio`) e acesse a tabela `Notification`. A nova linha deve aparecer com `read: false` e os dados enviados na requisição.
 
+#### Validação no Mailpit
+
+Acesse `http://localhost:8025`. O e-mail enviado deve aparecer na caixa de entrada com o assunto definido em `emailSubject` e o conteúdo HTML de `emailHtml` renderizado.
+
 ---
 
 ### Cenário 2 — Enviar notificação com corpo inválido
