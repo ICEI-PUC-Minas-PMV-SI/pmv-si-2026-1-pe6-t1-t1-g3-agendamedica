@@ -1,4 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { RegisterDTO, LoginDTO } from "./auth.dto";
+
+const prisma = new PrismaClient();
+
 function badRequest(message: string) {
     throw Object.assign(new Error(message), { status: 400 });
 }
@@ -7,11 +13,11 @@ export async function registerUser(data: RegisterDTO) {
     const specialty = data.specialty?.trim();
     const crm = data.crm?.trim();
 
+    // Validações específicas para médico
     if (data.role === "DOCTOR") {
         if (!specialty) {
             badRequest("Especialidade é obrigatória para médico.");
         }
-
         if (!crm) {
             badRequest("CRM é obrigatório para médico.");
         }
@@ -20,8 +26,9 @@ export async function registerUser(data: RegisterDTO) {
     // Criptografa a senha
     const passwordHash = await bcrypt.hash(data.password, 10);
 
+    // Transaction para garantir atomicidade
     const user = await prisma.$transaction(async (tx) => {
-        // Verifica se e-mail já existe
+        // Verifica e-mail
         const emailExists = await tx.user.findUnique({
             where: { email: data.email },
         });
@@ -29,7 +36,7 @@ export async function registerUser(data: RegisterDTO) {
             badRequest("E-mail já cadastrado!");
         }
 
-        // Verifica se CPF já existe
+        // Verifica CPF
         const cpfExists = await tx.user.findUnique({
             where: { cpf: data.cpf },
         });
@@ -37,6 +44,7 @@ export async function registerUser(data: RegisterDTO) {
             badRequest("CPF já cadastrado!");
         }
 
+        // Verifica CRM se for médico
         if (data.role === "DOCTOR") {
             const crmExists = await tx.doctor.findUnique({
                 where: { crm: crm! },
@@ -46,7 +54,7 @@ export async function registerUser(data: RegisterDTO) {
             }
         }
 
-        // Cria o usuário no banco
+        // Cria usuário
         const createdUser = await tx.user.create({
             data: {
                 name: data.name,
@@ -57,7 +65,7 @@ export async function registerUser(data: RegisterDTO) {
             },
         });
 
-        // Se for médico, cria o registro na tabela Doctor
+        // Cria médico, se aplicável
         if (data.role === "DOCTOR") {
             await tx.doctor.create({
                 data: {
@@ -70,41 +78,41 @@ export async function registerUser(data: RegisterDTO) {
 
         return createdUser;
     });
-        // Se for médico, cria o registro na tabela Doctor
-        if (data.role === "DOCTOR") {
-            await tx.doctor.create({
-                data: {
-                    userId: createdUser.id,
-                    specialty: data.specialty!,
-                    crm: data.crm!,
-                },
-            });
-        }
 
-        return createdUser;
-    });
-    return { id: user.id, name: user.name, email: user.email, role: user.role };
+    // Retorno seguro (sem senha)
+    return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+    };
 }
 
 export async function loginUser(data: LoginDTO) {
-    // Busca o usuário pelo e-mail
     const user = await prisma.user.findUnique({
         where: { email: data.email },
     });
+
     if (!user) {
-        throw new Error("Credenciais inválidas");
+        throw Object.assign(new Error("Credenciais inválidas"), { status: 401 });
     }
 
-    // Compara a senha com o hash salvo no banco
     const passwordMatch = await bcrypt.compare(data.password, user.passwordHash);
+
     if (!passwordMatch) {
-        throw new Error("Credenciais inválidas");
+        throw Object.assign(new Error("Credenciais inválidas"), { status: 401 });
     }
 
-    // Gera o token JWT
     const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET as string, {
         expiresIn: "7d",
     });
 
-    return { token, user: { id: user.id, name: user.name, role: user.role } };
+    return {
+        token,
+        user: {
+            id: user.id,
+            name: user.name,
+            role: user.role,
+        },
+    };
 }
