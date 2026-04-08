@@ -197,48 +197,7 @@ Authorization: Bearer <token>
 
 ---
 
-### Cenário 5 — Filtrar apenas notificações não lidas
-
-**Rota:** `GET /notifications?unreadOnly=true`
-
-**Objetivo:** Demonstrar o filtro de não lidas — apenas notificações com `read: false` são retornadas.
-
-#### Requisição
-
-```http
-GET /notifications?unreadOnly=true
-Authorization: Bearer <token>
-```
-
-#### Resposta esperada — `200 OK`
-
-```json
-{
-  "data": [
-    {
-      "id": "<uuid>",
-      "userId": "<uuid>",
-      "type": "APPOINTMENT_CREATED",
-      "title": "Consulta agendada",
-      "message": "Sua consulta foi agendada para amanhã às 10h.",
-      "read": false,
-      "appointmentId": null,
-      "createdAt": "2026-04-08T14:30:00.000Z",
-      "updatedAt": "2026-04-08T14:30:00.000Z"
-    }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 20,
-    "total": 3,
-    "totalPages": 1
-  }
-}
-```
-
----
-
-### Cenário 6 — Listar com paginação customizada
+### Cenário 5 — Listar com paginação customizada
 
 **Rota:** `GET /notifications?page=1&limit=2`
 
@@ -290,11 +249,11 @@ Authorization: Bearer <token>
 
 ---
 
-### Cenário 7 — Contar notificações não lidas
+### Cenário 6 — Contar notificações não lidas
 
 **Rota:** `GET /notifications/unread-count`
 
-**Objetivo:** Demonstrar o endpoint de contagem de notificações não lidas do usuário autenticado.
+**Objetivo:** Demonstrar o endpoint de contagem antes de qualquer marcação como lida, estabelecendo o valor inicial para comparação no cenário 10.
 
 #### Requisição
 
@@ -307,17 +266,19 @@ Authorization: Bearer <token>
 
 ```json
 {
-  "count": 3
+  "count": 4
 }
 ```
 
 ---
 
-### Cenário 8 — Marcar uma notificação como lida
+### Cenário 7 — Marcar uma notificação como lida
 
 **Rota:** `PATCH /notifications/:id/read`
 
 **Objetivo:** Demonstrar que uma notificação específica pode ser marcada como lida individualmente.
+
+> Use o `id` de uma notificação retornada na resposta do cenário 4.
 
 #### Requisição
 
@@ -348,6 +309,47 @@ Na tabela `Notification`, localize o registro pelo ID da requisição. O campo `
 
 ---
 
+### Cenário 8 — Filtrar apenas notificações não lidas
+
+**Rota:** `GET /notifications?unreadOnly=true`
+
+**Objetivo:** Demonstrar o filtro de não lidas — a notificação marcada como lida no cenário 7 não deve aparecer no resultado.
+
+#### Requisição
+
+```http
+GET /notifications?unreadOnly=true
+Authorization: Bearer <token>
+```
+
+#### Resposta esperada — `200 OK`
+
+```json
+{
+  "data": [
+    {
+      "id": "<uuid>",
+      "userId": "<uuid>",
+      "type": "APPOINTMENT_CREATED",
+      "title": "Consulta agendada",
+      "message": "Sua consulta foi agendada para amanhã às 10h.",
+      "read": false,
+      "appointmentId": null,
+      "createdAt": "2026-04-08T14:30:00.000Z",
+      "updatedAt": "2026-04-08T14:30:00.000Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 3,
+    "totalPages": 1
+  }
+}
+```
+
+---
+
 ### Cenário 9 — Marcar notificação inexistente como lida
 
 **Rota:** `PATCH /notifications/:id/read`
@@ -375,7 +377,7 @@ Authorization: Bearer <token>
 
 **Rota:** `PATCH /notifications/read-all`
 
-**Objetivo:** Demonstrar que todas as notificações do usuário autenticado são marcadas como lidas de uma só vez.
+**Objetivo:** Demonstrar que todas as notificações do usuário são marcadas como lidas de uma só vez, zerando o contador.
 
 #### Requisição
 
@@ -391,3 +393,18 @@ Authorization: Bearer <token>
 #### Validação no Prisma Studio
 
 Na tabela `Notification`, filtre pelo `userId` do usuário autenticado. Todos os registros devem ter `read: true`.
+
+#### Confirmação com GET /unread-count
+
+Após o `204`, execute uma nova requisição para confirmar que o contador zerou:
+
+```http
+GET /notifications/unread-count
+Authorization: Bearer <token>
+```
+
+```json
+{
+  "count": 0
+}
+```
