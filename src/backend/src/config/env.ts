@@ -5,7 +5,7 @@ function parsePositiveInt(name: string, defaultValue?: number): number {
         throw new Error(`Variável de ambiente ${name} não definida.`);
     }
     const value = Number(raw);
-    if (!Number.isFinite(value) || value <= 0) {
+    if (!Number.isFinite(value) || !Number.isInteger(value) || value <= 0) {
         throw new Error(
             `Variável de ambiente ${name} inválida: "${raw}". Informe um inteiro positivo.`,
         );
