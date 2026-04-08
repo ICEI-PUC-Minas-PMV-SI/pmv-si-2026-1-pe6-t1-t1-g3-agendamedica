@@ -65,10 +65,14 @@ Content-Type: application/json
   "message": "Sua consulta foi agendada para amanhã às 10h.",
   "read": false,
   "appointmentId": null,
-  "createdAt": "<timestamp>",
-  "updatedAt": "<timestamp>"
+  "createdAt": "2026-04-08T14:30:00.000Z",
+  "updatedAt": "2026-04-08T14:30:00.000Z"
 }
 ```
+
+#### Validação no Prisma Studio
+
+Abra o Prisma Studio (`npx prisma studio`) e acesse a tabela `Notification`. A nova linha deve aparecer com `read: false` e os dados enviados na requisição.
 
 ---
 
@@ -174,8 +178,8 @@ Authorization: Bearer <token>
       "message": "Sua consulta foi agendada para amanhã às 10h.",
       "read": false,
       "appointmentId": null,
-      "createdAt": "<timestamp>",
-      "updatedAt": "<timestamp>"
+      "createdAt": "2026-04-08T14:30:00.000Z",
+      "updatedAt": "2026-04-08T14:30:00.000Z"
     }
   ],
   "pagination": {
@@ -206,12 +210,24 @@ Authorization: Bearer <token>
 
 ```json
 {
-  "data": [ /* somente notificações com read: false */ ],
+  "data": [
+    {
+      "id": "<uuid>",
+      "userId": "<uuid>",
+      "type": "APPOINTMENT_CREATED",
+      "title": "Consulta agendada",
+      "message": "Sua consulta foi agendada para amanhã às 10h.",
+      "read": false,
+      "appointmentId": null,
+      "createdAt": "2026-04-08T14:30:00.000Z",
+      "updatedAt": "2026-04-08T14:30:00.000Z"
+    }
+  ],
   "pagination": {
     "page": 1,
     "limit": 20,
-    "total": "<n>",
-    "totalPages": "<n>"
+    "total": 3,
+    "totalPages": 1
   }
 }
 ```
@@ -235,12 +251,35 @@ Authorization: Bearer <token>
 
 ```json
 {
-  "data": [ /* máximo 2 itens */ ],
+  "data": [
+    {
+      "id": "<uuid>",
+      "userId": "<uuid>",
+      "type": "APPOINTMENT_CREATED",
+      "title": "Consulta agendada",
+      "message": "Sua consulta foi agendada para amanhã às 10h.",
+      "read": false,
+      "appointmentId": null,
+      "createdAt": "2026-04-08T14:30:00.000Z",
+      "updatedAt": "2026-04-08T14:30:00.000Z"
+    },
+    {
+      "id": "<uuid>",
+      "userId": "<uuid>",
+      "type": "APPOINTMENT_CONFIRMED",
+      "title": "Consulta confirmada",
+      "message": "Sua consulta foi confirmada.",
+      "read": false,
+      "appointmentId": null,
+      "createdAt": "2026-04-08T13:00:00.000Z",
+      "updatedAt": "2026-04-08T13:00:00.000Z"
+    }
+  ],
   "pagination": {
     "page": 1,
     "limit": 2,
-    "total": "<n>",
-    "totalPages": "<n>"
+    "total": 4,
+    "totalPages": 2
   }
 }
 ```
@@ -294,10 +333,14 @@ Authorization: Bearer <token>
   "message": "Sua consulta foi agendada para amanhã às 10h.",
   "read": true,
   "appointmentId": null,
-  "createdAt": "<timestamp>",
-  "updatedAt": "<timestamp>"
+  "createdAt": "2026-04-08T14:30:00.000Z",
+  "updatedAt": "2026-04-08T14:30:00.000Z"
 }
 ```
+
+#### Validação no Prisma Studio
+
+Na tabela `Notification`, localize o registro pelo ID da requisição. O campo `read` deve estar como `true`.
 
 ---
 
@@ -340,3 +383,7 @@ Authorization: Bearer <token>
 #### Resposta esperada — `204 No Content`
 
 *(sem corpo na resposta)*
+
+#### Validação no Prisma Studio
+
+Na tabela `Notification`, filtre pelo `userId` do usuário autenticado. Todos os registros devem ter `read: true`.
