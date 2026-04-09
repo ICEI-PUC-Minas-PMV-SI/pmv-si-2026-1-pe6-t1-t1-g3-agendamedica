@@ -182,39 +182,41 @@ Content-Length: 64
 
 ---
 
-### Cenário 3 — Enviar notificação para usuário inexistente
+### Cenário 3 — Enviar notificação para usuário diferente do autenticado
 
 **Rota:** `POST /notifications/send`
 
-**Objetivo:** Demonstrar que a API valida a existência do usuário destinatário antes de enviar.
+**Objetivo:** Demonstrar que a API não permite criar notificações para outros usuários, retornando 403 para evitar exposição de existência de usuários.
 
 #### Requisição
 
 ```http
-POST /notifications/send
-Authorization: Bearer <token>
+POST /notifications/send HTTP/1.1
+Host: localhost:3000
 Content-Type: application/json
-```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
+Content-Length: 312
 
-```json
 {
-  "userId": "00000000-0000-0000-0000-000000000000",
-  "type": "APPOINTMENT_CREATED",
-  "title": "Consulta agendada",
-  "message": "Sua consulta foi agendada.",
-  "emailSubject": "MedHub — Consulta agendada",
-  "emailHtml": "<p>Sua consulta foi agendada.</p>"
+    "userId": "00000000-0000-0000-0000-000000000000",
+    "type": "APPOINTMENT_CREATED",
+    "title": "Consulta agendada",
+    "message": "Sua consulta foi agendada para amanhã às 10h.",
+    "emailSubject": "MedHub — Consulta agendada",
+    "emailHtml": "<p>Sua consulta foi agendada para amanhã às 10h.</p>"
 }
 ```
 
-#### Resposta esperada — `404 Not Found`
+#### Resposta esperada — `403 Forbidden`
 
 ```json
 {
-  "error": "Usuário destinatário não encontrado."
+    "error": "Pacientes só podem enviar notificações para si mesmos."
 }
 ```
 
+#### Print de demonstração
+![Print do Postman mostrando a resposta 403 Forbidden com a mensagem de erro](./assets/backend/cenarios-de-teste/cenario-teste-3.png)
 ---
 
 ### Cenário 4 — Listar notificações (padrão)
