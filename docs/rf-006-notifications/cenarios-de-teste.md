@@ -497,8 +497,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 #### Requisição
 
 ```http
-PATCH /notifications/00000000-0000-0000-0000-000000000000/read
-Authorization: Bearer <token>
+PATCH /notifications/00000000-0000-0000-0000-000000000019/read HTTP/1.1
+Host: localhost:3000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 ```
 
 #### Resposta esperada — `404 Not Found`
@@ -508,6 +509,9 @@ Authorization: Bearer <token>
   "error": "Notificação não encontrada."
 }
 ```
+
+#### Print de demonstração
+![Print do Postman mostrando a resposta 404 Not Found com a mensagem de erro](./assets/backend/cenarios-de-teste/cenario-teste-9.png)
 
 ---
 
