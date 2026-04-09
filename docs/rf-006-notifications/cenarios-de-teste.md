@@ -13,11 +13,11 @@ Authorization: Bearer <token>
 
 ## Ferramentas utilizadas
 
-| Ferramenta | O que é | Por que usamos |
-|---|---|---|
-| **Postman** | Cliente HTTP para enviar requisições à API | Permite executar cada cenário de forma isolada e visualizar as respostas com formatação |
-| **Prisma Studio** | Interface visual para o banco de dados PostgreSQL | Permite verificar as mudanças persistidas no banco após cada operação — por exemplo, confirmar que `read` passou para `true` após marcar uma notificação como lida |
-| **Mailpit** | Servidor SMTP local que intercepta e-mails | Em desenvolvimento, os e-mails não são entregues a destinatários reais — o Mailpit os captura localmente para que possam ser inspecionados sem depender de credenciais SMTP externas nem arriscar envios acidentais |
+| Ferramenta        | O que é                                           | Por que usamos                                                                                                                                                                                                      |
+| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Postman**       | Cliente HTTP para enviar requisições à API        | Permite executar cada cenário de forma isolada e visualizar as respostas com formatação                                                                                                                             |
+| **Prisma Studio** | Interface visual para o banco de dados PostgreSQL | Permite verificar as mudanças persistidas no banco após cada operação — por exemplo, confirmar que `read` passou para `true` após marcar uma notificação como lida                                                  |
+| **Mailpit**       | Servidor SMTP local que intercepta e-mails        | Em desenvolvimento, os e-mails não são entregues a destinatários reais — o Mailpit os captura localmente para que possam ser inspecionados sem depender de credenciais SMTP externas nem arriscar envios acidentais |
 
 ### Por que o Mailpit é necessário neste contexto
 
@@ -33,13 +33,13 @@ O Mailpit age como um servidor SMTP falso — a API acredita que está enviando 
 
 ## Referência rápida de endpoints
 
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| POST | /notifications/send | Enviar notificação |
-| GET | /notifications | Listar notificações do usuário |
-| GET | /notifications/unread-count | Contar notificações não lidas |
-| PATCH | /notifications/:id/read | Marcar uma notificação como lida |
-| PATCH | /notifications/read-all | Marcar todas as notificações como lidas |
+| Método | Rota                        | Descrição                               |
+| ------ | --------------------------- | --------------------------------------- |
+| POST   | /notifications/send         | Enviar notificação                      |
+| GET    | /notifications              | Listar notificações do usuário          |
+| GET    | /notifications/unread-count | Contar notificações não lidas           |
+| PATCH  | /notifications/:id/read     | Marcar uma notificação como lida        |
+| PATCH  | /notifications/read-all     | Marcar todas as notificações como lidas |
 
 ---
 
@@ -61,11 +61,11 @@ O seed é idempotente — pode ser re-executado sem duplicar dados.
 
 **Estado inicial criado pelo seed (Paciente 1 — Ana Paciente):**
 
-| ID da notificação | Tipo | Lida? |
-|---|---|---|
-| `00000000-0000-0000-0000-000000000010` | APPOINTMENT_CREATED | não |
-| `00000000-0000-0000-0000-000000000011` | APPOINTMENT_CONFIRMED | não |
-| `00000000-0000-0000-0000-000000000012` | APPOINTMENT_CANCELLED | sim |
+| ID da notificação                      | Tipo                  | Lida? |
+| -------------------------------------- | --------------------- | ----- |
+| `00000000-0000-0000-0000-000000000010` | APPOINTMENT_CREATED   | não   |
+| `00000000-0000-0000-0000-000000000011` | APPOINTMENT_CONFIRMED | não   |
+| `00000000-0000-0000-0000-000000000012` | APPOINTMENT_CANCELLED | sim   |
 
 ---
 
