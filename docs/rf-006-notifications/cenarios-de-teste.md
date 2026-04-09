@@ -228,37 +228,69 @@ Content-Length: 312
 #### Requisição
 
 ```http
-GET /notifications
-Authorization: Bearer <token>
+GET /notifications HTTP/1.1
+Host: localhost:3000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 ```
 
 #### Resposta esperada — `200 OK`
 
 ```json
 {
-  "data": [
-    {
-      "id": "00000000-0000-0000-0000-000000000010",
-      "userId": "<id-de-ana>",
-      "type": "APPOINTMENT_CREATED",
-      "title": "Consulta agendada",
-      "message": "Sua consulta com Dr. Carlos Médico foi agendada.",
-      "read": false,
-      "appointmentId": "00000000-0000-0000-0000-000000000002",
-      "createdAt": "<timestamp>",
-      "updatedAt": "<timestamp>"
+    "data": [
+        {
+            "id": "b9e600b7-652c-4a2a-97c6-2e40eaae198f",
+            "userId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+            "type": "APPOINTMENT_CREATED",
+            "title": "Consulta agendada",
+            "message": "Sua consulta foi agendada para amanhã às 10h.",
+            "appointmentId": null,
+            "read": false,
+            "createdAt": "2026-04-09T21:47:35.795Z"
+        },
+        {
+            "id": "fb01fe17-d0e7-40c1-adea-0123f367641f",
+            "userId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+            "type": "APPOINTMENT_CREATED",
+            "title": "Consulta agendada",
+            "message": "Sua consulta foi agendada para amanhã às 10h.",
+            "appointmentId": null,
+            "read": false,
+            "createdAt": "2026-04-09T21:43:14.175Z"
+        },
+        {
+            "id": "c0b05d96-36be-4888-8d2d-01014fece708",
+            "userId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+            "type": "APPOINTMENT_CREATED",
+            "title": "Consulta agendada",
+            "message": "Sua consulta foi agendada para amanhã às 10h.",
+            "appointmentId": null,
+            "read": false,
+            "createdAt": "2026-04-09T21:40:23.766Z"
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000010",
+            "userId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+            "type": "APPOINTMENT_CREATED",
+            "title": "Consulta agendada",
+            "message": "Sua consulta com Dr. Carlos Médico foi agendada.",
+            "appointmentId": "00000000-0000-0000-0000-000000000002",
+            "read": false,
+            "createdAt": "2026-04-09T21:24:11.592Z"
+        },
+        ...
+    ],
+    "pagination": {
+        "page": 1,
+        "limit": 20,
+        "total": 6,
+        "totalPages": 1
     }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 20,
-    "total": 4,
-    "totalPages": 1
-  }
 }
 ```
 
-> A listagem retorna 4 notificações: 3 criadas pelo seed + 1 criada no cenário 1. O exemplo acima mostra apenas o primeiro item.
+#### Vídeo de demonstração
+<video src="./assets/backend/cenarios-de-teste/cenario-teste-4.mp4" controls width="100%"></video>
 
 ---
 
