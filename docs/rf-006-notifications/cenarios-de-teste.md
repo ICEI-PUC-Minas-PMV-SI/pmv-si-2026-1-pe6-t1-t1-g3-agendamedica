@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Este documento descreve os cenários de teste para a API de notificações do MedHub, implementada no RF-006. Cada cenário corresponde a um vídeo de demonstração gravado via Postman, cobrindo um comportamento isolado da API.
+Este documento descreve os cenários de teste para a API de notificações do MedHub, implementada no RF-006. Cada cenário corresponde a um vídeo de demonstração, cobrindo um comportamento isolado da API.
 
 **Base URL:** `http://localhost:3000`
 
@@ -12,6 +12,26 @@ Authorization: Bearer <token>
 ```
 
 > Os IDs de usuário e notificação utilizados nos exemplos devem ser substituídos pelos valores reais do seu banco de dados.
+
+---
+
+## Ferramentas utilizadas
+
+| Ferramenta | O que é | Por que usamos |
+|---|---|---|
+| **Postman** | Cliente HTTP para enviar requisições à API | Permite executar cada cenário de forma isolada e visualizar as respostas com formatação |
+| **Prisma Studio** | Interface visual para o banco de dados PostgreSQL | Permite verificar as mudanças persistidas no banco após cada operação — por exemplo, confirmar que `read` passou para `true` após marcar uma notificação como lida |
+| **Mailpit** | Servidor SMTP local que intercepta e-mails | Em desenvolvimento, os e-mails não são entregues a destinatários reais — o Mailpit os captura localmente para que possam ser inspecionados sem depender de credenciais SMTP externas nem arriscar envios acidentais |
+
+### Por que o Mailpit é necessário neste contexto
+
+A rota `POST /notifications/send` envia um e-mail via SMTP como parte do fluxo de notificação. Em produção, esse e-mail seria entregue ao endereço do usuário. Em desenvolvimento, usamos o Mailpit para:
+
+- Não depender de uma conta de e-mail real nem de credenciais SMTP externas
+- Evitar o envio acidental de e-mails durante os testes
+- Inspecionar o HTML renderizado e o assunto do e-mail diretamente em `http://localhost:8025`
+
+O Mailpit age como um servidor SMTP falso — a API acredita que está enviando o e-mail normalmente, mas ele nunca sai da máquina local.
 
 ---
 
