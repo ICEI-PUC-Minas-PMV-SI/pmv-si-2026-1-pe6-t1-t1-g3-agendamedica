@@ -11,10 +11,6 @@ Este documento descreve os cenários de teste para a API de notificações do Me
 Authorization: Bearer <token>
 ```
 
-> Os IDs de usuário e notificação utilizados nos exemplos devem ser substituídos pelos valores reais do seu banco de dados.
-
----
-
 ## Ferramentas utilizadas
 
 | Ferramenta | O que é | Por que usamos |
@@ -47,6 +43,32 @@ O Mailpit age como um servidor SMTP falso — a API acredita que está enviando 
 
 ---
 
+## Pré-requisitos
+
+Antes de iniciar os cenários, configure o ambiente com dados de teste:
+
+1. Com o banco rodando, execute o seed em `src/backend/`:
+   ```
+   node scripts/seed.js
+   ```
+2. O seed imprime os comandos para gerar tokens. Execute o comando para **Paciente 1**:
+   ```
+   node scripts/gen-token.js <id-de-ana>
+   ```
+3. Use o token gerado no header `Authorization: Bearer <token>` de todas as requisições.
+
+O seed é idempotente — pode ser re-executado sem duplicar dados.
+
+**Estado inicial criado pelo seed (Paciente 1 — Ana Paciente):**
+
+| ID da notificação | Tipo | Lida? |
+|---|---|---|
+| `00000000-0000-0000-0000-000000000010` | APPOINTMENT_CREATED | não |
+| `00000000-0000-0000-0000-000000000011` | APPOINTMENT_CONFIRMED | não |
+| `00000000-0000-0000-0000-000000000012` | APPOINTMENT_CANCELLED | sim |
+
+---
+
 ## Cenários de Teste
 
 ### Cenário 1 — Enviar notificação com sucesso
@@ -65,7 +87,7 @@ Content-Type: application/json
 
 ```json
 {
-  "userId": "<id-do-paciente>",
+  "userId": "<id-de-ana>",
   "type": "APPOINTMENT_CREATED",
   "title": "Consulta agendada",
   "message": "Sua consulta foi agendada para amanhã às 10h.",
@@ -74,19 +96,21 @@ Content-Type: application/json
 }
 ```
 
+> Use o `userId` de **Ana Paciente** impresso pelo seed.
+
 #### Resposta esperada — `201 Created`
 
 ```json
 {
   "id": "<uuid-gerado>",
-  "userId": "<id-do-paciente>",
+  "userId": "<id-de-ana>",
   "type": "APPOINTMENT_CREATED",
   "title": "Consulta agendada",
   "message": "Sua consulta foi agendada para amanhã às 10h.",
   "read": false,
   "appointmentId": null,
-  "createdAt": "2026-04-08T14:30:00.000Z",
-  "updatedAt": "2026-04-08T14:30:00.000Z"
+  "createdAt": "<timestamp>",
+  "updatedAt": "<timestamp>"
 }
 ```
 
@@ -195,25 +219,27 @@ Authorization: Bearer <token>
 {
   "data": [
     {
-      "id": "<uuid>",
-      "userId": "<uuid>",
+      "id": "00000000-0000-0000-0000-000000000010",
+      "userId": "<id-de-ana>",
       "type": "APPOINTMENT_CREATED",
       "title": "Consulta agendada",
-      "message": "Sua consulta foi agendada para amanhã às 10h.",
+      "message": "Sua consulta com Dr. Carlos Médico foi agendada.",
       "read": false,
-      "appointmentId": null,
-      "createdAt": "2026-04-08T14:30:00.000Z",
-      "updatedAt": "2026-04-08T14:30:00.000Z"
+      "appointmentId": "00000000-0000-0000-0000-000000000002",
+      "createdAt": "<timestamp>",
+      "updatedAt": "<timestamp>"
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 20,
-    "total": 1,
+    "total": 4,
     "totalPages": 1
   }
 }
 ```
+
+> A listagem retorna 4 notificações: 3 criadas pelo seed + 1 criada no cenário 1. O exemplo acima mostra apenas o primeiro item.
 
 ---
 
@@ -236,26 +262,26 @@ Authorization: Bearer <token>
 {
   "data": [
     {
-      "id": "<uuid>",
-      "userId": "<uuid>",
+      "id": "00000000-0000-0000-0000-000000000010",
+      "userId": "<id-de-ana>",
       "type": "APPOINTMENT_CREATED",
       "title": "Consulta agendada",
-      "message": "Sua consulta foi agendada para amanhã às 10h.",
+      "message": "Sua consulta com Dr. Carlos Médico foi agendada.",
       "read": false,
-      "appointmentId": null,
-      "createdAt": "2026-04-08T14:30:00.000Z",
-      "updatedAt": "2026-04-08T14:30:00.000Z"
+      "appointmentId": "00000000-0000-0000-0000-000000000002",
+      "createdAt": "<timestamp>",
+      "updatedAt": "<timestamp>"
     },
     {
-      "id": "<uuid>",
-      "userId": "<uuid>",
+      "id": "00000000-0000-0000-0000-000000000011",
+      "userId": "<id-de-ana>",
       "type": "APPOINTMENT_CONFIRMED",
       "title": "Consulta confirmada",
-      "message": "Sua consulta foi confirmada.",
+      "message": "Sua consulta com Dr. Carlos Médico foi confirmada.",
       "read": false,
-      "appointmentId": null,
-      "createdAt": "2026-04-08T13:00:00.000Z",
-      "updatedAt": "2026-04-08T13:00:00.000Z"
+      "appointmentId": "00000000-0000-0000-0000-000000000002",
+      "createdAt": "<timestamp>",
+      "updatedAt": "<timestamp>"
     }
   ],
   "pagination": {
@@ -286,9 +312,11 @@ Authorization: Bearer <token>
 
 ```json
 {
-  "count": 4
+  "count": 3
 }
 ```
+
+> O seed cria 2 notificações não lidas para Ana + o cenário 1 criou mais 1. A notificação `...000012` (APPOINTMENT_CANCELLED) já estava lida no seed, por isso não entra na contagem.
 
 ---
 
@@ -298,12 +326,10 @@ Authorization: Bearer <token>
 
 **Objetivo:** Demonstrar que uma notificação específica pode ser marcada como lida individualmente.
 
-> Use o `id` de uma notificação retornada na resposta do cenário 4.
-
 #### Requisição
 
 ```http
-PATCH /notifications/<id-da-notificacao>/read
+PATCH /notifications/00000000-0000-0000-0000-000000000010/read
 Authorization: Bearer <token>
 ```
 
@@ -311,15 +337,15 @@ Authorization: Bearer <token>
 
 ```json
 {
-  "id": "<id-da-notificacao>",
-  "userId": "<uuid>",
+  "id": "00000000-0000-0000-0000-000000000010",
+  "userId": "<id-de-ana>",
   "type": "APPOINTMENT_CREATED",
   "title": "Consulta agendada",
-  "message": "Sua consulta foi agendada para amanhã às 10h.",
+  "message": "Sua consulta com Dr. Carlos Médico foi agendada.",
   "read": true,
-  "appointmentId": null,
-  "createdAt": "2026-04-08T14:30:00.000Z",
-  "updatedAt": "2026-04-08T14:30:00.000Z"
+  "appointmentId": "00000000-0000-0000-0000-000000000002",
+  "createdAt": "<timestamp>",
+  "updatedAt": "<timestamp>"
 }
 ```
 
@@ -348,25 +374,27 @@ Authorization: Bearer <token>
 {
   "data": [
     {
-      "id": "<uuid>",
-      "userId": "<uuid>",
-      "type": "APPOINTMENT_CREATED",
-      "title": "Consulta agendada",
-      "message": "Sua consulta foi agendada para amanhã às 10h.",
+      "id": "00000000-0000-0000-0000-000000000011",
+      "userId": "<id-de-ana>",
+      "type": "APPOINTMENT_CONFIRMED",
+      "title": "Consulta confirmada",
+      "message": "Sua consulta com Dr. Carlos Médico foi confirmada.",
       "read": false,
-      "appointmentId": null,
-      "createdAt": "2026-04-08T14:30:00.000Z",
-      "updatedAt": "2026-04-08T14:30:00.000Z"
+      "appointmentId": "00000000-0000-0000-0000-000000000002",
+      "createdAt": "<timestamp>",
+      "updatedAt": "<timestamp>"
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 20,
-    "total": 3,
+    "total": 2,
     "totalPages": 1
   }
 }
 ```
+
+> Após o cenário 7, a notificação `...000010` foi marcada como lida. Restam 2 não lidas: `...000011` (APPOINTMENT_CONFIRMED) e a criada no cenário 1.
 
 ---
 
