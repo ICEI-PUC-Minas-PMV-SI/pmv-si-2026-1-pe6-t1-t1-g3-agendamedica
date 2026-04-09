@@ -303,46 +303,49 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 #### Requisição
 
 ```http
-GET /notifications?page=1&limit=2
-Authorization: Bearer <token>
+GET /notifications?page=1&limit=2&unreadOnly=true HTTP/1.1
+Host: localhost:3000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 ```
 
 #### Resposta esperada — `200 OK`
 
 ```json
 {
-  "data": [
-    {
-      "id": "00000000-0000-0000-0000-000000000010",
-      "userId": "<id-de-ana>",
-      "type": "APPOINTMENT_CREATED",
-      "title": "Consulta agendada",
-      "message": "Sua consulta com Dr. Carlos Médico foi agendada.",
-      "read": false,
-      "appointmentId": "00000000-0000-0000-0000-000000000002",
-      "createdAt": "<timestamp>",
-      "updatedAt": "<timestamp>"
-    },
-    {
-      "id": "00000000-0000-0000-0000-000000000011",
-      "userId": "<id-de-ana>",
-      "type": "APPOINTMENT_CONFIRMED",
-      "title": "Consulta confirmada",
-      "message": "Sua consulta com Dr. Carlos Médico foi confirmada.",
-      "read": false,
-      "appointmentId": "00000000-0000-0000-0000-000000000002",
-      "createdAt": "<timestamp>",
-      "updatedAt": "<timestamp>"
+    "data": [
+        {
+            "id": "b9e600b7-652c-4a2a-97c6-2e40eaae198f",
+            "userId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+            "type": "APPOINTMENT_CREATED",
+            "title": "Consulta agendada",
+            "message": "Sua consulta foi agendada para amanhã às 10h.",
+            "appointmentId": null,
+            "read": false,
+            "createdAt": "2026-04-09T21:47:35.795Z"
+        },
+        {
+            "id": "fb01fe17-d0e7-40c1-adea-0123f367641f",
+            "userId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+            "type": "APPOINTMENT_CREATED",
+            "title": "Consulta agendada",
+            "message": "Sua consulta foi agendada para amanhã às 10h.",
+            "appointmentId": null,
+            "read": false,
+            "createdAt": "2026-04-09T21:43:14.175Z"
+        }
+    ],
+    "pagination": {
+        "page": 1,
+        "limit": 2,
+        "total": 5,
+        "totalPages": 3
     }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 2,
-    "total": 4,
-    "totalPages": 2
-  }
 }
 ```
+
+#### Print de demonstração
+![Print do Postman mostrando a resposta com apenas 2 itens no array data e os detalhes de paginação indicando total de 5 itens e 3 páginas](./assets/backend/cenarios-de-teste/cenario-teste-5.png)
+
 
 ---
 
