@@ -1,6 +1,8 @@
-# 🧪 Cenários de Teste - Módulo de Clínicas
+# Cenários de Teste - Módulo de Clínicas
 
 Este documento descreve os testes realizados para validar o gerenciamento de clínicas.
+
+Execução de requisição POST via Thunder Client para o endpoint /clinics. Uma imagem demonstra o envio do payload JSON (topo) e a resposta do servidor com o Status HTTP 201 (Created), confirmando a persistência dos dados no banco PostgreSQL e a geração automática do UUID para a nova clínica.
 
 ## 1. Cadastro de Nova Clínica
 **Objetivo:** Verificar se o sistema permite a criação de uma clínica com dados válidos.
