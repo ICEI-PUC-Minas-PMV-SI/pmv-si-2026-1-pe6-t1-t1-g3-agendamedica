@@ -122,7 +122,7 @@ Abra o Prisma Studio (`npx prisma studio`) e acesse a tabela `Notification`. A n
 Acesse `http://localhost:8025`. O e-mail enviado deve aparecer na caixa de entrada com o assunto definido em `emailSubject` e o conteúdo HTML de `emailHtml` renderizado.
 
 #### Vídeo de demonstração
-<video src="./assets/backend/cenarios-de-teste/cenario-teste-1.mp4" controls width="100%"></video>
+[▶ Cenário 1 — Enviar notificação com sucesso](./assets/backend/cenarios-de-teste/cenario-teste-1.mp4)
 
 ---
 
@@ -290,7 +290,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 ```
 
 #### Vídeo de demonstração
-<video src="./assets/backend/cenarios-de-teste/cenario-teste-4.mp4" controls width="100%"></video>
+[▶ Cenário 4 — Listar notificações (padrão)](./assets/backend/cenarios-de-teste/cenario-teste-4.mp4)
 
 ---
 
@@ -410,7 +410,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 Na tabela `Notification`, localize o registro pelo ID da requisição. O campo `read` deve estar como `true`.
 
 #### Vídeo de demonstração
-<video src="./assets/backend/cenarios-de-teste/cenario-teste-7.mp4" controls width="100%"></video>
+[▶ Cenário 7 — Marcar uma notificação como lida](./assets/backend/cenarios-de-teste/cenario-teste-7.mp4)
 
 ---
 
@@ -538,4 +538,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 Na tabela `Notification`, filtre pelo `userId` do usuário autenticado. Todos os registros devem ter `read: true`.
 
 #### Vídeo de demonstração
-<video src="./assets/backend/cenarios-de-teste/cenario-teste-10.mp4" controls width="100%"></video>
+[▶ Cenário 10 — Marcar todas as notificações como lidas](./assets/backend/cenarios-de-teste/cenario-teste-10.mp4)
