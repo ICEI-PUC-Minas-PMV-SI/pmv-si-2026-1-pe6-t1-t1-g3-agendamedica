@@ -135,15 +135,15 @@ Acesse `http://localhost:8025`. O e-mail enviado deve aparecer na caixa de entra
 #### Requisição
 
 ```http
-POST /notifications/send
-Authorization: Bearer <token>
+POST /notifications/send HTTP/1.1
+Host: localhost:3000
 Content-Type: application/json
-```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
+Content-Length: 64
 
-```json
 {
-  "userId": "nao-e-um-uuid",
-  "type": "TIPO_INVALIDO"
+    "userId": "nao-e-um-uuid",
+    "type": "TIPO_INVALIDO"
 }
 ```
 
@@ -151,19 +151,34 @@ Content-Type: application/json
 
 ```json
 {
-  "error": {
-    "fieldErrors": {
-      "userId": ["Invalid uuid"],
-      "type": ["Invalid enum value. Expected 'APPOINTMENT_CREATED' | 'APPOINTMENT_CONFIRMED' | 'APPOINTMENT_CANCELLED' | 'APPOINTMENT_RESCHEDULED'"],
-      "title": ["Required"],
-      "message": ["Required"],
-      "emailSubject": ["Required"],
-      "emailHtml": ["Required"]
-    },
-    "formErrors": []
-  }
+    "error": {
+        "formErrors": [],
+        "fieldErrors": {
+            "userId": [
+                "Invalid uuid"
+            ],
+            "type": [
+                "Invalid enum value. Expected 'APPOINTMENT_CREATED' | 'APPOINTMENT_CONFIRMED' | 'APPOINTMENT_CANCELLED' | 'APPOINTMENT_RESCHEDULED', received 'TIPO_INVALIDO'"
+            ],
+            "title": [
+                "Required"
+            ],
+            "message": [
+                "Required"
+            ],
+            "emailSubject": [
+                "Required"
+            ],
+            "emailHtml": [
+                "Required"
+            ]
+        }
+    }
 }
 ```
+
+#### Print de demonstração
+![Print do Postman mostrando a resposta de erro com detalhes de validação por campo](./assets/backend/cenarios-de-teste/cenario-teste-2.png)
 
 ---
 
