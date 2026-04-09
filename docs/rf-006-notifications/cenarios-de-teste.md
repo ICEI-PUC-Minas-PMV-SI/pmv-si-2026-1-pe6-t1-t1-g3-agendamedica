@@ -519,13 +519,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 
 **Rota:** `PATCH /notifications/read-all`
 
-**Objetivo:** Demonstrar que todas as notificações do usuário são marcadas como lidas de uma só vez, zerando o contador.
+**Objetivo:** Demonstrar que todas as notificações do usuário são marcadas como lidas de uma só vez.
 
 #### Requisição
 
 ```http
-PATCH /notifications/read-all
-Authorization: Bearer <token>
+PATCH /notifications/read-all HTTP/1.1
+Host: localhost:3000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 ```
 
 #### Resposta esperada — `204 No Content`
@@ -536,17 +537,5 @@ Authorization: Bearer <token>
 
 Na tabela `Notification`, filtre pelo `userId` do usuário autenticado. Todos os registros devem ter `read: true`.
 
-#### Confirmação com GET /unread-count
-
-Após o `204`, execute uma nova requisição para confirmar que o contador zerou:
-
-```http
-GET /notifications/unread-count
-Authorization: Bearer <token>
-```
-
-```json
-{
-  "count": 0
-}
-```
+#### Vídeo de demonstração
+<video src="./assets/backend/cenarios-de-teste/cenario-teste-10.mp4" controls width="100%"></video>
