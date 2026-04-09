@@ -124,6 +124,11 @@ Acesse `http://localhost:8025`. O e-mail enviado deve aparecer na caixa de entra
 #### Vídeo de demonstração
 [▶ Cenário 1 — Enviar notificação com sucesso](./assets/backend/cenarios-de-teste/cenario-teste-1.mp4)
 
+
+https://github.com/user-attachments/assets/79ed0a48-2806-4093-b597-f15b9de47321
+
+
+
 ---
 
 ### Cenário 2 — Enviar notificação com corpo inválido
@@ -292,6 +297,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 #### Vídeo de demonstração
 [▶ Cenário 4 — Listar notificações (padrão)](./assets/backend/cenarios-de-teste/cenario-teste-4.mp4)
 
+
+https://github.com/user-attachments/assets/9ae8c27b-3b92-4205-878b-ca530947c204
+
+
 ---
 
 ### Cenário 5 — Listar com paginação customizada
@@ -411,6 +420,10 @@ Na tabela `Notification`, localize o registro pelo ID da requisição. O campo `
 
 #### Vídeo de demonstração
 [▶ Cenário 7 — Marcar uma notificação como lida](./assets/backend/cenarios-de-teste/cenario-teste-7.mp4)
+
+
+https://github.com/user-attachments/assets/81c6ae4b-838c-4da3-b368-617560b1bbb4
+
 
 ---
 
@@ -539,3 +552,8 @@ Na tabela `Notification`, filtre pelo `userId` do usuário autenticado. Todos os
 
 #### Vídeo de demonstração
 [▶ Cenário 10 — Marcar todas as notificações como lidas](./assets/backend/cenarios-de-teste/cenario-teste-10.mp4)
+
+
+https://github.com/user-attachments/assets/bba94333-41b0-4333-8ea1-1a178e6d6031
+
+
