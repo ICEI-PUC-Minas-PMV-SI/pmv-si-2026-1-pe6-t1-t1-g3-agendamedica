@@ -358,19 +358,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 #### Requisição
 
 ```http
-GET /notifications/unread-count
-Authorization: Bearer <token>
+GET /notifications/unread-count HTTP/1.1
+Host: localhost:3000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 ```
 
 #### Resposta esperada — `200 OK`
 
 ```json
 {
-  "count": 3
+    "count": 5
 }
 ```
 
-> O seed cria 2 notificações não lidas para Ana + o cenário 1 criou mais 1. A notificação `...000012` (APPOINTMENT_CANCELLED) já estava lida no seed, por isso não entra na contagem.
+#### Print de demonstração
+![Print do Postman mostrando a resposta com o campo count igual a 5](./assets/backend/cenarios-de-teste/cenario-teste-6.png)
 
 ---
 
