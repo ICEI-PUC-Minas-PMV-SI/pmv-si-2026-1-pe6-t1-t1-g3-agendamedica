@@ -385,29 +385,32 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 #### Requisição
 
 ```http
-PATCH /notifications/00000000-0000-0000-0000-000000000010/read
-Authorization: Bearer <token>
+PATCH /notifications/00000000-0000-0000-0000-000000000010/read HTTP/1.1
+Host: localhost:3000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 ```
 
 #### Resposta esperada — `200 OK`
 
 ```json
 {
-  "id": "00000000-0000-0000-0000-000000000010",
-  "userId": "<id-de-ana>",
-  "type": "APPOINTMENT_CREATED",
-  "title": "Consulta agendada",
-  "message": "Sua consulta com Dr. Carlos Médico foi agendada.",
-  "read": true,
-  "appointmentId": "00000000-0000-0000-0000-000000000002",
-  "createdAt": "<timestamp>",
-  "updatedAt": "<timestamp>"
+    "id": "00000000-0000-0000-0000-000000000010",
+    "userId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+    "type": "APPOINTMENT_CREATED",
+    "title": "Consulta agendada",
+    "message": "Sua consulta com Dr. Carlos Médico foi agendada.",
+    "appointmentId": "00000000-0000-0000-0000-000000000002",
+    "read": true,
+    "createdAt": "2026-04-09T21:24:11.592Z"
 }
 ```
 
 #### Validação no Prisma Studio
 
 Na tabela `Notification`, localize o registro pelo ID da requisição. O campo `read` deve estar como `true`.
+
+#### Vídeo de demonstração
+<video src="./assets/backend/cenarios-de-teste/cenario-teste-7.mp4" controls width="100%"></video>
 
 ---
 
