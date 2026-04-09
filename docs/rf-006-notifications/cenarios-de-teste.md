@@ -80,19 +80,19 @@ O seed é idempotente — pode ser re-executado sem duplicar dados.
 #### Requisição
 
 ```http
-POST /notifications/send
-Authorization: Bearer <token>
+POST /notifications/send HTTP/1.1
+Host: localhost:3000
 Content-Type: application/json
-```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
+Content-Length: 312
 
-```json
 {
-  "userId": "<id-de-ana>",
-  "type": "APPOINTMENT_CREATED",
-  "title": "Consulta agendada",
-  "message": "Sua consulta foi agendada para amanhã às 10h.",
-  "emailSubject": "MedHub — Consulta agendada",
-  "emailHtml": "<p>Sua consulta foi agendada para amanhã às 10h.</p>"
+    "userId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+    "type": "APPOINTMENT_CREATED",
+    "title": "Consulta agendada",
+    "message": "Sua consulta foi agendada para amanhã às 10h.",
+    "emailSubject": "MedHub — Consulta agendada",
+    "emailHtml": "<p>Sua consulta foi agendada para amanhã às 10h.</p>"
 }
 ```
 
@@ -102,15 +102,14 @@ Content-Type: application/json
 
 ```json
 {
-  "id": "<uuid-gerado>",
-  "userId": "<id-de-ana>",
-  "type": "APPOINTMENT_CREATED",
-  "title": "Consulta agendada",
-  "message": "Sua consulta foi agendada para amanhã às 10h.",
-  "read": false,
-  "appointmentId": null,
-  "createdAt": "<timestamp>",
-  "updatedAt": "<timestamp>"
+    "id": "b9e600b7-652c-4a2a-97c6-2e40eaae198f",
+    "userId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+    "type": "APPOINTMENT_CREATED",
+    "title": "Consulta agendada",
+    "message": "Sua consulta foi agendada para amanhã às 10h.",
+    "appointmentId": null,
+    "read": false,
+    "createdAt": "2026-04-09T21:47:35.795Z"
 }
 ```
 
@@ -121,6 +120,9 @@ Abra o Prisma Studio (`npx prisma studio`) e acesse a tabela `Notification`. A n
 #### Validação no Mailpit
 
 Acesse `http://localhost:8025`. O e-mail enviado deve aparecer na caixa de entrada com o assunto definido em `emailSubject` e o conteúdo HTML de `emailHtml` renderizado.
+
+#### Vídeo de demonstração
+<video src="./assets/backend/cenarios-de-teste/cenario-teste-1.mp4" controls width="100%"></video>
 
 ---
 
