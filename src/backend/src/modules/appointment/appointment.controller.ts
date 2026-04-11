@@ -123,6 +123,10 @@ export class AppointmentController {
 
     async confirm(req: Request, res: Response, next: NextFunction) {
         try {
+            if (req.userRole !== "RECEPTIONIST") {
+                return res.status(403).json({ error: "Acesso negado: Apenas a recepção pode confirmar consultas." });
+            }
+
             const { appointmentId } = z
                 .object({ appointmentId: z.string().uuid() })
                 .parse(req.body);
