@@ -1,8 +1,61 @@
-# Documentação dos Endpoints de Appointment
+# Cenários de Teste — API's de Agendamento, Listagem e Cancelamento de Consultas (RF-001)
 
-## Visão Geral
+## Contexto
 
-Esta documentação descreve os endpoints da API relacionados ao gerenciamento de agendamentos médicos (appointments). Estes endpoints permitem criar, listar e cancelar agendamentos entre pacientes e médicos.
+Este documento descreve os cenários de teste para as API's de agendamentos de consultas (RF-001) do MedHub.  Estes endpoints permitem criar, listar e cancelar consultas.
+
+**Base URL:** `http://localhost:3000/appointments`
+
+**Autenticação:** todos os endpoints exigem o header (se aplicável):
+```
+Authorization: Bearer <token>
+```
+---
+
+## Ferramentas utilizadas
+
+| Ferramenta        | O que é                                           | Por que usamos                                                                                                                                                                                                      |
+| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Postman**       | Cliente HTTP para enviar requisições à API        | Permite executar cada cenário de forma isolada e visualizar as respostas com formatação                                                                                                                             |
+| **Prisma Studio** | Interface visual para o banco de dados PostgreSQL | Permite verificar as mudanças persistidas no banco após cada operação — por exemplo, confirmar que o status mudou para CANCELLED após cancelar um agendamento                                                  |
+
+---
+
+### Por que o Prisma Studio é necessário neste contexto
+
+Os endpoints de appointments modificam o banco de dados diretamente. O Prisma Studio permite:
+
+- Verificar a criação de novos registros na tabela Appointment
+- Confirmar mudanças de status (PENDING → CANCELLED)
+- Inspecionar relacionamentos com User (patient/doctor)
+
+---
+
+## Referência rápida de endpoints
+
+| Método | Rota                 | Descrição                    |
+| ------ | -------------------- | ---------------------------- |
+| POST   | /createAppointment   | Criar novo agendamento       |
+| GET    | /listAppointments    | Listar agendamentos do usuário |
+| POST   | /cancelAppointment   | Cancelar agendamento         |
+
+---
+
+## Pré-requisitos
+
+Antes de iniciar os cenários, configure o ambiente com dados de teste:
+
+1. Certifique-se de que o banco está rodando e as migrações aplicadas
+2. Use IDs de usuários existentes ou crie manualmente via Prisma Studio
+3. Para autenticação, gere tokens JWT se necessário (dependendo da implementação)
+
+**IDs de exemplo para teste:**
+
+- Patient ID: `a1111111-1111-1111-1111-111111111111`
+- Doctor ID: `b2222222-2222-2222-2222-222222222222`
+- Appointment ID existente: `fc79785d-dfaf-4617-875b-7f338c03a6d7`
+
+---
 
 ## Endpoints Disponíveis
 
@@ -47,10 +100,6 @@ Esta documentação descreve os endpoints da API relacionados ao gerenciamento d
   }
   ```
 
-<!-- Inserir print da tela de criação de agendamento aqui -->
-
-<!-- Inserir vídeo demonstrando o processo de criação de agendamento aqui -->
-
 ### 2. Listar Agendamentos por Usuário
 
 **Método:** `GET`  
@@ -90,10 +139,6 @@ Esta documentação descreve os endpoints da API relacionados ao gerenciamento d
     "error": "Mensagem de erro"
   }
   ```
-
-<!-- Inserir print da tela de listagem de agendamentos aqui -->
-
-<!-- Inserir vídeo demonstrando a navegação pela lista de agendamentos aqui -->
 
 ### 3. Cancelar Agendamento
 
@@ -135,59 +180,7 @@ Esta documentação descreve os endpoints da API relacionados ao gerenciamento d
 
 ---
 
-# Cenários de Teste — API de Appointments
 
-## Contexto
-
-Este documento descreve os cenários de teste para a API de agendamentos (appointments) do MedHub. Cada cenário corresponde a um vídeo de demonstração, cobrindo um comportamento isolado da API.
-
-**Base URL:** `http://localhost:3000/appointments`
-
-**Autenticação:** todos os endpoints exigem o header (se aplicável):
-```
-Authorization: Bearer <token>
-```
-
-## Ferramentas utilizadas
-
-| Ferramenta        | O que é                                           | Por que usamos                                                                                                                                                                                                      |
-| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Postman**       | Cliente HTTP para enviar requisições à API        | Permite executar cada cenário de forma isolada e visualizar as respostas com formatação                                                                                                                             |
-| **Prisma Studio** | Interface visual para o banco de dados PostgreSQL | Permite verificar as mudanças persistidas no banco após cada operação — por exemplo, confirmar que o status mudou para CANCELLED após cancelar um agendamento                                                  |
-
-### Por que o Prisma Studio é necessário neste contexto
-
-Os endpoints de appointments modificam o banco de dados diretamente. O Prisma Studio permite:
-
-- Verificar a criação de novos registros na tabela Appointment
-- Confirmar mudanças de status (PENDING → CANCELLED)
-- Inspecionar relacionamentos com User (patient/doctor)
-
----
-
-## Referência rápida de endpoints
-
-| Método | Rota                 | Descrição                    |
-| ------ | -------------------- | ---------------------------- |
-| POST   | /createAppointment   | Criar novo agendamento       |
-| GET    | /listAppointments    | Listar agendamentos do usuário |
-| POST   | /cancelAppointment   | Cancelar agendamento         |
-
----
-
-## Pré-requisitos
-
-Antes de iniciar os cenários, configure o ambiente com dados de teste:
-
-1. Certifique-se de que o banco está rodando e as migrações aplicadas
-2. Use IDs de usuários existentes ou crie manualmente via Prisma Studio
-3. Para autenticação, gere tokens JWT se necessário (dependendo da implementação)
-
-**IDs de exemplo para teste:**
-
-- Patient ID: `a1111111-1111-1111-1111-111111111111`
-- Doctor ID: `b2222222-2222-2222-2222-222222222222`
-- Appointment ID existente: `fc79785d-dfaf-4617-875b-7f338c03a6d7`
 
 ---
 
