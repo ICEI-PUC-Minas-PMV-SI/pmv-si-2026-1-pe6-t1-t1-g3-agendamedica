@@ -133,26 +133,6 @@ Esta documentação descreve os endpoints da API relacionados ao gerenciamento d
   }
   ```
 
-<!-- Inserir print da tela de cancelamento de agendamento aqui -->
-
-<!-- Inserir vídeo demonstrando o processo de cancelamento de agendamento aqui -->
-
-## Considerações Técnicas
-
-- Todos os endpoints utilizam validação Zod para os parâmetros de entrada
-- As datas devem estar no formato ISO 8601
-- Os IDs devem ser UUIDs válidos
-- O status do agendamento pode ser: PENDING, CONFIRMED, CANCELLED, RESCHEDULED
-- Erros de validação retornam detalhes específicos dos campos inválidos
-
-## Testes
-
-Para testar estes endpoints, utilize o arquivo `TESTES_API.http` localizado na raiz do projeto backend.
-
-<!-- Inserir print dos testes no arquivo TESTES_API.http aqui -->
-
-<!-- Inserir vídeo demonstrando os testes dos endpoints aqui -->
-
 ---
 
 # Cenários de Teste — API de Appointments
@@ -357,4 +337,5 @@ Content-Type: application/json
 }
 ```
 
-<!-- Inserir vídeo demonstrando o erro de validação no Postman aqui -->
+#### Print de demonstração
+![Cenário 4 — Erro de validação](./assets/backend/cenarios-de-teste/erros.png)
