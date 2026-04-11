@@ -58,7 +58,10 @@ export class AppointmentRepository {
     async findByUser(userId: string): Promise<Appointment[]> {
         return prisma.appointment.findMany({
             where: {
-                OR: [{ patientId: userId }, { doctorId: userId }],
+                OR: [
+                    { patientId: userId },
+                    { doctor: { userId } },
+                ],
             },
             orderBy: { date: "asc" },
         });
