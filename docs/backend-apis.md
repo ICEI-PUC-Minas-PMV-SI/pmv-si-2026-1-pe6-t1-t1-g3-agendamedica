@@ -76,6 +76,12 @@ Existem muitas tecnologias diferentes que podem ser usadas para desenvolver APIs
 4. Execute testes de carga para avaliar o desempenho da aplicação sob carga significativa.
 5. Utilize ferramentas de teste adequadas, como frameworks de teste e ferramentas de automação de teste, para agilizar o processo de teste.
 
+### Cenários de teste documentados
+
+| Funcionalidade | Documento de testes |
+| -------------- | ------------------- |
+| API de Notificações (RF-006) | [Cenários de Teste — Notificações](rf-006-notifications/cenarios-de-teste.md) |
+
 # Referências
 
 Inclua todas as referências (livros, artigos, sites, etc) utilizados no desenvolvimento do trabalho.
