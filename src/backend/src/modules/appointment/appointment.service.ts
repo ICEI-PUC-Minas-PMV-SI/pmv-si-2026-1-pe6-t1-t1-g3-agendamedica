@@ -33,7 +33,10 @@ export class CreateAppointmentService {
 export class ListAppointmentsByUserService {
     constructor(private readonly repository: AppointmentRepository) {}
 
-    async execute(userId: string) {
+    async execute(userId: string, userRole?: string) {
+        if (userRole === "RECEPTIONIST") {
+            return this.repository.findAll();
+        }
         return this.repository.findByUser(userId);
     }
 }

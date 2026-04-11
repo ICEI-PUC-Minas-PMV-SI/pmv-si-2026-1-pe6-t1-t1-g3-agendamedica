@@ -94,7 +94,7 @@ export class AppointmentController {
             if (!userId) {
                 return res.status(401).json({ error: "Usuário não autenticado." });
             }
-            const appointments = await this.listService.execute(userId);
+            const appointments = await this.listService.execute(userId, req.userRole);
             return res.status(200).json(appointments);
         } catch (error) {
             if (error instanceof Error) {

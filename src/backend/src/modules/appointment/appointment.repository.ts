@@ -55,6 +55,12 @@ export class AppointmentRepository {
         });
     }
 
+    async findAll(): Promise<Appointment[]> {
+        return prisma.appointment.findMany({
+            orderBy: { date: "asc" },
+        });
+    }
+
     async findByUser(userId: string): Promise<Appointment[]> {
         return prisma.appointment.findMany({
             where: {
