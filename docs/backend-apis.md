@@ -36,32 +36,84 @@ A seguir, as tecnologias definidas para serem utilizadas no desenvolvimento do p
 
 ## API Endpoints
 
-[Liste os principais endpoints da API, incluindo as operações disponíveis, os parâmetros esperados e as respostas retornadas.]
+A seguir, os principais endpoints disponíveis na aplicação.
 
-### Endpoint 1
-- Método: GET
-- URL: /endpoint1
-- Parâmetros:
-  - param1: [descrição]
-- Resposta:
-  - Sucesso (200 OK)
-    ```
-    {
-      "message": "Success",
-      "data": {
-        ...
-      }
-    }
-    ```
-  - Erro (4XX, 5XX)
-    ```
-    {
-      "message": "Error",
-      "error": {
-        ...
-      }
-    }
-    ```
+### Endpoint 01: `POST /register` — Criar Usuário
+ 
+Cria um novo usuário. Se a role for `DOCTOR`, cria também o registro do médico associado.
+ 
+**Body (JSON):**
+ 
+```json
+{
+  "name": "string",
+  "email": "string (formato de e-mail)",
+  "cpf": "string (11 caracteres)",
+  "password": "string (mínimo 6 caracteres)",
+  "role": "PATIENT | DOCTOR | RECEPTIONIST",
+  "specialty": "string (obrigatório se role for DOCTOR)",
+  "crm": "string (obrigatório se role for DOCTOR)"
+}
+```
+ 
+**Respostas:**
+ 
+`201 Created` — Usuário criado com sucesso
+ 
+```json
+{
+  "id": "string (UUID)",
+  "name": "string",
+  "email": "string",
+  "role": "PATIENT | DOCTOR | RECEPTIONIST"
+}
+```
+ 
+`400 Bad Request` — Erro de validação Zod ou regra de negócio (e-mail/CPF duplicado)
+ 
+```json
+{
+  "error": "E-mail ou CPF já cadastrado"
+}
+```
+ 
+---
+ 
+### Endpoint 02: `POST /login` — Autenticar Usuário
+ 
+Valida as credenciais do usuário e retorna um token de acesso (JWT).
+ 
+**Body (JSON):**
+ 
+```json
+{
+  "email": "string (formato de e-mail)",
+  "password": "string"
+}
+```
+ 
+**Respostas:**
+ 
+`200 OK` — Login realizado com sucesso
+ 
+```json
+{
+  "token": "string (JWT Token)",
+  "user": {
+    "id": "string (UUID)",
+    "name": "string",
+    "role": "PATIENT | DOCTOR | RECEPTIONIST"
+  }
+}
+```
+ 
+`401 Unauthorized` — Credenciais inválidas
+ 
+```json
+{
+  "error": "Credenciais inválidas"
+}
+```
 
 ## Considerações de Segurança
 
