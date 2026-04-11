@@ -121,10 +121,11 @@ Abra o Prisma Studio (`npx prisma studio`) e acesse a tabela `Notification`. A n
 
 Acesse `http://localhost:8025`. O e-mail enviado deve aparecer na caixa de entrada com o assunto definido em `emailSubject` e o conteúdo HTML de `emailHtml` renderizado.
 
-#### Print de demonstração
-[▶ Cenário 1 — Enviar notificação com sucesso](./assets/backend/cenarios-de-teste/cria_agendamento.png)
+#### Vídeo de demonstração
+[▶ Cenário 1 — Enviar notificação com sucesso](./assets/backend/cenarios-de-teste/cenario-teste-1.mp4)
 
 
+https://github.com/user-attachments/assets/79ed0a48-2806-4093-b597-f15b9de47321
 
 
 
