@@ -80,6 +80,7 @@ Existem muitas tecnologias diferentes que podem ser usadas para desenvolver APIs
 
 | Funcionalidade | Documento de testes |
 | -------------- | ------------------- |
+| API de Agendamento, Listagem e Cancelamento de Consultas (RF-001) | [Cenários de Teste — Agendamento, Listagem e Cancelamento de Consultas](rf-001-appointments/cenarios-de-teste.md) |
 | API de Notificações (RF-006) | [Cenários de Teste — Notificações](rf-006-notifications/cenarios-de-teste.md) |
 
 # Referências
