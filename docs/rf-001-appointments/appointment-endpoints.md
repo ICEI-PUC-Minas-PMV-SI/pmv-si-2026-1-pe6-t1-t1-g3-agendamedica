@@ -286,7 +286,8 @@ Content-Type: application/json
 ]
 ```
 
-<!-- Inserir vídeo demonstrando a listagem de agendamentos no Postman aqui -->
+#### Print de demonstração
+![Cenário 2 —  Listar agendamentos por usuário](./assets/backend/cenarios-de-teste/lista-consultas.png)
 
 ### Cenário 3 — Cancelar agendamento com sucesso
 
@@ -321,7 +322,8 @@ Content-Type: application/json
 }
 ```
 
-<!-- Inserir vídeo demonstrando o cancelamento e verificação do status alterado no Prisma Studio aqui -->
+#### Print de demonstração
+![Cenário 3 — Cancelar agendamento](./assets/backend/cenarios-de-teste/cancela_agendamento.png)
 
 ### Cenário 4 — Erro de validação
 
