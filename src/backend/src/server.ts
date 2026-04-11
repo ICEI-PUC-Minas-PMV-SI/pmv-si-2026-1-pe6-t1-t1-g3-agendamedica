@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
 import { logger } from "./utils/logger";
+import appointmentRoutes from "./modules/appointment/appointment.routes";
 import { env } from "./config/env"; // validates required env vars — throws on missing
 import notificationRoutes from "./modules/notifications/notification.routes";
 import userRoutes from "./modules/users/users.routes";
@@ -8,6 +9,7 @@ import userRoutes from "./modules/users/users.routes";
 const app = express();
 
 app.use(express.json());
+app.use("/appointments", appointmentRoutes);
 app.use("/notifications", notificationRoutes);
 app.use("/users", userRoutes);
 
