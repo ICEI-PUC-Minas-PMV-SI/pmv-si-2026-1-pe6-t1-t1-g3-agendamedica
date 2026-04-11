@@ -13,5 +13,6 @@ router.post("/createAppointment", (req, res, next) => controller.create(req, res
 router.get("/listAppointments", (req, res, next) => controller.listByUser(req, res, next));
 router.post("/cancelAppointment", (req, res, next) => controller.cancel(req, res, next));
 router.patch("/confirmAppointment", (req, res, next) => controller.confirm(req, res, next));
+router.patch("/:id", (req, res, next) => controller.update(req, res, next));
 
 export default router;

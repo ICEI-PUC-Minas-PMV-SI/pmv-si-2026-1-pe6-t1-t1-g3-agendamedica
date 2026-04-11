@@ -7,6 +7,7 @@ import {
     CancelAppointmentService,
     ConfirmAppointmentService,
     GetAppointmentService,
+    UpdateAppointmentService,
 } from "./appointment.service";
 
 const createAppointmentBodySchema = z.object({
@@ -24,12 +25,19 @@ const cancelAppointmentBodySchema = z.object({
     appointmentId: z.string().uuid(),
 });
 
+const updateAppointmentBodySchema = z.object({
+    doctorId: z.string().uuid().optional(),
+    date: z.string().datetime().optional(),
+    notes: z.string().optional(),
+});
+
 export class AppointmentController {
     private readonly createService = new CreateAppointmentService(new AppointmentRepository());
     private readonly listService = new ListAppointmentsByUserService(new AppointmentRepository());
     private readonly cancelService = new CancelAppointmentService(new AppointmentRepository());
     private readonly confirmService = new ConfirmAppointmentService(new AppointmentRepository());
     private readonly getService = new GetAppointmentService(new AppointmentRepository());
+    private readonly updateService = new UpdateAppointmentService(new AppointmentRepository());
 
     async create(req: Request, res: Response, next: NextFunction) {
         try {
@@ -147,6 +155,31 @@ export class AppointmentController {
         } catch (error) {
             if (error instanceof Error) {
                 return res.status(404).json({ error: error.message });
+            }
+            return next(error);
+        }
+    }
+
+    async update(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+            const parsedData = updateAppointmentBodySchema.parse(req.body);
+
+            // Permite edição enviando apenas os nós que se deseja mudar, mantendo os demais.
+            const payload = {
+                ...(parsedData.doctorId && { doctorId: parsedData.doctorId }),
+                ...(parsedData.date && { date: new Date(parsedData.date) }),
+                ...(parsedData.notes !== undefined && { notes: parsedData.notes }),
+            };
+
+            const appointment = await this.updateService.execute(id, payload, req.userId!, req.userRole);
+            return res.status(200).json(appointment);
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                return res.status(400).json({ error: error.errors });
+            }
+            if (error instanceof Error) {
+                return res.status(400).json({ error: error.message });
             }
             return next(error);
         }

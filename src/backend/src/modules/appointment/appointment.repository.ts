@@ -102,4 +102,11 @@ export class AppointmentRepository {
             data: { status: "CONFIRMED" },
         });
     }
+
+    async updateAppointment(appointmentId: string, data: Partial<CreateAppointmentDTO>): Promise<Appointment> {
+        return prisma.appointment.update({
+            where: { id: appointmentId },
+            data,
+        });
+    }
 }

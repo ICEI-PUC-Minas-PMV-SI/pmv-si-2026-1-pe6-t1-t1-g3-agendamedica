@@ -74,3 +74,45 @@ export class ConfirmAppointmentService {
         return this.repository.confirmAppointment(appointmentId);
     }
 }
+
+export class UpdateAppointmentService {
+    constructor(private readonly repository: AppointmentRepository) {}
+
+    async execute(
+        appointmentId: string,
+        data: Partial<CreateAppointmentDTO>,
+        userId: string,
+        userRole?: string
+    ) {
+        const appointment = await this.repository.findById(appointmentId);
+        if (!appointment) {
+            throw new Error("Consulta não encontrada.");
+        }
+
+        // Validação de acesso estrita (Recepção edita tudo; Paciente só os seus)
+        if (
+            userRole !== "RECEPTIONIST" &&
+            appointment.patientId !== userId &&
+            appointment.doctorId !== userId
+        ) {
+            throw new Error("Acesso negado: Você só pode editar as suas próprias consultas.");
+        }
+
+        // Se estiver alterando a data ou o médico, verifica conflitos de horário novamente
+        if (data.date || data.doctorId) {
+            const dateToCheck = data.date || appointment.date;
+            const doctorToCheck = data.doctorId || appointment.doctorId;
+
+            const conflict = await this.repository.findConflictingAppointment(
+                doctorToCheck,
+                dateToCheck
+            );
+
+            if (conflict && conflict.id !== appointmentId) {
+                throw new Error(`Horário indisponível. Conflito com consulta próxima às ${conflict.date.toLocaleString('pt-BR', { timeZone: 'UTC' })}.`);
+            }
+        }
+
+        return this.repository.updateAppointment(appointmentId, data);
+    }
+}
