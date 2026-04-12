@@ -162,10 +162,12 @@ Content-Type: application/json
 }
 ```
 **Evidência — Postman**
+
 ![Cenário 1 — Criar cadastro de médico](./assets/backend/cenarios-de-teste/Cenário_01.png)
 
 **Evidência — Prisma Studio**
-![Evidência de criptografia - Prisma](.\assets\backend\cenarios-de-teste\Evidencia_01_Prisma.png)
+
+![Evidência de criptografia - Prisma](./assets/backend/cenarios-de-teste/Evidencia_01_Prisma.png)
 
 ---
  
@@ -200,7 +202,8 @@ Content-Type: application/json
 }
 ```
 **Evidência — Postman**
-!['Cenário 2 — Autenticar usuário com sucesso (Login)'](.\assets\backend\cenarios-de-teste\Cenário_02.png)
+
+!['Cenário 2 — Autenticar usuário com sucesso (Login)'](./assets/backend/cenarios-de-teste/Cenário_02.png)
  
 ---
  
@@ -240,7 +243,8 @@ Content-Type: application/json
 }
 ```
 **Evidência — Postman**
-!['Cenário 3 — Erro de validação de Schema'](.\assets\backend\cenarios-de-teste\Cenário_03.png)
+
+!['Cenário 3 — Erro de validação de Schema'](./assets/backend/cenarios-de-teste/Cenário_03.png)
  
 ---
  
@@ -270,7 +274,8 @@ Content-Type: application/json
 }
 ```
 **Evidência — Postman**
-!['Cenário 4 - Erro de Credenciais (Não Autorizado)'](.\assets\backend\cenarios-de-teste\Cenário_04.png)
+
+!['Cenário 4 - Erro de Credenciais (Não Autorizado)'](./assets/backend/cenarios-de-teste/Cenário_04.png)
 
 ### Cenário 5 — Criar cadastro com sucesso (Paciente)
  
@@ -304,10 +309,12 @@ Content-Type: application/json
 }
 ```
 **Evidência — Postman**
-['Cenário 5 — Criar cadastro com sucesso (Paciente)'](.\assets\backend\cenarios-de-teste\Cenário_05.png)
+
+['Cenário 5 — Criar cadastro com sucesso (Paciente)'](./assets/backend/cenarios-de-teste/Cenário_05.png)
 
 **Evidência — Prisma Studio**
-['Evidência de Cadastro e Criptografia - Prisma'](.\assets\backend\cenarios-de-teste\Evidencia_02_Prisma.png)
+
+['Evidência de Cadastro e Criptografia - Prisma'](./assets/backend/cenarios-de-teste/Evidencia_02_Prisma.png)
  
 ---
  
@@ -343,10 +350,12 @@ Content-Type: application/json
 }
 ```
 **Evidência — Postman**
-['Cenário 6 — Criar cadastro com sucesso (Recepcionista)'](.\assets\backend\cenarios-de-teste\Cenário_06.png)
+
+['Cenário 6 — Criar cadastro com sucesso (Recepcionista)'](./assets/backend/cenarios-de-teste/Cenário_06.png)
  
 **Evidência — Prisma Studio**
-['Evidência de Cadastro e Criptografia - Prisma'](.\assets\backend\cenarios-de-teste\Evidencia_03_Prisma.png)
+
+['Evidência de Cadastro e Criptografia - Prisma'](./assets/backend/cenarios-de-teste/Evidencia_03_Prisma.png)
 ---
  
 ### Cenário 7 — Erro de e-mail duplicado
@@ -380,7 +389,8 @@ Content-Type: application/json
 }
 ```
 **Evidência — Postman**
-['Cenário 7 — Erro de e-mail duplicado'](.\assets\backend\cenarios-de-teste\Cenário_07.png)
+
+['Cenário 7 — Erro de e-mail duplicado'](./assets/backend/cenarios-de-teste/Cenário_07.png)
  
 ---
  
