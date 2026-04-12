@@ -1,6 +1,6 @@
 # 📊 Relatório de Contribuições do Projeto
 
-**Última atualização:** 12/04/2026 14:58
+**Última atualização:** 12/04/2026 20:42
 
 ---
 
@@ -11,20 +11,20 @@
 | Alice Abreu           |        44 |       123 |       121 |          8 |             40 |               8 |
 | AliceAbreu            |        13 |      1632 |       772 |         23 |              9 |               4 |
 | Gabriel Nascimento    |        86 |      6689 |      1114 |         60 |             34 |               4 |
-| LeticiaOliAquino      |        16 |       141 |        43 |          7 |             11 |               3 |
-| Martha Beatriz        |        70 |     19947 |     14180 |         29 |             58 |               4 |
+| LeticiaOliAquino      |        21 |       185 |        82 |         11 |             15 |               5 |
+| Martha Beatriz        |        71 |     19947 |     14180 |         29 |             59 |               4 |
 | Omar Martins          |        19 |      1281 |       260 |         25 |             14 |               6 |
-| github-actions[bot]   |        31 |       235 |       229 |          3 |             31 |               1 |
+| github-actions[bot]   |        32 |       239 |       233 |          3 |             32 |               1 |
 | github-classroom[bot] |         1 |      2152 |         0 |         45 |              1 |              13 |
 
 
 ## 📅 Contribuições Semanais (Todo o Semestre)
 
-**2026-04-05**: Alice Abreu: 7, AliceAbreu: 11, Gabriel Nascimento: 28, LeticiaOliAquino: 7, Martha Beatriz: 23, Omar Martins: 12, github-actions[bot]: 23
+**2026-04-05**: Alice Abreu: 5, AliceAbreu: 10, Gabriel Nascimento: 28, LeticiaOliAquino: 12, Martha Beatriz: 24, Omar Martins: 12, github-actions[bot]: 22
 
-**2026-03-29**: AliceAbreu: 2, Gabriel Nascimento: 44, Martha Beatriz: 9, github-actions[bot]: 3
+**2026-03-29**: Alice Abreu: 2, AliceAbreu: 3, Gabriel Nascimento: 44, Martha Beatriz: 8, github-actions[bot]: 4
 
-**2026-03-22**: Gabriel Nascimento: 1, Martha Beatriz: 2, github-actions[bot]: 2
+**2026-03-22**: Gabriel Nascimento: 1, Martha Beatriz: 3, github-actions[bot]: 3
 
 **2026-03-15**: Alice Abreu: 4, Gabriel Nascimento: 5, Martha Beatriz: 2, github-actions[bot]: 3
 
