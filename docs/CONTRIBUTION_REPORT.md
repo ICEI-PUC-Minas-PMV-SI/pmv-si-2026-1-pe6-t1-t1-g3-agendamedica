@@ -1,6 +1,6 @@
 # 📊 Relatório de Contribuições do Projeto
 
-**Última atualização:** 12/04/2026 14:01
+**Última atualização:** 12/04/2026 14:51
 
 ---
 
@@ -8,19 +8,19 @@
 
 | Aluno                 |   Commits |   Linhas+ |   Linhas- |   Arquivos |   Docs Commits |   Docs Arquivos |
 |-----------------------|-----------|-----------|-----------|------------|----------------|-----------------|
-| Alice Abreu           |        42 |       122 |       120 |          8 |             38 |               8 |
+| Alice Abreu           |        43 |       122 |       120 |          8 |             39 |               8 |
 | AliceAbreu            |        13 |      1632 |       772 |         23 |              9 |               4 |
 | Gabriel Nascimento    |        86 |      6689 |      1114 |         60 |             34 |               4 |
-| LeticiaOliAquino      |        14 |       119 |        43 |          7 |             11 |               3 |
+| LeticiaOliAquino      |        16 |       141 |        43 |          7 |             11 |               3 |
 | Martha Beatriz        |        70 |     19947 |     14180 |         29 |             58 |               4 |
 | Omar Martins          |        19 |      1281 |       260 |         25 |             14 |               6 |
-| github-actions[bot]   |        29 |       226 |       220 |          3 |             29 |               1 |
+| github-actions[bot]   |        30 |       230 |       224 |          3 |             30 |               1 |
 | github-classroom[bot] |         1 |      2152 |         0 |         45 |              1 |              13 |
 
 
 ## 📅 Contribuições Semanais (Todo o Semestre)
 
-**2026-04-05**: Alice Abreu: 5, AliceAbreu: 11, Gabriel Nascimento: 28, LeticiaOliAquino: 5, Martha Beatriz: 23, Omar Martins: 12, github-actions[bot]: 21
+**2026-04-05**: Alice Abreu: 6, AliceAbreu: 11, Gabriel Nascimento: 28, LeticiaOliAquino: 7, Martha Beatriz: 23, Omar Martins: 12, github-actions[bot]: 22
 
 **2026-03-29**: AliceAbreu: 2, Gabriel Nascimento: 44, Martha Beatriz: 9, github-actions[bot]: 3
 
