@@ -45,15 +45,14 @@ export class AppointmentController {
                 req.body,
             );
 
-            // Validação de Segurança para o paciente poder cadastrar consultas somente para si mesmo.
-            if (req.userRole !== "RECEPTIONIST" && patientId !== req.userId) {
+            if (req.userRole !== "RECEPTIONIST" && patientId && patientId !== req.userId) {
                 return res.status(403).json({
-                    error: "Acesso negado: O patientId enviado não pertence ao seu usuário atual.",
+                    error: "Acesso negado: Essa consulta não pertence ao usuário autenticado.",
                 });
             }
 
             const appointment = await this.createService.execute({
-                patientId,
+                patientId: patientId || req.userId!,
                 doctorId,
                 date: new Date(date),
                 notes,
@@ -124,7 +123,9 @@ export class AppointmentController {
     async confirm(req: Request, res: Response, next: NextFunction) {
         try {
             if (req.userRole !== "RECEPTIONIST") {
-                return res.status(403).json({ error: "Acesso negado: Apenas a recepção pode confirmar consultas." });
+                return res
+                    .status(403)
+                    .json({ error: "Acesso negado: Apenas a recepção pode confirmar consultas." });
             }
 
             const { appointmentId } = z
@@ -176,7 +177,12 @@ export class AppointmentController {
                 ...(parsedData.notes !== undefined && { notes: parsedData.notes }),
             };
 
-            const appointment = await this.updateService.execute(id, payload, req.userId!, req.userRole);
+            const appointment = await this.updateService.execute(
+                id,
+                payload,
+                req.userId!,
+                req.userRole,
+            );
             return res.status(200).json(appointment);
         } catch (error) {
             if (error instanceof z.ZodError) {

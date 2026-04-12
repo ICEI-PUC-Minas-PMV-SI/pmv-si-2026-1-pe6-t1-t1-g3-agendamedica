@@ -11,20 +11,13 @@ Este documento descreve os cenários de teste para as funções de controle de a
 Authorization: Bearer <token>
 ```
 
+As validações de acesso e autorização são realizadas com base no token JWT fornecido no header Authorization. O token contém o ID do usuário autenticado e seu papel (role: PATIENT, DOCTOR ou RECEPTIONIST), permitindo que a API verifique permissões específicas para cada operação, como impedir que pacientes acessem consultas de outros usuários.
+
 ## Ferramentas utilizadas
 
-| Ferramenta        | O que é                                           | Por que usamos                                                                                                                                             |
-| ----------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Insomnia**      | Cliente HTTP para enviar requisições à API        | Permite executar cada cenário de forma isolada e visualizar as respostas com formatação                                                                    |
-| **Prisma Studio** | Interface visual para o banco de dados PostgreSQL | Permite verificar as mudanças persistidas no banco após cada operação: por exemplo, confirmar que apenas usuários autorizados conseguem criar agendamentos |
-
-### Por que o Prisma Studio é necessário neste contexto
-
-Os endpoints de appointments modificam o banco de dados diretamente. O Prisma Studio permite:
-
-- Verificar a criação de novos registros na tabela Appointment
-- Confirmar que apenas usuários autorizados conseguem executar operações
-- Inspecionar relacionamentos com User (patient/doctor)
+| Ferramenta   | O que é                                    | Por que usamos                                                                          |
+| ------------ | ------------------------------------------ | --------------------------------------------------------------------------------------- |
+| **Insomnia** | Cliente HTTP para enviar requisições à API | Permite executar cada cenário de forma isolada e visualizar as respostas com formatação |
 
 ---
 
@@ -75,13 +68,16 @@ Host: localhost:3000
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 Content-Length: 312
-
+```
+Body:
+```json
 {
     "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
-    "doctorId": "doctor-id-valido",
+    "doctorId": "84cb80c3-941f-4700-8123-32de4609ebfe",
     "date": "2026-04-15T14:30:00Z",
     "notes": "Consulta de rotina"
 }
+
 ```
 
 #### Resposta esperada: `201 Created`
@@ -90,7 +86,7 @@ Content-Length: 312
 {
     "id": "uuid-gerado",
     "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
-    "doctorId": "doctor-id-valido",
+    "doctorId": "84cb80c3-941f-4700-8123-32de4609ebfe",
     "date": "2026-04-15T14:30:00.000Z",
     "status": "PENDING",
     "notes": "Consulta de rotina",
@@ -99,9 +95,12 @@ Content-Length: 312
 }
 ```
 
-#### Validação no Prisma Studio
+#### Evidência no Insomnia
 
-Abra o Prisma Studio (`npx prisma studio`) e acesse a tabela `Appointment`. A nova linha deve aparecer com o `patientId` correspondendo ao usuário autenticado.
+![Agendamento criado com sucesso](./assets/img/agendamento-com-sucesso.png)
+
+A imagem mostra a criação bem-sucedida de um agendamento no Insomnia, com status 201 Created e os dados do agendamento retornados.
+
 
 ---
 
@@ -119,7 +118,9 @@ Host: localhost:3000
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 Content-Length: 312
-
+```
+Body:
+```json
 {
     "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
     "doctorId": 00000000-1000-0000-0000-000000000002,
@@ -135,25 +136,25 @@ Content-Length: 312
     "error": "Acesso negado: Essa consulta não pertence ao usuário autenticado."
 }
 ```
+#### Evidência no Insomnia
+
+![Agendamento não autorizado](./assets/img/agendamento-nao-autorizado.png)
+
+A imagem mostra a tentativa não autorizada de agendamento para outro paciente, com status 403 Forbidden e mensagem de erro de acesso negado.
+
 
 ---
 
-#### Validação no Prisma Studio
+### Cenário 3: Paciente acessa própria consulta
 
-Confirme que o agendamento não foi criado com o `patientId` especificado na requisição, independente do usuário autenticado.
-
----
-
-### Cenário 4: Paciente acessa própria consulta
-
-**Rota:** `GET /appointments/:id`
+**Rota:** `GET /appointments`
 
 **Objetivo:** Demonstrar que pacientes podem acessar detalhes de suas próprias consultas.
 
 #### Requisição
 
 ```http
-GET /appointments/00000000-1000-0000-0000-000000000002 HTTP/1.1
+GET /appointments HTTP/1.1
 Host: localhost:3000
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 ```
@@ -173,9 +174,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 }
 ```
 
+#### Evidência no Insomnia
+
+![Listagem autorizada](./assets/img/listagem-autorizada.png)
+
+A imagem mostra o acesso autorizado aos detalhes das próprias consultas no Insomnia, com status 200 OK e os dados retornados.
+
+
 ---
 
-### Cenário 5: Paciente tenta acessar consulta de outro usuário
+### Cenário 4: Paciente tenta acessar consulta de outro paciente
 
 **Rota:** `GET /appointments/:id`
 
@@ -184,7 +192,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 #### Requisição
 
 ```http
-GET /appointments/id-de-consulta-de-outro-usuario HTTP/1.1
+GET /appointments/84cb80c3-941f-4700-8123-32de4609ebfe HTTP/1.1
 Host: localhost:3000
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 ```
@@ -196,3 +204,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
     "error": "Acesso negado: Essa consulta não pertence ao usuário autenticado."
 }
 ```
+
+#### Evidência no Insomnia
+
+![Listagem não autorizada](./assets/img/listagem-nao-autorizada.png)
+
+A imagem mostra a tentativa de acesso não autorizado à consulta de outro paciente, com status 403 Forbidden e mensagem de erro.
+

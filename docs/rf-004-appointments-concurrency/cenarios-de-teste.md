@@ -11,20 +11,13 @@ Este documento descreve os cenários de teste para as funções de validação d
 Authorization: Bearer <token>
 ```
 
+As validações de disponibilidade e conflitos de horários são realizadas com base no token JWT fornecido no header Authorization. O token identifica o usuário autenticado, permitindo verificar conflitos específicos para o médico associado ao agendamento.
+
 ## Ferramentas utilizadas
 
-| Ferramenta        | O que é                                           | Por que usamos                                                                                                                 |
-| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| **Insomnia**      | Cliente HTTP para enviar requisições à API        | Permite executar cenários de concorrência de forma controlada e visualizar as respostas de erro com detalhes                   |
-| **Prisma Studio** | Interface visual para o banco de dados PostgreSQL | Permite verificar os agendamentos existentes e confirmar que novos agendamentos respeitam as janelas de proteção de 20 minutos |
-
-### Por que o Prisma Studio é necessário neste contexto
-
-Os cenários de concorrência dependem do estado atual do banco de dados. O Prisma Studio permite:
-
-- Verificar agendamentos existentes para um médico específico
-- Confirmar que novos agendamentos são rejeitados quando há conflitos
-- Inspecionar as datas e horários dos agendamentos para validar a lógica de 20 minutos
+| Ferramenta   | O que é                                    | Por que usamos                                                                                               |
+| ------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| **Insomnia** | Cliente HTTP para enviar requisições à API | Permite executar cenários de concorrência de forma controlada e visualizar as respostas de erro com detalhes |
 
 ---
 
@@ -73,7 +66,9 @@ Host: localhost:3000
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 Content-Length: 312
-
+```
+Body:
+```json
 {
     "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
     "doctorId": "84cb80c3-941f-4700-8123-32de4609ebfe",
@@ -90,13 +85,16 @@ Content-Length: 312
 }
 ```
 
-#### Validação no Prisma Studio
+#### Evidência no Insomnia
 
-Abra o Prisma Studio (`npx prisma studio`) e verifique na tabela `Appointment` que existe uma consulta confirmada para o médico às 14:00. O novo agendamento foi rejeitado por estar dentro da janela de proteção.
+![Agendamento em conflito no Insomnia](./assets/img/agendamento-horario-indisponivel.png)
+
+A imagem mostra o agendamento rejeitado devido a conflito de horário no Insomnia, com status 400 Bad Request e mensagem de erro sobre horário indisponível.
+
 
 ---
 
-### Cenário 3: Agendamento exatamente na borda da janela (20 minutos antes)
+### Cenário 2: Agendamento em horário dísponivel
 
 **Rota:** `POST /appointments/createAppointment`
 
@@ -110,10 +108,12 @@ Host: localhost:3000
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjMy05NDFmLTQ3MDAtODEyMy0zMmRlNDYwOWViZmUiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc3NTc2OTg2NSwiZXhwIjoxNzc1ODU2MjY1fQ.vo5hfoMg8D7-iXfn3_M2XTJMNe51n_cGacKqanrEmVo
 Content-Length: 312
-
+```
+Body:
+```json
 {
     "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
-    "doctorId": "doctor-id-com-consulta-as-14h",
+    "doctorId": "84cb80c3-941f-4700-8123-32de4609ebfe",
     "date": "2026-04-15T13:40:00Z",
     "notes": "Agendamento exatamente 20min antes - deve ser permitido"
 }
@@ -125,7 +125,7 @@ Content-Length: 312
 {
     "id": "uuid-gerado",
     "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
-    "doctorId": "doctor-id-com-consulta-as-14h",
+    "doctorId": "84cb80c3-941f-4700-8123-32de4609ebfe",
     "date": "2026-04-15T13:40:00.000Z",
     "status": "PENDING",
     "notes": "Agendamento exatamente 20min antes - deve ser permitido",
@@ -134,8 +134,11 @@ Content-Length: 312
 }
 ```
 
-#### Validação no Prisma Studio
+#### Evidência no Insomnia
 
-Confirme que o novo agendamento foi criado com sucesso, pois está exatamente na borda permitida (20 minutos antes).
+![Agendamento autorizado no Insomnia](./assets/img/agendamento-autorizado.png)
+
+A imagem mostra o agendamento autorizado na borda da janela de proteção no Insomnia, com status 201 Created e os dados do agendamento retornados.
+
 
 ---
