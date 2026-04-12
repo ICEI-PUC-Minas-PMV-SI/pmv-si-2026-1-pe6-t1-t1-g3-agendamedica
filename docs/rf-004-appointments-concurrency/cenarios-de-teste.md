@@ -56,7 +56,7 @@ O seed é idempotente, pode ser re-executado sem duplicar dados.
 
 **Rota:** `POST /appointments/createAppointment`
 
-**Objetivo:** Demonstrar que agendamentos são rejeitados quando tentam marcar dentro de 20 minutos antes de uma consulta existente.
+**Objetivo:** Demonstrar que agendamentos são rejeitados quando tentam marcar em até 20 minutos após uma consulta existente.
 
 #### Requisição
 
@@ -98,7 +98,7 @@ A imagem mostra o agendamento rejeitado devido a conflito de horário no Insomni
 
 **Rota:** `POST /appointments/createAppointment`
 
-**Objetivo:** Demonstrar que agendamentos são permitidos exatamente na borda da janela de proteção (20 minutos antes).
+**Objetivo:** Demonstrar que agendamentos são permitidos dentro do horário dísponivel pelo médico.
 
 #### Requisição
 
