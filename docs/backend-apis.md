@@ -81,6 +81,9 @@ Existem muitas tecnologias diferentes que podem ser usadas para desenvolver APIs
 | Funcionalidade | Documento de testes |
 | -------------- | ------------------- |
 | API de Agendamento, Listagem e Cancelamento de Consultas (RF-001) | [Cenários de Teste — Agendamento, Listagem e Cancelamento de Consultas](rf-001-appointments/cenarios-de-teste.md) |
+| API de Edição e Gerenciamento de Consultas (RF-002) | [Cenários de Teste — Edição e Gerenciamento de Consultas](rf-002-appointments-management/cenarios-de-teste.md) |
+| API de Controle de Acesso e Autorização de Agendamentos (RF-003) | [Cenários de Teste — Controle de Acesso e Autorização](rf-003-appointments-security/cenarios-de-teste.md) |
+| API de Validação de Disponibilidade e Conflitos de Horários (RF-004) | [Cenários de Teste — Conflitos e Disponibilidade](rf-004-appointments-concurrency/cenarios-de-teste.md) |
 | API de Notificações (RF-006) | [Cenários de Teste — Notificações](rf-006-notifications/cenarios-de-teste.md) |
 
 # Referências
