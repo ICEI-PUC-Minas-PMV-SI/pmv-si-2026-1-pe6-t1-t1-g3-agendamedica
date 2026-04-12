@@ -123,7 +123,7 @@ Body:
 ```json
 {
     "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
-    "doctorId": 00000000-1000-0000-0000-000000000002,
+    "doctorId": "00000000-1000-0000-0000-000000000002",
     "date": "2026-04-15T14:30:00Z",
     "notes": "Tentativa não autorizada"
 }
@@ -162,16 +162,38 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGNiODBjM
 #### Resposta esperada: `200 OK`
 
 ```json
-{
-    "id": "00000000-1000-0000-0000-000000000002",
-    "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
-    "doctorId": "84cb80c3-941f-4700-8123-32de4609ebfe",
-    "date": "2026-04-10T15:00:00.000Z",
-    "status": "CONFIRMED",
-    "notes": "Segunda consulta. Ana",
-    "createdAt": "2026-04-09T12:00:00.000Z",
-    "updatedAt": "2026-04-09T12:00:00.000Z"
-}
+[
+    {
+        "id": "00000000-1000-0000-0000-000000000002",
+        "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+        "doctorId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+        "date": "2026-04-10T15:00:00.000Z",
+        "status": "CONFIRMED",
+        "notes": "Segunda consulta. Ana",
+        "createdAt": "2026-04-09T12:00:00.000Z",
+        "updatedAt": "2026-04-09T12:00:00.000Z"
+    },
+    {
+        "id": "00000000-2000-0000-0000-000000000003",
+        "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+        "doctorId": "db7c23fa-7f9b-4a4a-9d0b-e3f1b2c98765",
+        "date": "2026-04-15T14:30:00.000Z",
+        "status": "PENDING",
+        "notes": "Consulta de rotina",
+        "createdAt": "2026-04-09T21:47:35.795Z",
+        "updatedAt": "2026-04-09T21:47:35.795Z"
+    },
+    {
+        "id": "00000000-3000-0000-0000-000000000004",
+        "patientId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+        "doctorId": "84cb80c3-941f-4700-8123-32de4609ebfe",
+        "date": "2026-04-20T10:00:00.000Z",
+        "status": "CONFIRMED",
+        "notes": "Consulta de acompanhamento",
+        "createdAt": "2026-04-09T14:30:00.000Z",
+        "updatedAt": "2026-04-09T14:30:00.000Z"
+    }
+]
 ```
 
 #### Evidência no Insomnia
