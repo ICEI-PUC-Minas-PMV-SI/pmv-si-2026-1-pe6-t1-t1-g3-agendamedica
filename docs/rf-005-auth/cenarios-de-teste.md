@@ -162,7 +162,7 @@ Content-Type: application/json
 }
 ```
 **Evidência — Postman**
-![Cenário 1 — Criar cadastro de médico](\assets\backend\cenarios-de-teste\Cenário_01.png)
+![Cenário 1 — Criar cadastro de médico](./assets/backend/cenarios-de-teste/Cenário_01.png)
 
 **Evidência — Prisma Studio**
 ![Evidência de criptografia - Prisma](.\assets\backend\cenarios-de-teste\Evidencia_01_Prisma.png)
