@@ -12,7 +12,7 @@
 | 16/03 - 22/03 | APIs e Web Services - Unidade 2 | ✅ | Montar a base de desenvolvimento | Testar e entender como funciona a estrturuação inicial do projeto que o Gabriel montou |
 | 23/03 - 29/03 | APIs e Web Services - Unidade 2 | ✅ | Iniciar a implementação | Responsável por implementar a RF-001: o sistema deve permitir que os pacientes agendem, visualizem e cancelem consultas médicas pelo aplicativo.|
 | 30/03 - 05/04 | Recuperação de Informação na Web e Redes Sociais - Unidade 1 | ✅ | Desenvolvimento | Criação das APIs, incluindo endpoints para: agendamento, visualização e cancelamento de consultas, além da criação das issues. |
-| 06/04 - 12/04 | Recuperação de Informação na Web e Redes Sociais - Unidade 2 | ⬜ |  |  |
+| 06/04 - 12/04 | Recuperação de Informação na Web e Redes Sociais - Unidade 2 | ✅ |  Revisão da documentação da API |  Conclusão da implementação das APIs de agendamento, visualização e cancelamento de consultas (RF-001), incluindo validações de data futura, existência de paciente e médico. Elaboração dos cenários de teste documentados em [cenarios-de-teste.md](../rf-001-appointments/cenarios-de-teste.md), cobrindo criação, listagem, cancelamento e erros de validação. Revisão geral do documento [backend-apis.md](../backend-apis.md): correção dos prefixos de rota, documentação dos endpoints faltantes, ajuste do formato de resposta paginada e alinhamento das mensagens de erro com o código. Elaboração do modelo entidade-relacionamento (MER) com base no schema Prisma do projeto. |
 | 13/04 - 19/04 | Computação Ubíqua e Pervasiva e IoT - Unidade 1 | ⬜ |  |  |
 | 20/04 - 26/04 | Computação Ubíqua e Pervasiva e IoT - Unidade 2 | ⬜ |  |  |
 | 27/04 - 03/05 | Desenvolvimento de Aplicações Móveis - Unidade 1 | ⬜ |  |  |

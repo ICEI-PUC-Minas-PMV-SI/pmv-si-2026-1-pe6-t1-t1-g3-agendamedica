@@ -3,6 +3,7 @@
 O MedHub é uma plataforma de agendamento médico que conecta pacientes e profissionais de saúde de forma simples, prática e organizada. A solução permite que médicos se cadastrem e disponibilizem horários de atendimento, enquanto pacientes podem consultar essas informações e realizar agendamentos.
 
 O sistema é estruturado em uma arquitetura distribuída, na qual cada componente possui responsabilidades bem definidas: interface com o usuário, processamento das regras de negócio e armazenamento dos dados. A comunicação entre a interface web e o banco de dados é realizada por meio de API, assegurando o armazenamento e o gerenciamento seguro de todas as informações.
+
 O objetivo do MedHub é otimizar o processo de agendamento, contribuindo para a satisfação do usuário e proporcionando uma gestão mais eficiente das agendas dos profissionais de saúde.
 
 ## Objetivos da API
@@ -12,16 +13,21 @@ A API do MedHub tem como objetivo centralizar e controlar toda a comunicação e
 **Os recursos que a API deve fornecer são:**
 
 - **Autenticação e autorização** de usuários (pacientes, médicos e recepcionistas) via JWT, garantindo acesso seguro e controlado por perfil.
-- **Gestão de usuários**, incluindo cadastro, login e recuperação de senha, com validação de CPF e e-mail únicos.
-- **Gestão de médicos e clínicas**, permitindo cadastro, atualização e vinculação de profissionais a clínicas.
-- **Gestão de serviços e horários**, permitindo que médicos cadastrem os serviços oferecidos e disponibilizem horários de atendimento.
+- **Gestão de usuários**, incluindo cadastro e login, com validação de CPF e e-mail únicos.
+- **Gestão de médicos**, permitindo o cadastro de profissionais com especialidade e CRM e sua vinculação a clínicas.
 - **Gestão de agendamentos**, permitindo que pacientes agendem, visualizem e cancelem consultas, com prevenção de conflitos de horário.
-- **Notificações**, disparando alertas aos usuários em confirmações, alterações e cancelamentos de consultas.
+- **Notificações**, disparando alertas aos usuários em criações, confirmações, alterações e cancelamentos de consultas, via push (Expo) e e-mail.
 
 
 ## Modelagem da Aplicação
-[Descreva a modelagem da aplicação, incluindo a estrutura de dados, diagramas de classes ou entidades, e outras representações visuais relevantes.]
 
+O sistema é estruturado em 5 entidades: **USER**, **DOCTOR**, **CLINIC**, **APPOINTMENT** e **NOTIFICATION**.
+
+**USER** é o centro do modelo, representando tanto pacientes quanto médicos pelo campo `role`. **DOCTOR** estende USER com dados profissionais e pode ser vinculado a uma **CLINIC**, que agrupa múltiplos médicos.
+
+**APPOINTMENT** conecta um paciente a um médico, registrando data, status e notas. Cada agendamento pode gerar múltiplas **NOTIFICATION**, que também podem ser enviadas de forma independente diretamente ao usuário.
+
+![Modelo de Entidade e Relacionamento](img/diagrama-de-modelagem.drawio.png)
 
 ## Tecnologias Utilizadas
 
@@ -36,30 +42,34 @@ A seguir, as tecnologias definidas para serem utilizadas no desenvolvimento do p
 
 ## API Endpoints
 
-A seguir, os principais endpoints disponíveis na aplicação.
+A seguir, todos os endpoints disponíveis na aplicação, organizados por módulo. Endpoints marcados com **[JWT]** exigem o cabeçalho `Authorization: Bearer <token>`.
 
-### Endpoint 01: `POST /register` — Criar Usuário
- 
-Cria um novo usuário. Se a role for `DOCTOR`, cria também o registro do médico associado.
- 
+---
+
+### Autenticação (`/auth`)
+
+#### Endpoint 01: `POST /auth/register` — Criar Usuário
+
+Cria um novo usuário. Se a `role` for `DOCTOR`, o registro do médico associado também é criado automaticamente.
+
 **Body (JSON):**
- 
+
 ```json
 {
-  "name": "string",
-  "email": "string (formato de e-mail)",
-  "cpf": "string (11 caracteres)",
-  "password": "string (mínimo 6 caracteres)",
+  "name": "string (obrigatório)",
+  "email": "string (formato de e-mail, obrigatório)",
+  "cpf": "string (mínimo 11 caracteres, obrigatório)",
+  "password": "string (mínimo 6 caracteres, obrigatório)",
   "role": "PATIENT | DOCTOR | RECEPTIONIST",
-  "specialty": "string (obrigatório se role for DOCTOR)",
-  "crm": "string (obrigatório se role for DOCTOR)"
+  "specialty": "string (obrigatório se role = DOCTOR)",
+  "crm": "string (obrigatório se role = DOCTOR)"
 }
 ```
- 
+
 **Respostas:**
- 
+
 `201 Created` — Usuário criado com sucesso
- 
+
 ```json
 {
   "id": "string (UUID)",
@@ -68,37 +78,37 @@ Cria um novo usuário. Se a role for `DOCTOR`, cria também o registro do médic
   "role": "PATIENT | DOCTOR | RECEPTIONIST"
 }
 ```
- 
-`400 Bad Request` — Erro de validação Zod ou regra de negócio (e-mail/CPF duplicado)
- 
+
+`400 Bad Request` — Dados inválidos ou e-mail/CPF já cadastrado
+
 ```json
 {
   "error": "E-mail ou CPF já cadastrado"
 }
 ```
- 
+
 ---
- 
-### Endpoint 02: `POST /login` — Autenticar Usuário
- 
-Valida as credenciais do usuário e retorna um token de acesso (JWT).
- 
+
+#### Endpoint 02: `POST /auth/login` — Autenticar Usuário
+
+Valida as credenciais do usuário e retorna um token JWT de acesso.
+
 **Body (JSON):**
- 
+
 ```json
 {
   "email": "string (formato de e-mail)",
   "password": "string"
 }
 ```
- 
+
 **Respostas:**
- 
+
 `200 OK` — Login realizado com sucesso
- 
+
 ```json
 {
-  "token": "string (JWT Token)",
+  "token": "string (JWT)",
   "user": {
     "id": "string (UUID)",
     "name": "string",
@@ -106,23 +116,358 @@ Valida as credenciais do usuário e retorna um token de acesso (JWT).
   }
 }
 ```
- 
+
 `401 Unauthorized` — Credenciais inválidas
- 
+
 ```json
 {
   "error": "Credenciais inválidas"
 }
 ```
 
+---
+
+### Agendamentos (`/appointments`)
+
+#### Endpoint 03: `POST /appointments/createAppointment` — Criar Agendamento
+
+Cria um novo agendamento entre um paciente e um médico. Valida que a data é futura, que o paciente existe e que o médico existe.
+
+**Body (JSON):**
+
+```json
+{
+  "patientId": "string (UUID)",
+  "doctorId": "string (UUID)",
+  "date": "string (ISO 8601, ex: 2026-05-10T14:00:00Z)",
+  "notes": "string (opcional)"
+}
+```
+
+**Respostas:**
+
+`201 Created` — Agendamento criado com sucesso
+
+```json
+{
+  "id": "string (UUID)",
+  "patientId": "string (UUID)",
+  "doctorId": "string (UUID)",
+  "date": "string (ISO 8601)",
+  "status": "PENDING",
+  "notes": "string | null",
+  "createdAt": "string (ISO 8601)",
+  "updatedAt": "string (ISO 8601)"
+}
+```
+
+`400 Bad Request` — Dados inválidos ou regra de negócio violada
+
+```json
+{
+  "error": "A data da consulta deve ser no futuro."
+}
+```
+
+```json
+{
+  "error": "Paciente não encontrado. Use um patientId válido."
+}
+```
+
+```json
+{
+  "error": "Médico não encontrado. Use um doctorId válido."
+}
+```
+
+---
+
+#### Endpoint 04: `GET /appointments/listAppointments` — Listar Agendamentos do Usuário
+
+Retorna todos os agendamentos associados ao usuário informado (como paciente ou médico).
+
+**Body (JSON):**
+
+```json
+{
+  "userId": "string (UUID)"
+}
+```
+
+**Respostas:**
+
+`200 OK` — Lista de agendamentos
+
+```json
+[
+  {
+    "id": "string (UUID)",
+    "patientId": "string (UUID)",
+    "doctorId": "string (UUID)",
+    "date": "string (ISO 8601)",
+    "status": "PENDING | CONFIRMED | CANCELLED | RESCHEDULED",
+    "notes": "string | null",
+    "createdAt": "string (ISO 8601)"
+  }
+]
+```
+
+`400 Bad Request` — UUID inválido
+
+```json
+{
+  "error": [{ "message": "Invalid uuid" }]
+}
+```
+
+---
+
+#### Endpoint 05: `POST /appointments/cancelAppointment` — Cancelar Agendamento
+
+Cancela um agendamento existente, alterando seu status para `CANCELLED`.
+
+**Body (JSON):**
+
+```json
+{
+  "appointmentId": "string (UUID)"
+}
+```
+
+**Respostas:**
+
+`200 OK` — Agendamento cancelado com sucesso
+
+```json
+{
+  "id": "string (UUID)",
+  "status": "CANCELLED",
+  "updatedAt": "string (ISO 8601)"
+}
+```
+
+`400 Bad Request` — UUID inválido ou agendamento não encontrado
+
+```json
+{
+  "error": "Consulta não encontrada."
+}
+```
+
+---
+
+### Notificações (`/notifications`) [JWT]
+
+Todos os endpoints abaixo exigem autenticação via `Authorization: Bearer <token>`.
+
+#### Endpoint 06: `GET /notifications` — Listar Notificações
+
+Retorna as notificações do usuário autenticado, com suporte a paginação e filtro de lidas/não lidas.
+
+**Query params:**
+
+| Parâmetro    | Tipo    | Padrão | Descrição                                 |
+| :----------- | :------ | :----- | :---------------------------------------- |
+| `page`       | number  | `1`    | Número da página (inteiro positivo)       |
+| `limit`      | number  | `20`   | Itens por página (entre 1 e 50)           |
+| `unreadOnly` | boolean | —      | `true` para retornar apenas não lidas     |
+
+**Resposta `200 OK`:**
+
+```json
+{
+  "data": [
+    {
+      "id": "string (UUID)",
+      "type": "APPOINTMENT_CREATED | APPOINTMENT_CONFIRMED | APPOINTMENT_CANCELLED | APPOINTMENT_RESCHEDULED",
+      "title": "string",
+      "message": "string",
+      "read": false,
+      "appointmentId": "string (UUID) | null",
+      "createdAt": "string (ISO 8601)"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 42,
+    "totalPages": 3
+  }
+}
+```
+
+---
+
+#### Endpoint 07: `GET /notifications/unread-count` — Contagem de Não Lidas
+
+Retorna o total de notificações não lidas do usuário autenticado.
+
+**Resposta `200 OK`:**
+
+```json
+{
+  "count": 3
+}
+```
+
+---
+
+#### Endpoint 08: `PATCH /notifications/read-all` — Marcar Todas como Lidas
+
+Marca todas as notificações do usuário autenticado como lidas.
+
+**Resposta `204 No Content`** — Operação realizada com sucesso (sem corpo de resposta).
+
+---
+
+#### Endpoint 09: `PATCH /notifications/:id/read` — Marcar Notificação como Lida
+
+Marca uma notificação específica do usuário autenticado como lida.
+
+**Parâmetro de rota:** `:id` — UUID da notificação.
+
+**Respostas:**
+
+`200 OK` — Notificação marcada como lida
+
+```json
+{
+  "id": "string (UUID)",
+  "userId": "string (UUID)",
+  "type": "APPOINTMENT_CREATED | APPOINTMENT_CONFIRMED | APPOINTMENT_CANCELLED | APPOINTMENT_RESCHEDULED",
+  "title": "string",
+  "message": "string",
+  "read": true,
+  "appointmentId": "string (UUID) | null",
+  "createdAt": "string (ISO 8601)"
+}
+```
+
+`404 Not Found` — Notificação não encontrada ou não pertence ao usuário
+
+```json
+{
+  "error": "Notificação não encontrada."
+}
+```
+
+---
+
+#### Endpoint 10: `POST /notifications/send` — Enviar Notificação
+
+Envia uma notificação a um usuário. Pacientes só podem enviar notificações para si mesmos; médicos e recepcionistas podem notificar qualquer usuário. O sistema aciona o envio simultâneo por push (Expo) e por e-mail (Nodemailer).
+
+**Perfis autorizados:** `PATIENT`, `DOCTOR`, `RECEPTIONIST`
+
+**Body (JSON):**
+
+```json
+{
+  "userId": "string (UUID — destinatário)",
+  "type": "APPOINTMENT_CREATED | APPOINTMENT_CONFIRMED | APPOINTMENT_CANCELLED | APPOINTMENT_RESCHEDULED",
+  "title": "string",
+  "message": "string",
+  "emailSubject": "string",
+  "emailHtml": "string (HTML do corpo do e-mail)",
+  "appointmentId": "string (UUID, opcional)"
+}
+```
+
+**Respostas:**
+
+`201 Created` — Notificação enviada com sucesso
+
+```json
+{
+  "id": "string (UUID)",
+  "userId": "string (UUID)",
+  "type": "string",
+  "title": "string",
+  "read": false,
+  "createdAt": "string (ISO 8601)"
+}
+```
+
+`403 Forbidden` — Paciente tentando enviar para outro usuário
+
+```json
+{
+  "error": "Pacientes só podem enviar notificações para si mesmos."
+}
+```
+
+`404 Not Found` — Usuário destinatário não encontrado
+
+```json
+{
+  "error": "Usuário destinatário não encontrado."
+}
+```
+
+---
+
+### Usuários (`/users`) [JWT]
+
+#### Endpoint 11: `PATCH /users/me/push-token` — Atualizar Token Push
+
+Registra ou atualiza o token Expo Push do dispositivo do usuário autenticado, habilitando o recebimento de notificações push no aplicativo mobile.
+
+**Body (JSON):**
+
+```json
+{
+  "expoPushToken": "string (ex: ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx])"
+}
+```
+
+**Respostas:**
+
+`200 OK` — Token atualizado com sucesso
+
+```json
+{
+  "id": "string (UUID)",
+  "name": "string",
+  "email": "string",
+  "expoPushToken": "string"
+}
+```
+
+`401 Unauthorized` — Token JWT inválido ou usuário não encontrado
+
+```json
+{
+  "error": "Usuário não encontrado."
+}
+```
+
+---
+
+### Saúde da API
+
+#### Endpoint 12: `GET /health` — Verificar Status
+
+Verifica se a API está operacional. Utilizado por load balancers e ferramentas de monitoramento.
+
+**Resposta `200 OK`:**
+
+```json
+{
+  "status": "ok"
+}
+```
+
 ## Considerações de Segurança
 
-- **Senhas:** As senhas nunca são armazenadas em texto puro. O bcrypt é utilizado para gerar um hash seguro com 10 rounds antes de salvar no banco.
-- **Unicidade:** O banco garante um único cadastro por CPF e por e-mail através de constraints @unique no schema do Prisma.
+- **Senhas:** As senhas nunca são armazenadas em texto puro. O bcrypt é utilizado para gerar um hash seguro com 10 rounds de salt antes de persistir no banco de dados.
+- **Autenticação:** Todos os endpoints protegidos exigem um token JWT válido, passado no cabeçalho `Authorization: Bearer <token>`. O token é verificado pelo middleware `authenticate` antes de qualquer lógica de negócio.
+- **Autorização por perfil:** O middleware `authorize` restringe o acesso a determinados endpoints com base na `role` do usuário (`PATIENT`, `DOCTOR`, `RECEPTIONIST`), impedindo que perfis sem permissão acessem recursos restritos.
+- **Unicidade de cadastro:** O banco de dados garante um único registro por CPF e por e-mail através de constraints `@unique` no schema do Prisma, evitando duplicidade de contas.
+- **Validação de entrada:** Todos os dados recebidos pela API são validados com Zod antes de serem processados, rejeitando requisições malformadas com `400 Bad Request` antes de qualquer acesso ao banco.
+- **Variáveis de ambiente:** Credenciais sensíveis (JWT secret, senha do banco, credenciais SMTP) são gerenciadas exclusivamente por variáveis de ambiente, nunca expostas no código-fonte.
 
 ## Implantação
-
-## Implementação
 
 ### Hospedagem
 
@@ -154,24 +499,7 @@ A plataforma será hospedada na **Amazon Web Services (AWS)** em dois ambientes 
 
 ---
 
-### 1. Extensões recomendadas (VS Code)
-
-O repositório inclui `.vscode/extensions.json` com as extensões do projeto. Ao abrir a pasta no VS Code, ele vai sugerir instalá-las automaticamente. Caso não apareça a notificação, instale manualmente:
-
-| Extensão                     | Função                                                 |
-| :--------------------------- | :----------------------------------------------------- |
-| `Prisma.prisma`              | Syntax highlight e format do `schema.prisma`           |
-| `dbaeumer.vscode-eslint`     | Mostra erros de lint inline e corrige ao salvar        |
-| `esbenp.prettier-vscode`     | Formata TypeScript, JS e JSON ao salvar                |
-| `usernamehw.errorlens`       | Exibe mensagens de erro diretamente na linha do código |
-| `yoavbls.pretty-ts-errors`   | Torna os erros TypeScript legíveis                     |
-| `yzhang.markdown-all-in-one` | Preview e formatação de Markdown                       |
-
-> Com essas extensões, lint e formatação rodam automaticamente ao salvar — não é necessário executar `npm run lint` ou `npm run format` manualmente durante o desenvolvimento.
-
----
-
-### 2. Instalar dependências
+### 1. Instalar dependências
 
 ```bash
 cd src/backend
@@ -180,7 +508,7 @@ npm install
 
 ---
 
-### 3. Configurar variáveis de ambiente
+### 2. Configurar variáveis de ambiente
 
 ```bash
 cp .env.example .env
@@ -208,7 +536,7 @@ EMAIL_FROM=no-reply@medhub.app
 
 ---
 
-### 4. Subir o banco com Docker
+### 3. Subir o banco com Docker
 
 ```bash
 docker compose up -d
@@ -232,7 +560,7 @@ medhub-db    Up X seconds     0.0.0.0:5432->5432/tcp
 
 ---
 
-### 5. Executar as migrations
+### 4. Executar as migrations
 
 Cria as tabelas no banco a partir do schema Prisma:
 
@@ -249,7 +577,7 @@ Your database is now in sync with your schema.
 
 ---
 
-### 6. (Opcional) Inspecionar o banco com Prisma Studio
+### 5. (Opcional) Inspecionar o banco com Prisma Studio
 
 ```bash
 npx prisma studio
@@ -259,7 +587,7 @@ Acesse em `http://localhost:5555` e verifique se as tabelas `User`, `Doctor`, `C
 
 ---
 
-### 7. Iniciar o servidor
+### 6. Iniciar o servidor
 
 ```bash
 npm run dev
@@ -273,7 +601,7 @@ Saída esperada:
 
 ---
 
-### 8. Verificar que está funcionando
+### 7. Verificar que está funcionando
 
 ```bash
 curl http://localhost:3000/health
@@ -293,9 +621,13 @@ Resposta esperada:
 | API de Edição e Gerenciamento de Consultas (RF-002) | [Cenários de Teste — Edição e Gerenciamento de Consultas](rf-002-appointments-management/cenarios-de-teste.md) |
 | API de Controle de Acesso e Autorização de Agendamentos (RF-003) | [Cenários de Teste — Controle de Acesso e Autorização](rf-003-appointments-security/cenarios-de-teste.md) |
 | API de Validação de Disponibilidade e Conflitos de Horários (RF-004) | [Cenários de Teste — Conflitos e Disponibilidade](rf-004-appointments-concurrency/cenarios-de-teste.md) |
+| Funcionalidade               | Documento de testes                                                           |
+| ---------------------------- | ----------------------------------------------------------------------------- |
+| API's de Agendamento, Listagem e Cancelamento de Consultas (RF-001) | [Cenários de Teste — Agendamento, Listagem e Cancelamento de Consultas](rf-001-appointments/cenarios-de-teste.md) |
+| API de Notificações (RF-006) | [Cenários de Teste — Notificações](rf-006-notifications/cenarios-de-teste.md) |
 | API de Autenticação (RF-005) | [Cenários de Teste — Autenticação](rf-005-auth/cenarios-de-teste.md)          |
 | API de Notificações (RF-006) | [Cenários de Teste — Notificações](rf-006-notifications/cenarios-de-teste.md) |
 
 # Referências
 
-['Referências utilizadas no projeto'](./referencia.md) 
+[Referências utilizadas no projeto](./referencia.md)
