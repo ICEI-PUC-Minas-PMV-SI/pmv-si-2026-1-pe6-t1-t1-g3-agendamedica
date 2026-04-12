@@ -627,6 +627,7 @@ Resposta esperada:
 | API de Notificações (RF-006) | [Cenários de Teste — Notificações](rf-006-notifications/cenarios-de-teste.md) |
 | API de Autenticação (RF-005) | [Cenários de Teste — Autenticação](rf-005-auth/cenarios-de-teste.md)          |
 | API de Notificações (RF-006) | [Cenários de Teste — Notificações](rf-006-notifications/cenarios-de-teste.md) |
+| API de Clínicas (RF-007)     | [Cenários de Teste - Clínicas](rf-007-clinics/testes-clinicas.md)             |
 
 # Referências
 
