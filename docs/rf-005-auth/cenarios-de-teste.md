@@ -310,11 +310,11 @@ Content-Type: application/json
 ```
 **Evidência — Postman**
 
-['Cenário 5 — Criar cadastro com sucesso (Paciente)'](./assets/backend/cenarios-de-teste/Cenário_05.png)
+[Cenário 5 — Criar cadastro com sucesso (Paciente)](./assets/backend/cenarios-de-teste/Cenário_05.png)
 
 **Evidência — Prisma Studio**
 
-['Evidência de Cadastro e Criptografia - Prisma'](./assets/backend/cenarios-de-teste/Evidencia_02_Prisma.png)
+[Evidência de Cadastro e Criptografia - Prisma](./assets/backend/cenarios-de-teste/Evidencia_02_Prisma.png)
  
 ---
  
@@ -351,13 +351,12 @@ Content-Type: application/json
 ```
 **Evidência — Postman**
 
-['Cenário 6 — Criar cadastro com sucesso (Recepcionista)'](./assets/backend/cenarios-de-teste/Cenário_06.png)
+[Cenário 6 — Criar cadastro com sucesso (Recepcionista)](./assets/backend/cenarios-de-teste/Cenário_06.png)
  
 **Evidência — Prisma Studio**
 
-['Evidência de Cadastro e Criptografia - Prisma'](./assets/backend/cenarios-de-teste/Evidencia_03_Prisma.png)
----
- 
+[Evidencia](./assets/backend/cenarios-de-teste/Evidencia_03_Prisma.png)
+
 ### Cenário 7 — Erro de e-mail duplicado
  
 > **Rota:** `POST /register`  
@@ -390,7 +389,7 @@ Content-Type: application/json
 ```
 **Evidência — Postman**
 
-['Cenário 7 — Erro de e-mail duplicado'](./assets/backend/cenarios-de-teste/Cenário_07.png)
+[Cenário 7 — Erro de e-mail duplicado](./assets/backend/cenarios-de-teste/Cenário_07.png)
  
 ---
  
