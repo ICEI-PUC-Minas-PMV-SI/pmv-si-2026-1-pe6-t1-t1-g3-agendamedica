@@ -1,4 +1,3 @@
-import React from 'react'
 import { Ic } from '../../lib/icons'
 import { fmtDate, STATUS_LABEL, STATUS_CLASS } from '../../lib/utils'
 import type { Appointment, AppStatus } from '../../lib/types'

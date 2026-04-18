@@ -1,4 +1,3 @@
-import React from 'react'
 import type { User, Appointment, Notification, Activity } from './types'
 
 export const USER: User = {

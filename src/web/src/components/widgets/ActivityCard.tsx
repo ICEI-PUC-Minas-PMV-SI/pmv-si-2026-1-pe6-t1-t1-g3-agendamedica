@@ -1,4 +1,3 @@
-import React from 'react'
 import { Ic } from '../../lib/icons'
 import type { Activity } from '../../lib/types'
 

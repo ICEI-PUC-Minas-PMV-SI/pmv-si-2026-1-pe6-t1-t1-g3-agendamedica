@@ -1,4 +1,3 @@
-import React from 'react'
 import { Ic } from '../../lib/icons'
 import type { IcName } from '../../lib/icons'
 import type { View } from '../../lib/types'

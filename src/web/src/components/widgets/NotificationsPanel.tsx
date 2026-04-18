@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Ic } from '../../lib/icons'
 import { relTime } from '../../lib/utils'
 import type { Notification, AppStatus } from '../../lib/types'
