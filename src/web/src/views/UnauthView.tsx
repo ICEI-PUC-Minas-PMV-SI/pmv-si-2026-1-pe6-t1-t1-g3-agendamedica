@@ -1,5 +1,3 @@
-import { Ic } from "../lib/icons";
-
 interface UnauthViewProps {
     onGoLogin: () => void;
     onGoRegister: () => void;
@@ -28,24 +26,6 @@ export function UnauthView({ onGoLogin, onGoRegister }: UnauthViewProps) {
                         <button className="btn btn-secondary btn-lg" onClick={onGoRegister}>
                             Criar conta gratuita
                         </button>
-                    </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: 20,
-                            marginTop: 28,
-                            fontSize: 12.5,
-                            color: "var(--ink-3)",
-                        }}
-                    >
-                        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                            <Ic.shield size={14} style={{ color: "var(--accent)" }} />
-                            Dados criptografados
-                        </span>
-                        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                            <Ic.check size={14} style={{ color: "var(--accent)" }} />
-                            LGPD compliant
-                        </span>
                     </div>
                 </div>
                 <div className="unauth-visual" aria-hidden="true">
