@@ -1,6 +1,11 @@
 import { Ic } from '../lib/icons'
 
-export function UnauthView() {
+interface UnauthViewProps {
+  onGoLogin: () => void
+  onGoRegister: () => void
+}
+
+export function UnauthView({ onGoLogin, onGoRegister }: UnauthViewProps) {
   return (
     <div className="unauth-wrap">
       <div className="unauth-hero">
@@ -17,8 +22,8 @@ export function UnauthView() {
             teleconsulta — do jeito que for melhor pra você.
           </p>
           <div className="unauth-actions">
-            <button className="btn btn-primary btn-lg">Entrar</button>
-            <button className="btn btn-secondary btn-lg">Criar conta gratuita</button>
+            <button className="btn btn-primary btn-lg" onClick={onGoLogin}>Entrar</button>
+            <button className="btn btn-secondary btn-lg" onClick={onGoRegister}>Criar conta gratuita</button>
           </div>
           <div style={{ display: 'flex', gap: 20, marginTop: 28, fontSize: 12.5, color: 'var(--ink-3)' }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>

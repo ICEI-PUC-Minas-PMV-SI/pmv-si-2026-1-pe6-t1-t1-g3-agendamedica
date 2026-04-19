@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react'
 import { Ic } from '../../lib/icons'
 import type { User, View } from '../../lib/types'
 
@@ -7,6 +8,9 @@ interface HeaderProps {
   user: User
   view?: View
   setView?: (v: View) => void
+  onLogout?: () => void
+  onGoProfile?: () => void
+  onBrandClick?: () => void
 }
 
 const viewLabels: Record<View, string> = {
@@ -17,11 +21,29 @@ const viewLabels: Record<View, string> = {
   appointments: 'Minhas Consultas',
 }
 
-export function Header({ unauth, notifCount, user, view }: HeaderProps) {
+export function Header({ unauth, notifCount, user, view, onLogout, onGoProfile, onBrandClick }: HeaderProps) {
+  const [dropOpen, setDropOpen] = useState(false)
+  const dropRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!dropOpen) return
+    const handler = (e: MouseEvent) => {
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) {
+        setDropOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [dropOpen])
+
   return (
     <header className="app-header">
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-        <div className="brand">
+        <div
+          className="brand"
+          onClick={onBrandClick}
+          style={{ cursor: onBrandClick ? 'pointer' : undefined }}
+        >
           <div className="brand-mark">M</div>
           <span>medhub</span>
         </div>
@@ -47,8 +69,6 @@ export function Header({ unauth, notifCount, user, view }: HeaderProps) {
         {unauth ? (
           <>
             <button className="btn btn-ghost btn-sm">Para profissionais</button>
-            <button className="btn btn-secondary btn-sm">Entrar</button>
-            <button className="btn btn-primary btn-sm">Criar conta</button>
           </>
         ) : (
           <>
@@ -62,11 +82,76 @@ export function Header({ unauth, notifCount, user, view }: HeaderProps) {
                 <span className="badge-dot">{notifCount}</span>
               )}
             </button>
-            <button className="user-chip">
-              <span className="avatar">{user.initials}</span>
-              <span className="name">{user.name.split(' ')[0]}</span>
-              <Ic.chevDown size={14} className="user-chip-chev" />
-            </button>
+
+            <div ref={dropRef} style={{ position: 'relative' }}>
+              <button className="user-chip" onClick={() => setDropOpen(o => !o)}>
+                <span className="avatar">{user.initials}</span>
+                <span className="name">{user.name.split(' ')[0]}</span>
+                <Ic.chevDown size={14} className="user-chip-chev" />
+              </button>
+
+              {dropOpen && (
+                <div
+                  className="card"
+                  style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 8px)',
+                    right: 0,
+                    minWidth: 160,
+                    padding: 6,
+                    zIndex: 100,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                  }}
+                >
+                  <button
+                    onClick={() => { onGoProfile?.(); setDropOpen(false) }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 10,
+                      width: '100%',
+                      padding: '8px 10px',
+                      borderRadius: 6,
+                      border: 'none',
+                      background: 'none',
+                      color: 'var(--ink)',
+                      fontSize: 13.5,
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'var(--surface-2)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+                  >
+                    <Ic.user size={15} />
+                    Perfil
+                  </button>
+                  <button
+                    onClick={() => { onLogout?.(); setDropOpen(false) }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 10,
+                      width: '100%',
+                      padding: '8px 10px',
+                      borderRadius: 6,
+                      border: 'none',
+                      background: 'none',
+                      color: 'var(--ink)',
+                      fontSize: 13.5,
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'var(--surface-2)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+                  >
+                    <Ic.arrow size={15} style={{ transform: 'rotate(180deg)' }} />
+                    Sair
+                  </button>
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>

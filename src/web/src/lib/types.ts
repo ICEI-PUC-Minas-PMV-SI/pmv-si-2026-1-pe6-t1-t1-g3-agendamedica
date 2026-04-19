@@ -6,10 +6,13 @@ export type Density = 'compact' | 'comfortable' | 'spacious'
 export type Theme = 'light' | 'dark'
 export type View = 'home' | 'schedule' | 'appointments' | 'history' | 'profile'
 export type Auth = 'patient' | 'unauth'
+export type AuthView = 'landing' | 'login' | 'register'
 export type AppointmentStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'RESCHEDULED'
 
 export interface AppState {
   theme: Theme
+  auth: Auth
+  authView: AuthView
   view: View
 }
 

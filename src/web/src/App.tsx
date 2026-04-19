@@ -3,20 +3,26 @@ import { useState, useEffect } from 'react'
 import { Header } from './components/shell/Header'
 import { Sidebar } from './components/shell/Sidebar'
 import { BottomNav } from './components/shell/BottomNav'
-// Views
+// Views — autenticadas
 import { HomeView } from './views/HomeView'
 import { ScheduleView } from './views/ScheduleView'
 import { HistoryView } from './views/HistoryView'
 import { ProfileView } from './views/ProfileView'
 import { AppointmentsView } from './views/AppointmentsView'
+// Views — não autenticadas
+import { UnauthView } from './views/UnauthView'
+import { LoginView } from './views/LoginView'
+import { RegisterView } from './views/RegisterView'
 // Data
 import { USER, APPOINTMENTS, NOTIFICATIONS, ACTIVITY } from './lib/mockData'
 // Types
-import type { AppState, Notification, Theme, View } from './lib/types'
+import type { AppState, AuthView, Notification, Theme, View } from './lib/types'
 
 export default function App() {
   const [appState, setAppState] = useState<AppState>({
     theme: 'light',
+    auth: 'unauth',
+    authView: 'landing',
     view: 'home',
   })
   const [notifications, setNotifications] = useState<Notification[]>(NOTIFICATIONS)
@@ -32,9 +38,24 @@ export default function App() {
   }, [appState.theme])
 
   const setView = (v: View) => setAppState(prev => ({ ...prev, view: v }))
+  const setAuthView = (v: AuthView) => setAppState(prev => ({ ...prev, authView: v }))
   const setTheme = (t: Theme) => setAppState(prev => ({ ...prev, theme: t }))
 
+  const onLogin = () => setAppState(prev => ({ ...prev, auth: 'patient', view: 'home' }))
+  const onLogout = () => setAppState(prev => ({ ...prev, auth: 'unauth', authView: 'landing' }))
+
   const unreadCount = notifications.filter(n => !n.read).length
+
+  const renderAuthView = () => {
+    switch (appState.authView) {
+      case 'login':
+        return <LoginView onLogin={onLogin} onGoRegister={() => setAuthView('register')} />
+      case 'register':
+        return <RegisterView onRegister={onLogin} onGoLogin={() => setAuthView('login')} />
+      default:
+        return <UnauthView onGoLogin={() => setAuthView('login')} onGoRegister={() => setAuthView('register')} />
+    }
+  }
 
   const renderView = () => {
     switch (appState.view) {
@@ -69,6 +90,19 @@ export default function App() {
     }
   }
 
+  if (appState.auth === 'unauth') {
+    return (
+      <div className="app-shell" data-unauth="true">
+        <Header unauth user={USER} onBrandClick={() => setAuthView('landing')} />
+        <main className="app-main">
+          <div className="app-main-inner">
+            {renderAuthView()}
+          </div>
+        </main>
+      </div>
+    )
+  }
+
   return (
     <div className="app-shell">
       <Header
@@ -76,6 +110,9 @@ export default function App() {
         user={USER}
         view={appState.view}
         setView={setView}
+        onLogout={onLogout}
+        onGoProfile={() => setView('profile')}
+        onBrandClick={() => setView('home')}
       />
       <Sidebar view={appState.view} setView={setView} />
       <main className="app-main">
