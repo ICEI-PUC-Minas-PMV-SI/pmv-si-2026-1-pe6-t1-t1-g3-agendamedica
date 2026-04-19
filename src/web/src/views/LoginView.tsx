@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type React from 'react'
 
 interface LoginViewProps {
-  onLogin: () => void
+  onLogin: (email: string, password: string) => void
   onGoRegister: () => void
 }
 
@@ -24,7 +24,7 @@ export function LoginView({ onLogin, onGoRegister }: LoginViewProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onLogin()
+    onLogin(email, password)
   }
 
   return (

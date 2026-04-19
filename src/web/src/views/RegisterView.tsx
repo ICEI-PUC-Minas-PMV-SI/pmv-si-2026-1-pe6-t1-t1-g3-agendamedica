@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type React from 'react'
 
 interface RegisterViewProps {
-  onRegister: (name: string, email: string) => void
+  onRegister: (name: string, email: string, password: string) => void
   onGoLogin: () => void
 }
 
@@ -26,7 +26,7 @@ export function RegisterView({ onRegister, onGoLogin }: RegisterViewProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onRegister(name, email)
+    onRegister(name, email, password)
   }
 
   return (

@@ -13,15 +13,18 @@ import { AppointmentsView } from './views/AppointmentsView'
 import { UnauthView } from './views/UnauthView'
 import { LoginView } from './views/LoginView'
 import { RegisterView } from './views/RegisterView'
-// Data
-import { USER, APPOINTMENTS, NOTIFICATIONS, ACTIVITY } from './lib/mockData'
+// Data & API
+import { ACTIVITY } from './lib/mockData'
+import * as api from './lib/api'
 // Types
-import type { AppState, AuthView, Notification, Theme, User, View } from './lib/types'
+import type { AppState, Appointment, AuthView, Notification, Theme, User, View } from './lib/types'
 
-function makeInitials(name: string): string {
-  const parts = name.trim().split(/\s+/)
-  if (parts.length === 1) return parts[0][0].toUpperCase()
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+const DEFAULT_USER: User = {
+  id: '',
+  name: '',
+  email: '',
+  role: 'PATIENT',
+  initials: '?',
 }
 
 export default function App() {
@@ -31,8 +34,9 @@ export default function App() {
     authView: 'landing',
     view: 'home',
   })
-  const [currentUser, setCurrentUser] = useState<User>(USER)
-  const [notifications, setNotifications] = useState<Notification[]>(NOTIFICATIONS)
+  const [currentUser, setCurrentUser] = useState<User>(DEFAULT_USER)
+  const [appointments, setAppointments] = useState<Appointment[]>([])
+  const [notifications, setNotifications] = useState<Notification[]>([])
 
   useEffect(() => {
     const el = document.documentElement
@@ -44,25 +48,38 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', appState.theme)
   }, [appState.theme])
 
+  // Busca dados ao autenticar
+  useEffect(() => {
+    if (appState.auth !== 'patient') return
+    Promise.all([api.fetchAppointments(), api.fetchNotifications()])
+      .then(([appts, notifs]) => {
+        setAppointments(appts)
+        setNotifications(notifs)
+      })
+      .catch(console.error)
+  }, [appState.auth])
+
   const setView = (v: View) => setAppState(prev => ({ ...prev, view: v }))
   const setAuthView = (v: AuthView) => setAppState(prev => ({ ...prev, authView: v }))
   const setTheme = (t: Theme) => setAppState(prev => ({ ...prev, theme: t }))
 
-  const onLogin = () => setAppState(prev => ({ ...prev, auth: 'patient', view: 'home' }))
+  const onLogin = async (email: string, password: string) => {
+    const user = await api.login(email, password)
+    setCurrentUser(user)
+    setAppState(prev => ({ ...prev, auth: 'patient', view: 'home' }))
+  }
 
-  const onRegister = (name: string, email: string) => {
-    setCurrentUser({
-      id: 'mock-user',
-      name,
-      email,
-      role: 'PATIENT',
-      initials: makeInitials(name),
-    })
+  const onRegister = async (name: string, email: string, password: string) => {
+    const user = await api.register(name, email, password)
+    setCurrentUser(user)
     setAppState(prev => ({ ...prev, auth: 'patient', view: 'home' }))
   }
 
   const onLogout = () => {
-    setCurrentUser(USER)
+    api.setToken('')
+    setCurrentUser(DEFAULT_USER)
+    setAppointments([])
+    setNotifications([])
     setAppState(prev => ({ ...prev, auth: 'unauth', authView: 'landing' }))
   }
 
@@ -84,7 +101,7 @@ export default function App() {
       case 'schedule':
         return <ScheduleView />
       case 'history':
-        return <HistoryView appointments={APPOINTMENTS} />
+        return <HistoryView appointments={appointments} />
       case 'profile':
         return (
           <ProfileView
@@ -94,12 +111,12 @@ export default function App() {
           />
         )
       case 'appointments':
-        return <AppointmentsView appointments={APPOINTMENTS} />
+        return <AppointmentsView appointments={appointments} />
       default:
         return (
           <HomeView
             state="loaded"
-            appointments={APPOINTMENTS}
+            appointments={appointments}
             notifications={notifications}
             setNotifications={setNotifications}
             activity={ACTIVITY}

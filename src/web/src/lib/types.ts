@@ -1,5 +1,3 @@
-import type React from 'react'
-
 export type AppStatus = 'loaded' | 'loading' | 'empty' | 'error'
 export type Accent = 'teal' | 'coral' | 'indigo' | 'forest'
 export type Density = 'compact' | 'comfortable' | 'spacious'
@@ -48,6 +46,6 @@ export interface Notification {
 export interface Activity {
   id: number
   type: string
-  text: React.ReactNode
+  text: string
   time: string
 }

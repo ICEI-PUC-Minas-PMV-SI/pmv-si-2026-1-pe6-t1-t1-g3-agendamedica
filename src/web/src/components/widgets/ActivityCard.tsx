@@ -20,7 +20,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
           return (
             <div key={a.id} className="activity-item">
               <div className="activity-ic"><I size={13} /></div>
-              <div className="activity-body"><div className="t">{a.text}</div></div>
+              <div className="activity-body"><div className="t" dangerouslySetInnerHTML={{ __html: a.text }} /></div>
               <div className="activity-time">{a.time}</div>
             </div>
           )
