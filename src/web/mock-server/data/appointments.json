@@ -1,0 +1,32 @@
+[
+    {
+        "id": "a-01",
+        "date": "2026-04-18T14:30:00",
+        "status": "CONFIRMED",
+        "doctor": "Dra. Marina Figueiredo",
+        "specialty": "Cardiologia",
+        "clinic": "Clínica Santa Luz — Unidade Centro",
+        "mode": "presencial",
+        "isToday": true
+    },
+    {
+        "id": "a-02",
+        "date": "2026-04-23T09:00:00",
+        "status": "PENDING",
+        "doctor": "Dr. Rafael Monteiro",
+        "specialty": "Clínico Geral",
+        "clinic": "Teleconsulta",
+        "mode": "tele",
+        "isToday": false
+    },
+    {
+        "id": "a-03",
+        "date": "2026-05-02T16:15:00",
+        "status": "RESCHEDULED",
+        "doctor": "Dra. Helena Prado",
+        "specialty": "Dermatologia",
+        "clinic": "Clínica Santa Luz — Pampulha",
+        "mode": "presencial",
+        "isToday": false
+    }
+]
