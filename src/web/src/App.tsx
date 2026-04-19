@@ -16,7 +16,13 @@ import { RegisterView } from './views/RegisterView'
 // Data
 import { USER, APPOINTMENTS, NOTIFICATIONS, ACTIVITY } from './lib/mockData'
 // Types
-import type { AppState, AuthView, Notification, Theme, View } from './lib/types'
+import type { AppState, AuthView, Notification, Theme, User, View } from './lib/types'
+
+function makeInitials(name: string): string {
+  const parts = name.trim().split(/\s+/)
+  if (parts.length === 1) return parts[0][0].toUpperCase()
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+}
 
 export default function App() {
   const [appState, setAppState] = useState<AppState>({
@@ -25,6 +31,7 @@ export default function App() {
     authView: 'landing',
     view: 'home',
   })
+  const [currentUser, setCurrentUser] = useState<User>(USER)
   const [notifications, setNotifications] = useState<Notification[]>(NOTIFICATIONS)
 
   useEffect(() => {
@@ -42,7 +49,22 @@ export default function App() {
   const setTheme = (t: Theme) => setAppState(prev => ({ ...prev, theme: t }))
 
   const onLogin = () => setAppState(prev => ({ ...prev, auth: 'patient', view: 'home' }))
-  const onLogout = () => setAppState(prev => ({ ...prev, auth: 'unauth', authView: 'landing' }))
+
+  const onRegister = (name: string, email: string) => {
+    setCurrentUser({
+      id: 'mock-user',
+      name,
+      email,
+      role: 'PATIENT',
+      initials: makeInitials(name),
+    })
+    setAppState(prev => ({ ...prev, auth: 'patient', view: 'home' }))
+  }
+
+  const onLogout = () => {
+    setCurrentUser(USER)
+    setAppState(prev => ({ ...prev, auth: 'unauth', authView: 'landing' }))
+  }
 
   const unreadCount = notifications.filter(n => !n.read).length
 
@@ -51,7 +73,7 @@ export default function App() {
       case 'login':
         return <LoginView onLogin={onLogin} onGoRegister={() => setAuthView('register')} />
       case 'register':
-        return <RegisterView onRegister={onLogin} onGoLogin={() => setAuthView('login')} />
+        return <RegisterView onRegister={onRegister} onGoLogin={() => setAuthView('login')} />
       default:
         return <UnauthView onGoLogin={() => setAuthView('login')} onGoRegister={() => setAuthView('register')} />
     }
@@ -66,7 +88,7 @@ export default function App() {
       case 'profile':
         return (
           <ProfileView
-            user={USER}
+            user={currentUser}
             theme={appState.theme}
             onToggleTheme={() => setTheme(appState.theme === 'light' ? 'dark' : 'light')}
           />
@@ -81,7 +103,7 @@ export default function App() {
             notifications={notifications}
             setNotifications={setNotifications}
             activity={ACTIVITY}
-            user={USER}
+            user={currentUser}
             onRetry={() => {}}
             onSchedule={() => setView('schedule')}
             onView={setView}
@@ -93,7 +115,7 @@ export default function App() {
   if (appState.auth === 'unauth') {
     return (
       <div className="app-shell" data-unauth="true">
-        <Header unauth user={USER} onBrandClick={() => setAuthView('landing')} />
+        <Header unauth user={currentUser} onBrandClick={() => setAuthView('landing')} />
         <main className="app-main">
           <div className="app-main-inner">
             {renderAuthView()}
@@ -107,7 +129,7 @@ export default function App() {
     <div className="app-shell">
       <Header
         notifCount={unreadCount}
-        user={USER}
+        user={currentUser}
         view={appState.view}
         setView={setView}
         onLogout={onLogout}
