@@ -4,11 +4,11 @@ Interface web do sistema de agendamento de consultas MedHub, desenvolvida em Rea
 
 ## Stack
 
-| Tecnologia | Versão | Uso |
-|---|---|---|
-| React | 18.3 | Componentes e estado |
-| Vite | 6 | Build e dev server |
-| TypeScript | 5.6 | Tipagem estática |
+| Tecnologia | Versão | Uso                  |
+| ---------- | ------ | -------------------- |
+| React      | 18.3   | Componentes e estado |
+| Vite       | 6      | Build e dev server   |
+| TypeScript | 5.6    | Tipagem estática     |
 
 ## Pré-requisitos
 
@@ -32,6 +32,12 @@ npm run build
 
 # Preview do build de produção
 npm run preview
+
+# Lint / formatação
+npm run lint
+npm run lint:fix
+npm run format
+npm run format:check
 ```
 
 ## Estrutura
@@ -41,15 +47,14 @@ src/
 ├── lib/
 │   ├── types.ts          # Tipos e interfaces TypeScript
 │   ├── utils.ts          # Utilitários (formatação de data, status)
-│   ├── mockData.tsx      # Dados mock (substitutos da API)
+│   ├── api.ts            # Camada de serviço HTTP (fetch + mock server)
 │   └── icons.tsx         # Biblioteca de ícones SVG
 ├── components/
 │   ├── shell/            # Header, Sidebar, BottomNav
 │   ├── states/           # LoadingState, EmptyState, ErrorState
 │   ├── ui/               # PageHeader
 │   └── widgets/          # HeroCTA, UpcomingAppointments, NotificationsPanel, etc.
-├── views/                # Páginas: Home, Agendar, Consultas, Histórico, Perfil, Unauth
-├── tweaks/               # Painel de tweaks para demonstração do design system
+├── views/                # Páginas da aplicação (ver tabela abaixo)
 ├── styles/
 │   └── globals.css       # Design tokens e estilos base
 └── main.tsx              # Entrada da aplicação
@@ -57,14 +62,16 @@ src/
 
 ## Vistas implementadas
 
-| Vista | Rota (estado) | Descrição |
-|---|---|---|
-| Unauth | `auth: 'unauth'` | Landing page para visitantes |
-| Home | `view: 'home'` | Dashboard do paciente |
-| Agendar | `view: 'schedule'` | Agendamento em 3 passos |
-| Minhas Consultas | `view: 'appointments'` | Gerenciar consultas agendadas |
-| Histórico | `view: 'history'` | Consultas realizadas |
-| Perfil | `view: 'profile'` | Dados e preferências do usuário |
+| Vista            | Condição               | Descrição                       |
+| ---------------- | ---------------------- | ------------------------------- |
+| Unauth           | `auth: 'unauth'`       | Landing page para visitantes    |
+| Login            | `authView: 'login'`    | Formulário de autenticação      |
+| Cadastro         | `authView: 'register'` | Formulário de criação de conta  |
+| Home             | `view: 'home'`         | Dashboard do paciente           |
+| Agendar          | `view: 'schedule'`     | Agendamento em 3 passos         |
+| Minhas Consultas | `view: 'appointments'` | Gerenciar consultas agendadas   |
+| Histórico        | `view: 'history'`      | Consultas realizadas            |
+| Perfil           | `view: 'profile'`      | Dados e preferências do usuário |
 
 ## Design System
 
@@ -74,17 +81,13 @@ O sistema de design é baseado em tokens CSS (`globals.css`) com suporte a:
 - **Cores de destaque:** teal, coral, índigo, floresta (`data-accent`)
 - **Densidades:** compacto, confortável, espaçoso (`data-density`)
 
-### Painel de Tweaks
+## Dados e API
 
-Clique no ícone ✦ no canto superior direito do header para abrir o painel de tweaks. Ele permite alternar tema, cor, densidade, estado de carregamento e vista — útil para demonstrar o design system.
-
-## Dados
-
-Atualmente a aplicação utiliza dados mock definidos em `src/lib/mockData.tsx`. A integração com a API REST do backend (`src/backend`) será feita em uma etapa futura.
+A camada de comunicação com o servidor está em `src/lib/api.ts`. Em desenvolvimento, um mock server intercepta as chamadas `fetch` para `/api/*` e retorna dados simulados — sem necessidade de rodar o backend. Quando a integração real for ativada, basta apontar o Vite proxy para o backend e remover o mock server.
 
 ## Tipagem
 
 Os tipos principais estão em `src/lib/types.ts` e espelham os modelos da API documentados em `docs/backend-apis.md`:
 
-- `User`, `Appointment`, `Notification`, `Activity`
+- `User`, `Appointment`, `Notification`
 - `AppState` — estado global da aplicação (tema, vista ativa, auth)
