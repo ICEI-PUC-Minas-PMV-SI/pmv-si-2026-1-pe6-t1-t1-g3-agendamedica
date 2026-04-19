@@ -9,61 +9,59 @@ import { ScheduleView } from './views/ScheduleView'
 import { HistoryView } from './views/HistoryView'
 import { ProfileView } from './views/ProfileView'
 import { AppointmentsView } from './views/AppointmentsView'
-import { UnauthView } from './views/UnauthView'
-// Tweaks
-import TweaksPanel from './tweaks/TweaksPanel'
 // Data
 import { USER, APPOINTMENTS, NOTIFICATIONS, ACTIVITY } from './lib/mockData'
 // Types
-import type { AppState, Notification, View } from './lib/types'
+import type { AppState, Notification, Theme, View } from './lib/types'
 
 export default function App() {
-  const [tweaks, setTweaks] = useState<AppState>({
-    accent: 'teal',
-    density: 'comfortable',
+  const [appState, setAppState] = useState<AppState>({
     theme: 'light',
-    state: 'loaded',
-    auth: 'patient',
     view: 'home',
   })
-  const [tweaksOpen, setTweaksOpen] = useState(false)
   const [notifications, setNotifications] = useState<Notification[]>(NOTIFICATIONS)
 
   useEffect(() => {
     const el = document.documentElement
-    el.setAttribute('data-accent', tweaks.accent)
-    el.setAttribute('data-theme', tweaks.theme)
-    el.setAttribute('data-density', tweaks.density)
-  }, [tweaks.accent, tweaks.theme, tweaks.density])
+    el.setAttribute('data-density', 'comfortable')
+    el.setAttribute('data-accent', 'teal')
+  }, [])
 
-  const setView = (v: View) => setTweaks(prev => ({ ...prev, view: v }))
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', appState.theme)
+  }, [appState.theme])
 
-  const unauth = tweaks.auth === 'unauth'
+  const setView = (v: View) => setAppState(prev => ({ ...prev, view: v }))
+  const setTheme = (t: Theme) => setAppState(prev => ({ ...prev, theme: t }))
+
   const unreadCount = notifications.filter(n => !n.read).length
-  const apptsForState = tweaks.state === 'empty' ? [] : APPOINTMENTS
-  const notifsForState = tweaks.state === 'empty' ? [] : notifications
-  const onRetry = () => setTweaks(prev => ({ ...prev, state: 'loaded' }))
 
   const renderView = () => {
-    switch (tweaks.view) {
+    switch (appState.view) {
       case 'schedule':
         return <ScheduleView />
       case 'history':
         return <HistoryView appointments={APPOINTMENTS} />
       case 'profile':
-        return <ProfileView user={USER} />
+        return (
+          <ProfileView
+            user={USER}
+            theme={appState.theme}
+            onToggleTheme={() => setTheme(appState.theme === 'light' ? 'dark' : 'light')}
+          />
+        )
       case 'appointments':
         return <AppointmentsView appointments={APPOINTMENTS} />
       default:
         return (
           <HomeView
-            state={tweaks.state}
-            appointments={apptsForState}
-            notifications={notifsForState}
+            state="loaded"
+            appointments={APPOINTMENTS}
+            notifications={notifications}
             setNotifications={setNotifications}
             activity={ACTIVITY}
             user={USER}
-            onRetry={onRetry}
+            onRetry={() => {}}
             onSchedule={() => setView('schedule')}
             onView={setView}
           />
@@ -71,51 +69,21 @@ export default function App() {
     }
   }
 
-  if (unauth) {
-    return (
-      <>
-        <div className="app-shell" data-unauth="true">
-          <Header unauth user={USER} />
-          <main className="app-main">
-            <div className="app-main-inner">
-              <UnauthView />
-            </div>
-          </main>
-        </div>
-        <TweaksPanel
-          open={tweaksOpen}
-          onClose={() => setTweaksOpen(false)}
-          tweaks={tweaks}
-          setTweaks={setTweaks}
-        />
-      </>
-    )
-  }
-
   return (
-    <>
-      <div className="app-shell">
-        <Header
-          notifCount={unreadCount}
-          user={USER}
-          view={tweaks.view}
-          setView={setView}
-          onOpenTweaks={() => setTweaksOpen(true)}
-        />
-        <Sidebar view={tweaks.view} setView={setView} />
-        <main className="app-main">
-          <div className="app-main-inner">
-            {renderView()}
-          </div>
-        </main>
-        <BottomNav view={tweaks.view} setView={setView} />
-      </div>
-      <TweaksPanel
-        open={tweaksOpen}
-        onClose={() => setTweaksOpen(false)}
-        tweaks={tweaks}
-        setTweaks={setTweaks}
+    <div className="app-shell">
+      <Header
+        notifCount={unreadCount}
+        user={USER}
+        view={appState.view}
+        setView={setView}
       />
-    </>
+      <Sidebar view={appState.view} setView={setView} />
+      <main className="app-main">
+        <div className="app-main-inner">
+          {renderView()}
+        </div>
+      </main>
+      <BottomNav view={appState.view} setView={setView} />
+    </div>
   )
 }

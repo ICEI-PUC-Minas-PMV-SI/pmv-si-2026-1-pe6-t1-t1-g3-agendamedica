@@ -9,11 +9,7 @@ export type Auth = 'patient' | 'unauth'
 export type AppointmentStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'RESCHEDULED'
 
 export interface AppState {
-  accent: Accent
-  density: Density
   theme: Theme
-  state: AppStatus
-  auth: Auth
   view: View
 }
 

@@ -7,7 +7,6 @@ interface HeaderProps {
   user: User
   view?: View
   setView?: (v: View) => void
-  onOpenTweaks?: () => void
 }
 
 const viewLabels: Record<View, string> = {
@@ -18,7 +17,7 @@ const viewLabels: Record<View, string> = {
   appointments: 'Minhas Consultas',
 }
 
-export function Header({ unauth, notifCount, user, view, onOpenTweaks }: HeaderProps) {
+export function Header({ unauth, notifCount, user, view }: HeaderProps) {
   return (
     <header className="app-header">
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
@@ -53,9 +52,6 @@ export function Header({ unauth, notifCount, user, view, onOpenTweaks }: HeaderP
           </>
         ) : (
           <>
-            <button className="icon-btn" title="Ajuda" onClick={onOpenTweaks}>
-              <Ic.sparkle size={18} />
-            </button>
             <button
               className="icon-btn"
               title="Notificações"

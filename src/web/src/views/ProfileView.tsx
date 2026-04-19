@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import type { User } from '../lib/types'
+import type { Theme, User } from '../lib/types'
 import { PageHeader } from '../components/ui/PageHeader'
 
 interface ProfileViewProps {
   user: User
+  theme: Theme
+  onToggleTheme: () => void
 }
 
 interface SummaryRowProps {
@@ -30,10 +32,15 @@ function SummaryRow({ label, value }: SummaryRowProps) {
 interface PrefRowProps {
   label: string
   on?: boolean
+  onChange?: (v: boolean) => void
 }
 
-function PrefRow({ label, on }: PrefRowProps) {
+function PrefRow({ label, on, onChange }: PrefRowProps) {
   const [v, setV] = useState(!!on)
+  const toggle = () => {
+    setV(!v)
+    onChange?.(!v)
+  }
   return (
     <div
       style={{
@@ -46,7 +53,7 @@ function PrefRow({ label, on }: PrefRowProps) {
     >
       <span style={{ fontSize: 13.5 }}>{label}</span>
       <button
-        onClick={() => setV(!v)}
+        onClick={toggle}
         style={{
           width: 40,
           height: 22,
@@ -55,6 +62,7 @@ function PrefRow({ label, on }: PrefRowProps) {
           background: v ? 'var(--accent)' : 'var(--border-strong)',
           position: 'relative',
           transition: 'background 120ms',
+          cursor: 'pointer',
         }}
         aria-pressed={v}
       >
@@ -76,7 +84,7 @@ function PrefRow({ label, on }: PrefRowProps) {
   )
 }
 
-export function ProfileView({ user }: ProfileViewProps) {
+export function ProfileView({ user, theme, onToggleTheme }: ProfileViewProps) {
   return (
     <>
       <PageHeader
@@ -112,6 +120,17 @@ export function ProfileView({ user }: ProfileViewProps) {
             <SummaryRow label="CPF" value="•••.•••.321-00" />
             <SummaryRow label="Telefone" value="(31) 9•••• 4412" />
             <SummaryRow label="Nascimento" value="14 jul 1992" />
+          </section>
+
+          <section className="card" style={{ marginTop: 16 }}>
+            <div className="card-head">
+              <h3 className="card-title">Aparência</h3>
+            </div>
+            <PrefRow
+              label="Modo escuro"
+              on={theme === 'dark'}
+              onChange={onToggleTheme}
+            />
           </section>
         </div>
         <div className="col">
