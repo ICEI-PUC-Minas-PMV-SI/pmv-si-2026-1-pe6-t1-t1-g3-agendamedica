@@ -1,10 +1,9 @@
-import type { AppStatus, Appointment, Notification, Activity, View, User } from '../lib/types'
+import type { AppStatus, Appointment, Notification, View, User } from '../lib/types'
 import { PageHeader } from '../components/ui/PageHeader'
 import { HeroCTA } from '../components/widgets/HeroCTA'
 import { UpcomingAppointments } from '../components/widgets/UpcomingAppointments'
 import { ShortcutsGrid } from '../components/widgets/ShortcutsGrid'
 import { NotificationsPanel } from '../components/widgets/NotificationsPanel'
-import { ActivityCard } from '../components/widgets/ActivityCard'
 
 interface StatRowProps {
   label: string
@@ -57,7 +56,6 @@ export interface HomeViewProps {
   appointments: Appointment[]
   notifications: Notification[]
   setNotifications: (ns: Notification[]) => void
-  activity: Activity[]
   user: User
   onRetry: () => void
   onSchedule: () => void
@@ -69,7 +67,6 @@ export function HomeView({
   appointments,
   notifications,
   setNotifications,
-  activity,
   user,
   onRetry,
   onSchedule,
@@ -95,7 +92,6 @@ export function HomeView({
             onSchedule={onSchedule}
           />
           <ShortcutsGrid onSchedule={onSchedule} onView={onView} />
-          <ActivityCard activity={activity} />
         </div>
         <div className="col">
           <NotificationsPanel

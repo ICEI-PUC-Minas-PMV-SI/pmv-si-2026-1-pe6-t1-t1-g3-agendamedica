@@ -43,9 +43,3 @@ export interface Notification {
   appointmentId: string | null
 }
 
-export interface Activity {
-  id: number
-  type: string
-  text: string
-  time: string
-}

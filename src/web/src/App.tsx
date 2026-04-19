@@ -13,8 +13,7 @@ import { AppointmentsView } from './views/AppointmentsView'
 import { UnauthView } from './views/UnauthView'
 import { LoginView } from './views/LoginView'
 import { RegisterView } from './views/RegisterView'
-// Data & API
-import { ACTIVITY } from './lib/mockData'
+// API
 import * as api from './lib/api'
 // Types
 import type { AppState, Appointment, AuthView, Notification, Theme, User, View } from './lib/types'
@@ -119,7 +118,6 @@ export default function App() {
             appointments={appointments}
             notifications={notifications}
             setNotifications={setNotifications}
-            activity={ACTIVITY}
             user={currentUser}
             onRetry={() => {}}
             onSchedule={() => setView('schedule')}
