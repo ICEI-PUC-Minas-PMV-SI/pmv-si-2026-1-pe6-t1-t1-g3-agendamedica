@@ -12,11 +12,7 @@ function authHeaders(): HeadersInit {
     return _token ? { Authorization: `Bearer ${_token}` } : {};
 }
 
-async function req<T>(
-    method: string,
-    path: string,
-    body?: unknown,
-): Promise<T> {
+async function req<T>(method: string, path: string, body?: unknown): Promise<T> {
     const res = await fetch(`${BASE}${path}`, {
         method,
         headers: { "Content-Type": "application/json", ...authHeaders() },
@@ -34,26 +30,21 @@ function makeInitials(name: string): string {
 
 // ── Auth ──────────────────────────────────────────────────────
 export async function login(email: string, password: string): Promise<User> {
-    const data = await req<{ token: string; user: User }>(
-        "POST",
-        "/auth/login",
-        { email, password },
-    );
+    const data = await req<{ token: string; user: User }>("POST", "/auth/login", {
+        email,
+        password,
+    });
     setToken(data.token);
     data.user.initials = makeInitials(data.user.name);
     return data.user;
 }
 
-export async function register(
-    name: string,
-    email: string,
-    password: string,
-): Promise<User> {
-    const data = await req<{ token: string; user: User }>(
-        "POST",
-        "/auth/register",
-        { name, email, password },
-    );
+export async function register(name: string, email: string, password: string): Promise<User> {
+    const data = await req<{ token: string; user: User }>("POST", "/auth/register", {
+        name,
+        email,
+        password,
+    });
     setToken(data.token);
     data.user.initials = makeInitials(data.user.name);
     return data.user;
