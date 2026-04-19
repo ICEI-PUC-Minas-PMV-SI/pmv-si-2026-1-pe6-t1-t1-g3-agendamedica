@@ -20,7 +20,6 @@ export function HistoryView({ appointments }: HistoryViewProps) {
                     <h3 className="card-title">
                         Últimos 6 meses <span className="count">{appointments.length}</span>
                     </h3>
-                    <button className="card-action">Exportar PDF</button>
                 </div>
                 {appointments.map((ap) => {
                     const f = fmtDate(ap.date);
@@ -46,9 +45,6 @@ export function HistoryView({ appointments }: HistoryViewProps) {
                                     <span className="dot">·</span>
                                     <span>{ap.clinic}</span>
                                 </div>
-                            </div>
-                            <div className="appt-actions">
-                                <button className="btn btn-ghost btn-sm">Ver resumo</button>
                             </div>
                         </div>
                     );
