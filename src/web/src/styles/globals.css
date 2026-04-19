@@ -1048,63 +1048,6 @@ a {
 }
 
 /* ============================================================
-   Activity card
-   ============================================================ */
-.activity-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-.activity-item {
-    display: grid;
-    grid-template-columns: 28px 1fr auto;
-    gap: 12px;
-    align-items: flex-start;
-    padding: 0;
-    position: relative;
-}
-.activity-item::before {
-    content: "";
-    position: absolute;
-    left: 13px;
-    top: 30px;
-    bottom: -14px;
-    width: 1px;
-    background: var(--border);
-}
-.activity-item:last-child::before {
-    display: none;
-}
-.activity-ic {
-    width: 28px;
-    height: 28px;
-    border-radius: var(--r-pill);
-    background: var(--bg-subtle);
-    border: 1px solid var(--border);
-    display: grid;
-    place-items: center;
-    color: var(--ink-2);
-    position: relative;
-    z-index: 1;
-}
-.activity-body .t {
-    font-size: 13px;
-    color: var(--ink-2);
-    line-height: 1.5;
-}
-.activity-body .t b {
-    color: var(--ink);
-    font-weight: 600;
-}
-.activity-time {
-    font-size: 11px;
-    color: var(--ink-muted);
-    font-family: var(--font-mono);
-    white-space: nowrap;
-    padding-top: 6px;
-}
-
-/* ============================================================
    Unauth landing (mini)
    ============================================================ */
 .unauth-wrap {
@@ -1182,104 +1125,6 @@ a {
    ============================================================ */
 .bottom-nav {
     display: none;
-}
-
-/* ============================================================
-   Tweaks panel
-   ============================================================ */
-.tweaks {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    width: 320px;
-    max-height: 80vh;
-    overflow-y: auto;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r-3);
-    box-shadow: var(--sh-pop);
-    z-index: 100;
-    font-size: 13px;
-    display: none;
-    flex-direction: column;
-}
-.tweaks[data-open="true"] {
-    display: flex;
-}
-.tweaks-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-}
-.tweaks-title {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 15px;
-    letter-spacing: -0.01em;
-}
-.tweaks-body {
-    padding: 14px 16px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-.tweak {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.tweak-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-muted);
-    font-family: var(--font-mono);
-}
-.seg {
-    display: flex;
-    gap: 2px;
-    padding: 3px;
-    background: var(--bg-subtle);
-    border: 1px solid var(--border);
-    border-radius: var(--r-2);
-}
-.seg button {
-    flex: 1;
-    padding: 6px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    background: transparent;
-    border: none;
-    color: var(--ink-3);
-    text-transform: capitalize;
-}
-.seg button[data-active="true"] {
-    background: var(--surface);
-    color: var(--ink);
-    box-shadow: var(--sh-1);
-}
-.swatches {
-    display: flex;
-    gap: 8px;
-}
-.swatch {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--r-1);
-    border: 2px solid var(--border);
-    background: var(--c);
-    cursor: pointer;
-    transition:
-        transform 120ms,
-        border-color 120ms;
-}
-.swatch[data-active="true"] {
-    border-color: var(--ink);
-    transform: scale(1.06);
 }
 
 /* ============================================================
@@ -1399,12 +1244,6 @@ a {
     }
     .page-title {
         font-size: 24px;
-    }
-    .tweaks {
-        right: 10px;
-        left: 10px;
-        width: auto;
-        bottom: 80px;
     }
 }
 
