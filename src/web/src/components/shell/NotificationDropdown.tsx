@@ -39,19 +39,21 @@ export function NotificationDropdown({
     }, [open]);
 
     const markRead = async (id: string) => {
+        setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
         try {
             await api.markRead(id);
-            setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
         } catch (err) {
+            setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: false } : n)));
             console.error("Falha ao marcar notificação como lida", err);
         }
     };
 
     const markAllRead = async () => {
+        setNotifications(notifications.map((n) => ({ ...n, read: true })));
         try {
             await api.markAllRead();
-            setNotifications(notifications.map((n) => ({ ...n, read: true })));
         } catch (err) {
+            setNotifications(notifications.map((n) => ({ ...n, read: false })));
             console.error("Falha ao marcar todas as notificações como lidas", err);
         }
     };
@@ -124,8 +126,9 @@ export function NotificationDropdown({
                     ) : (
                         <div style={{ maxHeight: 320, overflowY: "auto" }}>
                             {notifications.map((n) => (
-                                <div
+                                <button
                                     key={n.id}
+                                    type="button"
                                     data-unread={!n.read || undefined}
                                     onClick={() => !n.read && markRead(n.id)}
                                     style={{
@@ -136,7 +139,10 @@ export function NotificationDropdown({
                                         gap: 10,
                                         alignItems: "start",
                                         cursor: !n.read ? "pointer" : "default",
-                                        background: !n.read ? "var(--surface-2)" : undefined,
+                                        background: !n.read ? "var(--surface-2)" : "transparent",
+                                        border: "none",
+                                        width: "100%",
+                                        textAlign: "left",
                                     }}
                                 >
                                     <div
@@ -179,7 +185,7 @@ export function NotificationDropdown({
                                     >
                                         {relTime(n.createdAt)}
                                     </span>
-                                </div>
+                                </button>
                             ))}
                         </div>
                     )}
