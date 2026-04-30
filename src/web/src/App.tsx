@@ -82,8 +82,6 @@ export default function App() {
         setAppState((prev) => ({ ...prev, auth: "unauth", authView: "landing" }));
     };
 
-    const unreadCount = notifications.filter((n) => !n.read).length;
-
     const renderAuthView = () => {
         switch (appState.authView) {
             case "login":
@@ -150,7 +148,8 @@ export default function App() {
     return (
         <div className="app-shell">
             <Header
-                notifCount={unreadCount}
+                notifications={notifications}
+                setNotifications={setNotifications}
                 user={currentUser}
                 view={appState.view}
                 setView={setView}
