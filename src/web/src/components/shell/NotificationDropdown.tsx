@@ -39,13 +39,21 @@ export function NotificationDropdown({
     }, [open]);
 
     const markRead = async (id: string) => {
-        await api.markRead(id);
-        setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
+        try {
+            await api.markRead(id);
+            setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
+        } catch (err) {
+            console.error("Falha ao marcar notificação como lida", err);
+        }
     };
 
     const markAllRead = async () => {
-        await api.markAllRead();
-        setNotifications(notifications.map((n) => ({ ...n, read: true })));
+        try {
+            await api.markAllRead();
+            setNotifications(notifications.map((n) => ({ ...n, read: true })));
+        } catch (err) {
+            console.error("Falha ao marcar todas as notificações como lidas", err);
+        }
     };
 
     return (
