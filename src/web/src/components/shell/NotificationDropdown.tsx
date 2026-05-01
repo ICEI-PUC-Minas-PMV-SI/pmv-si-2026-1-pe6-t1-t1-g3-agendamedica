@@ -169,7 +169,9 @@ export function NotificationDropdown({
                                         <div
                                             style={{
                                                 fontSize: 12,
-                                                color: !n.read ? "var(--ink-2)" : "var(--ink-muted)",
+                                                color: !n.read
+                                                    ? "var(--ink-2)"
+                                                    : "var(--ink-muted)",
                                                 marginTop: 2,
                                             }}
                                         >
