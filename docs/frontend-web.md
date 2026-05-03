@@ -79,17 +79,17 @@ O sistema usa tokens OKLCH para garantir perceptibilidade uniforme entre tons. H
 
 ***Cores Principais***
 
-![Cores Principais](.\img\cores_principais.png)
+![Cores Principais](./img/cores_principais.png)
 
 ***Cores Destaque***
 
-[Cores Destaque](.\img\cores_destaque.png)
+[Cores Destaque](./img/cores_destaque.png)
 
 **Ícones**
 
 Todos os ícones são SVG inline, definidos em `src/lib/icons.tsx`. Não há dependência de biblioteca de ícones externa.
 
-[Icones](.\img\Group_64.svg)
+[Icones](./img/Group_64.svg)
 
 ---
 
