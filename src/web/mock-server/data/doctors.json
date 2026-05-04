@@ -1,0 +1,32 @@
+[
+    {
+        "id": "d-01",
+        "name": "Dra. Marina Figueiredo",
+        "specialty": "Cardiologia",
+        "clinic": "Clínica Santa Luz — Unidade Centro"
+    },
+    {
+        "id": "d-02",
+        "name": "Dr. Rafael Monteiro",
+        "specialty": "Clínico Geral",
+        "clinic": "Teleconsulta"
+    },
+    {
+        "id": "d-03",
+        "name": "Dra. Camila Torres",
+        "specialty": "Dermatologia",
+        "clinic": "Instituto Derma Vida"
+    },
+    {
+        "id": "d-04",
+        "name": "Dr. André Kowalski",
+        "specialty": "Ortopedia",
+        "clinic": "Hospital São Lucas"
+    },
+    {
+        "id": "d-05",
+        "name": "Dra. Priya Nair",
+        "specialty": "Neurologia",
+        "clinic": "Neuro Center — Unidade Sul"
+    }
+]

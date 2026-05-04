@@ -105,7 +105,16 @@ export default function App() {
     const renderView = () => {
         switch (appState.view) {
             case "schedule":
-                return <ScheduleView />;
+                return (
+                    <ScheduleView
+                        patientId={currentUser.id}
+                        userName={currentUser.name}
+                        onAppointmentCreated={(appt) =>
+                            setAppointments((prev) => [appt, ...prev])
+                        }
+                        onGoAppointments={() => setView("appointments")}
+                    />
+                );
             case "history":
                 return <HistoryView appointments={appointments} />;
             case "profile":
@@ -119,7 +128,18 @@ export default function App() {
                     />
                 );
             case "appointments":
-                return <AppointmentsView appointments={appointments} />;
+                return (
+                    <AppointmentsView
+                        appointments={appointments}
+                        onCancelled={(id) =>
+                            setAppointments((prev) =>
+                                prev.map((a) =>
+                                    a.id === id ? { ...a, status: "CANCELLED" } : a,
+                                ),
+                            )
+                        }
+                    />
+                );
             default:
                 return (
                     <HomeView

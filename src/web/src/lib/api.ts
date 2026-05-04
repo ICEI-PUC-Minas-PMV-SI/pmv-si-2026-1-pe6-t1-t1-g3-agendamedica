@@ -1,4 +1,4 @@
-import type { Appointment, Notification, User } from "./types";
+import type { Appointment, Doctor, Notification, User } from "./types";
 
 const BASE = "/api";
 
@@ -50,9 +50,29 @@ export async function register(name: string, email: string, password: string): P
     return data.user;
 }
 
+// ── Doctors ───────────────────────────────────────────────────
+export function fetchDoctors(): Promise<Doctor[]> {
+    return req("GET", "/doctors/");
+}
+
 // ── Appointments ──────────────────────────────────────────────
 export function fetchAppointments(): Promise<Appointment[]> {
     return req("GET", "/appointments/");
+}
+
+export interface CreateAppointmentPayload {
+    patientId: string;
+    doctorId: string;
+    date: string;
+    notes?: string;
+}
+
+export function createAppointment(payload: CreateAppointmentPayload): Promise<Appointment> {
+    return req("POST", "/appointments/createAppointment", payload);
+}
+
+export function cancelAppointment(appointmentId: string): Promise<Appointment> {
+    return req("POST", "/appointments/cancelAppointment", { appointmentId });
 }
 
 // ── Notifications ─────────────────────────────────────────────
