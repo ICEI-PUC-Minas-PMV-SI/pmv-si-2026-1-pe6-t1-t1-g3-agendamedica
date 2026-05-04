@@ -1,3 +1,4 @@
+import { ClinicsView } from './views/ClinicsView';
 import { useState, useEffect } from "react";
 // Shell
 import { Header } from "./components/shell/Header";
@@ -104,6 +105,8 @@ export default function App() {
 
     const renderView = () => {
         switch (appState.view) {
+            case "clinics":      
+                return <ClinicsView />; 
             case "schedule":
                 return <ScheduleView />;
             case "history":
