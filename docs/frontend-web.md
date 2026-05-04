@@ -10,48 +10,12 @@ A interface foi construída como uma Single Page Application (SPA) sem roteament
 
 ### Wireframes
 
-A interface é organizada em um shell fixo de três regiões, adaptado conforme o dispositivo:
+Os wireframes do MedHub cobrem as principais telas da aplicação, da landing page ao painel autenticado, organizados para refletir o fluxo real de uso: acesso, agendamento, acompanhamento e configurações.
+As telas autenticadas compartilham um shell consistente com header e sidebar.
 
-**Desktop (> 1000px)**
-```
-┌─────────────────────────────────────────┐
-│              Header (64px)              │
-├───────────┬─────────────────────────────┤
-│           │                             │
-│  Sidebar  │       Conteúdo da view      │
-│  (244px)  │                             │
-│           │                             │
-└───────────┴─────────────────────────────┘
-```
+Os wireframes completos podem ser visualizados em: [Wireframes MedHub](img/medhub-wireframes.pdf).
 
-**Mobile (≤ 1000px)**
-```
-┌─────────────────────┐
-│       Header        │
-├─────────────────────┤
-│                     │
-│  Conteúdo da view   │
-│                     │
-├─────────────────────┤
-│  Bottom Navigation  │
-└─────────────────────┘
-```
-
-**Fluxo de autenticação**
-```
-Landing (UnauthView)
-   ├── "Entrar"              → LoginView  → Dashboard (HomeView)
-   └── "Criar conta"         → RegisterView → Dashboard (HomeView)
-```
-
-**Views autenticadas (paciente)**
-```
-HomeView          — dashboard com próximas consultas e notificações
-ScheduleView      — agendamento em 3 passos (especialidade → médico → horário)
-AppointmentsView  — consultas agendadas com status e ações
-HistoryView       — histórico de consultas realizadas
-ProfileView       — dados pessoais, aparência e preferências de aviso
-```
+---
 
 ### Design Visual
 
