@@ -195,7 +195,7 @@ export function NotificationDropdown({
                     <div style={{ padding: "10px 16px", textAlign: "center" }}>
                         <button
                             onClick={() => {
-                                setView("home");
+                                setView("notifications");
                                 setOpen(false);
                             }}
                             style={{

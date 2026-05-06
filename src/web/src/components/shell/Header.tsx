@@ -21,6 +21,7 @@ const viewLabels: Record<View, string> = {
     history: "Histórico",
     profile: "Perfil",
     appointments: "Minhas Consultas",
+    notifications: "Notificações",
 };
 
 export function Header({
