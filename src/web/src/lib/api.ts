@@ -67,3 +67,7 @@ export function markAllRead(): Promise<void> {
 export function markRead(id: string): Promise<void> {
     return req("PATCH", `/notifications/${id}/read`);
 }
+
+export function markUnread(id: string): Promise<void> {
+    return req("PATCH", `/notifications/${id}/unread`);
+}

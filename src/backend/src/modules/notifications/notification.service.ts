@@ -48,6 +48,10 @@ class NotificationService {
         return notificationRepository.markRead(userId, notificationId);
     }
 
+    markUnread(userId: string, notificationId: string) {
+        return notificationRepository.markUnread(userId, notificationId);
+    }
+
     markAllRead(userId: string) {
         return notificationRepository.markAllRead(userId);
     }

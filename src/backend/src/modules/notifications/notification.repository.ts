@@ -32,6 +32,19 @@ class NotificationRepository {
         return prisma.notification.count({ where: { userId, read: false } });
     }
 
+    async markUnread(userId: string, notificationId: string) {
+        const result = await prisma.notification.updateMany({
+            where: { id: notificationId, userId },
+            data: { read: false },
+        });
+        if (result.count === 0) {
+            const err = new Error("Notification not found");
+            (err as NodeJS.ErrnoException).code = "NOT_FOUND";
+            throw err;
+        }
+        return prisma.notification.findUnique({ where: { id: notificationId } });
+    }
+
     async markRead(userId: string, notificationId: string) {
         const result = await prisma.notification.updateMany({
             where: { id: notificationId, userId },

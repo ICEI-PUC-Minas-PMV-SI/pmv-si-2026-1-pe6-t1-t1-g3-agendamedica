@@ -35,6 +35,20 @@ export async function markAsRead(req: Request, res: Response): Promise<void> {
     }
 }
 
+export async function markAsUnread(req: Request, res: Response): Promise<void> {
+    try {
+        const notification = await notificationService.markUnread(req.userId, req.params.id);
+        res.json(notification);
+        return;
+    } catch (err: unknown) {
+        if ((err as NodeJS.ErrnoException).code === "NOT_FOUND") {
+            res.status(404).json({ error: "Notificação não encontrada." });
+            return;
+        }
+        throw err;
+    }
+}
+
 export async function markAllAsRead(req: Request, res: Response): Promise<void> {
     await notificationService.markAllRead(req.userId);
     res.status(204).send();
