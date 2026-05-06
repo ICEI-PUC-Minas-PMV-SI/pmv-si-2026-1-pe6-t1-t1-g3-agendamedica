@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Ic } from "../../lib/icons";
 import { relTime } from "../../lib/utils";
-import type { Notification, AppStatus } from "../../lib/types";
+import type { Notification, AppStatus, View } from "../../lib/types";
 import { LoadingState } from "../states/LoadingState";
 import { EmptyState } from "../states/EmptyState";
 import { ErrorState } from "../states/ErrorState";
+
+const PAGE_SIZE = 5;
 
 interface NotificationItemProps {
     n: Notification;
@@ -29,6 +31,7 @@ interface NotificationsPanelProps {
     notifications: Notification[];
     setNotifications: (ns: Notification[]) => void;
     onRetry: () => void;
+    onView: (v: View) => void;
 }
 
 export function NotificationsPanel({
@@ -36,11 +39,14 @@ export function NotificationsPanel({
     notifications,
     setNotifications,
     onRetry,
+    onView,
 }: NotificationsPanelProps) {
     const [tab, setTab] = useState<"unread" | "all">("unread");
 
     const unreadCount = notifications.filter((n) => !n.read).length;
-    const visible = tab === "unread" ? notifications.filter((n) => !n.read) : notifications;
+    const filtered = tab === "unread" ? notifications.filter((n) => !n.read) : notifications;
+    const visible = filtered.slice(0, PAGE_SIZE);
+    const hasMore = filtered.length > PAGE_SIZE;
 
     const markAllRead = () => setNotifications(notifications.map((n) => ({ ...n, read: true })));
     const markRead = (id: string) =>
@@ -95,6 +101,24 @@ export function NotificationsPanel({
                     {visible.map((n) => (
                         <NotificationItem key={n.id} n={n} onClick={() => markRead(n.id)} />
                     ))}
+                    {hasMore && (
+                        <button
+                            onClick={() => onView("notifications")}
+                            style={{
+                                width: "100%",
+                                padding: "10px 16px",
+                                fontSize: 12,
+                                color: "var(--accent)",
+                                background: "none",
+                                border: "none",
+                                borderTop: "1px solid var(--border)",
+                                cursor: "pointer",
+                                textAlign: "center",
+                            }}
+                        >
+                            Ver todas as notificações ({filtered.length}) →
+                        </button>
+                    )}
                 </div>
             )}
             {state === "loaded" && visible.length === 0 && (
