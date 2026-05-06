@@ -7,6 +7,7 @@ import {
     getUnreadCount,
     markAllAsRead,
     markAsRead,
+    markAsUnread,
     sendNotification,
 } from "./notification.controller";
 
@@ -18,6 +19,7 @@ router.get("/", listNotifications);
 router.get("/unread-count", getUnreadCount);
 router.patch("/read-all", markAllAsRead);
 router.patch("/:id/read", markAsRead);
+router.patch("/:id/unread", markAsUnread);
 router.post(
     "/send",
     authorize(UserRole.RECEPTIONIST, UserRole.DOCTOR, UserRole.PATIENT),

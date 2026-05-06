@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Ic } from "../../lib/icons";
 import { relTime } from "../../lib/utils";
+import * as api from "../../lib/api";
 import type { Notification, AppStatus, View } from "../../lib/types";
 import { LoadingState } from "../states/LoadingState";
 import { EmptyState } from "../states/EmptyState";
@@ -10,18 +11,37 @@ const PAGE_SIZE = 5;
 
 interface NotificationItemProps {
     n: Notification;
-    onClick: () => void;
+    onMarkRead: () => void;
+    onMarkUnread: () => void;
 }
 
-function NotificationItem({ n, onClick }: NotificationItemProps) {
+function NotificationItem({ n, onMarkRead, onMarkUnread }: NotificationItemProps) {
     return (
-        <div className="notif-item" data-unread={!n.read} onClick={onClick}>
+        <div className="notif-item" data-unread={!n.read} onClick={() => !n.read && onMarkRead()}>
             <div className="notif-dot" />
-            <div>
+            <div style={{ flex: 1, minWidth: 0 }}>
                 <div className="notif-title">{n.title}</div>
                 <div className="notif-msg">{n.message}</div>
             </div>
-            <div className="notif-time">{relTime(n.createdAt)}</div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4, flexShrink: 0 }}>
+                <div className="notif-time">{relTime(n.createdAt)}</div>
+                {n.read && (
+                    <button
+                        onClick={(e) => { e.stopPropagation(); onMarkUnread(); }}
+                        style={{
+                            fontSize: 10,
+                            color: "var(--ink-muted)",
+                            background: "none",
+                            border: "none",
+                            cursor: "pointer",
+                            padding: 0,
+                            whiteSpace: "nowrap",
+                        }}
+                    >
+                        Marcar não lida
+                    </button>
+                )}
+            </div>
         </div>
     );
 }
@@ -51,6 +71,14 @@ export function NotificationsPanel({
     const markAllRead = () => setNotifications(notifications.map((n) => ({ ...n, read: true })));
     const markRead = (id: string) =>
         setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
+    const markUnread = async (id: string) => {
+        setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: false } : n)));
+        try {
+            await api.markUnread(id);
+        } catch {
+            setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
+        }
+    };
 
     return (
         <section className="card">
@@ -99,7 +127,12 @@ export function NotificationsPanel({
             {state === "loaded" && visible.length > 0 && (
                 <div className="notif-list">
                     {visible.map((n) => (
-                        <NotificationItem key={n.id} n={n} onClick={() => markRead(n.id)} />
+                        <NotificationItem
+                            key={n.id}
+                            n={n}
+                            onMarkRead={() => markRead(n.id)}
+                            onMarkUnread={() => markUnread(n.id)}
+                        />
                     ))}
                     {hasMore && (
                         <button

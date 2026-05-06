@@ -29,6 +29,15 @@ export function NotificationsView({ notifications, setNotifications }: Notificat
         }
     };
 
+    const markUnread = async (id: string) => {
+        setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: false } : n)));
+        try {
+            await api.markUnread(id);
+        } catch {
+            setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
+        }
+    };
+
     return (
         <>
             <PageHeader
@@ -124,7 +133,7 @@ export function NotificationsView({ notifications, setNotifications }: Notificat
                                 <span style={{ fontSize: 11, color: "var(--ink-muted)", whiteSpace: "nowrap" }}>
                                     {relTime(n.createdAt)}
                                 </span>
-                                {!n.read && (
+                                {!n.read ? (
                                     <button
                                         onClick={() => markRead(n.id)}
                                         style={{
@@ -138,6 +147,21 @@ export function NotificationsView({ notifications, setNotifications }: Notificat
                                         }}
                                     >
                                         Marcar como lida
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={() => markUnread(n.id)}
+                                        style={{
+                                            fontSize: 11,
+                                            color: "var(--ink-muted)",
+                                            background: "none",
+                                            border: "none",
+                                            cursor: "pointer",
+                                            padding: 0,
+                                            whiteSpace: "nowrap",
+                                        }}
+                                    >
+                                        Marcar como não lida
                                     </button>
                                 )}
                             </div>
