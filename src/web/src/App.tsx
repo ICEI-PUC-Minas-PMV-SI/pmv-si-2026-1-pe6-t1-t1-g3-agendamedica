@@ -28,12 +28,12 @@ const DEFAULT_USER: User = {
 };
 
 export default function App() {
-    const [appState, setAppState] = useState<AppState>({
-        theme: "light",
-        auth: "unauth",
-        authView: "landing",
-        view: "home",
-    });
+   const [appState, setAppState] = useState<AppState>({
+    theme: "light",
+    auth: "patient",     // alteração
+    authView: "landing",
+    view: "clinics",     // alteração
+});
     const [currentUser, setCurrentUser] = useState<User>(DEFAULT_USER);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -105,8 +105,17 @@ export default function App() {
 
     const renderView = () => {
         switch (appState.view) {
-            case "clinics":      
-                return <ClinicsView />; 
+            case "clinics":
+                return <ClinicsView setView={setView} />;
+                // ADICIONEI PARA O BOTÃO FUNCIONAR
+            case "create-clinic":
+            return (
+                <div style={{ padding: '40px' }}>
+                    <h1 className="font-fraunces">Cadastrar Nova Clínica</h1>
+                    <p>Em breve: formulário de integração com o backend.</p>
+                    <button onClick={() => setView('clinics')}>Voltar para lista</button>
+                </div>
+            );
             case "schedule":
                 return <ScheduleView />;
             case "history":

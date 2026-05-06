@@ -1,18 +1,18 @@
 import React from 'react';
 
-export function ClinicsView() {
+export function ClinicsView({ setView }: { setView: (v: any) => void }) {
   return (
     <div style={{ padding: '40px', backgroundColor: 'var(--bg)', minHeight: '100vh' }}>
       {/* Regra 01: Títulos em Fraunces */}
-      <h1 style={{ 
-        fontFamily: 'Fraunces', 
-        color: 'var(--ink)', 
-        fontSize: '2.5rem', 
-        marginBottom: '8px' 
+      <h1 style={{
+        fontFamily: 'Fraunces',
+        color: 'var(--ink)',
+        fontSize: '2.5rem',
+        marginBottom: '8px'
       }}>
         Unidades de Saúde
       </h1>
-      
+
       {/* Regra 02: Interface em Inter Tight */}
       <p style={{ fontFamily: 'Inter Tight', color: 'var(--ink-2)', marginBottom: '32px' }}>
         Gerenciamento de clínicas parceiras e pontos de atendimento MedHub.
@@ -20,26 +20,26 @@ export function ClinicsView() {
 
       {/* Ações com o tom Teal (Accent) oficial */}
       <div style={{ marginBottom: '24px' }}>
-        <button className="btn-accent" style={{ 
-          backgroundColor: 'var(--accent)', 
-          color: 'white', 
-          padding: '12px 24px', 
-          borderRadius: '8px', 
+        <button className="btn-accent" style={{
+          backgroundColor: 'var(--accent)',
+          color: 'white',
+          padding: '12px 24px',
+          borderRadius: '8px',
           border: 'none',
           fontFamily: 'Inter Tight',
           fontWeight: 'bold',
           cursor: 'pointer'
-        }}>
+        }} onClick={() => setView('create-clinic')}>
           + Cadastrar Clínica
         </button>
       </div>
 
       {/* Tabela dentro de um Card (Surface) */}
-      <div style={{ 
-        backgroundColor: 'var(--surface)', 
-        borderRadius: '12px', 
-        padding: '24px', 
-        boxShadow: '0 2px 10px rgba(0,0,0,0.05)' 
+      <div style={{
+        backgroundColor: 'var(--surface)',
+        borderRadius: '12px',
+        padding: '24px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.05)'
       }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'Inter Tight' }}>
           <thead>

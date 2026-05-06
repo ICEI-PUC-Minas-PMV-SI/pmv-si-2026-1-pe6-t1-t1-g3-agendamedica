@@ -2,7 +2,14 @@ export type AppStatus = "loaded" | "loading" | "empty" | "error";
 export type Accent = "teal" | "coral" | "indigo" | "forest";
 export type Density = "compact" | "comfortable" | "spacious";
 export type Theme = "light" | "dark";
-export type View = "home" | "schedule" | "appointments" | "history" | "profile" | "clinics";
+export type View =
+    | "home"
+    | "schedule"
+    | "appointments"
+    | "history"
+    | "profile"
+    | "create-clinic"
+    | "clinics";
 export type Auth = "patient" | "unauth";
 export type AuthView = "landing" | "login" | "register";
 export type AppointmentStatus = "PENDING" | "CONFIRMED" | "CANCELLED" | "RESCHEDULED";
