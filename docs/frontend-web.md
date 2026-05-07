@@ -158,6 +158,12 @@ Não há variáveis de ambiente necessárias no frontend — a URL base da API �
 - [ ] Responsividade: sidebar some em mobile, bottom nav aparece corretamente
 - [ ] Estado vazio: `appointments.json` vazio exibe mensagem de estado **vazio**
 
+### Cenários de teste documentados
+
+| Funcionalidade | Documento de testes |
+| -------------- | ------------------- |
+| Interface de Notificações (RF-006) | [Cenários de Teste — Notificações Frontend](rf-006-notifications/cenarios-de-teste-frontend.md) |
+
 ---
 
 # Referências

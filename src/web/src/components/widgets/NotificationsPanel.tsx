@@ -68,9 +68,22 @@ export function NotificationsPanel({
     const visible = filtered.slice(0, PAGE_SIZE);
     const hasMore = filtered.length > PAGE_SIZE;
 
-    const markAllRead = () => setNotifications(notifications.map((n) => ({ ...n, read: true })));
-    const markRead = (id: string) =>
+    const markAllRead = async () => {
+        setNotifications(notifications.map((n) => ({ ...n, read: true })));
+        try {
+            await api.markAllRead();
+        } catch {
+            setNotifications(notifications.map((n) => ({ ...n, read: false })));
+        }
+    };
+    const markRead = async (id: string) => {
         setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
+        try {
+            await api.markRead(id);
+        } catch {
+            setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: false } : n)));
+        }
+    };
     const markUnread = async (id: string) => {
         setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: false } : n)));
         try {

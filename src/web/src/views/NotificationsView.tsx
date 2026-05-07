@@ -121,18 +121,6 @@ export function NotificationsView({ notifications, setNotifications }: Notificat
                                 >
                                     {n.message}
                                 </div>
-                            </div>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "flex-end",
-                                    gap: 6,
-                                }}
-                            >
-                                <span style={{ fontSize: 11, color: "var(--ink-muted)", whiteSpace: "nowrap" }}>
-                                    {relTime(n.createdAt)}
-                                </span>
                                 {!n.read ? (
                                     <button
                                         onClick={() => markRead(n.id)}
@@ -143,7 +131,7 @@ export function NotificationsView({ notifications, setNotifications }: Notificat
                                             border: "none",
                                             cursor: "pointer",
                                             padding: 0,
-                                            whiteSpace: "nowrap",
+                                            marginTop: 4,
                                         }}
                                     >
                                         Marcar como lida
@@ -158,13 +146,16 @@ export function NotificationsView({ notifications, setNotifications }: Notificat
                                             border: "none",
                                             cursor: "pointer",
                                             padding: 0,
-                                            whiteSpace: "nowrap",
+                                            marginTop: 4,
                                         }}
                                     >
                                         Marcar como não lida
                                     </button>
                                 )}
                             </div>
+                            <span style={{ fontSize: 11, color: "var(--ink-muted)", whiteSpace: "nowrap" }}>
+                                {relTime(n.createdAt)}
+                            </span>
                         </div>
                     ))
                 )}
