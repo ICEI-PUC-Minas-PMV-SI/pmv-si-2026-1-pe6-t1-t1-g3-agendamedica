@@ -5,6 +5,8 @@ export type Theme = "light" | "dark";
 export type View = "home" | "schedule" | "appointments" | "history" | "profile";
 // Atualizado para incluir o estado de autenticação profissional
 export type Auth = "patient" | "professional" | "unauth";
+export type View = "home" | "schedule" | "appointments" | "history" | "profile" | "notifications";
+export type Auth = "patient" | "unauth";
 export type AuthView = "landing" | "login" | "register";
 export type AppointmentStatus = "PENDING" | "CONFIRMED" | "CANCELLED" | "RESCHEDULED";
 export type UserRole = "PATIENT" | "DOCTOR" | "RECEPTIONIST";
