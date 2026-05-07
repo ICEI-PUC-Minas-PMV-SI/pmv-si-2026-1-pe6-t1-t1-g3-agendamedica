@@ -1,6 +1,6 @@
 # 📊 Relatório de Contribuições do Projeto
 
-**Última atualização:** 07/05/2026 21:56
+**Última atualização:** 07/05/2026 22:46
 
 ---
 
@@ -11,25 +11,25 @@
 | Alice                 |         3 |     14056 |       198 |         13 |              2 |               1 |
 | Alice Abreu           |        46 |       125 |       127 |          9 |             42 |               9 |
 | AliceAbreu            |        13 |      1632 |       772 |         23 |              9 |               4 |
-| Gabriel Nascimento    |       123 |     20425 |      6238 |        112 |             37 |               5 |
+| Gabriel Nascimento    |       133 |     21565 |      6382 |        112 |             37 |               5 |
 | LeticiaOliAquino      |        27 |       558 |       275 |         18 |             16 |               5 |
 | Martha Beatriz        |        78 |     20317 |     14447 |         44 |             64 |               5 |
 | Omar Martins          |        20 |      1281 |       260 |         25 |             14 |               6 |
-| github-actions[bot]   |        43 |       342 |       329 |          3 |             43 |               1 |
+| github-actions[bot]   |        44 |       357 |       344 |          3 |             44 |               1 |
 | github-classroom[bot] |         1 |      2152 |         0 |         45 |              1 |              13 |
 
 
 ## 📅 Contribuições Semanais (Todo o Semestre)
 
-**2026-04-30**: Alice: 3, Alice Abreu: 1, Gabriel Nascimento: 10, LeticiaOliAquino: 6, Martha Beatriz: 6, github-actions[bot]: 4
+**2026-04-30**: Alice: 3, Alice Abreu: 1, Gabriel Nascimento: 20, LeticiaOliAquino: 6, Martha Beatriz: 6, github-actions[bot]: 5
 
 **2026-04-23**: Gabriel Nascimento: 1, github-actions[bot]: 2
 
 **2026-04-16**: Gabriel Nascimento: 26, github-actions[bot]: 1
 
-**2026-04-09**: Alice Abreu: 6, AliceAbreu: 9, Gabriel Nascimento: 16, LeticiaOliAquino: 11, Martha Beatriz: 22, Omar Martins: 13, github-actions[bot]: 23
+**2026-04-09**: Alice Abreu: 6, AliceAbreu: 9, Gabriel Nascimento: 3, LeticiaOliAquino: 11, Martha Beatriz: 22, Omar Martins: 13, github-actions[bot]: 22
 
-**2026-04-02**: Alice Abreu: 2, AliceAbreu: 2, Gabriel Nascimento: 56, LeticiaOliAquino: 1, Martha Beatriz: 10, github-actions[bot]: 6
+**2026-04-02**: Alice Abreu: 2, AliceAbreu: 2, Gabriel Nascimento: 69, LeticiaOliAquino: 1, Martha Beatriz: 10, github-actions[bot]: 7
 
 **2026-03-26**: AliceAbreu: 2, Martha Beatriz: 2, github-actions[bot]: 2
 
@@ -37,9 +37,9 @@
 
 **2026-03-12**: Alice Abreu: 4, Gabriel Nascimento: 6, Martha Beatriz: 2, github-actions[bot]: 3
 
-**2026-03-05**: Alice Abreu: 16, Gabriel Nascimento: 4, LeticiaOliAquino: 1, Martha Beatriz: 16, Omar Martins: 1
+**2026-03-05**: Alice Abreu: 16, Gabriel Nascimento: 4, LeticiaOliAquino: 1, Martha Beatriz: 12, Omar Martins: 1
 
-**2026-02-26**: Alice Abreu: 14, Gabriel Nascimento: 2, LeticiaOliAquino: 6, Martha Beatriz: 17, Omar Martins: 5
+**2026-02-26**: Alice Abreu: 14, Gabriel Nascimento: 2, LeticiaOliAquino: 6, Martha Beatriz: 21, Omar Martins: 5
 
 **2026-02-19**: Alice Abreu: 3, Gabriel Nascimento: 1, LeticiaOliAquino: 2, Martha Beatriz: 1, Omar Martins: 1, github-classroom[bot]: 1
 
