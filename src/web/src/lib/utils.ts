@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 // Tiny helpers shared across components
 
 export function classNames(...xs: (string | undefined | null | false)[]): string {
@@ -40,3 +42,16 @@ export const STATUS_CLASS: Record<string, string> = {
     CANCELLED: "chip-cancelled",
     RESCHEDULED: "chip-rescheduled",
 };
+
+export function useMediaQuery(query: string): boolean {
+    const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
+
+    useEffect(() => {
+        const mq = window.matchMedia(query);
+        const onChange = (e: MediaQueryListEvent) => setMatches(e.matches);
+        mq.addEventListener("change", onChange);
+        return () => mq.removeEventListener("change", onChange);
+    }, [query]);
+
+    return matches;
+}
