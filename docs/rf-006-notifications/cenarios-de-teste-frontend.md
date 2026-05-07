@@ -65,6 +65,11 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 
 **Mídia:** [▶ Cenário 1](assets/frontend/cenarios-de-teste/cenario-teste-1.mp4)
 
+
+https://github.com/user-attachments/assets/c241a30a-39e3-40b0-a017-8aec0d2299b6
+
+
+
 ---
 
 ### Cenário 2 — Marcar uma notificação como lida pelo dropdown
@@ -91,6 +96,10 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 
 **Mídia:** [▶ Cenário 2](assets/frontend/cenarios-de-teste/cenario-teste-2.mp4)
 
+
+https://github.com/user-attachments/assets/8a0bab3a-9f5c-4ddf-8942-829df0e946bf
+
+
 ---
 
 ### Cenário 3 — Navegar para a página de notificações pelo dropdown
@@ -114,6 +123,10 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 - A URL não muda (roteamento por estado interno)
 
 **Mídia:** [▶ Cenário 3](assets/frontend/cenarios-de-teste/cenario-teste-3.mp4)
+
+
+https://github.com/user-attachments/assets/7a7edaf3-59c5-45a9-ac0e-ec961a0d9652
+
 
 ---
 
@@ -142,6 +155,10 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 
 **Mídia:** [▶ Cenário 4](assets/frontend/cenarios-de-teste/cenario-teste-4.mp4)
 
+
+https://github.com/user-attachments/assets/26da7421-719b-4a7a-b485-5c5a79e912a0
+
+
 ---
 
 ### Cenário 5 — Navegar para a página de notificações pelo bottom sheet
@@ -167,6 +184,10 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 - URL não muda (roteamento por estado interno)
 
 **Mídia:** [▶ Cenário 5](assets/frontend/cenarios-de-teste/cenario-teste-5.mp4)
+
+
+https://github.com/user-attachments/assets/a4617e8c-f6b8-4416-995e-eef7f3beb915
+
 
 ---
 
@@ -194,6 +215,10 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 - Dropdown não ultrapassa os limites da viewport
 
 **Mídia:** [▶ Cenário 6](assets/frontend/cenarios-de-teste/cenario-teste-6.mp4)
+
+
+https://github.com/user-attachments/assets/c6244d75-3129-4418-8ce0-45c491890600
+
 
 ---
 
@@ -231,6 +256,10 @@ Cenários que cobrem o componente `NotificationsPanel`, exibido na tela inicial 
 
 **Mídia:** [▶ Cenário 7](assets/frontend/cenarios-de-teste/cenario-teste-7.mp4)
 
+
+https://github.com/user-attachments/assets/df68a8e6-0408-4833-9124-c781975bed0c
+
+
 ---
 
 ## Seção 3 — Página de Notificações (NotificationsView)
@@ -266,4 +295,8 @@ Cenários que cobrem a página completa de notificações, acessível pelo dropd
 - O badge no header é atualizado em ambas as direções
 
 **Mídia:** [▶ Cenário 8](assets/frontend/cenarios-de-teste/cenario-teste-8.mp4)
+
+
+https://github.com/user-attachments/assets/6cf0279c-7f6a-48aa-ac36-89d45a34254f
+
 
