@@ -63,6 +63,14 @@ app.patch("/notifications/:id/read", (req, res) => {
     res.json({ success: true });
 });
 
+app.patch("/notifications/:id/unread", (req, res) => {
+    const { id } = req.params;
+    notifications = notifications.map((n) =>
+        n.id === id ? { ...n, read: false } : n,
+    );
+    res.json({ success: true });
+});
+
 // ────────────────────────────────────────────────────────────
 const PORT = 3001;
 app.listen(PORT, () =>
