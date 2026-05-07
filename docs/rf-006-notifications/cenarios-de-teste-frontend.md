@@ -63,7 +63,7 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 - O badge desaparece (contagem zero)
 - A chamada `PATCH /notifications/read-all` é disparada
 
-**Mídia:** `[▶ Cenário 1 — vídeo/print]`
+**Mídia:** [▶ Cenário 1](assets/frontend/cenarios-de-teste/cenario-teste-1.mp4)
 
 ---
 
@@ -89,7 +89,7 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 - O badge é decrementado em 1 imediatamente
 - A chamada `PATCH /notifications/:id/read` é disparada com o ID correto
 
-**Mídia:** `[▶ Cenário 2 — vídeo/print]`
+**Mídia:** [▶ Cenário 2](assets/frontend/cenarios-de-teste/cenario-teste-2.mp4)
 
 ---
 
@@ -113,7 +113,7 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 - A aplicação navega para a página "Notificações" com todas as notificações listadas
 - A URL não muda (roteamento por estado interno)
 
-**Mídia:** `[▶ Cenário 3 — vídeo/print]`
+**Mídia:** [▶ Cenário 3](assets/frontend/cenarios-de-teste/cenario-teste-3.mp4)
 
 ---
 
@@ -140,7 +140,7 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 - Toque no backdrop fecha o sheet com animação de saída inversa
 - Drag handle decorativo visível no topo do sheet
 
-**Mídia:** `[▶ Cenário 4 — vídeo/print]`
+**Mídia:** [▶ Cenário 4](assets/frontend/cenarios-de-teste/cenario-teste-4.mp4)
 
 ---
 
@@ -166,7 +166,7 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 - Aplicação navega para a página "Notificações" com todas as notificações listadas
 - URL não muda (roteamento por estado interno)
 
-**Mídia:** `[▶ Cenário 5 — vídeo/print]`
+**Mídia:** [▶ Cenário 5](assets/frontend/cenarios-de-teste/cenario-teste-5.mp4)
 
 ---
 
@@ -193,7 +193,7 @@ Cenários que cobrem o componente `NotificationDropdown`, acessível pelo ícone
 - Header ("Notificações" + "Marcar todas lidas") e rodapé ("Ver todas →") sempre visíveis
 - Dropdown não ultrapassa os limites da viewport
 
-**Mídia:** `[▶ Cenário 6 — vídeo/print]`
+**Mídia:** [▶ Cenário 6](assets/frontend/cenarios-de-teste/cenario-teste-6.mp4)
 
 ---
 
@@ -229,7 +229,7 @@ Cenários que cobrem o componente `NotificationsPanel`, exibido na tela inicial 
 - "Marcar não lida" reverte o estado visualmente e dispara `PATCH /notifications/:id/unread`
 - O badge no header é atualizado em ambas as direções
 
-**Mídia:** `[▶ Cenário 7 — vídeo/print]`
+**Mídia:** [▶ Cenário 7](assets/frontend/cenarios-de-teste/cenario-teste-7.mp4)
 
 ---
 
@@ -265,5 +265,5 @@ Cenários que cobrem a página completa de notificações, acessível pelo dropd
 - "Marcar como não lida" restaura o destaque e dispara `PATCH /notifications/:id/unread`
 - O badge no header é atualizado em ambas as direções
 
-**Mídia:** `[▶ Cenário 8 — vídeo/print]`
+**Mídia:** [▶ Cenário 8](assets/frontend/cenarios-de-teste/cenario-teste-8.mp4)
 
