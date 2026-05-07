@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { Ic } from "../../lib/icons";
 import * as api from "../../lib/api";
@@ -31,6 +31,13 @@ export function NotificationDropdown({
         }
     }, [open, isMobile]);
 
+    // Reset sheetVisible when viewport resizes from mobile to desktop
+    useEffect(() => {
+        if (!isMobile) setSheetVisible(false);
+    }, [isMobile]);
+
+    const closeSheet = useCallback(() => setSheetVisible(false), []);
+
     // Click-outside + Escape for desktop dropdown
     useEffect(() => {
         if (!open || isMobile) return;
@@ -56,13 +63,11 @@ export function NotificationDropdown({
         };
         document.addEventListener("keydown", onKey);
         return () => document.removeEventListener("keydown", onKey);
-    }, [open, isMobile]);
-
-    const closeSheet = () => setSheetVisible(false);
+    }, [open, isMobile, closeSheet]);
 
     // Called when the sheet's CSS transition ends; unmounts the sheet after slide-out
-    const handleSheetTransitionEnd = () => {
-        if (!sheetVisible) setOpen(false);
+    const handleSheetTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget && !sheetVisible) setOpen(false);
     };
 
     const markRead = async (id: string) => {
