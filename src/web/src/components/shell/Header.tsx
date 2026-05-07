@@ -7,6 +7,8 @@ interface HeaderProps {
     notifCount?: number;
     user: User;
     view?: View;
+    mode: "patient" | "professional"; // Novo
+    onToggleMode: () => void;         // Novo
     setView?: (v: View) => void;
     onLogout?: () => void;
     onGoProfile?: () => void;
@@ -26,6 +28,8 @@ export function Header({
     notifCount,
     user,
     view,
+    mode,          // Destructuring
+    onToggleMode,  // Destructuring
     onLogout,
     onGoProfile,
     onBrandClick,
@@ -44,29 +48,24 @@ export function Header({
         return () => document.removeEventListener("mousedown", handler);
     }, [dropOpen]);
 
+    // Estilo dinâmico para o Header dependendo do modo
+    const isPro = mode === "professional";
+
     return (
-        <header className="app-header">
+        <header className={`app-header ${isPro ? "mode-pro" : ""}`}>
             <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
                 <div
                     className="brand"
                     onClick={onBrandClick}
                     style={{ cursor: onBrandClick ? "pointer" : undefined }}
                 >
-                    <div className="brand-mark">M</div>
-                    <span>medhub</span>
+                    <div className="brand-mark">{isPro ? "P" : "M"}</div>
+                    <span>medhub{isPro && <small className="pro-tag">PRO</small>}</span>
                 </div>
                 {!unauth && view && (
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 6,
-                            color: "var(--ink-muted)",
-                            fontSize: 13,
-                        }}
-                    >
+                    <div className="view-breadcrumb">
                         <Ic.chevron size={14} />
-                        <span style={{ color: "var(--ink-2)", fontWeight: 500 }}>
+                        <span className="view-label">
                             {viewLabels[view]}
                         </span>
                     </div>
@@ -77,18 +76,23 @@ export function Header({
                 <div className="header-search">
                     <Ic.search size={16} />
                     <input placeholder="Buscar médico, especialidade, consulta…" />
+                    <input placeholder={isPro ? "Buscar paciente ou prontuário..." : "Buscar médico, especialidade..."} />
                     <kbd>⌘K</kbd>
                 </div>
             )}
 
             <div className="header-right">
-                {unauth ? (
+                <button 
+                    className={`btn btn-sm ${isPro ? 'btn-primary' : 'btn-ghost'}`}
+                    onClick={onToggleMode}
+                    style={{ marginRight: 8 }}
+                >
+                    {isPro ? "Visão Paciente" : "Para Profissionais"}
+                </button>
+
+                {!unauth && (
                     <>
-                        <button className="btn btn-ghost btn-sm">Para profissionais</button>
-                    </>
-                ) : (
-                    <>
-                        <button className="icon-btn" title="Notificações" data-active={false}>
+                        <button className="icon-btn" title="Notificações">
                             <Ic.bell size={18} />
                             {notifCount != null && notifCount > 0 && (
                                 <span className="badge-dot">{notifCount}</span>
@@ -103,80 +107,12 @@ export function Header({
                             </button>
 
                             {dropOpen && (
-                                <div
-                                    className="card"
-                                    style={{
-                                        position: "absolute",
-                                        top: "calc(100% + 8px)",
-                                        right: 0,
-                                        minWidth: 160,
-                                        padding: 6,
-                                        zIndex: 100,
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: 2,
-                                    }}
-                                >
-                                    <button
-                                        onClick={() => {
-                                            onGoProfile?.();
-                                            setDropOpen(false);
-                                        }}
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: 10,
-                                            width: "100%",
-                                            padding: "8px 10px",
-                                            borderRadius: 6,
-                                            border: "none",
-                                            background: "none",
-                                            color: "var(--ink)",
-                                            fontSize: 13.5,
-                                            cursor: "pointer",
-                                            textAlign: "left",
-                                        }}
-                                        onMouseEnter={(e) =>
-                                            (e.currentTarget.style.background = "var(--surface-2)")
-                                        }
-                                        onMouseLeave={(e) =>
-                                            (e.currentTarget.style.background = "none")
-                                        }
-                                    >
-                                        <Ic.user size={15} />
-                                        Perfil
+                                <div className="dropdown-card card">
+                                    <button className="drop-item" onClick={() => { onGoProfile?.(); setDropOpen(false); }}>
+                                        <Ic.user size={15} /> Perfil
                                     </button>
-                                    <button
-                                        onClick={() => {
-                                            onLogout?.();
-                                            setDropOpen(false);
-                                        }}
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: 10,
-                                            width: "100%",
-                                            padding: "8px 10px",
-                                            borderRadius: 6,
-                                            border: "none",
-                                            background: "none",
-                                            color: "var(--ink)",
-                                            fontSize: 13.5,
-                                            cursor: "pointer",
-                                            textAlign: "left",
-                                        }}
-                                        onMouseEnter={(e) =>
-                                            (e.currentTarget.style.background = "var(--surface-2)")
-                                        }
-                                        onMouseLeave={(e) =>
-                                            (e.currentTarget.style.background = "none")
-                                        }
-                                    >
-                                        <Ic.arrow
-                                            size={15}
-                                            style={{ transform: "rotate(180deg)" }}
-                                        />
-                                        Sair
+                                    <button className="drop-item logout" onClick={() => { onLogout?.(); setDropOpen(false); }}>
+                                        <Ic.arrow size={15} style={{ transform: "rotate(180deg)" }} /> Sair
                                     </button>
                                 </div>
                             )}

@@ -39,11 +39,18 @@ export async function login(email: string, password: string): Promise<User> {
     return data.user;
 }
 
-export async function register(name: string, email: string, password: string): Promise<User> {
+export async function register(
+    name: string,
+    email: string,
+    password: string,
+    cpf: string,
+): Promise<User> {
     const data = await req<{ token: string; user: User }>("POST", "/auth/register", {
         name,
         email,
         password,
+        cpf,
+        role: "PATIENT",
     });
     setToken(data.token);
     data.user.initials = makeInitials(data.user.name);

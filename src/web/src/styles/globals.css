@@ -183,6 +183,11 @@ a {
     gap: 16px;
 }
 
+.app-header.mode-pro {
+    border-bottom: 2px solid var(--navy-500);
+    background-color: var(--surface-pro);
+}
+
 .app-sidebar {
     grid-area: sidebar;
     border-right: 1px solid var(--border);

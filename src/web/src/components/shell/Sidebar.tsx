@@ -1,10 +1,12 @@
 import { Ic } from "../../lib/icons";
 import type { IcName } from "../../lib/icons";
-import type { View } from "../../lib/types";
+import type { View, UserRole } from "../../lib/types";
 
 interface SidebarProps {
     view: View;
     setView: (v: View) => void;
+    userRole: UserRole;
+    mode: "patient" | "professional"; // Adicionado para ajustar labels
 }
 
 interface PrimaryNavItem {
@@ -12,6 +14,7 @@ interface PrimaryNavItem {
     label: string;
     icon: IcName;
     tag?: string;
+    onlyPatient?: boolean;
 }
 
 interface AccountNavItem {
@@ -22,7 +25,7 @@ interface AccountNavItem {
 
 const primaryItems: PrimaryNavItem[] = [
     { id: "home", label: "Início", icon: "home" },
-    { id: "schedule", label: "Agendar", icon: "calendarPlus" },
+    { id: "schedule", label: "Agendar", icon: "calendarPlus", onlyPatient: true },
     { id: "appointments", label: "Minhas consultas", icon: "calendar", tag: "3" },
     { id: "history", label: "Histórico", icon: "history" },
 ];
@@ -32,12 +35,24 @@ const accountItems: AccountNavItem[] = [
     { id: "settings", label: "Preferências", icon: "settings" },
 ];
 
-export function Sidebar({ view, setView }: SidebarProps) {
+export function Sidebar({ view, setView, userRole, mode }: SidebarProps) {
+    const isDoctor = userRole === "DOCTOR";
+    const isProMode = mode === "professional";
+
     return (
         <aside className="app-sidebar">
             <div className="nav-section-label">Atendimento</div>
             {primaryItems.map((it) => {
+                if (isDoctor && it.onlyPatient) return null;
+
                 const Icon = Ic[it.icon];
+                
+                // 2. Muda o label de "Minhas consultas" para "Minha Agenda" se estiver no modo PRO
+                let currentLabel = it.label;
+                if (it.id === "appointments" && isProMode && isDoctor) {
+                    currentLabel = "Minha Agenda";
+                }
+
                 return (
                     <button
                         key={it.id}
@@ -46,11 +61,12 @@ export function Sidebar({ view, setView }: SidebarProps) {
                         onClick={() => setView(it.id)}
                     >
                         <Icon size={16} />
-                        <span>{it.label}</span>
+                        <span>{currentLabel}</span>
                         {it.tag && <span className="tag">{it.tag}</span>}
                     </button>
                 );
             })}
+
             <div className="nav-section-label">Conta</div>
             {accountItems.map((it) => {
                 const Icon = Ic[it.icon];
