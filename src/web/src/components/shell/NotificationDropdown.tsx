@@ -33,7 +33,10 @@ export function NotificationDropdown({
 
     // Reset sheetVisible when viewport resizes from mobile to desktop
     useEffect(() => {
-        if (!isMobile) setSheetVisible(false);
+        if (!isMobile) {
+            setSheetVisible(false);
+            setOpen(false);
+        }
     }, [isMobile]);
 
     const closeSheet = useCallback(() => setSheetVisible(false), []);
@@ -67,7 +70,8 @@ export function NotificationDropdown({
 
     // Called when the sheet's CSS transition ends; unmounts the sheet after slide-out
     const handleSheetTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-        if (e.target === e.currentTarget && !sheetVisible) setOpen(false);
+        if (e.target === e.currentTarget && e.propertyName === "transform" && !sheetVisible)
+            setOpen(false);
     };
 
     const markRead = async (id: string) => {
