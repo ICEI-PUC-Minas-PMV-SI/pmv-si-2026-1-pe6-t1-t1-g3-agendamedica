@@ -139,7 +139,7 @@ export function NotificationDropdown({
                     Nenhuma notificação
                 </div>
             ) : (
-                <div style={{ overflowY: "auto", flex: 1 }}>
+                <div style={{ overflowY: "auto", flex: 1, minHeight: 0 }}>
                     {notifications.map((n) => (
                         <button
                             key={n.id}
