@@ -247,6 +247,9 @@ export function NotificationDropdown({
                         padding: 0,
                         zIndex: 100,
                         overflow: "hidden",
+                        display: "flex",
+                        flexDirection: "column",
+                        maxHeight: "min(480px, calc(100vh - 80px))",
                     }}
                 >
                     {renderContent(() => {
