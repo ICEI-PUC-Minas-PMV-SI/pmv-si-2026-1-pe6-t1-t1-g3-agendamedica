@@ -99,8 +99,8 @@ export function Header({
                     <>
                         <button className="icon-btn" title="Notificações">
                             <Ic.bell size={18} />
-                            {notifCount != null && notifCount > 0 && (
-                                <span className="badge-dot">{notifCount}</span>
+                            {(notifications?.length ?? 0) > 0 && (
+                                <span className="badge-dot">{notifications?.length ?? 0}</span>
                             )}
                         </button>
                         {setNotifications && setView && (
