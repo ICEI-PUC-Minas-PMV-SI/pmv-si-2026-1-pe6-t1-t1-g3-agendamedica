@@ -2,11 +2,9 @@ export type AppStatus = "loaded" | "loading" | "empty" | "error";
 export type Accent = "teal" | "coral" | "indigo" | "forest";
 export type Density = "compact" | "comfortable" | "spacious";
 export type Theme = "light" | "dark";
-export type View = "home" | "schedule" | "appointments" | "history" | "profile";
+export type View = "home" | "schedule" | "appointments" | "history" | "profile" | "notifications";
 // Atualizado para incluir o estado de autenticação profissional
 export type Auth = "patient" | "professional" | "unauth";
-export type View = "home" | "schedule" | "appointments" | "history" | "profile" | "notifications";
-export type Auth = "patient" | "unauth";
 export type AuthView = "landing" | "login" | "register";
 export type AppointmentStatus = "PENDING" | "CONFIRMED" | "CANCELLED" | "RESCHEDULED";
 export type UserRole = "PATIENT" | "DOCTOR" | "RECEPTIONIST";
