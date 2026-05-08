@@ -185,7 +185,7 @@ a {
 
 .app-header.mode-pro {
     border-bottom: 2px solid var(--navy-500);
-    background-color: var(--surface-pro);
+    background-color: var(--surface-2);
 }
 
 .app-sidebar {
