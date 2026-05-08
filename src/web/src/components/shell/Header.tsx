@@ -80,7 +80,6 @@ export function Header({
             {!unauth && (
                 <div className="header-search">
                     <Ic.search size={16} />
-                    <input placeholder="Buscar médico, especialidade, consulta…" />
                     <input placeholder={isPro ? "Buscar paciente ou prontuário..." : "Buscar médico, especialidade..."} />
                     <kbd>⌘K</kbd>
                 </div>
