@@ -14,7 +14,8 @@ app.use(express.json());
 
 // Notificações em memória para suportar mark-as-read na sessão
 let notifications = data("notifications.json");
-const appointments = data("appointments.json");
+let appointments = data("appointments.json");
+const doctors = data("doctors.json");
 const defaultUser = data("user.json");
 
 // ── Health ──────────────────────────────────────────────────
@@ -37,11 +38,48 @@ app.post("/auth/register", (req, res) => {
     res.status(201).json({ token: "mock-token", user });
 });
 
+// ── Doctors ──────────────────────────────────────────────────
+app.get("/doctors/", (_req, res) => res.json(doctors));
+
 // ── Appointments ─────────────────────────────────────────────
 app.get("/appointments/", (_req, res) => res.json(appointments));
 app.get("/appointments/listAppointments", (_req, res) =>
     res.json(appointments),
 );
+
+app.post("/appointments/createAppointment", (req, res) => {
+    const { doctorId, date } = req.body;
+    const doctor = doctors.find((d) => d.id === doctorId);
+    if (!doctor) return res.status(404).json({ error: "Médico não encontrado" });
+
+    const apptDate = new Date(date);
+    const today = new Date();
+    const isToday =
+        apptDate.getFullYear() === today.getFullYear() &&
+        apptDate.getMonth() === today.getMonth() &&
+        apptDate.getDate() === today.getDate();
+
+    const newAppt = {
+        id: `a-${Date.now()}`,
+        date,
+        status: "PENDING",
+        doctor: doctor.name,
+        specialty: doctor.specialty,
+        clinic: doctor.clinic,
+        mode: "presencial",
+        isToday,
+    };
+    appointments = [newAppt, ...appointments];
+    res.status(201).json(newAppt);
+});
+
+app.post("/appointments/cancelAppointment", (req, res) => {
+    const { appointmentId } = req.body;
+    const idx = appointments.findIndex((a) => a.id === appointmentId);
+    if (idx === -1) return res.status(404).json({ error: "Consulta não encontrada" });
+    appointments[idx] = { ...appointments[idx], status: "CANCELLED" };
+    res.json(appointments[idx]);
+});
 
 // ── Notifications ─────────────────────────────────────────────
 app.get("/notifications/", (_req, res) => res.json(notifications));
@@ -59,6 +97,14 @@ app.patch("/notifications/:id/read", (req, res) => {
     const { id } = req.params;
     notifications = notifications.map((n) =>
         n.id === id ? { ...n, read: true } : n,
+    );
+    res.json({ success: true });
+});
+
+app.patch("/notifications/:id/unread", (req, res) => {
+    const { id } = req.params;
+    notifications = notifications.map((n) =>
+        n.id === id ? { ...n, read: false } : n,
     );
     res.json({ success: true });
 });

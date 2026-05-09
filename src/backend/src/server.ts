@@ -4,6 +4,7 @@ import { logger } from "./utils/logger";
 
 import clinicRoutes from "./modules/clinics/clinic.routes";
 import appointmentRoutes from "./modules/appointment/appointment.routes";
+import doctorRoutes from "./modules/doctors/doctor.routes";
 import { env } from "./config/env"; // validates required env vars — throws on missing
 import notificationRoutes from "./modules/notifications/notification.routes";
 import userRoutes from "./modules/users/users.routes";
@@ -18,6 +19,7 @@ app.use("/notifications", notificationRoutes);
 app.use("/users", userRoutes);
 
 app.use("/clinics", clinicRoutes);
+app.use("/doctors", doctorRoutes);
 
 app.get("/health", (_req: Request, res: Response) => {
     res.json({ status: "ok" });

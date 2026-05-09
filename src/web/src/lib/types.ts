@@ -30,18 +30,19 @@ export interface PatientUser extends BaseUser {
     cpf: string;
 }
 
-export interface DoctorUser extends BaseUser {
-    role: "DOCTOR";
-    crm: string; // OBRIGATÓRIO
-    specialty: string; // OBRIGATÓRIO
-}
-
 export interface ReceptionistUser extends BaseUser {
     role: "RECEPTIONIST";
     unitId?: string;
 }
 
 export type User = PatientUser | DoctorUser | ReceptionistUser;
+
+export interface Doctor {
+    id: string;
+    name: string;
+    specialty: string;
+    clinic: string;
+}
 
 export interface Appointment {
     id: string;

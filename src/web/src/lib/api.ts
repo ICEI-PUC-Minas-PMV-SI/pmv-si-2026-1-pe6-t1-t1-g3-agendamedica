@@ -1,4 +1,4 @@
-import type { Appointment, Notification, User } from "./types";
+import type { Appointment, Doctor, Notification, User } from "./types";
 
 const BASE = "/api";
 
@@ -18,7 +18,11 @@ async function req<T>(method: string, path: string, body?: unknown): Promise<T> 
         headers: { "Content-Type": "application/json", ...authHeaders() },
         body: body !== undefined ? JSON.stringify(body) : undefined,
     });
-    if (!res.ok) throw new Error(`${method} ${path} → ${res.status}`);
+    if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        const message = body?.message ?? `${method} ${path} → ${res.status}`;
+        throw new Error(message);
+    }
     return res.json() as Promise<T>;
 }
 
@@ -57,9 +61,29 @@ export async function register(
     return data.user;
 }
 
+// ── Doctors ───────────────────────────────────────────────────
+export function fetchDoctors(): Promise<Doctor[]> {
+    return req("GET", "/doctors/");
+}
+
 // ── Appointments ──────────────────────────────────────────────
 export function fetchAppointments(): Promise<Appointment[]> {
     return req("GET", "/appointments/");
+}
+
+export interface CreateAppointmentPayload {
+    patientId: string;
+    doctorId: string;
+    date: string;
+    notes?: string;
+}
+
+export function createAppointment(payload: CreateAppointmentPayload): Promise<Appointment> {
+    return req("POST", "/appointments/createAppointment", payload);
+}
+
+export function cancelAppointment(appointmentId: string): Promise<Appointment> {
+    return req("POST", "/appointments/cancelAppointment", { appointmentId });
 }
 
 // ── Notifications ─────────────────────────────────────────────

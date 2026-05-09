@@ -1,38 +1,902 @@
 [
     {
-        "id": "n-01",
+        "id": "n-001",
         "type": "APPOINTMENT_CONFIRMED",
         "title": "Consulta confirmada",
         "message": "Sua consulta com Dra. Marina Figueiredo hoje às 14:30 foi confirmada pela clínica.",
-        "createdAt": "2026-04-18T08:12:00",
+        "createdAt": "2026-05-06T08:12:00",
         "read": false,
         "appointmentId": "a-01"
     },
     {
-        "id": "n-02",
+        "id": "n-002",
         "type": "APPOINTMENT_RESCHEDULED",
         "title": "Horário remarcado",
         "message": "Dra. Helena Prado remarcou sua consulta de Dermatologia para 02/mai, 16:15.",
-        "createdAt": "2026-04-17T17:40:00",
+        "createdAt": "2026-05-05T17:40:00",
         "read": false,
         "appointmentId": "a-03"
     },
     {
-        "id": "n-03",
+        "id": "n-003",
         "type": "APPOINTMENT_CREATED",
         "title": "Lembrete de preparo",
         "message": "Sua teleconsulta com Dr. Rafael Monteiro é em 5 dias. Tenha seus exames recentes em mãos.",
-        "createdAt": "2026-04-17T09:02:00",
+        "createdAt": "2026-05-05T09:02:00",
         "read": false,
         "appointmentId": "a-02"
     },
     {
-        "id": "n-04",
+        "id": "n-004",
         "type": "APPOINTMENT_CREATED",
         "title": "Resumo mensal",
-        "message": "Você teve 2 consultas realizadas em março. Confira o histórico completo.",
-        "createdAt": "2026-04-15T11:20:00",
+        "message": "Você teve 2 consultas realizadas em abril. Confira o histórico completo.",
+        "createdAt": "2026-05-04T11:20:00",
         "read": true,
         "appointmentId": null
+    },
+    {
+        "id": "n-005",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dr. Rafael Monteiro em 03/mai foi cancelada. Entre em contato para reagendar.",
+        "createdAt": "2026-05-03T14:00:00",
+        "read": false,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-006",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Você tem uma consulta com Dra. Marina Figueiredo amanhã às 14:30. Não se esqueça.",
+        "createdAt": "2026-05-03T08:00:00",
+        "read": true,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-007",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dr. Paulo Saraiva em 10/mai às 09:00 foi confirmada.",
+        "createdAt": "2026-05-02T16:30:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-008",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dr. Paulo Saraiva remarcou sua consulta de Ortopedia para 12/mai, 10:00.",
+        "createdAt": "2026-05-02T10:15:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-009",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta com Dra. Helena Prado em 15/mai às 11:00 foi agendada com sucesso.",
+        "createdAt": "2026-05-01T13:45:00",
+        "read": false,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-010",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Helena Prado em 30/abr foi cancelada pela clínica.",
+        "createdAt": "2026-04-30T09:00:00",
+        "read": true,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-011",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Você tem uma teleconsulta com Dr. Rafael Monteiro em 2 dias. Teste sua câmera e microfone.",
+        "createdAt": "2026-04-29T08:00:00",
+        "read": false,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-012",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Marina Figueiredo em 28/abr às 15:00 foi confirmada.",
+        "createdAt": "2026-04-28T11:00:00",
+        "read": true,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-013",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta com Dr. Paulo Saraiva em 20/mai às 08:30 foi agendada.",
+        "createdAt": "2026-04-27T14:22:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-014",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dra. Marina Figueiredo remarcou sua consulta para 25/abr, 16:00.",
+        "createdAt": "2026-04-26T09:30:00",
+        "read": true,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-015",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Você tem uma consulta com Dr. Paulo Saraiva amanhã às 08:30. Chegue com 15 minutos de antecedência.",
+        "createdAt": "2026-04-25T08:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-016",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dr. Paulo Saraiva em 24/abr foi cancelada. Reagende pelo app.",
+        "createdAt": "2026-04-24T07:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-017",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Helena Prado em 22/abr às 11:00 foi confirmada.",
+        "createdAt": "2026-04-23T15:10:00",
+        "read": false,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-018",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Cardiologia com Dr. Rafael Monteiro em 05/mai foi agendada.",
+        "createdAt": "2026-04-22T10:00:00",
+        "read": true,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-019",
+        "type": "REMINDER",
+        "title": "Lembrete de preparo",
+        "message": "Sua consulta de Cardiologia com Dr. Rafael Monteiro é em 3 dias. Faça um jejum de 4h antes.",
+        "createdAt": "2026-04-21T08:00:00",
+        "read": false,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-020",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dr. Rafael Monteiro remarcou sua teleconsulta para 08/mai, 17:00.",
+        "createdAt": "2026-04-20T12:45:00",
+        "read": true,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-021",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Marina Figueiredo em 19/abr às 14:30 foi confirmada.",
+        "createdAt": "2026-04-19T09:00:00",
+        "read": false,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-022",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Helena Prado em 18/abr foi cancelada pelo médico.",
+        "createdAt": "2026-04-18T07:30:00",
+        "read": true,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-023",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta com Dra. Helena Prado em 02/mai às 16:15 foi agendada com sucesso.",
+        "createdAt": "2026-04-17T11:00:00",
+        "read": false,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-024",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Você tem uma consulta com Dra. Marina Figueiredo amanhã. Confirme o endereço da clínica.",
+        "createdAt": "2026-04-16T08:00:00",
+        "read": true,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-025",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dr. Paulo Saraiva remarcou sua consulta de Ortopedia para 18/abr, 09:00.",
+        "createdAt": "2026-04-15T16:20:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-026",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dr. Rafael Monteiro em 14/abr às 17:00 foi confirmada.",
+        "createdAt": "2026-04-14T10:00:00",
+        "read": true,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-027",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Resumo mensal",
+        "message": "Você teve 3 consultas realizadas em março. Tudo certo com sua saúde!",
+        "createdAt": "2026-04-13T09:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-028",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Sua consulta com Dr. Paulo Saraiva é amanhã. Prepare os documentos necessários.",
+        "createdAt": "2026-04-12T08:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-029",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dr. Rafael Monteiro em 11/abr foi cancelada. Novo horário disponível.",
+        "createdAt": "2026-04-11T14:00:00",
+        "read": true,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-030",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dra. Helena Prado remarcou sua consulta para 14/abr, 10:30.",
+        "createdAt": "2026-04-10T11:30:00",
+        "read": false,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-031",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Marina Figueiredo em 09/abr às 15:00 foi confirmada.",
+        "createdAt": "2026-04-09T08:45:00",
+        "read": true,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-032",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Neurologia com Dra. Ana Lima em 25/abr às 10:00 foi agendada.",
+        "createdAt": "2026-04-08T13:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-033",
+        "type": "REMINDER",
+        "title": "Lembrete de preparo",
+        "message": "Sua consulta de Neurologia é em 3 dias. Anote seus sintomas para relatar ao médico.",
+        "createdAt": "2026-04-07T08:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-034",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Ana Lima em 06/abr foi cancelada pela clínica por indisponibilidade.",
+        "createdAt": "2026-04-06T07:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-035",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dr. Rafael Monteiro remarcou sua teleconsulta para 10/abr, 18:00.",
+        "createdAt": "2026-04-05T15:20:00",
+        "read": true,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-036",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Helena Prado em 04/abr às 11:00 foi confirmada.",
+        "createdAt": "2026-04-04T09:10:00",
+        "read": false,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-037",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Endocrinologia com Dr. Bruno Carvalho em 20/abr às 09:00 foi agendada.",
+        "createdAt": "2026-04-03T10:30:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-038",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Você tem uma consulta de Endocrinologia amanhã. Leve seus resultados de exames de sangue.",
+        "createdAt": "2026-04-02T08:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-039",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dr. Bruno Carvalho em 01/abr foi cancelada. Reagende quando quiser.",
+        "createdAt": "2026-04-01T06:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-040",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dra. Marina Figueiredo remarcou sua consulta para 05/abr, 14:00.",
+        "createdAt": "2026-03-31T12:00:00",
+        "read": false,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-041",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dr. Paulo Saraiva em 30/mar às 08:30 foi confirmada.",
+        "createdAt": "2026-03-30T07:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-042",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Resumo mensal",
+        "message": "Você teve 4 consultas realizadas em fevereiro. Continue cuidando da sua saúde!",
+        "createdAt": "2026-03-29T09:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-043",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Sua consulta com Dr. Rafael Monteiro é em 2 dias. Confirme pelo app.",
+        "createdAt": "2026-03-28T08:00:00",
+        "read": false,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-044",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Helena Prado em 27/mar foi cancelada pelo médico.",
+        "createdAt": "2026-03-27T10:00:00",
+        "read": true,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-045",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dr. Paulo Saraiva remarcou sua consulta para 29/mar, 09:00.",
+        "createdAt": "2026-03-26T14:30:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-046",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Ana Lima em 25/mar às 10:00 foi confirmada.",
+        "createdAt": "2026-03-25T09:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-047",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Psiquiatria com Dra. Carla Mendes em 10/abr às 15:30 foi agendada.",
+        "createdAt": "2026-03-24T11:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-048",
+        "type": "REMINDER",
+        "title": "Lembrete de preparo",
+        "message": "Sua consulta de Psiquiatria é amanhã. Anote os medicamentos que está tomando.",
+        "createdAt": "2026-03-23T08:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-049",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Carla Mendes em 22/mar foi cancelada. Entre em contato para remarcar.",
+        "createdAt": "2026-03-22T07:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-050",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dra. Marina Figueiredo remarcou sua consulta para 24/mar, 14:30.",
+        "createdAt": "2026-03-21T10:00:00",
+        "read": true,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-051",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dr. Rafael Monteiro em 20/mar às 17:00 foi confirmada.",
+        "createdAt": "2026-03-20T08:30:00",
+        "read": false,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-052",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Oftalmologia com Dr. Renato Coelho em 02/abr às 08:00 foi agendada.",
+        "createdAt": "2026-03-19T13:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-053",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Sua consulta de Oftalmologia é amanhã. Evite usar lentes de contato no dia.",
+        "createdAt": "2026-03-18T08:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-054",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dr. Renato Coelho em 17/mar foi cancelada por motivo de força maior.",
+        "createdAt": "2026-03-17T09:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-055",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dr. Rafael Monteiro remarcou sua teleconsulta para 20/mar, 17:00.",
+        "createdAt": "2026-03-16T11:45:00",
+        "read": false,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-056",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Helena Prado em 15/mar às 11:00 foi confirmada.",
+        "createdAt": "2026-03-15T09:00:00",
+        "read": true,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-057",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Resumo mensal",
+        "message": "Você teve 2 consultas realizadas em janeiro. Mantenha o acompanhamento regular!",
+        "createdAt": "2026-03-14T09:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-058",
+        "type": "REMINDER",
+        "title": "Lembrete de preparo",
+        "message": "Sua consulta com Dra. Helena Prado é em 3 dias. Separe os últimos exames realizados.",
+        "createdAt": "2026-03-13T08:00:00",
+        "read": false,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-059",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dr. Paulo Saraiva em 12/mar foi cancelada pela clínica.",
+        "createdAt": "2026-03-12T07:30:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-060",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dra. Ana Lima remarcou sua consulta de Neurologia para 16/mar, 10:00.",
+        "createdAt": "2026-03-11T12:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-061",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dr. Bruno Carvalho em 10/mar às 09:00 foi confirmada.",
+        "createdAt": "2026-03-10T08:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-062",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Reumatologia com Dra. Sofia Torres em 28/mar às 14:00 foi agendada.",
+        "createdAt": "2026-03-09T10:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-063",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Sua consulta com Dra. Sofia Torres é amanhã. Anote os pontos dolorosos para relatar.",
+        "createdAt": "2026-03-08T08:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-064",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Sofia Torres em 07/mar foi cancelada. Novo horário em breve.",
+        "createdAt": "2026-03-07T06:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-065",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dr. Bruno Carvalho remarcou sua consulta para 12/mar, 09:00.",
+        "createdAt": "2026-03-06T14:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-066",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Marina Figueiredo em 05/mar às 14:30 foi confirmada.",
+        "createdAt": "2026-03-05T09:00:00",
+        "read": false,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-067",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Gastroenterologia com Dr. Felipe Ramos em 18/mar às 11:00 foi agendada.",
+        "createdAt": "2026-03-04T11:30:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-068",
+        "type": "REMINDER",
+        "title": "Lembrete de preparo",
+        "message": "Sua consulta de Gastroenterologia é em 2 dias. Faça dieta leve 24h antes.",
+        "createdAt": "2026-03-03T08:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-069",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dr. Felipe Ramos em 02/mar foi cancelada por agenda do médico.",
+        "createdAt": "2026-03-02T07:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-070",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dra. Helena Prado remarcou sua consulta para 06/mar, 11:00.",
+        "createdAt": "2026-03-01T10:30:00",
+        "read": false,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-071",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dr. Rafael Monteiro em 28/fev às 17:00 foi confirmada.",
+        "createdAt": "2026-02-28T09:00:00",
+        "read": true,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-072",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Resumo mensal",
+        "message": "Você teve 5 consultas realizadas em janeiro. Ótimo cuidado com a saúde!",
+        "createdAt": "2026-02-27T09:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-073",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Você tem uma teleconsulta com Dr. Rafael Monteiro amanhã. Tenha boa conexão de internet.",
+        "createdAt": "2026-02-26T08:00:00",
+        "read": false,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-074",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Ana Lima em 25/fev foi cancelada. Reagende quando quiser.",
+        "createdAt": "2026-02-25T07:30:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-075",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dr. Paulo Saraiva remarcou sua consulta de Ortopedia para 01/mar, 08:30.",
+        "createdAt": "2026-02-24T12:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-076",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Sofia Torres em 23/fev às 14:00 foi confirmada.",
+        "createdAt": "2026-02-23T09:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-077",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Pneumologia com Dra. Luiza Andrade em 15/mar às 10:30 foi agendada.",
+        "createdAt": "2026-02-22T11:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-078",
+        "type": "REMINDER",
+        "title": "Lembrete de preparo",
+        "message": "Sua consulta de Pneumologia é amanhã. Evite atividades físicas intensas no dia anterior.",
+        "createdAt": "2026-02-21T08:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-079",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Luiza Andrade em 20/fev foi cancelada pela clínica.",
+        "createdAt": "2026-02-20T07:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-080",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dra. Marina Figueiredo remarcou sua consulta para 25/fev, 14:30.",
+        "createdAt": "2026-02-19T10:00:00",
+        "read": true,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-081",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dr. Felipe Ramos em 18/fev às 11:00 foi confirmada.",
+        "createdAt": "2026-02-18T09:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-082",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Urologia com Dr. Marcos Ferreira em 05/mar às 08:00 foi agendada.",
+        "createdAt": "2026-02-17T13:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-083",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Sua consulta de Urologia é em 3 dias. Colete amostra de urina no dia do exame.",
+        "createdAt": "2026-02-16T08:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-084",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dr. Marcos Ferreira em 15/fev foi cancelada. Entre em contato.",
+        "createdAt": "2026-02-15T07:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-085",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dr. Rafael Monteiro remarcou sua teleconsulta para 20/fev, 17:00.",
+        "createdAt": "2026-02-14T11:00:00",
+        "read": false,
+        "appointmentId": "a-02"
+    },
+    {
+        "id": "n-086",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Helena Prado em 13/fev às 11:00 foi confirmada.",
+        "createdAt": "2026-02-13T09:00:00",
+        "read": true,
+        "appointmentId": "a-03"
+    },
+    {
+        "id": "n-087",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Resumo mensal",
+        "message": "Você teve 3 consultas realizadas em dezembro. Cuide-se sempre!",
+        "createdAt": "2026-02-12T09:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-088",
+        "type": "REMINDER",
+        "title": "Lembrete de preparo",
+        "message": "Sua consulta com Dra. Carla Mendes é amanhã. Relaxe e descanse bem antes.",
+        "createdAt": "2026-02-11T08:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-089",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Carla Mendes em 10/fev foi cancelada pela clínica por feriado.",
+        "createdAt": "2026-02-10T07:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-090",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dra. Sofia Torres remarcou sua consulta de Reumatologia para 14/fev, 14:00.",
+        "createdAt": "2026-02-09T12:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-091",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dr. Bruno Carvalho em 08/fev às 09:00 foi confirmada.",
+        "createdAt": "2026-02-08T08:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-092",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Geriatria com Dra. Rita Campos em 22/fev às 16:00 foi agendada.",
+        "createdAt": "2026-02-07T11:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-093",
+        "type": "REMINDER",
+        "title": "Lembrete de consulta",
+        "message": "Sua consulta de Geriatria é amanhã. Traga a lista completa de medicamentos em uso.",
+        "createdAt": "2026-02-06T08:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-094",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Rita Campos em 05/fev foi cancelada. Novo agendamento disponível.",
+        "createdAt": "2026-02-05T06:30:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-095",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dra. Marina Figueiredo remarcou sua consulta para 09/fev, 14:30.",
+        "createdAt": "2026-02-04T10:00:00",
+        "read": true,
+        "appointmentId": "a-01"
+    },
+    {
+        "id": "n-096",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Luiza Andrade em 03/fev às 10:30 foi confirmada.",
+        "createdAt": "2026-02-03T09:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-097",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Nova consulta agendada",
+        "message": "Sua consulta de Hematologia com Dr. André Souza em 28/fev às 08:30 foi agendada.",
+        "createdAt": "2026-02-02T13:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-098",
+        "type": "REMINDER",
+        "title": "Lembrete de preparo",
+        "message": "Sua consulta de Hematologia é em 2 dias. Faça jejum de 8h e evite atividades físicas.",
+        "createdAt": "2026-02-01T08:00:00",
+        "read": false,
+        "appointmentId": null
+    },
+    {
+        "id": "n-099",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dr. André Souza em 31/jan foi cancelada. Entre em contato para reagendar.",
+        "createdAt": "2026-01-31T07:00:00",
+        "read": true,
+        "appointmentId": null
+    },
+    {
+        "id": "n-100",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Dr. Rafael Monteiro remarcou sua teleconsulta para 05/fev, 17:00.",
+        "createdAt": "2026-01-30T11:00:00",
+        "read": false,
+        "appointmentId": "a-02"
     }
 ]

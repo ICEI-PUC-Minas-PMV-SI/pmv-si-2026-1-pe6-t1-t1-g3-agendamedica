@@ -1,12 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import type React from "react";
 import { PageHeader } from "../components/ui/PageHeader";
+import type { Doctor } from "../lib/types";
+import * as api from "../lib/api";
+import { Ic } from "../lib/icons";
 
-interface SummaryRowProps {
-    label: string;
-    value: string;
+interface Props {
+    patientId: string;
+    userName: string;
+    onAppointmentCreated: () => void;
+    onGoAppointments: () => void;
 }
 
-function SummaryRow({ label, value }: SummaryRowProps) {
+function BRDateInput({
+    value,
+    onChange,
+    id,
+    required,
+    className,
+}: {
+    value: string;
+    onChange: (iso: string) => void;
+    id?: string;
+    required?: boolean;
+    className?: string;
+}) {
+    const ref = useRef<HTMLInputElement>(null);
+    const display = value ? value.split("-").reverse().join("/") : "";
+
+    return (
+        <div style={{ position: "relative" }}>
+            <input
+                type="text"
+                readOnly
+                placeholder="DD/MM/AAAA"
+                value={display}
+                className={className}
+                style={{ cursor: "pointer" }}
+                onClick={() => ref.current?.showPicker()}
+            />
+            <input
+                ref={ref}
+                id={id}
+                type="date"
+                required={required}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                style={{
+                    position: "absolute",
+                    inset: 0,
+                    opacity: 0,
+                    width: "100%",
+                    height: "100%",
+                    cursor: "pointer",
+                    pointerEvents: "none",
+                }}
+            />
+        </div>
+    );
+}
+
+function SummaryRow({ label, value }: { label: string; value: string }) {
     return (
         <div
             style={{
@@ -16,49 +70,143 @@ function SummaryRow({ label, value }: SummaryRowProps) {
                 borderTop: "1px solid var(--border)",
             }}
         >
-            <span style={{ color: "var(--ink-3)" }}>{label}</span>
-            <span style={{ color: "var(--ink)", fontWeight: 500 }}>{value}</span>
+            <span style={{ color: "var(--ink-3)", fontSize: 13 }}>{label}</span>
+            <span
+                style={{
+                    color: "var(--ink)",
+                    fontWeight: 500,
+                    fontSize: 13,
+                    textAlign: "right",
+                    maxWidth: "60%",
+                }}
+            >
+                {value}
+            </span>
         </div>
     );
 }
 
-const SPECS = [
-    "Clínico Geral",
-    "Cardiologia",
-    "Dermatologia",
-    "Pediatria",
-    "Ginecologia",
-    "Oftalmologia",
-    "Ortopedia",
-    "Psiquiatria",
-];
+export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAppointments }: Props) {
+    const [doctors, setDoctors] = useState<Doctor[]>([]);
+    const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
+    const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+    const [date, setDate] = useState("");
+    const [time, setTime] = useState("");
+    const [notes, setNotes] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState(false);
 
-const SLOTS = ["09:00", "09:30", "10:00", "10:30", "14:00", "14:30", "15:00", "16:15"];
+    useEffect(() => {
+        api.fetchDoctors().then(setDoctors).catch(console.error);
+    }, []);
 
-const PROF_COUNTS: Record<string, number> = {
-    "Clínico Geral": 14,
-    Cardiologia: 9,
-    Dermatologia: 11,
-    Pediatria: 16,
-    Ginecologia: 8,
-    Oftalmologia: 12,
-    Ortopedia: 10,
-    Psiquiatria: 13,
-};
+    const specialties = [...new Set(doctors.map((d) => d.specialty))].sort();
+    const filteredDoctors = selectedSpecialty
+        ? doctors.filter((d) => d.specialty === selectedSpecialty)
+        : [];
 
-export function ScheduleView() {
-    const [_step, setStep] = useState(0);
-    const [specialty, setSpec] = useState<string | null>(null);
-    const [slot, setSlot] = useState<string | null>(null);
 
-    function handleSpecSelect(s: string) {
-        setSpec(s);
-        setStep(1);
+    const canSubmit = !!(selectedDoctor && date && time);
+    const [submitAttempted, setSubmitAttempted] = useState(false);
+
+    function handleSpecSelect(spec: string) {
+        setSelectedSpecialty(spec);
+        setSelectedDoctor(null);
     }
 
-    function handleSlotSelect(t: string) {
-        setSlot(t);
-        setStep(2);
+    function resetForm() {
+        setSelectedSpecialty(null);
+        setSelectedDoctor(null);
+        setDate("");
+        setTime("");
+        setNotes("");
+        setError("");
+        setSuccess(false);
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!canSubmit) return;
+        setLoading(true);
+        setError("");
+        try {
+            const isoDate = new Date(`${date}T${time}:00`).toISOString();
+            await api.createAppointment({
+                patientId,
+                doctorId: selectedDoctor!.id,
+                date: isoDate,
+                notes,
+            });
+            onAppointmentCreated();
+            setSuccess(true);
+        } catch {
+            setError("Não foi possível criar a consulta. Tente novamente.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (success) {
+        return (
+            <>
+                <PageHeader
+                    eyebrow="nova consulta"
+                    title={`Consulta <em>agendada</em>!`}
+                    sub="Você receberá uma notificação com os detalhes do atendimento."
+                />
+                <div style={{ maxWidth: 420, margin: "0 auto" }}>
+                    <section className="card" style={{ textAlign: "center", padding: 40 }}>
+                        <div
+                            style={{
+                                width: 56,
+                                height: 56,
+                                borderRadius: "50%",
+                                background: "var(--success-soft)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                margin: "0 auto 16px",
+                                color: "var(--success)",
+                            }}
+                        >
+                            <Ic.check size={28} />
+                        </div>
+                        <h2
+                            style={{
+                                fontFamily: "var(--font-display)",
+                                fontSize: 22,
+                                fontWeight: 400,
+                                letterSpacing: "-0.015em",
+                                margin: "0 0 8px",
+                            }}
+                        >
+                            Tudo certo!
+                        </h2>
+                        <p style={{ color: "var(--ink-3)", fontSize: 14, margin: "0 0 24px" }}>
+                            Sua consulta com <strong>{selectedDoctor?.name}</strong> foi agendada para{" "}
+                            <strong>
+                                {new Date(`${date}T${time}`).toLocaleDateString("pt-BR", {
+                                    weekday: "long",
+                                    day: "numeric",
+                                    month: "long",
+                                })}{" "}
+                                às {time}
+                            </strong>
+                            .
+                        </p>
+                        <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
+                            <button className="btn btn-ghost" onClick={resetForm}>
+                                Novo agendamento
+                            </button>
+                            <button className="btn btn-primary" onClick={onGoAppointments}>
+                                Ver minhas consultas
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </>
+        );
     }
 
     return (
@@ -66,119 +214,302 @@ export function ScheduleView() {
             <PageHeader
                 eyebrow="nova consulta"
                 title={`Agendar em <em>3 passos</em>.`}
-                sub="Escolha especialidade, horário e confirme. Você recebe o código do atendimento imediatamente."
+                sub="Escolha a especialidade, o profissional e confirme. Você recebe o código do atendimento imediatamente."
             />
-            <div className="home-grid">
-                <div className="col">
-                    <section className="card">
-                        <div className="card-head">
-                            <h3 className="card-title">1 · Especialidade</h3>
-                        </div>
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
-                                gap: 8,
-                            }}
-                        >
-                            {SPECS.map((s) => (
-                                <button
-                                    key={s}
-                                    className="shortcut"
-                                    style={{
-                                        minHeight: 70,
-                                        borderColor: specialty === s ? "var(--accent)" : undefined,
-                                        background:
-                                            specialty === s ? "var(--accent-soft)" : undefined,
-                                    }}
-                                    onClick={() => handleSpecSelect(s)}
-                                >
-                                    <div className="shortcut-label">{s}</div>
-                                    <div className="shortcut-sub">
-                                        {PROF_COUNTS[s]} profissionais
-                                    </div>
-                                </button>
-                            ))}
-                        </div>
-                    </section>
-                    <section className="card">
-                        <div className="card-head">
-                            <h3 className="card-title">2 · Horário</h3>
-                            <span
+            <form onSubmit={handleSubmit}>
+                <div className="home-grid">
+                    <div className="col">
+                        {/* Passo 1 */}
+                        <section className="card">
+                            <div className="card-head">
+                                <h3 className="card-title">1 · Especialidade</h3>
+                            </div>
+                            <div
                                 style={{
-                                    fontSize: 12,
-                                    color: "var(--ink-muted)",
-                                    fontFamily: "var(--font-mono)",
+                                    display: "grid",
+                                    gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+                                    gap: 8,
                                 }}
                             >
-                                qui · 23 abr
-                            </span>
-                        </div>
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "repeat(auto-fill, minmax(86px, 1fr))",
-                                gap: 8,
-                            }}
-                        >
-                            {SLOTS.map((t) => (
-                                <button
-                                    key={t}
-                                    className="btn btn-secondary"
+                                {specialties.map((s) => {
+                                    const count = doctors.filter((d) => d.specialty === s).length;
+                                    return (
+                                        <button
+                                            key={s}
+                                            type="button"
+                                            className="shortcut"
+                                            style={{
+                                                minHeight: 70,
+                                                borderColor:
+                                                    selectedSpecialty === s
+                                                        ? "var(--accent)"
+                                                        : undefined,
+                                                background:
+                                                    selectedSpecialty === s
+                                                        ? "var(--accent-soft)"
+                                                        : undefined,
+                                            }}
+                                            onClick={() => handleSpecSelect(s)}
+                                        >
+                                            <div className="shortcut-label">{s}</div>
+                                            <div className="shortcut-sub">
+                                                {count} profissional{count !== 1 ? "ais" : ""}
+                                            </div>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </section>
+
+                        {/* Passo 2 */}
+                        {selectedSpecialty && (
+                            <section className="card">
+                                <div className="card-head">
+                                    <h3 className="card-title">2 · Profissional</h3>
+                                    <span
+                                        style={{
+                                            fontSize: 12,
+                                            color: "var(--ink-muted)",
+                                            fontFamily: "var(--font-mono)",
+                                        }}
+                                    >
+                                        {selectedSpecialty}
+                                    </span>
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                                    {filteredDoctors.map((d) => {
+                                        const initial = d.name.replace(/^Dr[a]?\. /, "")[0];
+                                        const active = selectedDoctor?.id === d.id;
+                                        return (
+                                            <button
+                                                key={d.id}
+                                                type="button"
+                                                onClick={() => setSelectedDoctor(d)}
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: 12,
+                                                    padding: "12px 14px",
+                                                    borderRadius: "var(--r-2)",
+                                                    border: `1px solid ${active ? "var(--accent)" : "var(--border)"}`,
+                                                    background: active
+                                                        ? "var(--accent-soft)"
+                                                        : "var(--surface-2)",
+                                                    cursor: "pointer",
+                                                    textAlign: "left",
+                                                    transition: "border-color 0.1s, background 0.1s",
+                                                    width: "100%",
+                                                }}
+                                            >
+                                                <div
+                                                    style={{
+                                                        width: 36,
+                                                        height: 36,
+                                                        borderRadius: "50%",
+                                                        background: "var(--accent-soft)",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        color: "var(--accent-soft-ink)",
+                                                        flexShrink: 0,
+                                                        fontWeight: 700,
+                                                        fontSize: 14,
+                                                    }}
+                                                >
+                                                    {initial}
+                                                </div>
+                                                <div style={{ flex: 1, minWidth: 0 }}>
+                                                    <div
+                                                        style={{
+                                                            fontSize: 14,
+                                                            fontWeight: 600,
+                                                            color: "var(--ink)",
+                                                        }}
+                                                    >
+                                                        {d.name}
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            fontSize: 12,
+                                                            color: "var(--ink-3)",
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis",
+                                                            whiteSpace: "nowrap",
+                                                        }}
+                                                    >
+                                                        {d.clinic}
+                                                    </div>
+                                                </div>
+                                                {active && (
+                                                    <Ic.check
+                                                        size={16}
+                                                        style={{ color: "var(--accent)", flexShrink: 0 }}
+                                                    />
+                                                )}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </section>
+                        )}
+
+                        {/* Passo 3 */}
+                        {selectedDoctor && (
+                            <section className="card">
+                                <div className="card-head">
+                                    <h3 className="card-title">3 · Data e Horário</h3>
+                                </div>
+                                <div
                                     style={{
-                                        height: 40,
-                                        justifyContent: "center",
-                                        borderColor: slot === t ? "var(--accent)" : undefined,
-                                        background: slot === t ? "var(--accent-soft)" : undefined,
-                                        color: slot === t ? "var(--accent-soft-ink)" : undefined,
+                                        display: "grid",
+                                        gridTemplateColumns: "1fr 1fr",
+                                        gap: 12,
                                     }}
-                                    onClick={() => handleSlotSelect(t)}
                                 >
-                                    {t}
-                                </button>
-                            ))}
-                        </div>
-                    </section>
+                                    <div className="form-field">
+                                        <label className="form-label" htmlFor="sched-date">
+                                            Data
+                                        </label>
+                                        <BRDateInput
+                                            id="sched-date"
+                                            className="form-input"
+                                            value={date}
+                                            onChange={setDate}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-field">
+                                        <label className="form-label" htmlFor="sched-time">
+                                            Horário
+                                        </label>
+                                        <select
+                                            id="sched-time"
+                                            className="form-input"
+                                            value={time}
+                                            onChange={(e) => setTime(e.target.value)}
+                                            required
+                                        >
+                                            <option value="">Selecione</option>
+                                            {Array.from({ length: 34 }, (_, i) => {
+                                                const totalMin = 7 * 60 + i * 20;
+                                                const h = String(Math.floor(totalMin / 60)).padStart(2, "0");
+                                                const m = String(totalMin % 60).padStart(2, "0");
+                                                return `${h}:${m}`;
+                                            }).map((t) => (
+                                                <option key={t} value={t}>{t}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </section>
+                        )}
+                    </div>
+
+                    {/* Coluna direita: resumo */}
+                    <div className="col">
+                        <section className="card">
+                            <div className="card-head">
+                                <h3 className="card-title">Resumo</h3>
+                            </div>
+                            <div style={{ display: "flex", flexDirection: "column" }}>
+                                <SummaryRow label="Paciente" value={userName} />
+                                <SummaryRow
+                                    label="Especialidade"
+                                    value={selectedSpecialty ?? "—"}
+                                />
+                                <SummaryRow
+                                    label="Profissional"
+                                    value={selectedDoctor?.name ?? "—"}
+                                />
+                                <SummaryRow label="Local" value={selectedDoctor?.clinic ?? "—"} />
+                                <SummaryRow
+                                    label="Data"
+                                    value={
+                                        date
+                                            ? new Date(`${date}T00:00`).toLocaleDateString("pt-BR", {
+                                                  weekday: "short",
+                                                  day: "numeric",
+                                                  month: "short",
+                                                  year: "numeric",
+                                              })
+                                            : "—"
+                                    }
+                                />
+                                <SummaryRow label="Horário" value={time || "—"} />
+                            </div>
+
+                            <div className="form-field" style={{ marginTop: 16 }}>
+                                <label className="form-label" htmlFor="sched-notes">
+                                    Observações{" "}
+                                    <span style={{ color: "var(--ink-muted)", fontWeight: 400 }}>
+                                        (opcional)
+                                    </span>
+                                </label>
+                                <textarea
+                                    id="sched-notes"
+                                    className="form-input"
+                                    value={notes}
+                                    onChange={(e) => setNotes(e.target.value)}
+                                    rows={3}
+                                    placeholder="Ex: consulta de retorno, trazer exames..."
+                                    style={{
+                                        resize: "vertical",
+                                        minHeight: 72,
+                                        fontFamily: "var(--font-ui)",
+                                    }}
+                                />
+                            </div>
+
+                            {error && (
+                                <p
+                                    style={{
+                                        fontSize: 13,
+                                        color: "var(--danger-ink)",
+                                        margin: "12px 0 0",
+                                    }}
+                                >
+                                    {error}
+                                </p>
+                            )}
+
+                            <button
+                                type="submit"
+                                className="btn btn-primary btn-lg"
+                                style={{
+                                    width: "100%",
+                                    marginTop: 16,
+                                    justifyContent: "center",
+                                    opacity: !canSubmit ? 0.5 : 1,
+                                    cursor: !canSubmit ? "not-allowed" : "pointer",
+                                }}
+                                onClick={() => { if (!canSubmit) setSubmitAttempted(true); }}
+                                disabled={loading}
+                            >
+                                {loading ? "Agendando…" : "Confirmar agendamento"}
+                            </button>
+                            {submitAttempted && !canSubmit && (
+                                <p style={{ fontSize: 12, color: "var(--danger-ink)", textAlign: "center", marginTop: 10 }}>
+                                    Falta selecionar:{" "}
+                                    {[
+                                        !selectedSpecialty && "especialidade",
+                                        !selectedDoctor && "profissional",
+                                        !date && "data",
+                                        !time && "horário",
+                                    ]
+                                        .filter(Boolean)
+                                        .join(", ")}
+                                    .
+                                </p>
+                            )}
+                            {canSubmit && (
+                                <p style={{ fontSize: 11.5, color: "var(--ink-muted)", textAlign: "center", marginTop: 10 }}>
+                                    Você poderá remarcar até 4h antes.
+                                </p>
+                            )}
+                        </section>
+                    </div>
                 </div>
-                <div className="col">
-                    <section className="card">
-                        <div className="card-head">
-                            <h3 className="card-title">Resumo</h3>
-                        </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: 10,
-                                fontSize: 13,
-                            }}
-                        >
-                            <SummaryRow label="Paciente" value="Ana Beatriz Lima" />
-                            <SummaryRow label="Especialidade" value={specialty ?? "—"} />
-                            <SummaryRow label="Data" value="23 abr 2026" />
-                            <SummaryRow label="Horário" value={slot ?? "—"} />
-                            <SummaryRow label="Modalidade" value="Presencial" />
-                        </div>
-                        <button
-                            className="btn btn-primary btn-lg"
-                            style={{ width: "100%", marginTop: 18, justifyContent: "center" }}
-                            disabled={!specialty || !slot}
-                        >
-                            Confirmar agendamento
-                        </button>
-                        <p
-                            style={{
-                                fontSize: 11.5,
-                                color: "var(--ink-muted)",
-                                textAlign: "center",
-                                marginTop: 10,
-                            }}
-                        >
-                            Você poderá remarcar até 4h antes.
-                        </p>
-                    </section>
-                </div>
-            </div>
+            </form>
         </>
     );
 }
