@@ -16,7 +16,13 @@ router.get("/", async (_req: Request, res: Response, next: NextFunction) => {
             },
             orderBy: { specialty: "asc" },
         });
-        return res.json(doctors);
+        const payload = doctors.map(({ id, specialty, user, clinic }) => ({
+            id,
+            name: user.name,
+            specialty,
+            clinic: clinic?.name ?? "",
+        }));
+        return res.json(payload);
     } catch (err) {
         return next(err);
     }
