@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { ReactNode } from "react";
 import type { Appointment } from "../lib/types";
 import { Ic } from "../lib/icons";
 import { fmtDate, STATUS_LABEL, STATUS_CLASS } from "../lib/utils";
@@ -152,7 +153,7 @@ function CancelConfirmModal({ ap, confirming, onConfirm, onClose }: CancelConfir
 // ── Tela de detalhes ──────────────────────────────────────────
 
 interface DetailRowProps {
-    icon: React.ReactNode;
+    icon: ReactNode;
     label: string;
     value: string;
 }
@@ -213,7 +214,7 @@ function AppointmentDetail({ ap, cancelling, error, onRequestCancel, onBack }: A
 
             <PageHeader
                 eyebrow="detalhes da consulta"
-                title={`<em>${ap.doctor}</em>`}
+                title={ap.doctor}
                 sub={ap.specialty}
             />
 
