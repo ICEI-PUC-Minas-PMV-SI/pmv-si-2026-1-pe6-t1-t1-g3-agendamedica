@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type React from "react";
 import { PageHeader } from "../components/ui/PageHeader";
 import type { Doctor } from "../lib/types";
@@ -10,6 +10,54 @@ interface Props {
     userName: string;
     onAppointmentCreated: () => void;
     onGoAppointments: () => void;
+}
+
+function BRDateInput({
+    value,
+    onChange,
+    id,
+    required,
+    className,
+}: {
+    value: string;
+    onChange: (iso: string) => void;
+    id?: string;
+    required?: boolean;
+    className?: string;
+}) {
+    const ref = useRef<HTMLInputElement>(null);
+    const display = value ? value.split("-").reverse().join("/") : "";
+
+    return (
+        <div style={{ position: "relative" }}>
+            <input
+                type="text"
+                readOnly
+                placeholder="DD/MM/AAAA"
+                value={display}
+                className={className}
+                style={{ cursor: "pointer" }}
+                onClick={() => ref.current?.showPicker()}
+            />
+            <input
+                ref={ref}
+                id={id}
+                type="date"
+                required={required}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                style={{
+                    position: "absolute",
+                    inset: 0,
+                    opacity: 0,
+                    width: "100%",
+                    height: "100%",
+                    cursor: "pointer",
+                    pointerEvents: "none",
+                }}
+            />
+        </div>
+    );
 }
 
 function SummaryRow({ label, value }: { label: string; value: string }) {
@@ -58,8 +106,9 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
         ? doctors.filter((d) => d.specialty === selectedSpecialty)
         : [];
 
-    const today = new Date().toISOString().split("T")[0];
+
     const canSubmit = !!(selectedDoctor && date && time);
+    const [submitAttempted, setSubmitAttempted] = useState(false);
 
     function handleSpecSelect(spec: string) {
         setSelectedSpecialty(spec);
@@ -321,13 +370,11 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                                         <label className="form-label" htmlFor="sched-date">
                                             Data
                                         </label>
-                                        <input
+                                        <BRDateInput
                                             id="sched-date"
-                                            type="date"
                                             className="form-input"
                                             value={date}
-                                            min={today}
-                                            onChange={(e) => setDate(e.target.value)}
+                                            onChange={setDate}
                                             required
                                         />
                                     </div>
@@ -335,14 +382,23 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                                         <label className="form-label" htmlFor="sched-time">
                                             Horário
                                         </label>
-                                        <input
+                                        <select
                                             id="sched-time"
-                                            type="time"
                                             className="form-input"
                                             value={time}
                                             onChange={(e) => setTime(e.target.value)}
                                             required
-                                        />
+                                        >
+                                            <option value="">Selecione</option>
+                                            {Array.from({ length: 34 }, (_, i) => {
+                                                const totalMin = 7 * 60 + i * 20;
+                                                const h = String(Math.floor(totalMin / 60)).padStart(2, "0");
+                                                const m = String(totalMin % 60).padStart(2, "0");
+                                                return `${h}:${m}`;
+                                            }).map((t) => (
+                                                <option key={t} value={t}>{t}</option>
+                                            ))}
+                                        </select>
                                     </div>
                                 </div>
                             </section>
@@ -423,21 +479,33 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                                     width: "100%",
                                     marginTop: 16,
                                     justifyContent: "center",
+                                    opacity: !canSubmit ? 0.5 : 1,
+                                    cursor: !canSubmit ? "not-allowed" : "pointer",
                                 }}
-                                disabled={!canSubmit || loading}
+                                onClick={() => { if (!canSubmit) setSubmitAttempted(true); }}
+                                disabled={loading}
                             >
                                 {loading ? "Agendando…" : "Confirmar agendamento"}
                             </button>
-                            <p
-                                style={{
-                                    fontSize: 11.5,
-                                    color: "var(--ink-muted)",
-                                    textAlign: "center",
-                                    marginTop: 10,
-                                }}
-                            >
-                                Você poderá remarcar até 4h antes.
-                            </p>
+                            {submitAttempted && !canSubmit && (
+                                <p style={{ fontSize: 12, color: "var(--danger-ink)", textAlign: "center", marginTop: 10 }}>
+                                    Falta selecionar:{" "}
+                                    {[
+                                        !selectedSpecialty && "especialidade",
+                                        !selectedDoctor && "profissional",
+                                        !date && "data",
+                                        !time && "horário",
+                                    ]
+                                        .filter(Boolean)
+                                        .join(", ")}
+                                    .
+                                </p>
+                            )}
+                            {canSubmit && (
+                                <p style={{ fontSize: 11.5, color: "var(--ink-muted)", textAlign: "center", marginTop: 10 }}>
+                                    Você poderá remarcar até 4h antes.
+                                </p>
+                            )}
                         </section>
                     </div>
                 </div>

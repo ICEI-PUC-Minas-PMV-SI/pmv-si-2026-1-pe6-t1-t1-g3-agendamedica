@@ -163,6 +163,7 @@ Não há variáveis de ambiente necessárias no frontend — a URL base da API �
 | Funcionalidade | Documento de testes |
 | -------------- | ------------------- |
 | Interface de Notificações (RF-006) | [Cenários de Teste — Notificações Frontend](rf-006-notifications/cenarios-de-teste-frontend.md) |
+| Interface de Agendar, Visualizar e Cancelar (RF-001) | [Cenários de Teste — Agendamento Frontend](rf-001-appointments/cenarios-de-teste-frontend.md) |
 
 ---
 
