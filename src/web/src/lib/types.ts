@@ -22,6 +22,13 @@ export interface User {
     initials: string;
 }
 
+export interface Doctor {
+    id: string;
+    name: string;
+    specialty: string;
+    clinic: string;
+}
+
 export interface Appointment {
     id: string;
     date: string;
