@@ -9,6 +9,7 @@ import { ScheduleView } from "./views/ScheduleView";
 import { HistoryView } from "./views/HistoryView";
 import { ProfileView } from "./views/ProfileView";
 import { AppointmentsView } from "./views/AppointmentsView";
+import { NotificationsView } from "./views/NotificationsView";
 // Views — não autenticadas
 import { UnauthView } from "./views/UnauthView";
 import { LoginView } from "./views/LoginView";
@@ -82,8 +83,6 @@ export default function App() {
         setAppState((prev) => ({ ...prev, auth: "unauth", authView: "landing" }));
     };
 
-    const unreadCount = notifications.filter((n) => !n.read).length;
-
     const renderAuthView = () => {
         switch (appState.authView) {
             case "login":
@@ -140,6 +139,13 @@ export default function App() {
                         }
                     />
                 );
+            case "notifications":
+                return (
+                    <NotificationsView
+                        notifications={notifications}
+                        setNotifications={setNotifications}
+                    />
+                );
             default:
                 return (
                     <HomeView
@@ -170,7 +176,8 @@ export default function App() {
     return (
         <div className="app-shell">
             <Header
-                notifCount={unreadCount}
+                notifications={notifications}
+                setNotifications={setNotifications}
                 user={currentUser}
                 view={appState.view}
                 setView={setView}
