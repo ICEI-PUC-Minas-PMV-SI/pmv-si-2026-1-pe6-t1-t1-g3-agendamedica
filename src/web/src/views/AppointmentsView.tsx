@@ -85,9 +85,9 @@ function CancelConfirmModal({ ap, confirming, onConfirm, onClose }: CancelConfir
 
     return (
         <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
-            <div className="modal" style={{ maxWidth: 400 }} role="dialog" aria-modal="true">
+            <div className="modal" style={{ maxWidth: 400 }} role="dialog" aria-modal="true" aria-labelledby="cancel-dialog-title">
                 <div className="modal-header">
-                    <h2 className="modal-title">Cancelar consulta</h2>
+                    <h2 id="cancel-dialog-title" className="modal-title">Cancelar consulta</h2>
                     <button className="btn btn-ghost btn-sm" onClick={onClose} aria-label="Fechar">
                         <Ic.x size={16} />
                     </button>
@@ -182,11 +182,12 @@ function DetailRow({ icon, label, value }: DetailRowProps) {
 interface AppointmentDetailProps {
     ap: Appointment;
     cancelling: boolean;
+    error: string | null;
     onRequestCancel: (ap: Appointment) => void;
     onBack: () => void;
 }
 
-function AppointmentDetail({ ap, cancelling, onRequestCancel, onBack }: AppointmentDetailProps) {
+function AppointmentDetail({ ap, cancelling, error, onRequestCancel, onBack }: AppointmentDetailProps) {
     const f = fmtDate(ap.date);
     const isCancelled = ap.status === "CANCELLED";
 
@@ -254,6 +255,11 @@ function AppointmentDetail({ ap, cancelling, onRequestCancel, onBack }: Appointm
                     </div>
                 </section>
 
+                {error && (
+                    <p style={{ fontSize: 13, color: "var(--danger-ink)", marginBottom: 12 }}>
+                        {error}
+                    </p>
+                )}
                 {!isCancelled && (
                     <div style={{ display: "flex", gap: 10 }}>
                         <button className="btn btn-ghost">Remarcar</button>
@@ -315,6 +321,7 @@ export function AppointmentsView({ appointments, onCancelled }: AppointmentsView
                 <AppointmentDetail
                     ap={detailAp}
                     cancelling={cancellingIds.has(detailAp.id)}
+                    error={error}
                     onRequestCancel={setPendingCancel}
                     onBack={() => setSelectedAppointment(null)}
                 />

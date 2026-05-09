@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import type React from "react";
 import { PageHeader } from "../components/ui/PageHeader";
-import type { Appointment, Doctor } from "../lib/types";
+import type { Doctor } from "../lib/types";
 import * as api from "../lib/api";
 import { Ic } from "../lib/icons";
 
 interface Props {
     patientId: string;
     userName: string;
-    onAppointmentCreated: (appt: Appointment) => void;
+    onAppointmentCreated: () => void;
     onGoAppointments: () => void;
 }
 
@@ -83,13 +83,13 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
         setError("");
         try {
             const isoDate = new Date(`${date}T${time}:00`).toISOString();
-            const appt = await api.createAppointment({
+            await api.createAppointment({
                 patientId,
                 doctorId: selectedDoctor!.id,
                 date: isoDate,
                 notes,
             });
-            onAppointmentCreated(appt);
+            onAppointmentCreated();
             setSuccess(true);
         } catch {
             setError("Não foi possível criar a consulta. Tente novamente.");
@@ -204,7 +204,7 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                                         >
                                             <div className="shortcut-label">{s}</div>
                                             <div className="shortcut-sub">
-                                                {count} profissional{count !== 1 ? "is" : ""}
+                                                {count} profissional{count !== 1 ? "ais" : ""}
                                             </div>
                                         </button>
                                     );

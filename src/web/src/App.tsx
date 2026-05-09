@@ -109,8 +109,8 @@ export default function App() {
                     <ScheduleView
                         patientId={currentUser.id}
                         userName={currentUser.name}
-                        onAppointmentCreated={(appt) =>
-                            setAppointments((prev) => [appt, ...prev])
+                        onAppointmentCreated={() =>
+                            api.fetchAppointments().then(setAppointments).catch(console.error)
                         }
                         onGoAppointments={() => setView("appointments")}
                     />
