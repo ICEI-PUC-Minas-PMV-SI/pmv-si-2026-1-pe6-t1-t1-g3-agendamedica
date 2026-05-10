@@ -159,6 +159,7 @@ export default function App() {
                     return (
                         <AppointmentsView
                             appointments={appointments}
+                            currentUserRole={currentUser.role}
                             onCancelled={(id) =>
                                 setAppointments((prev) =>
                                     prev.map((a) =>
@@ -166,6 +167,17 @@ export default function App() {
                                     ),
                                 )
                             }
+                            onConfirmed={(id) =>
+                                setAppointments((prev) =>
+                                    prev.map((a) =>
+                                        a.id === id ? { ...a, status: "CONFIRMED" } : a,
+                                    ),
+                                )
+                            }
+                            onReschedule={(ap) => {
+                                setRescheduleData(ap);
+                                setView("schedule");
+                            }}
                         />
                     );
                 default:
