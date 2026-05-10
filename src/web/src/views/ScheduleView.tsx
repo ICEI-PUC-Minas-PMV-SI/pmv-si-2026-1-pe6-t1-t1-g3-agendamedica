@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import type React from "react";
 import { PageHeader } from "../components/ui/PageHeader";
-import type { Doctor, Appointment } from "../lib/types";
+import type { Doctor, Appointment, User } from "../lib/types";
 import * as api from "../lib/api";
 import { Ic } from "../lib/icons";
 
@@ -94,7 +94,7 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
 
 export function ScheduleView({ patientId, userName, currentUserRole, initialData, onAppointmentCreated, onGoAppointments }: Props) {
     const [doctors, setDoctors] = useState<Doctor[]>([]);
-    const [patients, setPatients] = useState<any[]>([]);
+    const [patients, setPatients] = useState<User[]>([]);
     const [selectedPatientId, setSelectedPatientId] = useState(patientId);
     const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
     const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);

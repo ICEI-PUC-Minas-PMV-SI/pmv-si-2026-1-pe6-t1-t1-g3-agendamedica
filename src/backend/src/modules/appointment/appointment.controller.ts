@@ -72,7 +72,7 @@ export class AppointmentController {
 
     async listByUser(req: Request, res: Response, next: NextFunction) {
         try {
-            const { userId } = listAppointmentsBodySchema.parse(req.body);
+            const { userId } = listAppointmentsBodySchema.parse(req.query);
 
             const appointments = await this.listService.execute(userId);
             const mapped = appointments.map((a: any) => {
