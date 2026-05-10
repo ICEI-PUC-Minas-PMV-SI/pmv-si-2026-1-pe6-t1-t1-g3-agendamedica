@@ -148,6 +148,9 @@ Não há variáveis de ambiente necessárias no frontend — a URL base da API �
 | -------------- | ------------------- |
 | Interface de Notificações (RF-006) | [Cenários de Teste — Notificações Frontend](rf-006-notifications/cenarios-de-teste-frontend.md) |
 | Interface de Agendar, Visualizar e Cancelar (RF-001) | [Cenários de Teste — Agendamento Frontend](rf-001-appointments/cenarios-de-teste-frontend.md) |
+| Gestão de Agendamentos Médicos e Recepção (RF-002) | [Cenários de Teste — Gestão de Agendamentos](rf-002-appointments-management/cenarios-de-teste-frontend.md) |
+| Segurança de Perfil em Agendamentos (RF-003) | [Cenários de Teste — Validação de Perfil](rf-003-appointments-security/cenarios-de-teste-frontend.md) |
+| Prevenção de Conflito de Horários (RF-004) | [Cenários de Teste — Conflito de Horários](rf-004-appointments-concurrency/cenarios-de-teste-frontend.md) |
 | Interface de Login e Cadastro (RF-005) | [Cenários de Teste — Login e Cadastro](rf-005-auth/cenarios-de-teste-frontend.md) |
 
 ---
