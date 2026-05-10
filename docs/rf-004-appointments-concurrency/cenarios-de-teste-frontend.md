@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Este documento descreve os cenários de teste projetados para validar a regra de concorrência e indisponibilidade de agenda do MedHub.
+Este documento descreve os cenários de teste para a interface web na gestão de concorrência do MedHub, implementada no RF-004. Cada cenário cobre um comportamento visual isolado, com passos numerados e resultado esperado para demonstração em print.
 
 **Requisito funcional:** RF-004 — O sistema deve impedir o agendamento de mais de uma consulta para o mesmo médico no mesmo horário.
 
@@ -17,7 +17,7 @@ Este documento descreve os cenários de teste projetados para validar a regra de
 | Ferramenta             | O que é                                          | Por que usamos                                                                                                              |
 | ---------------------- | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
 | **Navegador**          | Chrome ou Firefox                                | Executar a aplicação e capturar os cenários                                                                                 |
-| **Mock Server**        | Servidor Express local (`mock-server/server.js`) | Rejeita requisições HTTP 400 simulando a falha de constraint única que aconteceria no Prisma do banco de dados real.        |
+| **Mock Server**        | Servidor Express local (`mock-server/server.js`) | Rejeita requisições (HTTP 400) simulando a falha de constraint única que aconteceria no banco de dados real.                |
 
 ---
 
@@ -25,7 +25,7 @@ Este documento descreve os cenários de teste projetados para validar a regra de
 
 1. Iniciar o mock server: `node mock-server/server.js` (porta 3001)
 2. Iniciar o frontend: `npm run dev` (porta 5173)
-3. Garantir que exista uma consulta marcada para hoje no sistema para podermos forçar a colisão.
+3. Garantir a existência de uma consulta marcada para podermos forçar a colisão (Ex: Consulta para hoje, 14:00).
 
 ---
 
@@ -34,25 +34,27 @@ Este documento descreve os cenários de teste projetados para validar a regra de
 ---
 
 ### Cenário 1 — Tentar agendar no mesmo horário de consulta já existente
-**RF-004:** Impedir mais de uma consulta para mesmo médico e horário.
+
+**RF-004:** Impedir mais de uma consulta para mesmo médico e horário
 
 **Componente:** `ScheduleView`
 
-**Objetivo:** Demonstrar o comportamento seguro da interface web quando a API rejeita uma tentativa de duplo agendamento.
+**Objetivo:** Demonstrar o comportamento visual da interface quando a API rejeita uma tentativa de agendamento duplo.
 
-**Pré-condição:** Autenticado. Existência prévia de consulta (Ex: Dra. Marina Figueiredo, Hoje, 14:00).
+**Pré-condição:** Autenticado. Consulta já registrada previamente.
 
 **Passos:**
-1. Acessar "Agendar".
-2. Selecionar o mesmo Médico ("Dra. Marina Figueiredo").
-3. Selecionar a mesma Data.
-4. Escolher o mesmo Horário da consulta já alocada.
-5. Clicar em "Confirmar agendamento".
+1. Acessar "Agendar" no menu lateral
+2. Selecionar o mesmo médico da consulta pré-existente
+3. Selecionar a mesma data
+4. Escolher exatamente o mesmo horário da consulta já alocada
+5. Clicar em "Confirmar agendamento"
 
 **Resultado esperado:**
-- O envio (`POST`) é feito, mas a API retorna Status 400.
-- A tela de carregamento fecha.
-- Um banner visual ou notificação (toast) de erro exibe a mensagem "Horário indisponível".
-- A interface é mantida na mesma tela, permitindo que o usuário escolha um horário diferente sem perder todo o progresso do formulário.
+- A aplicação submete os dados, mas a API retorna Status 400
+- A tela de carregamento é encerrada
+- Uma notificação ou banner de erro exibe a mensagem informando que o horário está indisponível
+- O formulário é mantido na tela para que o usuário escolha um novo horário sem perder o progresso
 
-**Mídia:** [▶ Cenário 1](../assets/frontend/cenarios-de-teste/cenario-rf004-1.mp4)
+**Mídia:**
+![Conflito no horário de agendamento](./assets/img/frontend-conflito-horario.png)

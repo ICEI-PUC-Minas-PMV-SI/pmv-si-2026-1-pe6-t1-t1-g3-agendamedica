@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Este documento descreve os cenários de teste para a interface web de gestão de agendamentos do MedHub (RF-002). O foco deste requisito é garantir que Médicos e Recepcionistas consigam visualizar e gerenciar as marcações, com permissões e visões diferentes do Paciente.
+Este documento descreve os cenários de teste para a interface web de gestão de agendamentos do MedHub, implementada no RF-002. Cada cenário cobre um comportamento visual isolado, com passos numerados e resultado esperado para demonstração em print.
 
 **Requisito funcional:** RF-002 — O sistema deve permitir que médicos e recepcionistas gerenciem a agenda de marcações através da interface web.
 
@@ -31,63 +31,64 @@ Este documento descreve os cenários de teste para a interface web de gestão de
 
 ## Seção 1 — Visão do Médico
 
-Cenários que garantem a correta exibição e limitação de funcionalidades para o cargo `DOCTOR`.
-
 ---
 
 ### Cenário 1 — Médico visualizando sua agenda sem poder criar agendamentos
+
 **RF-002:** Gestão da agenda via interface (Visão Médico)
 
 **Componente:** `HomeView` e `AppointmentsView`
 
-**Objetivo:** Demonstrar que a interface se adapta para o Médico, escondendo os atalhos de agendamento e exibindo o nome dos pacientes corretamente nas listas de consultas pendentes.
+**Objetivo:** Demonstrar que a interface restringe a criação de consultas para Médicos e exibe o nome dos pacientes nas listagens.
 
 **Pré-condição:** Autenticado como Médico (`role: DOCTOR`).
 
 **Passos:**
-1. Acessar a tela inicial (`/`) do sistema.
-2. Observar a ausência do botão "Agendar Consulta" no menu lateral e dos cards de atalho rápido.
-3. Observar a seção "Próximas consultas" e ler o nome exibido nos cartões.
-4. Clicar em "Consultas" no menu lateral.
-5. Clicar em "Detalhes" de uma consulta e verificar se as ações exibidas incluem cancelar, mas não editar livremente (dependendo da regra local).
+1. Acessar a tela inicial (`/`) do sistema
+2. Observar a ausência do botão "Agendar Consulta" no menu lateral
+3. Verificar a seção "Próximas consultas" e ler o nome do paciente exibido nos cartões
+4. Clicar em "Consultas" no menu lateral
+5. Clicar em "Detalhes" de uma consulta e verificar as restrições de ações permitidas
 
 **Resultado esperado:**
-- A UI remove atalhos de "Novo agendamento".
-- O campo que antes mostrava o médico (para o paciente) agora mostra o `patientName` para o médico (ex: "Ana Beatriz").
+- A interface oculta atalhos de novo agendamento
+- O nome do paciente (`patientName`) é exibido corretamente no lugar do nome do médico
+- As permissões de gestão (cancelar, reagendar) refletem as restrições do perfil médico
 
+**Mídia:**
 ![Listagem de agendamentos para médico](./assets/img/frontend-listagem-agendamentos-doctor.png)
 
 ![Detalhes de agendamento para médico](./assets/img/frontend-detalhes-agendamento-doctor.png)
-
 
 ---
 
 ## Seção 2 — Visão da Recepção
 
-Cenários que atestam os privilégios totais da `RECEPTIONIST`.
-
 ---
 
 ### Cenário 2 — Recepção criando um agendamento para terceiro
+
 **RF-002:** Gestão da agenda via interface (Visão Recepção)
 
 **Componente:** `ScheduleView`
 
-**Objetivo:** Demonstrar que a recepção possui um fluxo adaptado que permite burlar travas de antecedência e confirmar agendamentos.
+**Objetivo:** Demonstrar que a recepção possui fluxo adaptado, permitindo selecionar pacientes e agendar sem bloqueio de antecedência.
 
 **Pré-condição:** Autenticado como Recepcionista (`role: RECEPTIONIST`).
 
 **Passos:**
-1. Clicar em "Agendar" no menu lateral.
-2. Selecionar o paciente no novo "Passo 1".
-3. Prosseguir até a seleção de horário.
-4. Escolher um horário muito próximo (menos de 4 horas de antecedência).
-5. Finalizar agendamento.
+1. Clicar em "Agendar" no menu lateral
+2. Selecionar um paciente na listagem do "Passo 1"
+3. Prosseguir até a etapa de seleção de horário
+4. Escolher um horário com menos de 4 horas de antecedência
+5. Clicar para finalizar o agendamento
 
 **Resultado esperado:**
-- A recepcionista navega sem bloqueios pela interface.
-- A trava de 4 horas é ignorada para este perfil.
+- O fluxo permite a escolha de pacientes válidos
+- A trava de 4 horas de antecedência é ignorada para este perfil
+- A consulta é registrada com sucesso na agenda
 
+**Mídia:**
 ![Listagem de agendamentos autenticado como recepcionista](./assets/img/frontend-agenda-recepcionista.png)
 
-![Detalhes de agendamento para recepcionista](./assets/img/frontend-detalhes-agendamento-recepcionista.png)
+![Detalhes de agendamento para recepcionista](./assets/img/frontend-detalhes-agendamento-recepcionista.png)
