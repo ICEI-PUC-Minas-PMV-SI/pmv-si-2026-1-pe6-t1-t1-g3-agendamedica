@@ -1,1 +1,34 @@
-[]
+[
+    {
+        "id": "a-001",
+        "date": "2026-05-10T10:00:00.000Z",
+        "status": "CONFIRMED",
+        "patientId": "u-001",
+        "doctorId": "d-01",
+        "notes": "Primeira consulta. Levar exames."
+    },
+    {
+        "id": "a-002",
+        "date": "2026-05-09T22:00:00.000Z",
+        "status": "PENDING",
+        "patientId": "u-001",
+        "doctorId": "d-02",
+        "notes": null
+    },
+    {
+        "id": "a-003",
+        "date": "2026-05-11T15:30:00.000Z",
+        "status": "CANCELLED",
+        "patientId": "u-001",
+        "doctorId": "d-03",
+        "notes": "Paciente cancelou pelo app."
+    },
+    {
+        "id": "a-004",
+        "date": "2026-05-12T09:00:00.000Z",
+        "status": "CONFIRMED",
+        "patientId": "u-002",
+        "doctorId": "d-01",
+        "notes": "Consulta de retorno do Carlos."
+    }
+]

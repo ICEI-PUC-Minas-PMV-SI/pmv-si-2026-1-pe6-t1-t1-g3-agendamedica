@@ -72,9 +72,28 @@ export function fetchDoctors(): Promise<Doctor[]> {
     return req("GET", "/doctors/");
 }
 
+export function fetchPatients(): Promise<User[]> {
+    return req("GET", "/patients/");
+}
+
 // ── Appointments ──────────────────────────────────────────────
-export function fetchAppointments(): Promise<Appointment[]> {
-    return req("GET", "/appointments/");
+export async function fetchAppointments(userId?: string): Promise<Appointment[]> {
+    const query = userId ? `?userId=${userId}` : "";
+    const [appts, docs] = await Promise.all([
+        req<any[]>("GET", `/appointments/${query}`),
+        fetchDoctors(),
+    ]);
+    return appts.map((a) => {
+        const doc = docs.find((d) => d.id === a.doctorId);
+        return {
+            ...a,
+            doctor: doc ? doc.name : "Médico",
+            patientName: a.patientName || "Paciente",
+            specialty: doc ? doc.specialty : "Especialidade",
+            clinic: doc ? doc.clinic : "Clínica",
+            mode: "presencial",
+        };
+    });
 }
 
 export interface CreateAppointmentPayload {
@@ -84,17 +103,75 @@ export interface CreateAppointmentPayload {
     notes?: string;
 }
 
-export function createAppointment(payload: CreateAppointmentPayload): Promise<Appointment> {
-    return req("POST", "/appointments/createAppointment", payload);
+export async function createAppointment(payload: CreateAppointmentPayload): Promise<Appointment> {
+    const a = await req<any>("POST", "/appointments/createAppointment", payload);
+    const docs = await fetchDoctors();
+    const doc = docs.find((d) => d.id === a.doctorId);
+    return {
+        ...a,
+        doctor: doc ? doc.name : "Médico",
+        specialty: doc ? doc.specialty : "Especialidade",
+        clinic: doc ? doc.clinic : "Clínica",
+        mode: "presencial",
+    };
 }
 
-export function cancelAppointment(appointmentId: string): Promise<Appointment> {
-    return req("POST", "/appointments/cancelAppointment", { appointmentId });
+export async function cancelAppointment(appointmentId: string): Promise<Appointment> {
+    const a = await req<any>("POST", "/appointments/cancelAppointment", { appointmentId });
+    const docs = await fetchDoctors();
+    const doc = docs.find((d) => d.id === a.doctorId);
+    return {
+        ...a,
+        doctor: doc ? doc.name : "Médico",
+        patientName: a.patientName || "Paciente",
+        specialty: doc ? doc.specialty : "Especialidade",
+        clinic: doc ? doc.clinic : "Clínica",
+        mode: "presencial",
+    };
+}
+
+export async function confirmAppointment(appointmentId: string): Promise<Appointment> {
+    const a = await req<any>("PATCH", "/appointments/confirmAppointment", { appointmentId });
+    const docs = await fetchDoctors();
+    const doc = docs.find((d) => d.id === a.doctorId);
+    return {
+        ...a,
+        doctor: doc ? doc.name : "Médico",
+        patientName: a.patientName || "Paciente",
+        specialty: doc ? doc.specialty : "Especialidade",
+        clinic: doc ? doc.clinic : "Clínica",
+        mode: "presencial",
+    };
+}
+
+export interface RescheduleAppointmentPayload {
+    appointmentId: string;
+    date: string;
+    notes?: string;
+}
+
+export async function rescheduleAppointment(payload: RescheduleAppointmentPayload): Promise<Appointment> {
+    const a = await req<any>("PATCH", `/appointments/${payload.appointmentId}`, {
+        date: payload.date,
+        notes: payload.notes
+    });
+    const docs = await fetchDoctors();
+    const doc = docs.find((d) => d.id === a.doctorId);
+    return {
+        ...a,
+        doctor: doc ? doc.name : "Médico",
+        patientName: a.patientName || "Paciente",
+        specialty: doc ? doc.specialty : "Especialidade",
+        clinic: doc ? doc.clinic : "Clínica",
+        mode: "presencial",
+    };
 }
 
 // ── Notifications ─────────────────────────────────────────────
-export function fetchNotifications(): Promise<Notification[]> {
-    return req("GET", "/notifications/");
+export async function fetchNotifications(): Promise<Notification[]> {
+    const res = await req<any>("GET", "/notifications/");
+    if (Array.isArray(res)) return res;
+    return res?.data || [];
 }
 
 export function markAllRead(): Promise<void> {

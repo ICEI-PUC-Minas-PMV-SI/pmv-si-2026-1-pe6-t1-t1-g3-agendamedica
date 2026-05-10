@@ -72,10 +72,14 @@ export class AppointmentController {
 
     async listByUser(req: Request, res: Response, next: NextFunction) {
         try {
-            const { userId } = listAppointmentsBodySchema.parse(req.body);
+            const { userId } = listAppointmentsBodySchema.parse(req.query);
 
             const appointments = await this.listService.execute(userId);
-            return res.status(200).json(appointments);
+            const mapped = appointments.map((a: any) => {
+                const { patient, ...rest } = a;
+                return { ...rest, patientName: patient?.name || "Paciente" };
+            });
+            return res.status(200).json(mapped);
         } catch (error) {
             if (error instanceof z.ZodError) {
                 return res.status(400).json({ error: error.errors });
@@ -94,7 +98,11 @@ export class AppointmentController {
                 return res.status(401).json({ error: "Usuário não autenticado." });
             }
             const appointments = await this.listService.execute(userId, req.userRole);
-            return res.status(200).json(appointments);
+            const mapped = appointments.map((a: any) => {
+                const { patient, ...rest } = a;
+                return { ...rest, patientName: patient?.name || "Paciente" };
+            });
+            return res.status(200).json(mapped);
         } catch (error) {
             if (error instanceof Error) {
                 return res.status(400).json({ error: error.message });
@@ -155,8 +163,11 @@ export class AppointmentController {
                 return res.status(401).json({ error: "Usuário não autenticado." });
             }
 
-            const appointment = await this.getService.execute(id, userId, userRole);
-            return res.status(200).json(appointment);
+            const appointment: any = await this.getService.execute(id, userId, userRole);
+            const { patient, ...rest } = appointment;
+            const mapped = { ...rest, patientName: patient?.name || "Paciente" };
+
+            return res.status(200).json(mapped);
         } catch (error) {
             if (error instanceof Error) {
                 return res.status(404).json({ error: error.message });

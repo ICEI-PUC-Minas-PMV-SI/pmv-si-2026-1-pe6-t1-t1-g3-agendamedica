@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import type React from "react";
 import { PageHeader } from "../components/ui/PageHeader";
-import type { Doctor } from "../lib/types";
+import type { Doctor, Appointment, User } from "../lib/types";
 import * as api from "../lib/api";
 import { Ic } from "../lib/icons";
 
 interface Props {
     patientId: string;
     userName: string;
+    currentUserRole?: string;
+    initialData?: Appointment | null;
     onAppointmentCreated: () => void;
     onGoAppointments: () => void;
 }
@@ -45,6 +47,10 @@ function BRDateInput({
                 type="date"
                 required={required}
                 value={value}
+                min={(() => {
+                    const d = new Date();
+                    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+                })()} // Formato YYYY-MM-DD obrigatório para o atributo min do HTML
                 onChange={(e) => onChange(e.target.value)}
                 style={{
                     position: "absolute",
@@ -86,8 +92,10 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
     );
 }
 
-export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAppointments }: Props) {
+export function ScheduleView({ patientId, userName, currentUserRole, initialData, onAppointmentCreated, onGoAppointments }: Props) {
     const [doctors, setDoctors] = useState<Doctor[]>([]);
+    const [patients, setPatients] = useState<User[]>([]);
+    const [selectedPatientId, setSelectedPatientId] = useState(patientId);
     const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
     const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
     const [date, setDate] = useState("");
@@ -98,8 +106,28 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        api.fetchDoctors().then(setDoctors).catch(console.error);
-    }, []);
+        api.fetchDoctors().then((docs) => {
+            setDoctors(docs);
+            if (initialData && docs.length > 0) {
+                const doc = docs.find((d) => d.id === initialData.doctorId);
+                if (doc) {
+                    setSelectedSpecialty(doc.specialty);
+                    setSelectedDoctor(doc);
+                }
+                if (initialData.date) {
+                    const d = new Date(initialData.date);
+                    setDate(d.toISOString().split("T")[0]);
+                    const h = String(d.getHours()).padStart(2, "0");
+                    const m = String(d.getMinutes()).padStart(2, "0");
+                    setTime(`${h}:${m}`);
+                }
+            }
+        }).catch(console.error);
+
+        if (currentUserRole === "RECEPTIONIST") {
+            api.fetchPatients().then(setPatients).catch(console.error);
+        }
+    }, [initialData, currentUserRole]);
 
     const specialties = [...new Set(doctors.map((d) => d.specialty))].sort();
     const filteredDoctors = selectedSpecialty
@@ -132,16 +160,25 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
         setError("");
         try {
             const isoDate = new Date(`${date}T${time}:00`).toISOString();
-            await api.createAppointment({
-                patientId,
-                doctorId: selectedDoctor!.id,
-                date: isoDate,
-                notes,
-            });
+            
+            if (initialData) {
+                await api.rescheduleAppointment({
+                    appointmentId: initialData.id,
+                    date: isoDate,
+                    notes,
+                });
+            } else {
+                await api.createAppointment({
+                    patientId: currentUserRole === "RECEPTIONIST" ? selectedPatientId : patientId,
+                    doctorId: selectedDoctor!.id,
+                    date: isoDate,
+                    notes,
+                });
+            }
             onAppointmentCreated();
             setSuccess(true);
-        } catch {
-            setError("Não foi possível criar a consulta. Tente novamente.");
+        } catch (err: any) {
+            setError(err.message || "Não foi possível criar a consulta. Tente novamente.");
         } finally {
             setLoading(false);
         }
@@ -218,11 +255,37 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
             />
             <form onSubmit={handleSubmit}>
                 <div className="home-grid">
-                    <div className="col">
+                    {/* Fluxo Principal */}
+                    <div className="col" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                        {/* Passo 0 (Apenas Recepção): Paciente */}
+                        {currentUserRole === "RECEPTIONIST" && !initialData && (
+                            <section className="card">
+                                <div className="card-head">
+                                    <h3 className="card-title">1 · Paciente</h3>
+                                </div>
+                                <div className="form-field">
+                                    <label className="form-label" htmlFor="sched-patient">Selecione o paciente</label>
+                                    <select
+                                        id="sched-patient"
+                                        className="form-input"
+                                        value={selectedPatientId}
+                                        onChange={(e) => setSelectedPatientId(e.target.value)}
+                                        required
+                                        style={{ height: 42 }}
+                                    >
+                                        <option value="">Selecione...</option>
+                                        {patients.map(p => (
+                                            <option key={p.id} value={p.id}>{p.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </section>
+                        )}
+
                         {/* Passo 1 */}
                         <section className="card">
                             <div className="card-head">
-                                <h3 className="card-title">1 · Especialidade</h3>
+                                <h3 className="card-title">{currentUserRole === "RECEPTIONIST" && !initialData ? "2" : "1"} · Especialidade</h3>
                             </div>
                             <div
                                 style={{
@@ -238,8 +301,11 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                                             key={s}
                                             type="button"
                                             className="shortcut"
+                                            disabled={!!initialData && selectedSpecialty !== s}
                                             style={{
                                                 minHeight: 70,
+                                                opacity: !!initialData && selectedSpecialty !== s ? 0.4 : 1,
+                                                cursor: !!initialData && selectedSpecialty !== s ? "not-allowed" : "pointer",
                                                 borderColor:
                                                     selectedSpecialty === s
                                                         ? "var(--accent)"
@@ -265,7 +331,7 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                         {selectedSpecialty && (
                             <section className="card">
                                 <div className="card-head">
-                                    <h3 className="card-title">2 · Profissional</h3>
+                                    <h3 className="card-title">{currentUserRole === "RECEPTIONIST" && !initialData ? "3" : "2"} · Profissional</h3>
                                     <span
                                         style={{
                                             fontSize: 12,
@@ -285,6 +351,7 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                                                 key={d.id}
                                                 type="button"
                                                 onClick={() => setSelectedDoctor(d)}
+                                                disabled={!!initialData && selectedDoctor?.id !== d.id}
                                                 style={{
                                                     display: "flex",
                                                     alignItems: "center",
@@ -295,7 +362,8 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                                                     background: active
                                                         ? "var(--accent-soft)"
                                                         : "var(--surface-2)",
-                                                    cursor: "pointer",
+                                                    cursor: !!initialData && selectedDoctor?.id !== d.id ? "not-allowed" : "pointer",
+                                                    opacity: !!initialData && selectedDoctor?.id !== d.id ? 0.4 : 1,
                                                     textAlign: "left",
                                                     transition: "border-color 0.1s, background 0.1s",
                                                     width: "100%",
@@ -357,7 +425,7 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                         {selectedDoctor && (
                             <section className="card">
                                 <div className="card-head">
-                                    <h3 className="card-title">3 · Data e Horário</h3>
+                                    <h3 className="card-title">{currentUserRole === "RECEPTIONIST" && !initialData ? "4" : "3"} · Data e Horário</h3>
                                 </div>
                                 <div
                                     style={{
@@ -412,7 +480,7 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                                 <h3 className="card-title">Resumo</h3>
                             </div>
                             <div style={{ display: "flex", flexDirection: "column" }}>
-                                <SummaryRow label="Paciente" value={userName} />
+                                <SummaryRow label="Paciente" value={currentUserRole === "RECEPTIONIST" && !initialData ? (patients.find(p => p.id === selectedPatientId)?.name || "—") : (initialData?.patientName || userName)} />
                                 <SummaryRow
                                     label="Especialidade"
                                     value={selectedSpecialty ?? "—"}
@@ -461,15 +529,23 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                             </div>
 
                             {error && (
-                                <p
+                                <div
                                     style={{
-                                        fontSize: 13,
-                                        color: "var(--danger-ink)",
-                                        margin: "12px 0 0",
+                                        background: "var(--danger-soft)",
+                                        border: "1px solid oklch(from var(--danger) l c h / 0.2)",
+                                        borderRadius: "var(--r-2)",
+                                        padding: "12px 14px",
+                                        display: "flex",
+                                        gap: 10,
+                                        alignItems: "flex-start",
+                                        marginTop: 16,
                                     }}
                                 >
-                                    {error}
-                                </p>
+                                    <Ic.alertOct size={16} style={{ color: "var(--danger-ink)", flexShrink: 0, marginTop: 1 }} />
+                                    <p style={{ fontSize: 13, color: "var(--danger-ink)", margin: 0, lineHeight: 1.5 }}>
+                                        {error}
+                                    </p>
+                                </div>
                             )}
 
                             <button
@@ -503,7 +579,7 @@ export function ScheduleView({ patientId, userName, onAppointmentCreated, onGoAp
                             )}
                             {canSubmit && (
                                 <p style={{ fontSize: 11.5, color: "var(--ink-muted)", textAlign: "center", marginTop: 10 }}>
-                                    Você poderá remarcar até 4h antes.
+                                    Você poderá remarcar até 4h antes da consulta.
                                 </p>
                             )}
                         </section>

@@ -21,6 +21,17 @@ app.use("/users", userRoutes);
 app.use("/clinics", clinicRoutes);
 app.use("/doctors", doctorRoutes);
 
+import { authenticate } from "./middleware/authenticate";
+import { userRepository } from "./modules/users/user.repository";
+
+app.get("/patients", authenticate, async (req: Request, res: Response) => {
+    if (req.userRole !== "RECEPTIONIST" && req.userRole !== "DOCTOR") {
+        return res.status(403).json({ error: "Acesso negado." });
+    }
+    const patients = await userRepository.findPatients();
+    res.json(patients);
+});
+
 app.get("/health", (_req: Request, res: Response) => {
     res.json({ status: "ok" });
 });

@@ -19,6 +19,19 @@ async function main() {
         },
     });
 
+    // Recepcionista
+    const receptionist = await prisma.user.upsert({
+        where: { email: "recepcao@medhub.dev" },
+        update: {},
+        create: {
+            name: "Recepção Central",
+            email: "recepcao@medhub.dev",
+            cpf: "000.000.000-00",
+            passwordHash: "$2b$10$NVKVAZyZ2Lzh8417qMKkj..mWU8L7LcYGMImSM.2DGzQb9WgUNGu6",
+            role: "RECEPTIONIST",
+        },
+    });
+
     // Paciente
     const patient = await prisma.user.upsert({
         where: { email: "paciente@medhub.dev" },
@@ -27,7 +40,7 @@ async function main() {
             name: "Ana Paciente",
             email: "paciente@medhub.dev",
             cpf: "111.111.111-11",
-            passwordHash: "hash-de-teste",
+            passwordHash: "$2b$10$NVKVAZyZ2Lzh8417qMKkj..mWU8L7LcYGMImSM.2DGzQb9WgUNGu6",
             role: "PATIENT",
         },
     });
@@ -40,7 +53,7 @@ async function main() {
             name: "Dr. Carlos Médico",
             email: "medico@medhub.dev",
             cpf: "222.222.222-22",
-            passwordHash: "hash-de-teste",
+            passwordHash: "$2b$10$NVKVAZyZ2Lzh8417qMKkj..mWU8L7LcYGMImSM.2DGzQb9WgUNGu6",
             role: "DOCTOR",
         },
     });

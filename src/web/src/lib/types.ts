@@ -2,10 +2,8 @@ export type AppStatus = "loaded" | "loading" | "empty" | "error";
 export type Accent = "teal" | "coral" | "indigo" | "forest";
 export type Density = "compact" | "comfortable" | "spacious";
 export type Theme = "light" | "dark";
-export type View = "home" | "schedule" | "appointments" | "history" | "profile" | "notifications";
+export type View = "home" | "schedule" | "appointments" | "history" | "profile" | "notifications" | "create-clinic" | "clinics" | "edit-clinic" | "settings";
 export type Auth = "patient" | "professional" | "unauth";
-export type View = "home" | "schedule" | "appointments" | "history" | "profile" | "notifications" | "create-clinic" | "clinics" | "edit-clinic";
-export type Auth = "patient" | "unauth";
 export type AuthView = "landing" | "login" | "register";
 export type AppointmentStatus = "PENDING" | "CONFIRMED" | "CANCELLED" | "RESCHEDULED";
 export type UserRole = "PATIENT" | "DOCTOR" | "RECEPTIONIST";
@@ -44,7 +42,10 @@ export interface Appointment {
     specialty: string;
     clinic: string;
     mode: "presencial" | "tele";
-    isToday: boolean;
+    patientId: string;
+    patientName?: string;
+    doctorId: string;
+    notes?: string | null;
 }
 
 export interface Notification {
