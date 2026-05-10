@@ -45,34 +45,31 @@ Acesse o link abaixo para assistir aos testes de CRUD das clínicas:
 
 https://drive.google.com/drive/folders/18iHGRhT0ZqUu6gODA7eA-7pIZfTqqbR_?usp=sharing
 
-1. Preparação do Ambiente de Teste
-Para a execução dos cenários abaixo, o ambiente foi configurado da seguinte forma:
+# 🧪 Relatório de Testes: Unidades de Saúde (RF-007)
 
-Backend: Node.js rodando na porta 3001 consumindo o arquivo clinics.json.
-Frontend: Aplicação Vite/React rodando na porta 5173.
-Ferramentas de Apoio: Thunder Client (para testes de endpoint) e Console do Desenvolvedor (Chrome DevTools).
+Este documento registra as validações realizadas no módulo de gerenciamento de clínicas do MedHub, garantindo a integração entre o frontend e o servidor de mock.
 
-Passo a Passo dos Testes Realizados
-Fase 1: Testes de API
-Objetivo: Validar se os endpoints estão respondendo corretamente antes de testar a interface.
-Ação: Utilização do Thunder Client para disparar requisições para http://localhost:3001/clinics.
-Resultado esperado: Recebimento de Status 200 OK na listagem e 201 Created no cadastro.
+## 1. Configuração do Ambiente
+* **Backend:** Node.js (Express) operando na porta 3001.
+* **Banco de Dados (Simulado):** Arquivo `clinics.json`.
+* **Frontend:** Aplicação React rodando via Vite (porta 5173).
 
-Fase 2: Teste de Listagem Dinâmica (Read)
-Objetivo: Verificar se a tabela de unidades de saúde carrega os dados reais do arquivo JSON.
-Ação: Acessar a rota de "Unidades de Saúde" no sistema MedHub.
-Evidência: O sistema disparou um GET e renderizou as clínicas (ex: Clínica OrtoPed, Eldorado) conforme populado no arquivo clinics.json.
+## 2. Cenários de Teste Realizados
 
-Fase 3: Teste de Fluxo de Edição (Update)
-Objetivo: Validar se a alteração de dados de uma clínica é processada e enviada corretamente.
-Ação: 1. Clicar no botão Editar de uma clínica específica.
-1. Alterar o campo "Nome" ou "Endereço".
-2. Clicar em Salvar Alterações.
-Resultado esperado: Exibição do alerta de confirmação e retorno automático para a tela de listagem com o dado atualizado.
+### Fase 1: Consumo de API (Listagem)
+* **Objetivo:** Validar se a tabela carrega os dados reais do arquivo JSON.
+* **Resultado:** O sistema realizou a requisição GET com sucesso e renderizou as clínicas (Pedro I, Eldorado, Mater Dei) na interface.
+* **Status:** ✅ Aprovado.
 
-Fase 4: Teste de Persistência e Integridade
-Objetivo: Garantir que o dado não se perca ao recarregar a aplicação (F5).
-Ação: Após a edição, realizar o refresh da página no navegador e verificar o arquivo físico clinics.json no VS Code.
-Evidência: O arquivo JSON foi sobrescrito com a nova informação, confirmando que a rota PUT no server.js funcionou.
+### Fase 2: Operação de Edição (Update)
+* **Objetivo:** Verificar se a alteração de uma clínica é enviada e salva corretamente.
+* **Procedimento:** Alteração de telefone e endereço de uma unidade existente através do formulário de edição.
+* **Resultado:** O alerta de sucesso foi exibido e a tabela atualizou instantaneamente.
+* **Status:** ✅ Aprovado.
 
+### Fase 3: Persistência de Dados
+* **Objetivo:** Garantir que a informação não se perca ao recarregar a página.
+* **Resultado:** Após o refresh (F5), os dados alterados permaneceram na tela, confirmando a atualização física no arquivo `clinics.json`.
+* **Status:** ✅ Aprovado.
 
+---
