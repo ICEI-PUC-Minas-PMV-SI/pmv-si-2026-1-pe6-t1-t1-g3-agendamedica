@@ -303,24 +303,24 @@ export default function App() {
                 mode={appState.mode}
                 onToggleMode={toggleMode}
             />
-            <Sidebar 
-                view={appState.view} 
+            <Sidebar
+                view={appState.view}
                 currentUserRole={currentUser.role}
                 setView={(v) => {
                     if (v === "schedule") setRescheduleData(null);
                     setView(v);
-                }} 
+                }}
             />
             <main className="app-main">
                 <div className="app-main-inner">{renderView()}</div>
             </main>
-            <BottomNav 
-                view={appState.view} 
+            <BottomNav
+                view={appState.view}
                 currentUserRole={currentUser.role}
                 setView={(v) => {
                     if (v === "schedule") setRescheduleData(null);
                     setView(v);
-                }} 
+                }}
             />
         </div>
     );

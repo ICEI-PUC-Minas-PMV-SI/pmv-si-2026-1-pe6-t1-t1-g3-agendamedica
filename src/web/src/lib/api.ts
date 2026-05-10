@@ -19,8 +19,8 @@ async function req<T>(method: string, path: string, body?: unknown): Promise<T> 
         body: body !== undefined ? JSON.stringify(body) : undefined,
     });
     if (!res.ok) {
-        const body = await res.json().catch(() => null);
-        const message = body?.error ?? body?.message ?? `${method} ${path} → ${res.status}`;
+        const errBody = await res.json().catch(() => null);
+        const message = errBody?.message ?? errBody?.error ?? `${method} ${path} → ${res.status}`;
         throw new Error(message);
     }
     return res.json() as Promise<T>;
