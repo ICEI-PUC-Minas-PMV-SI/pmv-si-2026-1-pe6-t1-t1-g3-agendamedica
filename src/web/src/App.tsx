@@ -174,6 +174,7 @@ export default function App() {
                 );
             case "history":
                 return <HistoryView appointments={appointments} />;
+            case "settings":
             case "profile":
                 return (
                     <ProfileView

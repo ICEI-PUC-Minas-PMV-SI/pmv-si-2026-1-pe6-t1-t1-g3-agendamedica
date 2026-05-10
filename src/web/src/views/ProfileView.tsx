@@ -86,6 +86,8 @@ function PrefRow({ label, on, onChange }: PrefRowProps) {
 
 export function ProfileView({ user, theme, onToggleTheme }: ProfileViewProps) {
     const isDoctor = user.role === "DOCTOR";
+    const isReceptionist = user.role === "RECEPTIONIST";
+    const isPatient = user.role === "PATIENT" || (!isDoctor && !isReceptionist);
     const doctorUser = user as any;
 
     return (
@@ -96,6 +98,8 @@ export function ProfileView({ user, theme, onToggleTheme }: ProfileViewProps) {
                 sub={
                     isDoctor
                         ? "Mantenha seus dados profissionais atualizados para seus pacientes."
+                        : isReceptionist
+                        ? "Mantenha seus dados atualizados para acesso ao sistema."
                         : "Mantenha suas informações atualizadas para agilizar agendamentos e receber avisos no canal certo."
                 }
             />
@@ -128,6 +132,8 @@ export function ProfileView({ user, theme, onToggleTheme }: ProfileViewProps) {
                                 <div style={{ fontSize: 13, color: "var(--ink-3)" }}>
                                     {isDoctor
                                         ? `${doctorUser.specialty ?? "Médico"} • CRM ${doctorUser.crm ?? "—"}`
+                                        : isReceptionist
+                                        ? "Recepcionista Administrativa"
                                         : "Paciente desde mar/2024"}
                                 </div>
                             </div>
@@ -137,6 +143,11 @@ export function ProfileView({ user, theme, onToggleTheme }: ProfileViewProps) {
                             <>
                                 <SummaryRow label="CRM" value={doctorUser.crm ?? "—"} />
                                 <SummaryRow label="Especialidade" value={doctorUser.specialty ?? "—"} />
+                            </>
+                        ) : isReceptionist ? (
+                            <>
+                                <SummaryRow label="CPF" value="•••.•••.321-00" />
+                                <SummaryRow label="Matrícula" value="REC-1092" />
                             </>
                         ) : (
                             <>
@@ -162,7 +173,7 @@ export function ProfileView({ user, theme, onToggleTheme }: ProfileViewProps) {
                     <section className="card">
                         <div className="card-head">
                             <h3 className="card-title">
-                                {isDoctor ? "Preferências de notificação" : "Preferências de aviso"}
+                                {isPatient ? "Preferências de aviso" : "Preferências de notificação"}
                             </h3>
                         </div>
                         <PrefRow label="Push (app mobile)" on />

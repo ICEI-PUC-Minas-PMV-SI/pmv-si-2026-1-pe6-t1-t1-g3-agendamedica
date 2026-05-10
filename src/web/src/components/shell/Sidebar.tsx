@@ -69,15 +69,12 @@ export function Sidebar({ view, currentUserRole, appointments = [], setView }: S
             <div className="nav-section-label">Conta</div>
             {accountItems.map((it) => {
                 const Icon = Ic[it.icon];
-                const isView = it.id !== "settings";
                 return (
                     <button
                         key={it.id}
                         className="nav-item"
-                        data-active={isView ? view === it.id : false}
-                        onClick={() => {
-                            if (isView) setView(it.id as View);
-                        }}
+                        data-active={view === it.id}
+                        onClick={() => setView(it.id as View)}
                     >
                         <Icon size={16} />
                         <span>{it.label}</span>
