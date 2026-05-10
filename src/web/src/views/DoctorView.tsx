@@ -33,7 +33,7 @@ export function DoctorDashboard({ user, appointments }: DoctorDashboardProps) {
                             </div>
                             <div className="appt-body">
                                 <div className="appt-doctor">
-                                    {ap.id || "Paciente Externo"}
+                                    {ap.patientName || "Paciente Externo"}
                                     <span className={`chip ${STATUS_CLASS[ap.status]}`}>
                                         {STATUS_LABEL[ap.status]}
                                     </span>

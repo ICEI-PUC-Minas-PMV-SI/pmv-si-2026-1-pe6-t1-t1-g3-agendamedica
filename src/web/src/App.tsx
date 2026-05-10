@@ -34,9 +34,9 @@ export default function App() {
     // Unificação dos estados iniciais para evitar erro de redeclaração
     const [appState, setAppState] = useState<AppState>({
         theme: "light",
-        auth: "patient",
+        auth: "unauth",
         authView: "landing",
-        view: "clinics",
+        view: "home",
         mode: "patient",
     });
 
@@ -58,13 +58,21 @@ export default function App() {
 
     useEffect(() => {
         if (appState.auth === "unauth") return;
-        Promise.all([api.fetchAppointments(currentUser.id), api.fetchNotifications()])
-            .then(([appts, notifs]) => {
-                setAppointments(appts);
-                setNotifications(notifs);
-            })
-            .catch(console.error);
-    }, [appState.auth]);
+
+        const loadData = () => {
+            Promise.all([api.fetchAppointments(currentUser.id), api.fetchNotifications()])
+                .then(([appts, notifs]) => {
+                    setAppointments(appts);
+                    setNotifications(notifs);
+                })
+                .catch(console.error);
+        };
+
+        loadData();
+        const poll = setInterval(loadData, 60000); // Poll a cada 60s
+
+        return () => clearInterval(poll);
+    }, [appState.auth, currentUser]);
 
     const setView = (v: View) => setAppState((prev) => ({ ...prev, view: v }));
     const setAuthView = (v: AuthView) => setAppState((prev) => ({ ...prev, authView: v }));
@@ -134,63 +142,6 @@ export default function App() {
     };
 
     const renderView = () => {
-        const isDoctor = appState.auth === "professional" || currentUser.role === "DOCTOR";
-
-        if (isDoctor) {
-            switch (appState.view) {
-                case "profile":
-                    return (
-                        <ProfileView
-                            user={currentUser}
-                            theme={appState.theme}
-                            onToggleTheme={() =>
-                                setTheme(appState.theme === "light" ? "dark" : "light")
-                            }
-                        />
-                    );
-                case "notifications":
-                    return (
-                        <NotificationsView
-                            notifications={notifications}
-                            setNotifications={setNotifications}
-                        />
-                    );
-                case "appointments":
-                    return (
-                        <AppointmentsView
-                            appointments={appointments}
-                            currentUserRole={currentUser.role}
-                            onCancelled={(id) =>
-                                setAppointments((prev) =>
-                                    prev.map((a) =>
-                                        a.id === id ? { ...a, status: "CANCELLED" } : a,
-                                    ),
-                                )
-                            }
-                            onConfirmed={(id) =>
-                                setAppointments((prev) =>
-                                    prev.map((a) =>
-                                        a.id === id ? { ...a, status: "CONFIRMED" } : a,
-                                    ),
-                                )
-                            }
-                            onReschedule={(ap) => {
-                                setRescheduleData(ap);
-                                setView("schedule");
-                            }}
-                        />
-                    );
-                default:
-                    return (
-                        <DoctorDashboard
-                            user={currentUser as unknown as Doctor}
-                            appointments={appointments}
-                        />
-                    );
-            }
-        }
-
-        // Visão de paciente
         switch (appState.view) {
             case "clinics":
                 return <ClinicsView setView={setView} setEditingClinic={setEditingClinic} />;
@@ -233,6 +184,13 @@ export default function App() {
                         }
                     />
                 );
+            case "notifications":
+                return (
+                    <NotificationsView
+                        notifications={notifications}
+                        setNotifications={setNotifications}
+                    />
+                );
             case "appointments":
                 return (
                     <AppointmentsView
@@ -258,14 +216,15 @@ export default function App() {
                         }}
                     />
                 );
-            case "notifications":
-                return (
-                    <NotificationsView
-                        notifications={notifications}
-                        setNotifications={setNotifications}
-                    />
-                );
             default:
+                if (currentUser.role === "DOCTOR") {
+                    return (
+                        <DoctorDashboard
+                            user={currentUser as unknown as Doctor}
+                            appointments={appointments}
+                        />
+                    );
+                }
                 return (
                     <HomeView
                         state="loaded"
@@ -318,6 +277,7 @@ export default function App() {
             <Sidebar
                 view={appState.view}
                 currentUserRole={currentUser.role}
+                appointments={appointments}
                 setView={(v) => {
                     if (v === "schedule") setRescheduleData(null);
                     setView(v);

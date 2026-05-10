@@ -117,8 +117,8 @@ export function ScheduleView({ patientId, userName, currentUserRole, initialData
                 if (initialData.date) {
                     const d = new Date(initialData.date);
                     setDate(d.toISOString().split("T")[0]);
-                    const h = String(d.getUTCHours()).padStart(2, "0");
-                    const m = String(d.getUTCMinutes()).padStart(2, "0");
+                    const h = String(d.getHours()).padStart(2, "0");
+                    const m = String(d.getMinutes()).padStart(2, "0");
                     setTime(`${h}:${m}`);
                 }
             }
@@ -159,7 +159,7 @@ export function ScheduleView({ patientId, userName, currentUserRole, initialData
         setLoading(true);
         setError("");
         try {
-            const isoDate = new Date(`${date}T${time}:00Z`).toISOString();
+            const isoDate = new Date(`${date}T${time}:00`).toISOString();
             
             if (initialData) {
                 await api.rescheduleAppointment({

@@ -36,7 +36,7 @@ function AppointmentRowFull({ appointment, currentUserRole, cancelling, confirmi
     const isToday = appointmentDate.getDate() === todayDate.getDate() && appointmentDate.getMonth() === todayDate.getMonth() && appointmentDate.getFullYear() === todayDate.getFullYear();
 
     const hoursUntilAppointment = (appointmentDate.getTime() - todayDate.getTime()) / (1000 * 60 * 60);
-    const canModify = currentUserRole === "RECEPTIONIST" || hoursUntilAppointment >= 4;
+    const canModify = currentUserRole === "PATIENT" && hoursUntilAppointment >= 4;
 
     return (
         <div className="appt-row">
@@ -67,31 +67,39 @@ function AppointmentRowFull({ appointment, currentUserRole, cancelling, confirmi
                 </div>
             </div>
             <div className="appt-actions">
-                {appointment.status === "PENDING" && currentUserRole === "RECEPTIONIST" && (
-                    <button
-                        className="btn btn-primary btn-sm"
-                        disabled={confirming}
-                        onClick={() => onRequestConfirm(appointment)}
-                    >
-                        {confirming ? "Confirmando…" : "Confirmar"}
+                {currentUserRole === "DOCTOR" ? (
+                    <button className="btn btn-secondary btn-sm" onClick={() => onOpenDetail(appointment)}>
+                        Detalhes
                     </button>
+                ) : (
+                    <>
+                        {appointment.status === "PENDING" && currentUserRole === "RECEPTIONIST" && (
+                            <button
+                                className="btn btn-primary btn-sm"
+                                disabled={confirming}
+                                onClick={() => onRequestConfirm(appointment)}
+                            >
+                                {confirming ? "Confirmando…" : "Confirmar"}
+                            </button>
+                        )}
+                        {!isCancelled && (currentUserRole === "RECEPTIONIST" || canModify) && (
+                            <button className="btn btn-ghost btn-sm" onClick={() => onReschedule(appointment)}>Remarcar</button>
+                        )}
+                        {!isCancelled && (currentUserRole === "RECEPTIONIST" || canModify) && (
+                            <button
+                                className="btn btn-ghost btn-sm"
+                                style={{ color: "var(--danger-ink)" }}
+                                disabled={cancelling}
+                                onClick={() => onRequestCancel(appointment)}
+                            >
+                                {cancelling ? "Cancelando…" : "Cancelar"}
+                            </button>
+                        )}
+                        <button className="btn btn-secondary btn-sm" onClick={() => onOpenDetail(appointment)}>
+                            Detalhes
+                        </button>
+                    </>
                 )}
-                {!isCancelled && canModify && (
-                    <button className="btn btn-ghost btn-sm" onClick={() => onReschedule(appointment)}>Remarcar</button>
-                )}
-                {!isCancelled && canModify && (
-                    <button
-                        className="btn btn-ghost btn-sm"
-                        style={{ color: "var(--danger-ink)" }}
-                        disabled={cancelling}
-                        onClick={() => onRequestCancel(appointment)}
-                    >
-                        {cancelling ? "Cancelando…" : "Cancelar"}
-                    </button>
-                )}
-                <button className="btn btn-secondary btn-sm" onClick={() => onOpenDetail(appointment)}>
-                    Detalhes
-                </button>
             </div>
         </div>
     );

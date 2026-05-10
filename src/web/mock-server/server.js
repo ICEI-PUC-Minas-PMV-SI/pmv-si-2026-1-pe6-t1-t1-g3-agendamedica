@@ -59,7 +59,6 @@ app.get("/patients/", (_req, res) => res.json(users.filter(u => u.role === "PATI
 
 // ── Appointments ─────────────────────────────────────────────
 
-<<<<<<< HEAD
 const requireAuth = (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(401).json({ error: "Acesso negado: Perfil não autenticado." });
@@ -102,9 +101,6 @@ app.get("/appointments/listAppointments", requireAuth, (req, res) => {
     res.json(mapped);
 });
 
-app.post("/appointments/createAppointment", requireAuth, (req, res) => {
-    const { doctorId, date, patientId, notes } = req.body;
-=======
 // --- Clinics ---
 // Rota para listar todas as clínicas
 app.get("/clinics", (req, res) => {
@@ -123,9 +119,10 @@ app.put("/clinics/:id", (req, res) => {
   const { id } = req.params;
   clinicsData = clinicsData.map(c => String(c.id) === String(id) ? { ...c, ...req.body } : c);
   res.json({ success: true });
-app.post("/appointments/createAppointment", (req, res) => {
-    const { doctorId, date } = req.body;
->>>>>>> origin/main
+});
+
+app.post("/appointments/createAppointment", requireAuth, (req, res) => {
+    const { doctorId, date, patientId, notes } = req.body;
     const doctor = doctors.find((d) => d.id === doctorId);
     if (!doctor) return res.status(404).json({ error: "Médico não encontrado" });
 
@@ -243,7 +240,7 @@ app.patch("/notifications/:id/unread", (req, res) => {
 });
 
 // ────────────────────────────────────────────────────────────
-const PORT = 3001;
+const PORT = 3000;
 app.listen(PORT, () =>
     console.log(`Mock server rodando em http://localhost:${PORT}`),
 );

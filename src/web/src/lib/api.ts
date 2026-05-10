@@ -168,8 +168,10 @@ export async function rescheduleAppointment(payload: RescheduleAppointmentPayloa
 }
 
 // ── Notifications ─────────────────────────────────────────────
-export function fetchNotifications(): Promise<Notification[]> {
-    return req("GET", "/notifications/");
+export async function fetchNotifications(): Promise<Notification[]> {
+    const res = await req<any>("GET", "/notifications/");
+    if (Array.isArray(res)) return res;
+    return res?.data || [];
 }
 
 export function markAllRead(): Promise<void> {

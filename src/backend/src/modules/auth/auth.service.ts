@@ -51,7 +51,7 @@ class AuthService {
             return createdUser;
         });
 
-        const token = jwt.sign({ id: user.id, role: user.role }, env.JWT_SECRET, {});
+        const token = jwt.sign({ sub: user.id, role: user.role }, env.JWT_SECRET, {});
 
         // busca dados do médico se for DOCTOR
         const doctor =
@@ -78,7 +78,7 @@ class AuthService {
             throw new AuthError("Credenciais inválidas", 401);
         }
 
-        const token = jwt.sign({ id: user.id, role: user.role }, env.JWT_SECRET, {});
+        const token = jwt.sign({ sub: user.id, role: user.role }, env.JWT_SECRET, {});
 
         // busca dados do médico se for DOCTOR
         const doctor =
