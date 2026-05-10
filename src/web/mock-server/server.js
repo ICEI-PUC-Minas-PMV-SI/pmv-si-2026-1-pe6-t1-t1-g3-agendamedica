@@ -16,6 +16,7 @@ app.use(express.json());
 let notifications = data("notifications.json");
 const appointments = data("appointments.json");
 const defaultUser = data("user.json");
+let clinicsData = data("clinics.json");
 
 // ── Health ──────────────────────────────────────────────────
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
@@ -42,6 +43,26 @@ app.get("/appointments/", (_req, res) => res.json(appointments));
 app.get("/appointments/listAppointments", (_req, res) =>
     res.json(appointments),
 );
+
+// --- Clinics ---
+// Rota para listar todas as clínicas
+app.get("/clinics", (req, res) => {
+  res.json(clinicsData);
+});
+
+// Rota para cadastrar nova clínica
+app.post("/clinics", (req, res) => {
+  const newClinic = { id: Date.now(), ...req.body };
+  clinicsData.push(newClinic);
+  res.status(201).json(newClinic);
+});
+
+// Rota para editar uma clínica existente
+app.put("/clinics/:id", (req, res) => {
+  const { id } = req.params;
+  clinicsData = clinicsData.map(c => String(c.id) === String(id) ? { ...c, ...req.body } : c);
+  res.json({ success: true });
+});
 
 // ── Notifications ─────────────────────────────────────────────
 app.get("/notifications/", (_req, res) => res.json(notifications));

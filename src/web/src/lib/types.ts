@@ -9,7 +9,8 @@ export type View =
     | "history"
     | "profile"
     | "create-clinic"
-    | "clinics";
+    | "clinics"
+    | "edit-clinic";
 export type Auth = "patient" | "unauth";
 export type AuthView = "landing" | "login" | "register";
 export type AppointmentStatus = "PENDING" | "CONFIRMED" | "CANCELLED" | "RESCHEDULED";

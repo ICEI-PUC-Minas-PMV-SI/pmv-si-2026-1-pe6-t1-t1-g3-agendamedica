@@ -9,6 +9,7 @@ import { HomeView } from "./views/HomeView";
 import { ScheduleView } from "./views/ScheduleView";
 import { HistoryView } from "./views/HistoryView";
 import { ProfileView } from "./views/ProfileView";
+import { CreateClinicView } from "./views/CreateClinicView";
 import { AppointmentsView } from "./views/AppointmentsView";
 // Views — não autenticadas
 import { UnauthView } from "./views/UnauthView";
@@ -37,6 +38,7 @@ export default function App() {
     const [currentUser, setCurrentUser] = useState<User>(DEFAULT_USER);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [editingClinic, setEditingClinic] = useState<any>(null);
 
     useEffect(() => {
         const el = document.documentElement;
@@ -106,16 +108,17 @@ export default function App() {
     const renderView = () => {
         switch (appState.view) {
             case "clinics":
-                return <ClinicsView setView={setView} />;
-                // ADICIONEI PARA O BOTÃO FUNCIONAR
+                return <ClinicsView setView={setView} setEditingClinic={setEditingClinic} />;
+                // ADICIONEI dia 6
             case "create-clinic":
-            return (
-                <div style={{ padding: '40px' }}>
-                    <h1 className="font-fraunces">Cadastrar Nova Clínica</h1>
-                    <p>Em breve: formulário de integração com o backend.</p>
-                    <button onClick={() => setView('clinics')}>Voltar para lista</button>
-                </div>
-            );
+                return <CreateClinicView setView={setView} />;
+            case "edit-clinic":
+                return ( <CreateClinicView
+          setView={setView}
+          initialData={editingClinic}
+          isEditing={true}
+        />
+      );
             case "schedule":
                 return <ScheduleView />;
             case "history":
