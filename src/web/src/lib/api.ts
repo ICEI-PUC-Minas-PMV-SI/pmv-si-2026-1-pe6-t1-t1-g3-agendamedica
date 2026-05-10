@@ -19,8 +19,8 @@ async function req<T>(method: string, path: string, body?: unknown): Promise<T> 
         body: body !== undefined ? JSON.stringify(body) : undefined,
     });
     if (!res.ok) {
-        const body = await res.json().catch(() => null);
-        const message = body?.message ?? `${method} ${path} → ${res.status}`;
+        const errBody = await res.json().catch(() => null);
+        const message = errBody?.message ?? errBody?.error ?? `${method} ${path} → ${res.status}`;
         throw new Error(message);
     }
     return res.json() as Promise<T>;
@@ -43,12 +43,25 @@ export async function login(email: string, password: string): Promise<User> {
     return data.user;
 }
 
-export async function register(name: string, email: string, password: string): Promise<User> {
+export async function register(
+    name: string,
+    email: string,
+    password: string,
+    cpf: string,
+    role: "PATIENT" | "DOCTOR" = "PATIENT",
+    crm?: string,
+    specialty?: string,
+): Promise<User> {
     const data = await req<{ token: string; user: User }>("POST", "/auth/register", {
         name,
         email,
         password,
+        cpf,
+        role,
+        ...(crm && { crm }),
+        ...(specialty && { specialty }),
     });
+    console.log("REGISTER RAW:", JSON.stringify(data));
     setToken(data.token);
     data.user.initials = makeInitials(data.user.name);
     return data.user;

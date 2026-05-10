@@ -2,7 +2,7 @@ import { useState } from "react";
 import type React from "react";
 
 interface LoginViewProps {
-    onLogin: (email: string, password: string) => void;
+    onLogin: (email: string, password: string) => Promise<void>;
     onGoRegister: () => void;
 }
 
@@ -21,10 +21,27 @@ const inputStyle: React.CSSProperties = {
 export function LoginView({ onLogin, onGoRegister }: LoginViewProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [status, setStatus] = useState<{ type: "success" | "error"; msg: string } | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        onLogin(email, password);
+        setStatus(null);
+
+        if (!email || !password) {
+            setStatus({ type: "error", msg: "Preencha e-mail e senha." });
+            return;
+        }
+
+        setLoading(true);
+        try {
+            await onLogin(email, password);
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : "E-mail ou senha incorretos.";
+            setStatus({ type: "error", msg });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -83,12 +100,29 @@ export function LoginView({ onLogin, onGoRegister }: LoginViewProps) {
                             />
                         </div>
 
+                        {status && (
+                            <div
+                                style={{
+                                    padding: "10px 14px",
+                                    borderRadius: 8,
+                                    fontSize: 13.5,
+                                    fontWeight: 500,
+                                    background: status.type === "success" ? "#E1F5EE" : "#FCEBEB",
+                                    color: status.type === "success" ? "#085041" : "#791F1F",
+                                    border: `1px solid ${status.type === "success" ? "#5DCAA5" : "#F09595"}`,
+                                }}
+                            >
+                                {status.msg}
+                            </div>
+                        )}
+
                         <button
                             type="submit"
                             className="btn btn-primary"
                             style={{ width: "100%", marginTop: 4 }}
+                            disabled={loading}
                         >
-                            Entrar
+                            {loading ? "Entrando..." : "Entrar"}
                         </button>
                     </form>
                 </section>

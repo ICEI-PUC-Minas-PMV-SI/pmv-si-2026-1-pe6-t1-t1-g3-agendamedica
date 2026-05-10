@@ -19,7 +19,9 @@ class AuthService {
 
         const user = await prisma.$transaction(async (tx) => {
             const existing = await tx.user.findFirst({
-                where: { OR: [{ email: data.email }, { cpf: data.cpf }] },
+                where: {
+                    OR: [{ email: data.email }, ...(data.cpf ? [{ cpf: data.cpf }] : [])],
+                },
             });
 
             if (existing) {
@@ -30,7 +32,7 @@ class AuthService {
                 data: {
                     name: data.name,
                     email: data.email,
-                    cpf: data.cpf,
+                    cpf: data.cpf!,
                     passwordHash,
                     role: data.role,
                 },
@@ -49,11 +51,23 @@ class AuthService {
             return createdUser;
         });
 
+        const token = jwt.sign({ id: user.id, role: user.role }, env.JWT_SECRET, {});
+
+        // busca dados do médico se for DOCTOR
+        const doctor =
+            user.role === UserRole.DOCTOR
+                ? await prisma.doctor.findUnique({ where: { userId: user.id } })
+                : null;
+
         return {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
+            token,
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                ...(doctor && { crm: doctor.crm, specialty: doctor.specialty }),
+            },
         };
     }
 
@@ -66,11 +80,24 @@ class AuthService {
 
         const token = jwt.sign({ id: user.id, role: user.role }, env.JWT_SECRET, {});
 
+        // busca dados do médico se for DOCTOR
+        const doctor =
+            user.role === UserRole.DOCTOR
+                ? await prisma.doctor.findUnique({ where: { userId: user.id } })
+                : null;
+
         return {
             token,
-            user: { id: user.id, name: user.name, role: user.role },
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                ...(doctor && { crm: doctor.crm, specialty: doctor.specialty }),
+            },
         };
     }
 }
 
 export const authService = new AuthService();
+export { AuthError };
