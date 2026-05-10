@@ -3,15 +3,17 @@ export type Accent = "teal" | "coral" | "indigo" | "forest";
 export type Density = "compact" | "comfortable" | "spacious";
 export type Theme = "light" | "dark";
 export type View = "home" | "schedule" | "appointments" | "history" | "profile" | "notifications";
-export type Auth = "patient" | "unauth";
+export type Auth = "patient" | "professional" | "unauth";
 export type AuthView = "landing" | "login" | "register";
 export type AppointmentStatus = "PENDING" | "CONFIRMED" | "CANCELLED" | "RESCHEDULED";
+export type UserRole = "PATIENT" | "DOCTOR" | "RECEPTIONIST";
 
 export interface AppState {
     theme: Theme;
     auth: Auth;
     authView: AuthView;
     view: View;
+    mode: "patient" | "professional";
 }
 
 export interface User {
@@ -19,7 +21,9 @@ export interface User {
     name: string;
     email: string;
     role: string;
-    initials: string;
+    initials?: string;
+    crm?: string;
+    specialty?: string;
 }
 
 export interface Doctor {
@@ -27,6 +31,7 @@ export interface Doctor {
     name: string;
     specialty: string;
     clinic: string;
+    crm?: string;
 }
 
 export interface Appointment {

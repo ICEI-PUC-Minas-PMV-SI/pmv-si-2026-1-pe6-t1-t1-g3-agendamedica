@@ -13,6 +13,8 @@ interface HeaderProps {
     onLogout?: () => void;
     onGoProfile?: () => void;
     onBrandClick?: () => void;
+    mode?: "patient" | "professional";
+    onToggleMode?: () => void;
 }
 
 const viewLabels: Record<View, string> = {
@@ -34,6 +36,8 @@ export function Header({
     onLogout,
     onGoProfile,
     onBrandClick,
+    mode,
+    onToggleMode,
 }: HeaderProps) {
     const [dropOpen, setDropOpen] = useState(false);
     const dropRef = useRef<HTMLDivElement>(null);
@@ -88,9 +92,17 @@ export function Header({
 
             <div className="header-right">
                 {unauth ? (
-                    <>
-                        <button className="btn btn-ghost btn-sm">Para profissionais</button>
-                    </>
+                    <button
+                        className="btn btn-ghost btn-sm"
+                        onClick={onToggleMode}
+                        style={{
+                            fontWeight: mode === "professional" ? 600 : undefined,
+                            color: mode === "professional" ? "var(--accent)" : undefined,
+                            borderColor: mode === "professional" ? "var(--accent)" : undefined,
+                        }}
+                    >
+                        {mode === "professional" ? "Para pacientes" : "Para profissionais"}
+                    </button>
                 ) : (
                     <>
                         {setNotifications && setView && (
