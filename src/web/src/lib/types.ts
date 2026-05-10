@@ -2,15 +2,7 @@ export type AppStatus = "loaded" | "loading" | "empty" | "error";
 export type Accent = "teal" | "coral" | "indigo" | "forest";
 export type Density = "compact" | "comfortable" | "spacious";
 export type Theme = "light" | "dark";
-export type View =
-    | "home"
-    | "schedule"
-    | "appointments"
-    | "history"
-    | "profile"
-    | "create-clinic"
-    | "clinics"
-    | "edit-clinic";
+export type View = "home" | "schedule" | "appointments" | "history" | "profile" | "notifications" | "create-clinic" | "clinics" | "edit-clinic";
 export type Auth = "patient" | "unauth";
 export type AuthView = "landing" | "login" | "register";
 export type AppointmentStatus = "PENDING" | "CONFIRMED" | "CANCELLED" | "RESCHEDULED";
@@ -28,6 +20,13 @@ export interface User {
     email: string;
     role: string;
     initials: string;
+}
+
+export interface Doctor {
+    id: string;
+    name: string;
+    specialty: string;
+    clinic: string;
 }
 
 export interface Appointment {

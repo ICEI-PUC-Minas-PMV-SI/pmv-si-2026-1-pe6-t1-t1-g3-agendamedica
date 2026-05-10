@@ -99,6 +99,7 @@ export function HomeView({
                         notifications={notifications}
                         setNotifications={setNotifications}
                         onRetry={onRetry}
+                        onView={onView}
                     />
                     <section className="card">
                         <div className="card-head">

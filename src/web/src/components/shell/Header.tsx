@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Ic } from "../../lib/icons";
-import type { User, View } from "../../lib/types";
+import type { User, View, Notification } from "../../lib/types";
+import { NotificationDropdown } from "./NotificationDropdown";
 
 interface HeaderProps {
     unauth?: boolean;
-    notifCount?: number;
+    notifications?: Notification[];
+    setNotifications?: (ns: Notification[]) => void;
     user: User;
     view?: View;
     setView?: (v: View) => void;
@@ -19,13 +21,16 @@ const viewLabels: Record<View, string> = {
     history: "Histórico",
     profile: "Perfil",
     appointments: "Minhas Consultas",
+    notifications: "Notificações",
 };
 
 export function Header({
     unauth,
-    notifCount,
+    notifications = [],
+    setNotifications,
     user,
     view,
+    setView,
     onLogout,
     onGoProfile,
     onBrandClick,
@@ -88,12 +93,13 @@ export function Header({
                     </>
                 ) : (
                     <>
-                        <button className="icon-btn" title="Notificações" data-active={false}>
-                            <Ic.bell size={18} />
-                            {notifCount != null && notifCount > 0 && (
-                                <span className="badge-dot">{notifCount}</span>
-                            )}
-                        </button>
+                        {setNotifications && setView && (
+                            <NotificationDropdown
+                                notifications={notifications}
+                                setNotifications={setNotifications}
+                                setView={setView}
+                            />
+                        )}
 
                         <div ref={dropRef} style={{ position: "relative" }}>
                             <button className="user-chip" onClick={() => setDropOpen((o) => !o)}>

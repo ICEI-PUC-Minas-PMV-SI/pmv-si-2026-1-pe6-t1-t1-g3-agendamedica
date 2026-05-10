@@ -1,6 +1,6 @@
 # Front-end Web
 
-Interface web do **MedHub**, sistema de agendamento de consultas médicas. Permite que pacientes visualizem, agendem e gerenciem consultas, além de acompanhar notificações e histórico de atendimentos, tudo em uma interface responsiva, acessível em desktop e dispositivos móveis.
+O projeto de frontend do MedHub foi desenvolvido para oferecer uma interface intuitiva onde pacientes gerenciem consultas e acompanhem notificações. Além disso, a plataforma permite que médicos e recepcionistas controlem a agenda, realizando alterações ou cancelamentos de consultas de forma simplificada.
 
 ---
 
@@ -10,83 +10,50 @@ A interface foi construída como uma Single Page Application (SPA) sem roteament
 
 ### Wireframes
 
-A interface é organizada em um shell fixo de três regiões, adaptado conforme o dispositivo:
+Os wireframes do MedHub cobrem as principais telas da aplicação, da landing page ao painel autenticado, organizados para refletir o fluxo real de uso: acesso, agendamento, acompanhamento e configurações.
+As telas autenticadas compartilham um shell consistente com header e sidebar.
 
-**Desktop (> 1000px)**
-```
-┌─────────────────────────────────────────┐
-│              Header (64px)              │
-├───────────┬─────────────────────────────┤
-│           │                             │
-│  Sidebar  │       Conteúdo da view      │
-│  (244px)  │                             │
-│           │                             │
-└───────────┴─────────────────────────────┘
-```
+Os wireframes completos podem ser visualizados em: [Wireframes MedHub](img/medhub-wireframes.pdf).
 
-**Mobile (≤ 1000px)**
-```
-┌─────────────────────┐
-│       Header        │
-├─────────────────────┤
-│                     │
-│  Conteúdo da view   │
-│                     │
-├─────────────────────┤
-│  Bottom Navigation  │
-└─────────────────────┘
-```
-
-**Fluxo de autenticação**
-```
-Landing (UnauthView)
-   ├── "Entrar"              → LoginView  → Dashboard (HomeView)
-   └── "Criar conta"         → RegisterView → Dashboard (HomeView)
-```
-
-**Views autenticadas (paciente)**
-```
-HomeView          — dashboard com próximas consultas e notificações
-ScheduleView      — agendamento em 3 passos (especialidade → médico → horário)
-AppointmentsView  — consultas agendadas com status e ações
-HistoryView       — histórico de consultas realizadas
-ProfileView       — dados pessoais, aparência e preferências de aviso
-```
+---
 
 ### Design Visual
 
+A identidade visual do Medhub utiliza um sistema tipográfico tri-modular (Fraunces, Inter Tight e JetBrains Mono) para otimizar a hierarquia visual e reduzir a carga cognitiva dos usuários, separando conteúdos textuais de dados brutos, como datas. 
+
+A experiência do usuário é guiada pelo uso estratégico do tom Teal como principal sinalizador de ação e validada por princípios de acessibilidade e legibilidade, utilizando tokens de cor OKLCH para garantir uma percepção visual uniforme e inclusiva em toda a jornada de uso da aplicação.
+
 **Tipografia**
 
-| Função    | Família        | Uso                                      |
-| --------- | -------------- | ---------------------------------------- |
-| Interface | Inter Tight    | Textos, labels, botões                   |
-| Display   | Fraunces       | Títulos de página e headings de destaque |
-| Monospace | JetBrains Mono | Dados técnicos, chips de código          |
+A fonte Fraunces foi selecionada para a hierarquia principal (H1, H2 e H3) por ser uma Soft Serif que equilibra autoridade clínica com um tom acolhedor, estabelecendo uma hierarquia semântica clara que organiza e facilita a busca e extração de informações.
+
+![Tipografia: Display e Títulos](./img/display_titulos_tipografia.png)
+
+A Inter Tight atua como a base funcional da aplicação, sendo utilizada em corpos de texto, labels e botões para garantir máxima legibilidade. A estrutura sans-serif proporciona uma interface limpa e padronizada, assegurando clareza visual em qualquer dispositivo ou resolução.
+
+![Interface e Títulos](./img/interface_titulos_tipografia.png)
+
+Por último, a fonte JetBrains Mono aplica o princípio da diferenciação visual, permitindo que o cérebro identifique instantaneamente a transição entre conteúdos explicativos e dados brutos.
+
+![Tipografia Monospace e Dados](./img/monospace_dados_tipografia.png)
 
 **Paleta de cores**
 
 O sistema usa tokens OKLCH para garantir perceptibilidade uniforme entre tons. Há suporte a tema claro e escuro (via atributo `data-theme` no elemento `<html>`):
 
-| Token                 | Tema claro          | Uso                                |
-| --------------------- | ------------------- | ---------------------------------- |
-| `--bg`                | Branco frio         | Fundo da página                    |
-| `--surface`           | Branco puro         | Cards e painéis                    |
-| `--ink`               | Grafite escuro      | Texto principal                    |
-| `--ink-2` / `--ink-3` | Tons intermediários | Texto secundário e terciário       |
-| `--accent`            | Teal (padrão)       | Botões primários, links, destaques |
+***Cores Principais***
 
-**Cores de destaque (accent)** — configuráveis via `data-accent`:
+![Cores Principais](./img/cores_principais.png)
 
-| Nome     | Tom                      |
-| -------- | ------------------------ |
-| `teal`   | Azul-esverdeado (padrão) |
-| `coral`  | Laranja-avermelhado      |
-| `indigo` | Roxo-índigo              |
-| `forest` | Verde-floresta           |
+***Cores Destaque***
+
+![Cores Destaque](./img/cores_destaque.png)
 
 **Ícones**
 
 Todos os ícones são SVG inline, definidos em `src/lib/icons.tsx`. Não há dependência de biblioteca de ícones externa.
+
+![Icones](./img/Group_64.svg)
 
 ---
 
@@ -190,6 +157,13 @@ Não há variáveis de ambiente necessárias no frontend — a URL base da API �
 - [ ] Tema escuro: alternância em Perfil → Aparência reflete em toda a interface
 - [ ] Responsividade: sidebar some em mobile, bottom nav aparece corretamente
 - [ ] Estado vazio: `appointments.json` vazio exibe mensagem de estado **vazio**
+
+### Cenários de teste documentados
+
+| Funcionalidade | Documento de testes |
+| -------------- | ------------------- |
+| Interface de Notificações (RF-006) | [Cenários de Teste — Notificações Frontend](rf-006-notifications/cenarios-de-teste-frontend.md) |
+| Interface de Agendar, Visualizar e Cancelar (RF-001) | [Cenários de Teste — Agendamento Frontend](rf-001-appointments/cenarios-de-teste-frontend.md) |
 
 ---
 

@@ -632,6 +632,112 @@ a {
 }
 
 /* ============================================================
+   Modal
+   ============================================================ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: oklch(0 0 0 / 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-4);
+    padding: 28px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: var(--sh-pop);
+    animation: modal-in 0.14s ease;
+}
+
+@keyframes modal-in {
+    from { opacity: 0; transform: scale(0.97) translateY(6px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    margin: 0;
+    color: var(--ink);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+/* ============================================================
+   Form fields
+   ============================================================ */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-2);
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: var(--r-2);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 14px;
+    font-family: var(--font-ui);
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.1s, box-shadow 0.1s;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.form-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.form-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+select.form-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+/* ============================================================
    Buttons
    ============================================================ */
 .btn {
