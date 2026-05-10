@@ -31,19 +31,15 @@ const DEFAULT_USER: User = {
 };
 
 export default function App() {
+    // Unificação dos estados iniciais para evitar erro de redeclaração
     const [appState, setAppState] = useState<AppState>({
         theme: "light",
-        auth: "unauth",
+        auth: "patient",
         authView: "landing",
-        view: "home",
+        view: "clinics",
         mode: "patient",
     });
-   const [appState, setAppState] = useState<AppState>({
-    theme: "light",
-    auth: "patient",     // alteração
-    authView: "landing",
-    view: "clinics",     // alteração
-});
+
     const [currentUser, setCurrentUser] = useState<User>(DEFAULT_USER);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -185,16 +181,16 @@ export default function App() {
         switch (appState.view) {
             case "clinics":
                 return <ClinicsView setView={setView} setEditingClinic={setEditingClinic} />;
-                // ADICIONEI dia 6
             case "create-clinic":
                 return <CreateClinicView setView={setView} />;
             case "edit-clinic":
-                return ( <CreateClinicView
-          setView={setView}
-          initialData={editingClinic}
-          isEditing={true}
-        />
-      );
+                return (
+                    <CreateClinicView
+                        setView={setView}
+                        initialData={editingClinic}
+                        isEditing={true}
+                    />
+                );
             case "schedule":
                 return (
                     <ScheduleView
@@ -246,7 +242,7 @@ export default function App() {
                         notifications={notifications}
                         setNotifications={setNotifications}
                         user={currentUser}
-                        onRetry={() => {}}
+                        onRetry={() => { }}
                         onSchedule={() => setView("schedule")}
                         onView={setView}
                     />

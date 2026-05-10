@@ -54,7 +54,8 @@ export function RegisterView({ onRegister, onGoLogin, mode }: RegisterViewProps)
             return;
         }
 
-        if (!isPro && cpf.replace(/\D/g, "").length < 11) {
+        // Validação de CPF para AMBOS (Médicos também possuem CPF e o sistema exige)
+        if (cpf.replace(/\D/g, "").length < 11) {
             setError("CPF inválido. Digite 11 dígitos.");
             return;
         }
@@ -73,15 +74,12 @@ export function RegisterView({ onRegister, onGoLogin, mode }: RegisterViewProps)
             }, 2000);
         } catch (err: unknown) {
             const msg: string = err instanceof Error ? err.message : "";
-
-            if (msg.toLowerCase().includes("e-mail ou cpf") || msg.toLowerCase().includes("email ou cpf")) {
-                setError("E-mail ou CPF já cadastrado. Verifique e tente novamente.");
-            } else if (msg.toLowerCase().includes("cpf")) {
-                setError("Este CPF já está cadastrado. Verifique e tente novamente.");
-            } else if (msg.toLowerCase().includes("e-mail") || msg.toLowerCase().includes("email")) {
-                setError("Este e-mail já está cadastrado. Verifique e tente novamente.");
-            } else if (msg.toLowerCase().includes("já cadastrado") || msg.toLowerCase().includes("já existe")) {
-                setError("E-mail ou CPF já cadastrado. Verifique e tente novamente.");
+            
+            // Melhoria na captura de erro para ser mais específico
+            if (msg.toLowerCase().includes("cpf") && msg.toLowerCase().includes("cadastrado")) {
+                setError("Este CPF já está cadastrado.");
+            } else if (msg.toLowerCase().includes("email") || msg.toLowerCase().includes("e-mail")) {
+                setError("Este e-mail já está cadastrado.");
             } else {
                 setError(msg || "Erro ao criar conta. Verifique os dados.");
             }
@@ -115,7 +113,13 @@ export function RegisterView({ onRegister, onGoLogin, mode }: RegisterViewProps)
                             <input type="text" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle} required />
                         </div>
 
-                        {isPro ? (
+                        {/* CPF agora é solicitado para todos */}
+                        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                            <label style={{ fontSize: 13, fontWeight: 500 }}>CPF</label>
+                            <input type="text" placeholder="000.000.000-00" value={cpf} onChange={(e) => setCpf(e.target.value)} style={inputStyle} required />
+                        </div>
+
+                        {isPro && (
                             <>
                                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                                     <label style={{ fontSize: 13, fontWeight: 500 }}>CRM</label>
@@ -126,11 +130,6 @@ export function RegisterView({ onRegister, onGoLogin, mode }: RegisterViewProps)
                                     <input type="text" placeholder="Ex: Cardiologia" value={specialty} onChange={(e) => setSpecialty(e.target.value)} style={inputStyle} required />
                                 </div>
                             </>
-                        ) : (
-                            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                                <label style={{ fontSize: 13, fontWeight: 500 }}>CPF</label>
-                                <input type="text" placeholder="000.000.000-00" value={cpf} onChange={(e) => setCpf(e.target.value)} style={inputStyle} required />
-                            </div>
                         )}
 
                         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
