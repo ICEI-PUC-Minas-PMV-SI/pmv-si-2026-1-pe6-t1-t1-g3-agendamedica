@@ -31,6 +31,7 @@ const DEFAULT_USER: User = {
 };
 
 export default function App() {
+    // Unificação dos estados iniciais para evitar erro de redeclaração
     const [appState, setAppState] = useState<AppState>({
         theme: "light",
         auth: "patient",

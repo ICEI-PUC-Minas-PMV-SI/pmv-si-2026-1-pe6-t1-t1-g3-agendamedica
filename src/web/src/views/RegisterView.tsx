@@ -54,6 +54,7 @@ export function RegisterView({ onRegister, onGoLogin, mode }: RegisterViewProps)
             return;
         }
 
+        // Validação de CPF para AMBOS (Médicos também possuem CPF e o sistema exige)
         if (cpf.replace(/\D/g, "").length < 11) {
             setError("CPF inválido. Digite 11 dígitos.");
             return;
