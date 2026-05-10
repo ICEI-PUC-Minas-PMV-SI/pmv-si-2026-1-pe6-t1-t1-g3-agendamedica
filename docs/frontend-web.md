@@ -59,31 +59,15 @@ Todos os ícones são SVG inline, definidos em `src/lib/icons.tsx`. Não há dep
 
 ## Fluxo de Dados
 
-```
-Usuário interage com a view
-       │
-       ▼
-App.tsx (AppState + callbacks)
-       │
-       ▼
-src/lib/api.ts  ──fetch──►  Vite proxy /api  ──►  mock-server :3001
-                                                         │
-                                             mock-server/data/*.json
-       │
-       ◄── resposta JSON ──────────────────────────────────
-       │
-       ▼
-useState (appointments, notifications, currentUser)
-       │
-       ▼
-Props → Views / Widgets
-```
+O fluxo de dados mapeia a navegação do usuário através das diferentes interfaces da aplicação MedHub, ilustrando como as interações levam de uma visão para outra.
 
-**Pontos-chave:**
-- Todo o estado global está em `App.tsx` — sem Context API, Redux ou Zustand
-- As views recebem dados e callbacks via props (prop drilling direto)
-- `api.ts` centraliza todas as chamadas HTTP; nenhum componente faz `fetch` diretamente
-- O mock server espelha as rotas reais do backend (`/auth`, `/appointments`, `/notifications`), tornando a substituição futura transparente
+![Fluxo de Telas do Frontend](./img/dataflow.png)
+
+**Pontos-chave da Navegação:**
+- **Autenticação (`AuthView`)**: Porta de entrada que direciona o usuário para o dashboard apropriado após o login (com base no papel: Paciente, Médico ou Recepcionista).
+- **Tela Inicial (`HomeView` / `DoctorDashboard`)**: Painel principal que exibe o resumo das próximas consultas e atalhos rápidos para funções essenciais.
+- **Menu de Navegação (`Sidebar`)**: Controla a transição principal entre agendamentos (`ScheduleView`), calendário (`AppointmentsView`), histórico e conta (`ProfileView`).
+- **Navegação por Estado**: Toda a transição de telas é coordenada no `App.tsx` baseado na propriedade `view` do estado global da aplicação.
 
 ---
 
