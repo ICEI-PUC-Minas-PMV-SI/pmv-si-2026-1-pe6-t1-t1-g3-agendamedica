@@ -41,7 +41,7 @@ Nota: Os prints de execução foram anexados ao Pull Request #39 para conferênc
 ![Teste de Atualização](./img/Patch.png)
 
 ### 🎥 Teste Frontend: Demonstração em Vídeo da Edição e Cadastro de novas clínicas
-Acesso o link abaixo para assistir aos testes de CRUD das clínicas:
+Acesse o link abaixo para assistir aos testes de CRUD das clínicas:
 
 https://drive.google.com/drive/folders/18iHGRhT0ZqUu6gODA7eA-7pIZfTqqbR_?usp=sharing
 
