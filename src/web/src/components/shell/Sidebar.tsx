@@ -26,6 +26,7 @@ const primaryItems: PrimaryNavItem[] = [
     { id: "schedule", label: "Agendar", icon: "calendarPlus" },
     { id: "appointments", label: "Minhas consultas", icon: "calendar", tag: "3" },
     { id: "history", label: "Histórico", icon: "history" },
+    { id: "clinics", label: "Unidades de Saúde", icon: "mapPin" },
 ];
 
 const accountItems: AccountNavItem[] = [

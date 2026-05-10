@@ -17,6 +17,7 @@ let notifications = data("notifications.json");
 let appointments = data("appointments.json");
 const doctors = data("doctors.json");
 const users = data("user.json");
+let clinicsData = data("clinics.json");
 
 function makeInitials(name) {
     return name
@@ -58,6 +59,7 @@ app.get("/patients/", (_req, res) => res.json(users.filter(u => u.role === "PATI
 
 // ── Appointments ─────────────────────────────────────────────
 
+<<<<<<< HEAD
 const requireAuth = (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(401).json({ error: "Acesso negado: Perfil não autenticado." });
@@ -102,6 +104,28 @@ app.get("/appointments/listAppointments", requireAuth, (req, res) => {
 
 app.post("/appointments/createAppointment", requireAuth, (req, res) => {
     const { doctorId, date, patientId, notes } = req.body;
+=======
+// --- Clinics ---
+// Rota para listar todas as clínicas
+app.get("/clinics", (req, res) => {
+  res.json(clinicsData);
+});
+
+// Rota para cadastrar nova clínica
+app.post("/clinics", (req, res) => {
+  const newClinic = { id: Date.now(), ...req.body };
+  clinicsData.push(newClinic);
+  res.status(201).json(newClinic);
+});
+
+// Rota para editar uma clínica existente
+app.put("/clinics/:id", (req, res) => {
+  const { id } = req.params;
+  clinicsData = clinicsData.map(c => String(c.id) === String(id) ? { ...c, ...req.body } : c);
+  res.json({ success: true });
+app.post("/appointments/createAppointment", (req, res) => {
+    const { doctorId, date } = req.body;
+>>>>>>> origin/main
     const doctor = doctors.find((d) => d.id === doctorId);
     if (!doctor) return res.status(404).json({ error: "Médico não encontrado" });
 

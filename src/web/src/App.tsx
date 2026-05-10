@@ -1,3 +1,4 @@
+import { ClinicsView } from './views/ClinicsView';
 import { useState, useEffect } from "react";
 // Shell
 import { Header } from "./components/shell/Header";
@@ -8,8 +9,10 @@ import { HomeView } from "./views/HomeView";
 import { ScheduleView } from "./views/ScheduleView";
 import { HistoryView } from "./views/HistoryView";
 import { ProfileView } from "./views/ProfileView";
+import { CreateClinicView } from "./views/CreateClinicView";
 import { AppointmentsView } from "./views/AppointmentsView";
 import { NotificationsView } from "./views/NotificationsView";
+import { DoctorDashboard } from "./views/DoctorView";
 // Views — não autenticadas
 import { UnauthView } from "./views/UnauthView";
 import { LoginView } from "./views/LoginView";
@@ -17,7 +20,7 @@ import { RegisterView } from "./views/RegisterView";
 // API
 import * as api from "./lib/api";
 // Types
-import type { AppState, Appointment, AuthView, Notification, Theme, User, View } from "./lib/types";
+import type { AppState, Appointment, AuthView, Doctor, Notification, Theme, User, View } from "./lib/types";
 
 const DEFAULT_USER: User = {
     id: "",
@@ -28,16 +31,20 @@ const DEFAULT_USER: User = {
 };
 
 export default function App() {
+    // Unificação dos estados iniciais para evitar erro de redeclaração
     const [appState, setAppState] = useState<AppState>({
         theme: "light",
-        auth: "unauth",
+        auth: "patient",
         authView: "landing",
-        view: "home",
+        view: "clinics",
+        mode: "patient",
     });
+
     const [currentUser, setCurrentUser] = useState<User>(DEFAULT_USER);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [rescheduleData, setRescheduleData] = useState<Appointment | null>(null);
+    const [editingClinic, setEditingClinic] = useState<any>(null);
 
     useEffect(() => {
         const el = document.documentElement;
@@ -49,9 +56,8 @@ export default function App() {
         document.documentElement.setAttribute("data-theme", appState.theme);
     }, [appState.theme]);
 
-    // Busca dados ao autenticar
     useEffect(() => {
-        if (appState.auth !== "patient") return;
+        if (appState.auth === "unauth") return;
         Promise.all([api.fetchAppointments(currentUser.id), api.fetchNotifications()])
             .then(([appts, notifs]) => {
                 setAppointments(appts);
@@ -64,16 +70,37 @@ export default function App() {
     const setAuthView = (v: AuthView) => setAppState((prev) => ({ ...prev, authView: v }));
     const setTheme = (t: Theme) => setAppState((prev) => ({ ...prev, theme: t }));
 
+    const toggleMode = () => {
+        setAppState((prev) => ({
+            ...prev,
+            mode: prev.mode === "patient" ? "professional" : "patient",
+            authView: "landing",
+            view: "home",
+        }));
+    };
+
     const onLogin = async (email: string, password: string) => {
         const user = await api.login(email, password);
         setCurrentUser(user);
-        setAppState((prev) => ({ ...prev, auth: "patient", view: "home" }));
+        const isStaff = user.role === "DOCTOR" || user.role === "RECEPTIONIST";
+        setAppState((prev) => ({
+            ...prev,
+            auth: isStaff ? "professional" : "patient",
+            mode: isStaff ? "professional" : "patient",
+            view: "home",
+        }));
     };
 
-    const onRegister = async (name: string, email: string, password: string) => {
-        const user = await api.register(name, email, password);
-        setCurrentUser(user);
-        setAppState((prev) => ({ ...prev, auth: "patient", view: "home" }));
+    const onRegister = async (
+        name: string,
+        email: string,
+        password: string,
+        cpf: string,
+        crm?: string,
+        specialty?: string,
+    ) => {
+        const role = appState.mode === "professional" ? "DOCTOR" : "PATIENT";
+        await api.register(name, email, password, cpf, role, crm, specialty);
     };
 
     const onLogout = () => {
@@ -81,7 +108,7 @@ export default function App() {
         setCurrentUser(DEFAULT_USER);
         setAppointments([]);
         setNotifications([]);
-        setAppState((prev) => ({ ...prev, auth: "unauth", authView: "landing" }));
+        setAppState((prev) => ({ ...prev, auth: "unauth", authView: "landing", mode: "patient" }));
     };
 
     const renderAuthView = () => {
@@ -90,7 +117,11 @@ export default function App() {
                 return <LoginView onLogin={onLogin} onGoRegister={() => setAuthView("register")} />;
             case "register":
                 return (
-                    <RegisterView onRegister={onRegister} onGoLogin={() => setAuthView("login")} />
+                    <RegisterView
+                        onRegister={onRegister}
+                        onGoLogin={() => setAuthView("login")}
+                        mode={appState.mode}
+                    />
                 );
             default:
                 return (
@@ -103,7 +134,64 @@ export default function App() {
     };
 
     const renderView = () => {
+        const isDoctor = appState.auth === "professional" || currentUser.role === "DOCTOR";
+
+        if (isDoctor) {
+            switch (appState.view) {
+                case "profile":
+                    return (
+                        <ProfileView
+                            user={currentUser}
+                            theme={appState.theme}
+                            onToggleTheme={() =>
+                                setTheme(appState.theme === "light" ? "dark" : "light")
+                            }
+                        />
+                    );
+                case "notifications":
+                    return (
+                        <NotificationsView
+                            notifications={notifications}
+                            setNotifications={setNotifications}
+                        />
+                    );
+                case "appointments":
+                    return (
+                        <AppointmentsView
+                            appointments={appointments}
+                            onCancelled={(id) =>
+                                setAppointments((prev) =>
+                                    prev.map((a) =>
+                                        a.id === id ? { ...a, status: "CANCELLED" } : a,
+                                    ),
+                                )
+                            }
+                        />
+                    );
+                default:
+                    return (
+                        <DoctorDashboard
+                            user={currentUser as unknown as Doctor}
+                            appointments={appointments}
+                        />
+                    );
+            }
+        }
+
+        // Visão de paciente
         switch (appState.view) {
+            case "clinics":
+                return <ClinicsView setView={setView} setEditingClinic={setEditingClinic} />;
+            case "create-clinic":
+                return <CreateClinicView setView={setView} />;
+            case "edit-clinic":
+                return (
+                    <CreateClinicView
+                        setView={setView}
+                        initialData={editingClinic}
+                        isEditing={true}
+                    />
+                );
             case "schedule":
                 return (
                     <ScheduleView
@@ -187,7 +275,13 @@ export default function App() {
     if (appState.auth === "unauth") {
         return (
             <div className="app-shell" data-unauth="true">
-                <Header unauth user={currentUser} onBrandClick={() => setAuthView("landing")} />
+                <Header
+                    unauth
+                    user={currentUser}
+                    onBrandClick={() => setAuthView("landing")}
+                    mode={appState.mode}
+                    onToggleMode={toggleMode}
+                />
                 <main className="app-main">
                     <div className="app-main-inner">{renderAuthView()}</div>
                 </main>
@@ -206,6 +300,8 @@ export default function App() {
                 onLogout={onLogout}
                 onGoProfile={() => setView("profile")}
                 onBrandClick={() => setView("home")}
+                mode={appState.mode}
+                onToggleMode={toggleMode}
             />
             <Sidebar 
                 view={appState.view} 
