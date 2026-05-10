@@ -77,11 +77,11 @@ export function HomeView({
     return (
         <>
             <PageHeader
-                eyebrow={`paciente · ${user.id}`}
+                eyebrow={`${user.role === 'DOCTOR' ? 'MÉDICO' : user.role === 'RECEPTIONIST' ? 'RECEPÇÃO' : 'PACIENTE'} · ${user.id}`}
                 title={`Olá, <em>${firstName}</em>.`}
-                sub="Um panorama dos seus próximos passos em saúde, com ações rápidas a um clique."
+                sub={user.role === 'PATIENT' ? "Um panorama dos seus próximos passos em saúde, com ações rápidas a um clique." : "Visão geral da sua agenda e notificações do sistema."}
             />
-            <HeroCTA user={user} onSchedule={onSchedule} />
+            {user.role !== 'DOCTOR' && <HeroCTA user={user} onSchedule={onSchedule} />}
             <div style={{ height: "var(--density-gap)" }} />
             <div className="home-grid">
                 <div className="col">
@@ -89,9 +89,10 @@ export function HomeView({
                         state={state}
                         appointments={appointments}
                         onRetry={onRetry}
-                        onSchedule={onSchedule}
+                        onSchedule={user.role !== "DOCTOR" ? onSchedule : undefined}
+                        currentUserRole={user.role}
                     />
-                    <ShortcutsGrid onSchedule={onSchedule} onView={onView} />
+                    {user.role !== "DOCTOR" && <ShortcutsGrid onSchedule={onSchedule} onView={onView} />}
                 </div>
                 <div className="col">
                     <NotificationsPanel
@@ -101,19 +102,21 @@ export function HomeView({
                         onRetry={onRetry}
                         onView={onView}
                     />
-                    <section className="card">
-                        <div className="card-head">
-                            <h3 className="card-title">Sua saúde em foco</h3>
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                            <StatRow label="Consultas este ano" value="7" delta="+2 vs. 2025" />
-                            <StatRow
-                                label="Última consulta"
-                                value="há 14 dias"
-                                delta="Clínico Geral"
-                            />
-                        </div>
-                    </section>
+                    {user.role === "PATIENT" && (
+                        <section className="card">
+                            <div className="card-head">
+                                <h3 className="card-title">Sua saúde em foco</h3>
+                            </div>
+                            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                                <StatRow label="Consultas este ano" value="7" delta="+2 vs. 2025" />
+                                <StatRow
+                                    label="Última consulta"
+                                    value="há 14 dias"
+                                    delta="Clínico Geral"
+                                />
+                            </div>
+                        </section>
+                    )}
                 </div>
             </div>
         </>

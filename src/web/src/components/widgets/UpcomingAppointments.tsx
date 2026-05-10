@@ -6,49 +6,54 @@ import { EmptyState } from "../states/EmptyState";
 import { ErrorState } from "../states/ErrorState";
 
 interface AppointmentRowProps {
-    ap: Appointment;
+    appointment: Appointment;
+    currentUserRole?: string;
 }
 
-function AppointmentRow({ ap }: AppointmentRowProps) {
-    const f = fmtDate(ap.date);
+function AppointmentRow({ appointment, currentUserRole }: AppointmentRowProps) {
+    const formattedDate = fmtDate(appointment.date);
+    const appointmentDate = new Date(appointment.date);
+    const todayDate = new Date();
+    const isToday = appointmentDate.getDate() === todayDate.getDate() && appointmentDate.getMonth() === todayDate.getMonth() && appointmentDate.getFullYear() === todayDate.getFullYear();
+
     return (
         <div className="appt-row">
-            <div className={`appt-date ${ap.isToday ? "appt-today" : ""}`}>
-                <span className="mo">{ap.isToday ? "hoje" : f.mo}</span>
-                <span className="d">{f.d}</span>
-                <span className="dow">{f.dow}</span>
+            <div className={`appt-date ${isToday ? "appt-today" : ""}`}>
+                <span className="mo">{isToday ? "hoje" : formattedDate.mo}</span>
+                <span className="d">{formattedDate.d}</span>
+                <span className="dow">{formattedDate.dow}</span>
             </div>
             <div className="appt-body">
                 <div className="appt-doctor">
-                    {ap.doctor}
-                    <span className={`chip ${STATUS_CLASS[ap.status]}`}>
-                        {STATUS_LABEL[ap.status]}
+                    {currentUserRole !== "PATIENT" ? appointment.patientName : appointment.doctor}
+                    <span className={`chip ${STATUS_CLASS[appointment.status]}`}>
+                        {STATUS_LABEL[appointment.status]}
                     </span>
                 </div>
                 <div className="appt-specialty">
                     <span className="inline-ic">
                         <Ic.stethoscope size={13} />
-                        {ap.specialty}
+                        {appointment.specialty}
                     </span>
                     <span className="dot">·</span>
                     <span className="inline-ic">
                         <Ic.clock size={13} />
-                        {f.hm}
+                        {formattedDate.hm}
                     </span>
                     <span className="dot">·</span>
                     <span className="inline-ic">
-                        {ap.mode === "tele" ? <Ic.video size={13} /> : <Ic.mapPin size={13} />}
-                        {ap.clinic}
+                        {appointment.mode === "tele" ? <Ic.video size={13} /> : <Ic.mapPin size={13} />}
+                        {appointment.clinic}
                     </span>
                 </div>
             </div>
             <div className="appt-actions">
-                {ap.mode === "tele" && ap.status === "PENDING" && (
+                {appointment.mode === "tele" && appointment.status === "PENDING" && (
                     <button className="btn btn-ghost btn-sm">
                         <Ic.video size={14} /> Entrar
                     </button>
                 )}
-                {ap.status !== "CANCELLED" && (
+                {appointment.status !== "CANCELLED" && (
                     <>
                         <button className="btn btn-ghost btn-sm">Remarcar</button>
                         <button className="btn btn-secondary btn-sm">Detalhes</button>
@@ -66,7 +71,8 @@ interface UpcomingAppointmentsProps {
     state: AppStatus;
     appointments: Appointment[];
     onRetry: () => void;
-    onSchedule: () => void;
+    onSchedule?: () => void;
+    currentUserRole?: string;
 }
 
 export function UpcomingAppointments({
@@ -74,6 +80,7 @@ export function UpcomingAppointments({
     appointments,
     onRetry,
     onSchedule,
+    currentUserRole,
 }: UpcomingAppointmentsProps) {
     return (
         <section className="card">
@@ -95,14 +102,14 @@ export function UpcomingAppointments({
                     icon="calendar"
                     title="Nenhuma consulta agendada"
                     body="Quando você marcar uma consulta, ela aparecerá aqui com todos os detalhes e ações rápidas."
-                    action="Agendar agora"
-                    onAction={onSchedule}
+                    action={currentUserRole !== "DOCTOR" ? "Agendar agora" : undefined}
+                    onAction={currentUserRole !== "DOCTOR" ? onSchedule : undefined}
                 />
             )}
             {state === "loaded" && (
                 <div>
-                    {appointments.map((ap) => (
-                        <AppointmentRow key={ap.id} ap={ap} />
+                    {appointments.map((appointment) => (
+                        <AppointmentRow key={appointment.id} appointment={appointment} currentUserRole={currentUserRole} />
                     ))}
                 </div>
             )}

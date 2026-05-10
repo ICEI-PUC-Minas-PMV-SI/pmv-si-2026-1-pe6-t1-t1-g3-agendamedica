@@ -16,14 +16,28 @@ app.use(express.json());
 let notifications = data("notifications.json");
 let appointments = data("appointments.json");
 const doctors = data("doctors.json");
-const defaultUser = data("user.json");
+const users = data("user.json");
+
+function makeInitials(name) {
+    return name
+        .split(" ")
+        .slice(0, 2)
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
+}
 
 // ── Health ──────────────────────────────────────────────────
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
 
 // ── Auth ────────────────────────────────────────────────────
-app.post("/auth/login", (_req, res) => {
-    res.json({ token: "mock-token", user: defaultUser });
+app.post("/auth/login", (req, res) => {
+    const { email } = req.body;
+    let user = users.find(u => u.email === email);
+    
+    if (!user) user = users[0];
+
+    res.json({ token: "mock-token", user });
 });
 
 app.post("/auth/register", (req, res) => {
@@ -38,46 +52,141 @@ app.post("/auth/register", (req, res) => {
     res.status(201).json({ token: "mock-token", user });
 });
 
-// ── Doctors ──────────────────────────────────────────────────
+// ── Doctors & Patients ─────────────────────────────────────────
 app.get("/doctors/", (_req, res) => res.json(doctors));
+app.get("/patients/", (_req, res) => res.json(users.filter(u => u.role === "PATIENT")));
 
 // ── Appointments ─────────────────────────────────────────────
-app.get("/appointments/", (_req, res) => res.json(appointments));
-app.get("/appointments/listAppointments", (_req, res) =>
-    res.json(appointments),
-);
 
-app.post("/appointments/createAppointment", (req, res) => {
-    const { doctorId, date } = req.body;
+const requireAuth = (req, res, next) => {
+    if (!req.headers.authorization) {
+        return res.status(401).json({ error: "Acesso negado: Perfil não autenticado." });
+    }
+    next();
+};
+
+app.get("/appointments/", requireAuth, (req, res) => {
+    const userId = req.query.userId;
+    let result = appointments;
+    if (userId) {
+        const user = users.find((u) => u.id === userId);
+        if (user && user.role === "PATIENT") {
+            result = appointments.filter((a) => a.patientId === userId);
+        } else if (user && user.role === "DOCTOR") {
+            result = appointments.filter((a) => a.doctorId === userId);
+        }
+    }
+    const mapped = result.map(a => {
+        const p = users.find(u => u.id === a.patientId);
+        return { ...a, patientName: p ? p.name : "Paciente" };
+    });
+    res.json(mapped);
+});
+app.get("/appointments/listAppointments", requireAuth, (req, res) => {
+    const userId = req.query.userId;
+    let result = appointments;
+    if (userId) {
+        const user = users.find((u) => u.id === userId);
+        if (user && user.role === "PATIENT") {
+            result = appointments.filter((a) => a.patientId === userId);
+        } else if (user && user.role === "DOCTOR") {
+            result = appointments.filter((a) => a.doctorId === userId);
+        }
+    }
+    const mapped = result.map(a => {
+        const p = users.find(u => u.id === a.patientId);
+        return { ...a, patientName: p ? p.name : "Paciente" };
+    });
+    res.json(mapped);
+});
+
+app.post("/appointments/createAppointment", requireAuth, (req, res) => {
+    const { doctorId, date, patientId, notes } = req.body;
     const doctor = doctors.find((d) => d.id === doctorId);
     if (!doctor) return res.status(404).json({ error: "Médico não encontrado" });
 
     const apptDate = new Date(date);
-    const today = new Date();
-    const isToday =
-        apptDate.getFullYear() === today.getFullYear() &&
-        apptDate.getMonth() === today.getMonth() &&
-        apptDate.getDate() === today.getDate();
+    if (apptDate < new Date()) {
+        return res.status(400).json({ error: "Não é possível agendar em datas passadas." });
+    }
+    
+    const appointmentDurationMs = 20 * 60 * 1000;
+    const startWindow = new Date(apptDate.getTime() - appointmentDurationMs);
+    const endWindow = new Date(apptDate.getTime() + appointmentDurationMs);
+
+    const conflict = appointments.find(a => {
+        if (a.status === "CANCELLED") return false;
+
+        if (a.doctorId !== doctorId && a.doctor !== doctor.name) return false;
+        
+        const existingDate = new Date(a.date);
+        return existingDate > startWindow && existingDate < endWindow;
+    });
+
+    if (conflict) {
+        return res.status(409).json({ error: "Horário indisponível. Há um conflito com outra consulta já agendada próxima a este horário." });
+    }
 
     const newAppt = {
         id: `a-${Date.now()}`,
+        patientId,
+        doctorId: doctor.id,
         date,
         status: "PENDING",
-        doctor: doctor.name,
-        specialty: doctor.specialty,
-        clinic: doctor.clinic,
-        mode: "presencial",
-        isToday,
+        notes: notes || null
     };
     appointments = [newAppt, ...appointments];
     res.status(201).json(newAppt);
 });
 
-app.post("/appointments/cancelAppointment", (req, res) => {
+app.patch("/appointments/:id", requireAuth, (req, res) => {
+    const { id } = req.params;
+    const { date, notes } = req.body;
+    const idx = appointments.findIndex((a) => a.id === id);
+    if (idx === -1) return res.status(404).json({ error: "Consulta não encontrada" });
+
+    const apptDate = new Date(date);
+    if (apptDate < new Date()) {
+        return res.status(400).json({ error: "Não é possível reagendar para datas passadas." });
+    }
+    const appointmentDurationMs = 20 * 60 * 1000;
+    const startWindow = new Date(apptDate.getTime() - appointmentDurationMs);
+    const endWindow = new Date(apptDate.getTime() + appointmentDurationMs);
+
+    const conflict = appointments.find(a => {
+        if (a.id === id) return false;
+        if (a.status === "CANCELLED") return false;
+        if (a.doctorId !== appointments[idx].doctorId) return false;
+        const existingDate = new Date(a.date);
+        return existingDate > startWindow && existingDate < endWindow;
+    });
+
+    if (conflict) {
+        return res.status(409).json({ error: "Horário indisponível. Há um conflito com outra consulta já agendada próxima a este horário." });
+    }
+
+    appointments[idx] = { 
+        ...appointments[idx], 
+        date, 
+        notes: notes || null,
+        status: "PENDING"
+    };
+    res.json(appointments[idx]);
+});
+
+app.post("/appointments/cancelAppointment", requireAuth, (req, res) => {
     const { appointmentId } = req.body;
     const idx = appointments.findIndex((a) => a.id === appointmentId);
     if (idx === -1) return res.status(404).json({ error: "Consulta não encontrada" });
     appointments[idx] = { ...appointments[idx], status: "CANCELLED" };
+    res.json(appointments[idx]);
+});
+
+app.patch("/appointments/confirmAppointment", requireAuth, (req, res) => {
+    const { appointmentId } = req.body;
+    const idx = appointments.findIndex((a) => a.id === appointmentId);
+    if (idx === -1) return res.status(404).json({ error: "Consulta não encontrada" });
+    appointments[idx] = { ...appointments[idx], status: "CONFIRMED" };
     res.json(appointments[idx]);
 });
 

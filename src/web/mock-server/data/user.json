@@ -1,7 +1,30 @@
-{
-    "id": "u-001",
-    "name": "Ana Beatriz Lima",
-    "email": "ana.lima@medhub.app",
-    "role": "PATIENT",
-    "initials": "AB"
-}
+[
+    {
+        "id": "u-001",
+        "name": "Ana Beatriz Lima",
+        "email": "ana@medhub.app",
+        "role": "PATIENT",
+        "initials": "AB"
+    },
+    {
+        "id": "u-002",
+        "name": "Carlos Silva",
+        "email": "carlos@medhub.app",
+        "role": "PATIENT",
+        "initials": "CS"
+    },
+    {
+        "id": "d-01",
+        "name": "Dra. Marina Figueiredo",
+        "email": "dr1@medhub.app",
+        "role": "DOCTOR",
+        "initials": "MF"
+    },
+    {
+        "id": "u-rec-1",
+        "name": "Recepção Central",
+        "email": "rec1@medhub.app",
+        "role": "RECEPTIONIST",
+        "initials": "RC"
+    }
+]

@@ -15,6 +15,13 @@ class UserRepository {
             select: { id: true, expoPushToken: true },
         });
     }
+
+    findPatients() {
+        return prisma.user.findMany({
+            where: { role: "PATIENT" },
+            select: { id: true, name: true, email: true },
+        });
+    }
 }
 
 export const userRepository = new UserRepository();

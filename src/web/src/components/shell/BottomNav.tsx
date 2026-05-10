@@ -4,6 +4,7 @@ import type { View } from "../../lib/types";
 
 interface BottomNavProps {
     view: View;
+    currentUserRole: string;
     setView: (v: View) => void;
 }
 
@@ -20,10 +21,15 @@ const items: NavItem[] = [
     { id: "profile", label: "Perfil", icon: "user" },
 ];
 
-export function BottomNav({ view, setView }: BottomNavProps) {
+export function BottomNav({ view, currentUserRole, setView }: BottomNavProps) {
+    const visibleItems = items.filter(it => {
+        if (currentUserRole === "DOCTOR" && it.id === "schedule") return false;
+        return true;
+    });
+
     return (
         <nav className="bottom-nav">
-            {items.map((it) => {
+            {visibleItems.map((it) => {
                 const Icon = Ic[it.icon];
                 return (
                     <button

@@ -37,6 +37,7 @@ export default function App() {
     const [currentUser, setCurrentUser] = useState<User>(DEFAULT_USER);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [rescheduleData, setRescheduleData] = useState<Appointment | null>(null);
 
     useEffect(() => {
         const el = document.documentElement;
@@ -51,7 +52,7 @@ export default function App() {
     // Busca dados ao autenticar
     useEffect(() => {
         if (appState.auth !== "patient") return;
-        Promise.all([api.fetchAppointments(), api.fetchNotifications()])
+        Promise.all([api.fetchAppointments(currentUser.id), api.fetchNotifications()])
             .then(([appts, notifs]) => {
                 setAppointments(appts);
                 setNotifications(notifs);
@@ -108,10 +109,16 @@ export default function App() {
                     <ScheduleView
                         patientId={currentUser.id}
                         userName={currentUser.name}
-                        onAppointmentCreated={() =>
-                            api.fetchAppointments().then(setAppointments).catch(console.error)
-                        }
-                        onGoAppointments={() => setView("appointments")}
+                        currentUserRole={currentUser.role}
+                        initialData={rescheduleData}
+                        onAppointmentCreated={() => {
+                            setRescheduleData(null);
+                            api.fetchAppointments(currentUser.id).then(setAppointments).catch(console.error);
+                        }}
+                        onGoAppointments={() => {
+                            setRescheduleData(null);
+                            setView("appointments");
+                        }}
                     />
                 );
             case "history":
@@ -130,6 +137,7 @@ export default function App() {
                 return (
                     <AppointmentsView
                         appointments={appointments}
+                        currentUserRole={currentUser.role}
                         onCancelled={(id) =>
                             setAppointments((prev) =>
                                 prev.map((a) =>
@@ -137,6 +145,17 @@ export default function App() {
                                 ),
                             )
                         }
+                        onConfirmed={(id) =>
+                            setAppointments((prev) =>
+                                prev.map((a) =>
+                                    a.id === id ? { ...a, status: "CONFIRMED" } : a,
+                                ),
+                            )
+                        }
+                        onReschedule={(ap) => {
+                            setRescheduleData(ap);
+                            setView("schedule");
+                        }}
                     />
                 );
             case "notifications":
@@ -155,7 +174,10 @@ export default function App() {
                         setNotifications={setNotifications}
                         user={currentUser}
                         onRetry={() => {}}
-                        onSchedule={() => setView("schedule")}
+                        onSchedule={() => {
+                            setRescheduleData(null);
+                            setView("schedule");
+                        }}
                         onView={setView}
                     />
                 );
@@ -185,11 +207,25 @@ export default function App() {
                 onGoProfile={() => setView("profile")}
                 onBrandClick={() => setView("home")}
             />
-            <Sidebar view={appState.view} setView={setView} />
+            <Sidebar 
+                view={appState.view} 
+                currentUserRole={currentUser.role}
+                setView={(v) => {
+                    if (v === "schedule") setRescheduleData(null);
+                    setView(v);
+                }} 
+            />
             <main className="app-main">
                 <div className="app-main-inner">{renderView()}</div>
             </main>
-            <BottomNav view={appState.view} setView={setView} />
+            <BottomNav 
+                view={appState.view} 
+                currentUserRole={currentUser.role}
+                setView={(v) => {
+                    if (v === "schedule") setRescheduleData(null);
+                    setView(v);
+                }} 
+            />
         </div>
     );
 }

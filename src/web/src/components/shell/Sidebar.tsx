@@ -4,6 +4,7 @@ import type { View } from "../../lib/types";
 
 interface SidebarProps {
     view: View;
+    currentUserRole: string;
     setView: (v: View) => void;
 }
 
@@ -32,11 +33,16 @@ const accountItems: AccountNavItem[] = [
     { id: "settings", label: "Preferências", icon: "settings" },
 ];
 
-export function Sidebar({ view, setView }: SidebarProps) {
+export function Sidebar({ view, currentUserRole, setView }: SidebarProps) {
+    const visiblePrimary = primaryItems.filter(it => {
+        if (currentUserRole === "DOCTOR" && it.id === "schedule") return false;
+        return true;
+    });
+
     return (
         <aside className="app-sidebar">
             <div className="nav-section-label">Atendimento</div>
-            {primaryItems.map((it) => {
+            {visiblePrimary.map((it) => {
                 const Icon = Ic[it.icon];
                 return (
                     <button

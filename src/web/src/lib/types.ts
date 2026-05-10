@@ -37,7 +37,10 @@ export interface Appointment {
     specialty: string;
     clinic: string;
     mode: "presencial" | "tele";
-    isToday: boolean;
+    patientId: string;
+    patientName?: string;
+    doctorId: string;
+    notes?: string | null;
 }
 
 export interface Notification {

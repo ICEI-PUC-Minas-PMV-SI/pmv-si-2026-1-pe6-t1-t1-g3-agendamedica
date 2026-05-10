@@ -55,13 +55,16 @@ export class AppointmentRepository {
         });
     }
 
-    async findAll(): Promise<Appointment[]> {
+    async findAll() {
         return prisma.appointment.findMany({
             orderBy: { date: "asc" },
+            include: {
+                patient: { select: { name: true } },
+            },
         });
     }
 
-    async findByUser(userId: string): Promise<Appointment[]> {
+    async findByUser(userId: string) {
         return prisma.appointment.findMany({
             where: {
                 OR: [
@@ -70,12 +73,18 @@ export class AppointmentRepository {
                 ],
             },
             orderBy: { date: "asc" },
+            include: {
+                patient: { select: { name: true } },
+            },
         });
     }
 
-    async findById(appointmentId: string): Promise<Appointment | null> {
+    async findById(appointmentId: string) {
         return prisma.appointment.findUnique({
             where: { id: appointmentId },
+            include: {
+                patient: { select: { name: true } },
+            },
         });
     }
 
