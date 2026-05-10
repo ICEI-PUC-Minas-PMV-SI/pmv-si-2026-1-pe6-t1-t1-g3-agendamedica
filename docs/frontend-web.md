@@ -164,6 +164,7 @@ Não há variáveis de ambiente necessárias no frontend — a URL base da API �
 | -------------- | ------------------- |
 | Interface de Notificações (RF-006) | [Cenários de Teste — Notificações Frontend](rf-006-notifications/cenarios-de-teste-frontend.md) |
 | Interface de Agendar, Visualizar e Cancelar (RF-001) | [Cenários de Teste — Agendamento Frontend](rf-001-appointments/cenarios-de-teste-frontend.md) |
+| Interface de Login e Cadastro (RF-005) | [Cenários de Teste — Login e Cadastro](rf-005-auth/cenarios-de-teste-frontend.md) |
 
 ---
 
