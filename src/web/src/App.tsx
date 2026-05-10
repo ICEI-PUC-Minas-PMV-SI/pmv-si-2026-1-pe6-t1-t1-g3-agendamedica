@@ -1,3 +1,4 @@
+import { ClinicsView } from './views/ClinicsView';
 import { useState, useEffect } from "react";
 // Shell
 import { Header } from "./components/shell/Header";
@@ -8,6 +9,7 @@ import { HomeView } from "./views/HomeView";
 import { ScheduleView } from "./views/ScheduleView";
 import { HistoryView } from "./views/HistoryView";
 import { ProfileView } from "./views/ProfileView";
+import { CreateClinicView } from "./views/CreateClinicView";
 import { AppointmentsView } from "./views/AppointmentsView";
 import { NotificationsView } from "./views/NotificationsView";
 import { DoctorDashboard } from "./views/DoctorView";
@@ -36,9 +38,16 @@ export default function App() {
         view: "home",
         mode: "patient",
     });
+   const [appState, setAppState] = useState<AppState>({
+    theme: "light",
+    auth: "patient",     // alteração
+    authView: "landing",
+    view: "clinics",     // alteração
+});
     const [currentUser, setCurrentUser] = useState<User>(DEFAULT_USER);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [editingClinic, setEditingClinic] = useState<any>(null);
 
     useEffect(() => {
         const el = document.documentElement;
@@ -174,6 +183,18 @@ export default function App() {
 
         // Visão de paciente
         switch (appState.view) {
+            case "clinics":
+                return <ClinicsView setView={setView} setEditingClinic={setEditingClinic} />;
+                // ADICIONEI dia 6
+            case "create-clinic":
+                return <CreateClinicView setView={setView} />;
+            case "edit-clinic":
+                return ( <CreateClinicView
+          setView={setView}
+          initialData={editingClinic}
+          isEditing={true}
+        />
+      );
             case "schedule":
                 return (
                     <ScheduleView
