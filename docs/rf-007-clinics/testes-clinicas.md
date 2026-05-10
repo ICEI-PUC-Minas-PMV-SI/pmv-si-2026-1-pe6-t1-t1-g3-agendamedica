@@ -41,10 +41,9 @@ Nota: Os prints de execução foram anexados ao Pull Request #39 para conferênc
 ![Teste de Atualização](./img/Patch.png)
 
 ### 🎥 Teste Frontend: Demonstração em Vídeo da Edição e Cadastro de novas clínicas
-Clique no player abaixo para assistir aos testes de CRUD das clínicas:
+Acesso o link abaixo para assistir aos testes de CRUD das clínicas:
 
-<video src="./img/MedHub-teste.mp4" controls width="100%">
-</video>
+https://drive.google.com/drive/folders/18iHGRhT0ZqUu6gODA7eA-7pIZfTqqbR_?usp=sharing
 
 1. Preparação do Ambiente de Teste
 Para a execução dos cenários abaixo, o ambiente foi configurado da seguinte forma:
