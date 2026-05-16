@@ -75,11 +75,10 @@ export function RegisterView({ onRegister, onGoLogin, mode }: RegisterViewProps)
         } catch (err: unknown) {
             const msg: string = err instanceof Error ? err.message : "";
             
-            // Melhoria na captura de erro para ser mais específico
-            if (msg.toLowerCase().includes("cpf") && msg.toLowerCase().includes("cadastrado")) {
-                setError("Este CPF já está cadastrado.");
-            } else if (msg.toLowerCase().includes("email") || msg.toLowerCase().includes("e-mail")) {
-                setError("Este e-mail já está cadastrado.");
+            if (msg.toLowerCase().includes("e-mail") && msg.toLowerCase().includes("uso")) {
+                setError("E-mail já cadastrado");
+            } else if (msg.toLowerCase().includes("cpf") && msg.toLowerCase().includes("cadastrado")) {
+                setError("CPF já cadastrado");
             } else {
                 setError(msg || "Erro ao criar conta. Verifique os dados.");
             }

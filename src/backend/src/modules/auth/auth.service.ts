@@ -18,14 +18,24 @@ class AuthService {
         const passwordHash = await bcrypt.hash(data.password, 10);
 
         const user = await prisma.$transaction(async (tx) => {
-            const existing = await tx.user.findFirst({
-                where: {
-                    OR: [{ email: data.email }, ...(data.cpf ? [{ cpf: data.cpf }] : [])],
-                },
-            });
+            if (data.email) {
+                const existingEmail = await tx.user.findFirst({
+                    where: { email: data.email },
+                });
 
-            if (existing) {
-                throw new AuthError("E-mail ou CPF já cadastrado", 400);
+                if (existingEmail) {
+                    throw new AuthError("E-mail em uso", 400);
+                }
+            }
+
+            if (data.cpf) {
+                const existingCpf = await tx.user.findFirst({
+                    where: { cpf: data.cpf },
+                });
+
+                if (existingCpf) {
+                    throw new AuthError("CPF já cadastrado", 400);
+                }
             }
 
             const createdUser = await tx.user.create({
