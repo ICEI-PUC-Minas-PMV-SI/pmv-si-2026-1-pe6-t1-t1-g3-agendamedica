@@ -108,7 +108,17 @@ export async function fetchNotifications(
     limit: String(limit),
     ...(unreadOnly ? { unreadOnly: 'true' } : {}),
   });
-  return request<PaginatedNotifications>(`/notifications?${params}`);
+  const result = await request<PaginatedNotifications | Notification[]>(
+    `/notifications?${params}`,
+  );
+  // Mock server returns a plain array; real backend returns { data, pagination }
+  if (Array.isArray(result)) {
+    return {
+      data: result,
+      pagination: { page: 1, limit: result.length, total: result.length, totalPages: 1 },
+    };
+  }
+  return result;
 }
 
 export async function fetchNotificationUnreadCount(): Promise<number> {
