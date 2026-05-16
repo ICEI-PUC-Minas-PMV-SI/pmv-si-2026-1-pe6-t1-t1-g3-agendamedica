@@ -130,6 +130,10 @@ export async function markNotificationRead(id: string): Promise<Notification> {
   return request<Notification>(`/notifications/${id}/read`, { method: 'PATCH' });
 }
 
+export async function markNotificationUnread(id: string): Promise<Notification> {
+  return request<Notification>(`/notifications/${id}/unread`, { method: 'PATCH' });
+}
+
 export async function markAllNotificationsRead(): Promise<void> {
   return request<void>('/notifications/read-all', { method: 'PATCH' });
 }

@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   StyleSheet,
   RefreshControl,
+  Alert,
   ViewStyle,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   fetchNotifications,
   markNotificationRead,
+  markNotificationUnread,
   markAllNotificationsRead,
 } from '@/lib/api';
 import { useNotificationCount } from '@/lib/notification-count-context';
@@ -61,6 +63,29 @@ export default function NotificationsScreen() {
     } catch {
       // ignore
     }
+  }
+
+  async function handleMarkUnread(id: string) {
+    try {
+      await markNotificationUnread(id);
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === id ? { ...n, read: false } : n)),
+      );
+      refreshCount();
+    } catch {
+      // ignore
+    }
+  }
+
+  function handleTapNotification(id: string, read: boolean) {
+    if (!read) {
+      handleMarkRead(id);
+      return;
+    }
+    Alert.alert('Notificação', undefined, [
+      { text: 'Marcar como não lida', onPress: () => handleMarkUnread(id) },
+      { text: 'Fechar', style: 'cancel' },
+    ]);
   }
 
   async function handleMarkAllRead() {
@@ -118,8 +143,8 @@ export default function NotificationsScreen() {
           }
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() => { if (!item.read) handleMarkRead(item.id); }}
-              activeOpacity={item.read ? 1 : 0.75}
+              onPress={() => handleTapNotification(item.id, item.read)}
+              activeOpacity={0.75}
               style={[styles.card, !item.read && styles.cardUnread]}
             >
               {/* Unread dot */}
