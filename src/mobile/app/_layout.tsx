@@ -1,0 +1,77 @@
+import { useEffect } from 'react';
+import { Stack, useRouter, useSegments } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
+import {
+  useFonts,
+  Fraunces_700Bold,
+} from '@expo-google-fonts/fraunces';
+import {
+  InterTight_400Regular,
+  InterTight_500Medium,
+  InterTight_700Bold,
+} from '@expo-google-fonts/inter-tight';
+import { AuthProvider, useAuth } from '@/lib/auth-context';
+
+SplashScreen.preventAutoHideAsync();
+
+function AuthGuard({ children }: { children: React.ReactNode }) {
+  const { user, isLoading } = useAuth();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    const inAuthGroup = segments[0] === 'auth';
+
+    if (!user && !inAuthGroup) {
+      router.replace('/auth/login');
+    } else if (user && inAuthGroup) {
+      router.replace('/(tabs)');
+    }
+  }, [user, isLoading, segments]);
+
+  return <>{children}</>;
+}
+
+export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    Fraunces_700Bold,
+    InterTight_400Regular,
+    InterTight_500Medium,
+    InterTight_700Bold,
+  });
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) return null;
+
+  return (
+    <AuthProvider>
+      <AuthGuard>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="auth" />
+          <Stack.Screen
+            name="appointment/new"
+            options={{
+              headerShown: true,
+              title: 'Nova Consulta',
+              presentation: 'modal',
+            }}
+          />
+          <Stack.Screen
+            name="appointment/[id]"
+            options={{ headerShown: true, title: 'Consulta' }}
+          />
+        </Stack>
+        <StatusBar style="auto" />
+      </AuthGuard>
+    </AuthProvider>
+  );
+}
