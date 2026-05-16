@@ -41,8 +41,8 @@ export default function AppointmentsScreen() {
     try {
       const data = await fetchAppointments(user.id);
       setAll(data);
-    } catch {
-      // ignore
+    } catch (err) {
+      console.error('[appointments] fetch error:', err);
     } finally {
       setLoading(false);
       setRefreshing(false);
