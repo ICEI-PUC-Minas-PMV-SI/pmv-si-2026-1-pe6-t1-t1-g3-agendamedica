@@ -5,8 +5,22 @@ import React, {
   useState,
 } from 'react';
 import * as SecureStore from 'expo-secure-store';
+import * as Notifications from 'expo-notifications';
+import { Platform } from 'react-native';
 import * as api from './api';
 import type { User } from './types';
+
+async function registerForPushNotifications() {
+  if (Platform.OS === 'web') return;
+  const { status } = await Notifications.requestPermissionsAsync();
+  if (status !== 'granted') return;
+  try {
+    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    await api.registerPushToken(token);
+  } catch {
+    // Non-critical — push registration failure should not block login
+  }
+}
 
 const TOKEN_KEY = 'medhub_token';
 const USER_KEY = 'medhub_user';
@@ -52,6 +66,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user));
     api.setToken(token);
     setState({ user, token, isLoading: false });
+    registerForPushNotifications();
   }
 
   async function register(name: string, email: string, cpf: string, password: string) {
@@ -60,6 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user));
     api.setToken(token);
     setState({ user, token, isLoading: false });
+    registerForPushNotifications();
   }
 
   async function logout() {
