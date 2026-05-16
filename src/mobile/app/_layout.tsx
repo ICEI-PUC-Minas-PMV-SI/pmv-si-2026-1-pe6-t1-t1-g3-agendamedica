@@ -12,6 +12,7 @@ import {
   InterTight_700Bold,
 } from '@expo-google-fonts/inter-tight';
 import { AuthProvider, useAuth } from '@/lib/auth-context';
+import { NotificationCountProvider } from '@/lib/notification-count-context';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -53,6 +54,7 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
+      <NotificationCountProvider>
       <AuthGuard>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" />
@@ -72,6 +74,7 @@ export default function RootLayout() {
         </Stack>
         <StatusBar style="auto" />
       </AuthGuard>
+      </NotificationCountProvider>
     </AuthProvider>
   );
 }
