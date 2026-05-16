@@ -69,7 +69,7 @@ export default function RootLayout() {
           />
           <Stack.Screen
             name="appointment/[id]"
-            options={{ headerShown: true, title: 'Consulta' }}
+            options={{ headerShown: true, title: 'Consulta', headerBackTitle: 'Voltar' }}
           />
         </Stack>
         <StatusBar style="auto" />

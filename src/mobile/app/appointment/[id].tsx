@@ -62,7 +62,7 @@ export default function AppointmentDetailScreen() {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Detalhes da consulta' }} />
+      <Stack.Screen options={{ title: 'Detalhes da consulta', headerBackTitle: 'Voltar' }} />
       <SafeAreaView style={styles.safe} edges={['bottom']}>
         {loading ? (
           <LoadingState rows={4} />
