@@ -1,50 +1,240 @@
 # Front-end Móvel
 
-[Inclua uma breve descrição do projeto e seus objetivos.]
+O aplicativo móvel do MedHub foi desenvolvido para oferecer aos pacientes uma experiência simples e eficiente no gerenciamento de consultas médicas. Por meio do app, os usuários podem agendar novas consultas, acompanhar as próximas e as realizadas, cancelar agendamentos e receber notificações em tempo real sobre alterações em suas consultas.
+
+---
 
 ## Projeto da Interface
-[Descreva o projeto da interface móvel da aplicação, incluindo o design visual, layout das páginas, interações do usuário e outros aspectos relevantes.]
+
+A interface foi construída como um aplicativo React Native com roteamento baseado em arquivos (Expo Router). A navegação principal é organizada em quatro abas (Início, Consultas, Notificações e Perfil), com uma pilha de telas adicionais para ações específicas — como agendamento e detalhes de consulta.
 
 ### Wireframes
 
-[Inclua os wireframes das páginas principais da interface, mostrando a disposição dos elementos na página.]
+Os wireframes cobrem as principais telas do aplicativo, organizados para refletir o fluxo real de uso:
+
+| Tela | Caminho | Descrição |
+| --- | --- | --- |
+| Login | `/auth/login` | Autenticação com e-mail e senha |
+| Cadastro | `/auth/register` | Criação de conta de paciente |
+| Início | `/(tabs)/` | Dashboard com saudação, card hero e próximas consultas |
+| Consultas | `/(tabs)/appointments` | Lista filtrada por status (próximas, realizadas, canceladas) |
+| Notificações | `/(tabs)/notifications` | Feed de notificações com indicador de não lidas |
+| Perfil | `/(tabs)/profile` | Dados do usuário e botão de logout |
+| Agendar consulta | `/appointment/new` | Wizard em 3 etapas: médico → data/hora → confirmação |
+| Detalhe | `/appointment/[id]` | Informações completas da consulta e ação de cancelamento |
+
+---
 
 ### Design Visual
 
-[Descreva o estilo visual da interface, incluindo paleta de cores, tipografia, ícones e outros elementos gráficos.]
+A identidade visual do aplicativo é uma extensão direta do sistema de design do MedHub Web, garantindo consistência visual entre as duas plataformas.
+
+**Tokens de design** (`lib/tokens.ts`)
+
+Todos os valores de cor, espaçamento, tipografia e sombra são definidos em um único arquivo TypeScript, espelhando as variáveis CSS do frontend web:
+
+**Paleta de cores**
+
+| Token | Hex | Uso |
+| --- | --- | --- |
+| `accent` | `#2B7A78` | Cor principal (Teal) — botões, links, ícones ativos |
+| `accentSoft` | `#E6F4F4` | Fundos suaves em cards selecionados e badges |
+| `bg` | `#FAF9F8` | Fundo das telas |
+| `surface` | `#FFFFFF` | Fundo de cards e inputs |
+| `ink` | `#27272A` | Texto principal |
+| `inkMuted` | `#71717A` | Texto secundário e labels |
+| `danger` | `#DC2626` | Ações destrutivas e erros |
+| `success` | `#16A34A` | Status confirmado |
+| `warn` | `#CA8A04` | Status pendente |
+
+**Tipografia**
+
+| Família | Uso |
+| --- | --- |
+| `Fraunces_700Bold` | Títulos e nomes de tela — autoridade e acolhimento |
+| `InterTight_400Regular` | Corpo de texto e descrições |
+| `InterTight_500Medium` | Labels e botões |
+| `InterTight_700Bold` | Valores em destaque e nomes |
+
+As fontes são carregadas via `expo-google-fonts` na inicialização da aplicação.
+
+**Ícones**
+
+Todos os ícones são componentes SVG inline implementados em `components/ui/Icon.tsx`, usando `react-native-svg`. Seguem o mesmo traço fino (1.6px) e estilo da biblioteca de ícones do frontend web.
+
+---
 
 ## Fluxo de Dados
 
-[Diagrama ou descrição do fluxo de dados na aplicação.]
+O fluxo de navegação do usuário segue a seguinte sequência:
+
+```
+Inicialização
+  → SecureStore verifica token salvo
+  → Autenticado? → Tabs (Início)
+  → Não autenticado? → /auth/login
+
+/auth/login
+  → POST /auth/login → token + user
+  → Salva em SecureStore
+  → Registra Expo Push Token
+  → Redireciona para /(tabs)
+
+/(tabs)/index (Início)
+  → GET /appointments/listAppointments → lista filtrada (próximas 3)
+  → Exibe hero card + atalhos + próximas consultas
+
+/(tabs)/appointments
+  → GET /appointments/listAppointments → todos os agendamentos
+  → Filtros: Próximas / Realizadas / Canceladas
+
+/(tabs)/notifications
+  → GET /notifications → feed paginado
+  → PATCH /notifications/:id/read → marca como lida
+  → PATCH /notifications/read-all → marca todas
+
+/appointment/new
+  → GET /doctors → lista de médicos
+  → Seleção de data e horário
+  → POST /appointments/createAppointment → novo agendamento
+
+/appointment/[id]
+  → GET /appointments/:id → detalhes
+  → POST /appointments/cancelAppointment → cancelar
+```
+
+**AuthContext** (`lib/auth-context.tsx`) mantém o estado de autenticação globalmente. **NotificationCountContext** (`lib/notification-count-context.tsx`) gerencia o badge de não lidas no tab bar, atualizando a cada 30 segundos.
+
+---
 
 ## Tecnologias Utilizadas
 
-[Lista das tecnologias principais que serão utilizadas no projeto.]
+| Tecnologia | Versão | Função |
+| --- | --- | --- |
+| React Native | 0.76.x | Framework base para apps iOS e Android |
+| Expo SDK | ~52.0.x | Toolchain, device APIs e serviços de build |
+| Expo Router | ~4.0.x | Roteamento baseado em arquivos (file-based routing) |
+| TypeScript | ^5.3 | Tipagem estática em todo o projeto |
+| expo-google-fonts | ^0.2.x | Carregamento das fontes Fraunces e Inter Tight |
+| react-native-svg | 15.8.x | Renderização de ícones SVG inline |
+| expo-secure-store | ~14.0.x | Armazenamento seguro do token JWT (Keychain/Keystore) |
+| expo-notifications | ~0.29.x | Notificações push via Expo Push Service |
+| react-native-safe-area-context | 4.12.x | Adaptação a notch e home indicator |
+| react-native-gesture-handler | ~2.20.x | Gestos e interações nativas |
+| react-native-screens | ~4.4.x | Otimização de telas nativas para o navigator |
+
+---
 
 ## Considerações de Segurança
 
-[Discuta as considerações de segurança relevantes para a aplicação distribuída, como autenticação, autorização, proteção contra ataques, etc.]
+- **Armazenamento do token:** O token JWT é armazenado com `expo-secure-store`, que utiliza o iOS Keychain e o Android Keystore — mecanismos de segurança nativos do sistema operacional, criptografados e isolados por app.
+- **Cabeçalho de autorização:** Todas as chamadas autenticadas incluem `Authorization: Bearer <token>` via a função `authHeaders()` em `lib/api.ts`.
+- **Proteção de rotas:** O componente `AuthGuard` no `app/_layout.tsx` monitora o estado de autenticação e redireciona automaticamente usuários não autenticados para a tela de login, impedindo o acesso a qualquer tela protegida.
+- **Validação de formulários:** Os formulários de login e cadastro validam campos no lado do cliente antes de chamar a API, com mensagens de erro em português.
+- **Push Notifications:** Falhas no registro do token push são ignoradas silenciosamente para não bloquear o fluxo de autenticação.
+- **Papel fixo:** O aplicativo móvel registra usuários exclusivamente com o papel `PATIENT`, impedindo que o formulário de cadastro do app seja usado para criar contas administrativas.
+
+---
 
 ## Implantação
 
-[Instruções para implantar a aplicação distribuída em um ambiente de produção.]
+### Pré-requisitos
 
-1. Defina os requisitos de hardware e software necessários para implantar a aplicação em um ambiente de produção.
-2. Escolha uma plataforma de hospedagem adequada, como um provedor de nuvem ou um servidor dedicado.
-3. Configure o ambiente de implantação, incluindo a instalação de dependências e configuração de variáveis de ambiente.
-4. Faça o deploy da aplicação no ambiente escolhido, seguindo as instruções específicas da plataforma de hospedagem.
-5. Realize testes para garantir que a aplicação esteja funcionando corretamente no ambiente de produção.
+| Ferramenta | Versão mínima | Como verificar |
+| --- | --- | --- |
+| Node.js | 22.x LTS | `node -v` |
+| npm | 9+ | `npm -v` |
+| Expo CLI | — | `npx expo --version` |
+| Expo Go (app) | — | Disponível na App Store / Google Play |
+
+### 1. Instalar dependências
+
+```bash
+cd src/mobile
+npm install
+```
+
+### 2. Iniciar o mock server (backend de desenvolvimento)
+
+O aplicativo se comunica com o mock server do frontend web durante o desenvolvimento:
+
+```bash
+cd src/web/mock-server
+node server.js
+# Servidor disponível em http://localhost:3000
+```
+
+> **Android Emulator:** A URL base é automaticamente ajustada para `http://10.0.2.2:3000`, que aponta para o host da máquina de dentro do emulador.
+
+### 3. Iniciar o aplicativo
+
+```bash
+cd src/mobile
+npx expo start
+```
+
+Escaneie o QR Code com o **Expo Go** (iOS ou Android) ou pressione:
+- `i` para abrir no simulador iOS
+- `a` para abrir no emulador Android
+
+### Produção
+
+O build e distribuição para Android (APK/AAB) e iOS (IPA) são gerenciados pelo **Expo Application Services (EAS)**:
+
+```bash
+# Build para Android
+eas build --platform android
+
+# Build para iOS
+eas build --platform ios
+```
+
+---
 
 ## Testes
 
-[Descreva a estratégia de teste, incluindo os tipos de teste a serem realizados (unitários, integração, carga, etc.) e as ferramentas a serem utilizadas.]
+### Checklist de testes manuais
 
-1. Crie casos de teste para cobrir todos os requisitos funcionais e não funcionais da aplicação.
-2. Implemente testes unitários para testar unidades individuais de código, como funções e classes.
-3. Realize testes de integração para verificar a interação correta entre os componentes da aplicação.
-4. Execute testes de carga para avaliar o desempenho da aplicação sob carga significativa.
-5. Utilize ferramentas de teste adequadas, como frameworks de teste e ferramentas de automação de teste, para agilizar o processo de teste.
+- [ ] Login com credenciais válidas redireciona para o dashboard
+- [ ] Tentativa de login com senha errada exibe mensagem de erro
+- [ ] Cadastro de novo paciente com CPF e e-mail únicos funciona
+- [ ] Tentativa de cadastro com CPF inválido (< 11 dígitos) exibe erro
+- [ ] Dashboard exibe saudação correta (bom dia/tarde/noite) e próximas consultas
+- [ ] Tela de Consultas lista todas com status correto (chips coloridos)
+- [ ] Filtros de Consultas (Próximas / Realizadas / Canceladas) funcionam corretamente
+- [ ] Tap em uma consulta abre a tela de detalhes com todas as informações
+- [ ] Cancelar consulta exibe diálogo de confirmação e atualiza o status
+- [ ] Agendamento: seleção de médico → data → horário → confirmação cria nova consulta
+- [ ] Consulta recém-criada aparece na lista e no dashboard
+- [ ] Tela de Notificações exibe o feed com indicador de não lidas
+- [ ] Tap em notificação não lida a marca como lida (ponto some)
+- [ ] Botão "Marcar todas" remove todos os pontos de não lidas
+- [ ] Badge de notificações no tab bar reflete o número correto de não lidas
+- [ ] Tela de Perfil exibe nome, e-mail e papel do usuário
+- [ ] Logout exibe diálogo de confirmação e redireciona para login
+- [ ] App restaura sessão após fechar e reabrir (token persistido)
+
+### Cenários de teste documentados
+
+| Funcionalidade | Requisito |
+| --- | --- |
+| Agendar, visualizar e cancelar consultas | RF-001 |
+| Controle de acesso (apenas pacientes no mobile) | RF-003 |
+| Prevenção de conflito de horários | RF-004 |
+| Login e cadastro de paciente | RF-005 |
+| Notificações push e in-app | RF-006 |
+
+---
 
 # Referências
 
-Inclua todas as referências (livros, artigos, sites, etc) utilizados no desenvolvimento do trabalho.
+- [Expo SDK 52 — Documentação oficial](https://docs.expo.dev)
+- [Expo Router v4 — Documentação oficial](https://expo.github.io/router/docs)
+- [expo-secure-store](https://docs.expo.dev/versions/latest/sdk/securestore/)
+- [expo-notifications](https://docs.expo.dev/versions/latest/sdk/notifications/)
+- [react-native-svg](https://github.com/software-mansion/react-native-svg)
+- [Fraunces — Google Fonts](https://fonts.google.com/specimen/Fraunces)
+- [Inter Tight — Google Fonts](https://fonts.google.com/specimen/Inter+Tight)
+- `docs/backend-apis.md` — especificação das rotas da API do backend MedHub
+- `docs/contexto.md` — requisitos e contexto do projeto (ETAPA 1)
+- `docs/frontend-web.md` — documentação do frontend web (ETAPA 3)
