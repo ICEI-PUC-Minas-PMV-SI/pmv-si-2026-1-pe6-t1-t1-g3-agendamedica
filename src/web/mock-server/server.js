@@ -66,39 +66,36 @@ const requireAuth = (req, res, next) => {
     next();
 };
 
+function enrichAppointment(a) {
+    const patient = users.find(u => u.id === a.patientId);
+    const doctor = doctors.find(d => d.id === a.doctorId);
+    return {
+        ...a,
+        patientName: patient ? patient.name : "Paciente",
+        doctor: doctor ?? null,
+    };
+}
+
+function filterByUser(userId) {
+    if (!userId) return appointments;
+    const user = users.find(u => u.id === userId);
+    if (user?.role === "PATIENT") return appointments.filter(a => a.patientId === userId);
+    if (user?.role === "DOCTOR") return appointments.filter(a => a.doctorId === userId);
+    return appointments;
+}
+
 app.get("/appointments/", requireAuth, (req, res) => {
-    const userId = req.query.userId;
-    let result = appointments;
-    if (userId) {
-        const user = users.find((u) => u.id === userId);
-        if (user && user.role === "PATIENT") {
-            result = appointments.filter((a) => a.patientId === userId);
-        } else if (user && user.role === "DOCTOR") {
-            result = appointments.filter((a) => a.doctorId === userId);
-        }
-    }
-    const mapped = result.map(a => {
-        const p = users.find(u => u.id === a.patientId);
-        return { ...a, patientName: p ? p.name : "Paciente" };
-    });
-    res.json(mapped);
+    res.json(filterByUser(req.query.userId).map(enrichAppointment));
 });
+
 app.get("/appointments/listAppointments", requireAuth, (req, res) => {
-    const userId = req.query.userId;
-    let result = appointments;
-    if (userId) {
-        const user = users.find((u) => u.id === userId);
-        if (user && user.role === "PATIENT") {
-            result = appointments.filter((a) => a.patientId === userId);
-        } else if (user && user.role === "DOCTOR") {
-            result = appointments.filter((a) => a.doctorId === userId);
-        }
-    }
-    const mapped = result.map(a => {
-        const p = users.find(u => u.id === a.patientId);
-        return { ...a, patientName: p ? p.name : "Paciente" };
-    });
-    res.json(mapped);
+    res.json(filterByUser(req.query.userId).map(enrichAppointment));
+});
+
+app.get("/appointments/:id", requireAuth, (req, res) => {
+    const appt = appointments.find(a => a.id === req.params.id);
+    if (!appt) return res.status(404).json({ error: "Consulta não encontrada" });
+    res.json(enrichAppointment(appt));
 });
 
 // --- Clinics ---
