@@ -12,55 +12,56 @@ A interface foi construída como um aplicativo React Native com roteamento basea
 
 Os wireframes cobrem as principais telas do aplicativo, organizados para refletir o fluxo real de uso:
 
-| Tela | Caminho | Descrição |
-| --- | --- | --- |
-| Login | `/auth/login` | Autenticação com e-mail e senha |
-| Cadastro | `/auth/register` | Criação de conta de paciente |
-| Início | `/(tabs)/` | Dashboard com saudação, card hero e próximas consultas |
-| Consultas | `/(tabs)/appointments` | Lista filtrada por status (próximas, realizadas, canceladas) |
-| Notificações | `/(tabs)/notifications` | Feed de notificações com indicador de não lidas |
-| Perfil | `/(tabs)/profile` | Dados do usuário e botão de logout |
-| Agendar consulta | `/appointment/new` | Wizard em 3 etapas: médico → data/hora → confirmação |
-| Detalhe | `/appointment/[id]` | Informações completas da consulta e ação de cancelamento |
+| Tela             | Caminho                 | Descrição                                                    |
+| ---------------- | ----------------------- | ------------------------------------------------------------ |
+| Login            | `/auth/login`           | Autenticação com e-mail e senha                              |
+| Cadastro         | `/auth/register`        | Criação de conta de paciente                                 |
+| Início           | `/(tabs)/`              | Dashboard com saudação, card hero e próximas consultas       |
+| Consultas        | `/(tabs)/appointments`  | Lista filtrada por status (próximas, realizadas, canceladas) |
+| Notificações     | `/(tabs)/notifications` | Feed de notificações com indicador de não lidas              |
+| Perfil           | `/(tabs)/profile`       | Dados do usuário e botão de logout                           |
+| Agendar consulta | `/appointment/new`      | Wizard em 3 etapas: médico → data/hora → confirmação         |
+| Detalhe          | `/appointment/[id]`     | Informações completas da consulta e ação de cancelamento     |
 
 ---
 
 ### Design Visual
 
-A identidade visual do aplicativo é uma extensão direta do sistema de design do MedHub Web, garantindo consistência visual entre as duas plataformas.
+A identidade visual do MedHub Mobile é uma extensão direta do sistema de design do MedHub Web, garantindo consistência visual entre as duas plataformas. No contexto mobile, o sistema tipográfico tri-modular é equilibrado para telas menores, priorizando legibilidade em diferentes dispositivos, enquanto mantém a hierarquia visual que reduz a carga cognitiva dos usuários.
 
-**Tokens de design** (`lib/tokens.ts`)
-
-Todos os valores de cor, espaçamento, tipografia e sombra são definidos em um único arquivo TypeScript, espelhando as variáveis CSS do frontend web:
-
-**Paleta de cores**
-
-| Token | Hex | Uso |
-| --- | --- | --- |
-| `accent` | `#2B7A78` | Cor principal (Teal) — botões, links, ícones ativos |
-| `accentSoft` | `#E6F4F4` | Fundos suaves em cards selecionados e badges |
-| `bg` | `#FAF9F8` | Fundo das telas |
-| `surface` | `#FFFFFF` | Fundo de cards e inputs |
-| `ink` | `#27272A` | Texto principal |
-| `inkMuted` | `#71717A` | Texto secundário e labels |
-| `danger` | `#DC2626` | Ações destrutivas e erros |
-| `success` | `#16A34A` | Status confirmado |
-| `warn` | `#CA8A04` | Status pendente |
+A experiência do usuário mobile é guiada pelo uso estratégico do tom Teal como principal sinalizador de ação, adaptado para interações por toque e feedbacks visuais responsivos. O sistema é validado por princípios de acessibilidade e legibilidade, utilizando tokens de cor OKLCH para garantir uma percepção visual uniforme e inclusiva em toda a jornada de uso.
 
 **Tipografia**
 
-| Família | Uso |
-| --- | --- |
-| `Fraunces_700Bold` | Títulos e nomes de tela — autoridade e acolhimento |
-| `InterTight_400Regular` | Corpo de texto e descrições |
-| `InterTight_500Medium` | Labels e botões |
-| `InterTight_700Bold` | Valores em destaque e nomes |
+A fonte Fraunces foi selecionada para a hierarquia principal (H1, H2 e H3) por ser uma Soft Serif que equilibra autoridade clínica com um tom acolhedor, estabelecendo uma hierarquia semântica clara que organiza e facilita a busca e extração de informações.
 
-As fontes são carregadas via `expo-google-fonts` na inicialização da aplicação.
+![Tipografia: Display e Títulos](./img/display_titulos_tipografia.png)
+
+A Inter Tight atua como a base funcional da aplicação, sendo utilizada em corpos de texto, labels e botões para garantir máxima legibilidade. A estrutura sans-serif proporciona uma interface limpa e padronizada, assegurando clareza visual em qualquer dispositivo ou resolução.
+
+![Interface e Títulos](./img/interface_titulos_tipografia.png)
+
+Por último, a fonte JetBrains Mono aplica o princípio da diferenciação visual, permitindo que o cérebro identifique instantaneamente a transição entre conteúdos explicativos e dados brutos.
+
+![Tipografia Monospace e Dados](./img/monospace_dados_tipografia.png)
+
+**Paleta de cores**
+
+O sistema usa tokens OKLCH para garantir perceptibilidade uniforme entre tons. Há suporte a tema claro e escuro (via atributo `data-theme` no elemento `<html>`):
+
+***Cores Principais***
+
+![Cores Principais](./img/cores_principais.png)
+
+***Cores Destaque***
+
+![Cores Destaque](./img/cores_destaque.png)
 
 **Ícones**
 
-Todos os ícones são componentes SVG inline implementados em `components/ui/Icon.tsx`, usando `react-native-svg`. Seguem o mesmo traço fino (1.6px) e estilo da biblioteca de ícones do frontend web.
+Todos os ícones são SVG inline, definidos em `src/lib/icons.tsx`. Não há dependência de biblioteca de ícones externa.
+
+![Icones](./img/Group_64.svg)
 
 ---
 
@@ -109,19 +110,19 @@ Inicialização
 
 ## Tecnologias Utilizadas
 
-| Tecnologia | Versão | Função |
-| --- | --- | --- |
-| React Native | 0.76.x | Framework base para apps iOS e Android |
-| Expo SDK | ~52.0.x | Toolchain, device APIs e serviços de build |
-| Expo Router | ~4.0.x | Roteamento baseado em arquivos (file-based routing) |
-| TypeScript | ^5.3 | Tipagem estática em todo o projeto |
-| expo-google-fonts | ^0.2.x | Carregamento das fontes Fraunces e Inter Tight |
-| react-native-svg | 15.8.x | Renderização de ícones SVG inline |
-| expo-secure-store | ~14.0.x | Armazenamento seguro do token JWT (Keychain/Keystore) |
-| expo-notifications | ~0.29.x | Notificações push via Expo Push Service |
-| react-native-safe-area-context | 4.12.x | Adaptação a notch e home indicator |
-| react-native-gesture-handler | ~2.20.x | Gestos e interações nativas |
-| react-native-screens | ~4.4.x | Otimização de telas nativas para o navigator |
+| Tecnologia                     | Versão  | Função                                                |
+| ------------------------------ | ------- | ----------------------------------------------------- |
+| React Native                   | 0.76.x  | Framework base para apps iOS e Android                |
+| Expo SDK                       | ~52.0.x | Toolchain, device APIs e serviços de build            |
+| Expo Router                    | ~4.0.x  | Roteamento baseado em arquivos (file-based routing)   |
+| TypeScript                     | ^5.3    | Tipagem estática em todo o projeto                    |
+| expo-google-fonts              | ^0.2.x  | Carregamento das fontes Fraunces e Inter Tight        |
+| react-native-svg               | 15.8.x  | Renderização de ícones SVG inline                     |
+| expo-secure-store              | ~14.0.x | Armazenamento seguro do token JWT (Keychain/Keystore) |
+| expo-notifications             | ~0.29.x | Notificações push via Expo Push Service               |
+| react-native-safe-area-context | 4.12.x  | Adaptação a notch e home indicator                    |
+| react-native-gesture-handler   | ~2.20.x | Gestos e interações nativas                           |
+| react-native-screens           | ~4.4.x  | Otimização de telas nativas para o navigator          |
 
 ---
 
@@ -140,12 +141,12 @@ Inicialização
 
 ### Pré-requisitos
 
-| Ferramenta | Versão mínima | Como verificar |
-| --- | --- | --- |
-| Node.js | 22.x LTS | `node -v` |
-| npm | 9+ | `npm -v` |
-| Expo CLI | — | `npx expo --version` |
-| Expo Go (app) | — | Disponível na App Store / Google Play |
+| Ferramenta    | Versão mínima | Como verificar                        |
+| ------------- | ------------- | ------------------------------------- |
+| Node.js       | 22.x LTS      | `node -v`                             |
+| npm           | 9+            | `npm -v`                              |
+| Expo CLI      | —             | `npx expo --version`                  |
+| Expo Go (app) | —             | Disponível na App Store / Google Play |
 
 ### 1. Instalar dependências
 
@@ -216,13 +217,13 @@ eas build --platform ios
 
 ### Cenários de teste documentados
 
-| Funcionalidade | Requisito |
-| --- | --- |
-| Agendar, visualizar e cancelar consultas | RF-001 |
-| Controle de acesso (apenas pacientes no mobile) | RF-003 |
-| Prevenção de conflito de horários | RF-004 |
-| Login e cadastro de paciente | RF-005 |
-| Notificações push e in-app | RF-006 |
+| Funcionalidade                                  | Requisito                                                                       |
+| ----------------------------------------------- | ------------------------------------------------------------------------------- |
+| Agendar, visualizar e cancelar consultas        | RF-001                                                                          |
+| Controle de acesso (apenas pacientes no mobile) | RF-003                                                                          |
+| Prevenção de conflito de horários               | RF-004                                                                          |
+| Login e cadastro de paciente                    | [Cenários de Teste — Login e Cadastro](rf-005-auth/cenarios-de-teste-mobile.md) |
+| Notificações push e in-app                      | RF-006                                                                          |
 
 ---
 
