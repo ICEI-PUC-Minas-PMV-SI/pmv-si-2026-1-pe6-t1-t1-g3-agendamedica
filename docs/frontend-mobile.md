@@ -47,7 +47,7 @@ Por último, a fonte JetBrains Mono aplica o princípio da diferenciação visua
 
 **Paleta de cores**
 
-O sistema usa tokens OKLCH para garantir perceptibilidade uniforme entre tons. Há suporte a tema claro e escuro (via atributo `data-theme` no elemento `<html>`):
+O sistema usa tokens OKLCH para garantir perceptibilidade uniforme entre tons. No aplicativo React Native, essas cores são aplicadas diretamente aos componentes e estilos da interface; este documento não descreve suporte a alternância de tema via `data-theme` ou elemento `<html>`.
 
 ***Cores Principais***
 
