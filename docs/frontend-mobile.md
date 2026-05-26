@@ -59,7 +59,7 @@ O sistema usa tokens OKLCH para garantir perceptibilidade uniforme entre tons. N
 
 **Ícones**
 
-Todos os ícones são SVG inline, definidos em `src/lib/icons.tsx`. Não há dependência de biblioteca de ícones externa.
+Todos os ícones são SVG inline, definidos em `src/mobile/components/ui/Icon.tsx` (importado como `@/components/ui/Icon`). Não há dependência de biblioteca de ícones externa.
 
 ![Icones](./img/Group_64.svg)
 
