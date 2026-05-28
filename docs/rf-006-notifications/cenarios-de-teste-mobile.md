@@ -8,7 +8,7 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 **Plataforma:** Simulador iOS — Expo Go (Seções 1–3) e Development Build com `expo-dev-client` (Seção 4 — Push Notifications)
 
-**Autenticação:** fazer login como paciente (Ana Paciente) antes de iniciar os cenários.
+**Autenticação:** app autenticado como paciente (Ana Paciente) — pré-condição assumida em todos os cenários.
 
 ---
 
@@ -31,7 +31,6 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 2. Iniciar o mock server: `node src/web/mock-server/server.js` (porta 3000)
 3. **Seções 1–3:** Iniciar o app com `npx expo start` e abrir no simulador iOS via Expo Go
 4. **Seção 4:** Instalar `expo-dev-client` (`npx expo install expo-dev-client`) e buildar com `npx expo run:ios`
-5. Fazer login como paciente (Ana Paciente)
 
 **Estado inicial do mock server:** 100 notificações para o paciente autenticado, com mix de tipos (`APPOINTMENT_CREATED`, `APPOINTMENT_CONFIRMED`, `APPOINTMENT_CANCELLED`, `APPOINTMENT_RESCHEDULED`) e 51 lidas / 49 não lidas.
 
@@ -64,9 +63,8 @@ Cenários que cobrem o `DotBadge` exibido sobre o ícone de sino na aba "Alertas
 **Passos:**
 1. Iniciar o mock server: `node src/web/mock-server/server.js` (porta 3000)
 2. Iniciar o app: `npx expo start` e abrir no simulador iOS
-3. Fazer login como paciente (Ana Paciente)
-4. Observar o badge vermelho sobre o ícone de sino na aba "Alertas"
-5. Confirmar que o número exibido corresponde à quantidade de não lidas retornada por `GET /notifications/unread-count`
+3. Observar o badge vermelho sobre o ícone de sino na aba "Alertas"
+4. Confirmar que o número exibido corresponde à quantidade de não lidas retornada por `GET /notifications/unread-count`
 
 **Resultado esperado:**
 - Badge vermelho (`danger`) visível com a contagem correta de não lidas
@@ -356,28 +354,27 @@ Cenários que cobrem o fluxo de permissões e recebimento de notificações push
 
 ---
 
-### Cenário 12 — Solicitação de permissão de push no login
+### Cenário 12 — Solicitação de permissão de notificações push
 
 **RF-006:** Solicitação de permissão para recebimento de push notifications
 
 **Tela:** `lib/auth-context.tsx` — `registerForPushNotifications()`
 
-**Objetivo:** Demonstrar que ao fazer login, o app solicita permissão de notificações push ao usuário e que a resposta não bloqueia o acesso ao app.
+**Objetivo:** Demonstrar que o app solicita permissão de notificações push ao usuário na primeira autenticação e que a resposta não bloqueia o uso do app.
 
-**Pré-condição:** Development build instalado no simulador via `npx expo run:ios`. Permissões de notificação não concedidas anteriormente — resetar via `Simulator > Privacy & Security > Notifications > MedHub > Reset`.
+**Pré-condição:** Development build instalado no simulador via `npx expo run:ios`. App com sessão ativa como Ana Paciente.
 
 **Passos:**
-1. Com o development build instalado, abrir o app `MedHub` no simulador
-2. Resetar as permissões de notificação do app (ou usar o simulador com estado limpo)
-3. Iniciar o processo de login como paciente (Ana Paciente)
-4. Após o login bem-sucedido, observar o diálogo de permissão de notificações do iOS aparecer
-5. Conceder a permissão tocando em "Permitir"
-6. Verificar no console do Metro que `Push notification permission status: granted` foi registrado
+1. Resetar as permissões de notificação do MedHub: `Simulator > Privacy & Security > Notifications > MedHub > Reset`
+2. Encerrar a sessão no app (logout) e autenticar novamente para disparar `registerForPushNotifications()`
+3. Observar o diálogo de permissão de notificações do iOS aparecer automaticamente
+4. Conceder a permissão tocando em "Permitir"
+5. Verificar no console do Metro que `Push notification permission status: granted` foi registrado
 
 **Resultado esperado:**
-- Diálogo de permissão de notificações iOS aparece imediatamente após o login
+- Diálogo de permissão de notificações iOS aparece após a autenticação
 - Console do Metro exibe `Push notification permission status: granted`
-- O app permanece funcional após o diálogo — a falha no registro do token não bloqueia o login
+- O app permanece funcional após o diálogo — falha no registro do token não bloqueia o acesso
 
 **Mídia:** [▶ Cenário 12](assets/mobile/cenarios-de-teste/cenario-teste-12.mp4)
 
