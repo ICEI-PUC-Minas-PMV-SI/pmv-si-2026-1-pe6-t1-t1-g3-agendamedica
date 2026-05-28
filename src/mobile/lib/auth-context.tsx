@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 import * as api from './api';
 import type { User } from './types';
@@ -15,7 +16,8 @@ async function registerForPushNotifications() {
   const { status } = await Notifications.requestPermissionsAsync();
   if (status !== 'granted') return;
   try {
-    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    const projectId = Constants.expoConfig?.extra?.eas?.projectId;
+    const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
     await api.registerPushToken(token);
   } catch {
     // Non-critical — push registration failure should not block login
