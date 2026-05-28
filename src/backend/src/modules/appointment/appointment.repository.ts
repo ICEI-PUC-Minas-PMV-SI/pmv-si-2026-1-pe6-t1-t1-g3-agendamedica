@@ -60,6 +60,7 @@ export class AppointmentRepository {
             orderBy: { date: "asc" },
             include: {
                 patient: { select: { name: true } },
+                doctor: { include: { user: { select: { name: true } } } },
             },
         });
     }
@@ -75,6 +76,7 @@ export class AppointmentRepository {
             orderBy: { date: "asc" },
             include: {
                 patient: { select: { name: true } },
+                doctor: { include: { user: { select: { name: true } } } },
             },
         });
     }
@@ -84,6 +86,7 @@ export class AppointmentRepository {
             where: { id: appointmentId },
             include: {
                 patient: { select: { name: true } },
+                doctor: { include: { user: { select: { name: true } } } },
             },
         });
     }
