@@ -6,7 +6,7 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 **Requisito funcional:** RF-006 — O sistema deve notificar os usuários sobre confirmações e cancelamentos de consultas.
 
-**Plataforma:** Expo Go no simulador iOS
+**Plataforma:** Simulador iOS — Expo Go (Seções 1–3) e Development Build com `expo-dev-client` (Seção 4 — Push Notifications)
 
 **Autenticação:** fazer login como paciente (Ana Paciente) antes de iniciar os cenários.
 
@@ -16,9 +16,11 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 | Ferramenta | O que é | Por que usamos |
 | --- | --- | --- |
-| **Expo Go** | App cliente para rodar o projeto no simulador iOS | Executa o app React Native sem necessidade de build nativo |
+| **Expo Go** | App cliente para rodar o projeto no simulador iOS | Executa o app React Native sem necessidade de build nativo — usado nas Seções 1–3 |
+| **Development Build** | Build nativo do MedHub gerado via `npx expo run:ios` | Instala o app como `MedHub.app` no simulador, habilitando push notifications via APNs local — necessário para a Seção 4 |
 | **Mock Server** | Servidor Express local (`mock-server/server.js`) | Substitui o backend real em desenvolvimento — serve notificações e simula as operações de leitura sem depender do banco |
 | **Expo DevTools / Metro** | Console do Metro Bundler | Confirmar que as chamadas de API foram disparadas ao interagir com notificações |
+| **xcrun simctl** | Ferramenta de linha de comando do Xcode | Enviar payloads APNs diretamente ao simulador iOS sem depender da infraestrutura APNs real |
 | **Proxyman / Charles** | Proxy HTTP local (opcional) | Inspecionar requisições de rede do simulador iOS para confirmar as chamadas PATCH |
 
 ---
@@ -27,8 +29,9 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 1. Instalar dependências em `src/mobile/`: `npm install`
 2. Iniciar o mock server: `node mock-server/server.js` (porta 3001)
-3. Iniciar o app: `npx expo start` e abrir no simulador iOS via Expo Go
-4. Fazer login como paciente (Ana Paciente)
+3. **Seções 1–3:** Iniciar o app com `npx expo start` e abrir no simulador iOS via Expo Go
+4. **Seção 4:** Instalar `expo-dev-client` (`npx expo install expo-dev-client`) e buildar com `npx expo run:ios`
+5. Fazer login como paciente (Ana Paciente)
 
 **Estado inicial do mock server:** 20 notificações para o paciente autenticado, com mix de tipos (`APPOINTMENT_CREATED`, `APPOINTMENT_CONFIRMED`, `APPOINTMENT_CANCELLED`, `APPOINTMENT_RESCHEDULED`) e aproximadamente 50% lidas / 50% não lidas.
 
@@ -347,40 +350,40 @@ Cenários que cobrem as ações disponíveis em notificações individuais e em 
 
 ## Seção 4 — Push Notifications
 
-Cenários que cobrem o fluxo de registro de permissões e recebimento de notificações push via `expo-notifications`.
+Cenários que cobrem o fluxo de permissões e recebimento de notificações push via `expo-notifications` e `xcrun simctl push`.
 
-> **Nota sobre o simulador iOS:** O simulador não suporta Expo Push Tokens reais para envio remoto. O CT-012 verifica o fluxo de registro do token (chamada à API), e o CT-013 usa `scheduleNotificationAsync` para simular um push localmente sem depender de envio remoto.
+> **Plataforma para esta seção:** Os cenários CT-012 e CT-013 requerem um **development build** instalado no simulador iOS via `npx expo run:ios`. O Expo Go não suporta push notifications no simulador. O `xcrun simctl push` entrega payloads APNs diretamente ao simulador pelo bundle ID `br.com.medhub.app`, sem depender de credenciais APNs, Expo Push Service ou EAS — equivalente a um push real no nível do sistema operacional.
 
 ---
 
-### Cenário 12 — Registro do push token no login
+### Cenário 12 — Solicitação de permissão de push no login
 
-**RF-006:** Registro do dispositivo para recebimento de push notifications
+**RF-006:** Solicitação de permissão para recebimento de push notifications
 
 **Tela:** `lib/auth-context.tsx` — `registerForPushNotifications()`
 
-**Objetivo:** Demonstrar que ao fazer login, o app solicita permissão de notificações push e registra o token no backend via `PATCH /users/me/push-token`.
+**Objetivo:** Demonstrar que ao fazer login, o app solicita permissão de notificações push ao usuário e que a resposta não bloqueia o acesso ao app.
 
-**Pré-condição:** Simulador iOS com permissões de notificação não concedidas anteriormente. Mock server com endpoint `PATCH /users/me/push-token` configurado.
+**Pré-condição:** Development build instalado no simulador via `npx expo run:ios`. Permissões de notificação não concedidas anteriormente — resetar via `Simulator > Privacy & Security > Notifications > MedHub > Reset`.
 
 **Passos:**
-1. Deslogar do app (ou usar o simulador com estado limpo)
-2. Iniciar o processo de login como paciente (Ana Paciente)
-3. Após o login bem-sucedido, observar o diálogo de permissão de notificações do iOS
-4. Conceder a permissão no diálogo
-5. Verificar no console do Metro que `registerForPushNotifications()` foi chamada
-6. Verificar nos logs do mock server que `PATCH /users/me/push-token` foi recebido com o campo `expoPushToken`
+1. Com o development build instalado, abrir o app `MedHub` no simulador
+2. Resetar as permissões de notificação do app (ou usar o simulador com estado limpo)
+3. Iniciar o processo de login como paciente (Ana Paciente)
+4. Após o login bem-sucedido, observar o diálogo de permissão de notificações do iOS aparecer
+5. Conceder a permissão tocando em "Permitir"
+6. Verificar no console do Metro que `Push notification permission status: granted` foi registrado
 
 **Resultado esperado:**
-- Diálogo de permissão de notificações iOS aparece após o login
-- Chamada `PATCH /users/me/push-token` registrada no mock server com o token gerado pelo Expo
-- Falha no registro não impede o acesso ao app (fluxo non-blocking)
+- Diálogo de permissão de notificações iOS aparece imediatamente após o login
+- Console do Metro exibe `Push notification permission status: granted`
+- O app permanece funcional após o diálogo — a falha no registro do token não bloqueia o login
 
 **Mídia:** [▶ Cenário 12](assets/mobile/cenarios-de-teste/cenario-teste-12.mp4)
 
 ---
 
-### Cenário 13 — Recebimento de notificação push em foreground via Expo
+### Cenário 13 — Recebimento de push em foreground via xcrun simctl
 
 **RF-006:** Exibição de notificação push com o app em primeiro plano
 
@@ -388,30 +391,38 @@ Cenários que cobrem o fluxo de registro de permissões e recebimento de notific
 
 **Objetivo:** Demonstrar que o app exibe um banner de notificação ao receber um push enquanto está aberto em foreground.
 
-**Pré-condição:** App rodando em foreground no simulador iOS. Terminal disponível para executar o comando de disparo.
+**Pré-condição:** Development build do MedHub aberto em foreground no simulador iOS. Terminal disponível no computador.
 
 **Passos:**
-1. Com o app aberto e visível no simulador iOS, abrir o terminal
-2. Executar o seguinte comando para agendar uma notificação local simulando um push recebido:
+1. Com o app `MedHub` aberto e visível no simulador, abrir o terminal
+2. Criar o arquivo de payload APNs:
    ```bash
-   # Via Expo CLI (requer o app em modo desenvolvimento)
-   npx expo push:send --to "<expo-push-token>" \
-     --title "Consulta confirmada" \
-     --body "Sua consulta com Dr. Carlos foi confirmada."
+   cat > /tmp/medhub-push.apns << 'EOF'
+   {
+     "aps": {
+       "alert": {
+         "title": "Consulta confirmada",
+         "body": "Sua consulta com Dr. Carlos foi confirmada."
+       },
+       "sound": "default"
+     },
+     "appointmentId": "00000000-0000-0000-0000-000000000002"
+   }
+   EOF
    ```
-   Ou, alternativamente, via código no console do Expo DevTools:
-   ```js
-   await Notifications.scheduleNotificationAsync({
-     content: { title: "Consulta confirmada", body: "Sua consulta com Dr. Carlos foi confirmada." },
-     trigger: null
-   });
+3. Obter o ID do simulador ativo e enviar o push:
+   ```bash
+   DEVICE=$(xcrun simctl list devices | grep Booted | grep -oE '[A-F0-9-]{36}' | head -1)
+   xcrun simctl push $DEVICE br.com.medhub.app /tmp/medhub-push.apns
    ```
-3. Observar o banner de notificação aparecer sobre o app no simulador
-4. Tocar no banner de notificação
+4. Observar o banner de notificação aparecer sobre o app no simulador
+5. **Bônus:** minimizar o app antes do passo 3 para ver o push chegando em background — o banner aparece sobre a tela inicial do iOS
 
 **Resultado esperado:**
+- Comando `xcrun simctl push` retorna sem erro
 - Banner de notificação visível no topo da tela enquanto o app está em foreground
-- Notificação exibe o título e o corpo corretamente
-- Ao tocar no banner, o app permanece aberto (comportamento padrão em foreground)
+- Notificação exibe o título "Consulta confirmada" e o corpo corretamente
+- Ao tocar no banner, o app navega diretamente para o detalhe da consulta `00000000-0000-0000-0000-000000000002`
+- Em background: push aparece como notificação nativa do iOS; ao tocar, o app abre diretamente no detalhe da consulta
 
 **Mídia:** [▶ Cenário 13](assets/mobile/cenarios-de-teste/cenario-teste-13.mp4)
