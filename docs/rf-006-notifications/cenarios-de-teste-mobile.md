@@ -18,7 +18,7 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 | --- | --- | --- |
 | **Expo Go** | App cliente para rodar o projeto no simulador iOS | Executa o app React Native sem necessidade de build nativo — usado nas Seções 1–3 |
 | **Development Build** | Build nativo do MedHub gerado via `npx expo run:ios` | Instala o app como `MedHub.app` no simulador, habilitando push notifications via APNs local — necessário para a Seção 4 |
-| **Mock Server** | Servidor Express local (`mock-server/server.js`) | Substitui o backend real em desenvolvimento — serve notificações e simula as operações de leitura sem depender do banco |
+| **Mock Server** | Servidor Express local (`src/web/mock-server/server.js`) | Substitui o backend real em desenvolvimento — serve notificações e simula as operações de leitura sem depender do banco |
 | **Expo DevTools / Metro** | Console do Metro Bundler | Confirmar que as chamadas de API foram disparadas ao interagir com notificações |
 | **xcrun simctl** | Ferramenta de linha de comando do Xcode | Enviar payloads APNs diretamente ao simulador iOS sem depender da infraestrutura APNs real |
 | **Proxyman / Charles** | Proxy HTTP local (opcional) | Inspecionar requisições de rede do simulador iOS para confirmar as chamadas PATCH |
@@ -28,20 +28,20 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 ## Pré-requisitos
 
 1. Instalar dependências em `src/mobile/`: `npm install`
-2. Iniciar o mock server: `node mock-server/server.js` (porta 3001)
+2. Iniciar o mock server: `node src/web/mock-server/server.js` (porta 3000)
 3. **Seções 1–3:** Iniciar o app com `npx expo start` e abrir no simulador iOS via Expo Go
 4. **Seção 4:** Instalar `expo-dev-client` (`npx expo install expo-dev-client`) e buildar com `npx expo run:ios`
 5. Fazer login como paciente (Ana Paciente)
 
-**Estado inicial do mock server:** 20 notificações para o paciente autenticado, com mix de tipos (`APPOINTMENT_CREATED`, `APPOINTMENT_CONFIRMED`, `APPOINTMENT_CANCELLED`, `APPOINTMENT_RESCHEDULED`) e aproximadamente 50% lidas / 50% não lidas.
+**Estado inicial do mock server:** 100 notificações para o paciente autenticado, com mix de tipos (`APPOINTMENT_CREATED`, `APPOINTMENT_CONFIRMED`, `APPOINTMENT_CANCELLED`, `APPOINTMENT_RESCHEDULED`) e 51 lidas / 49 não lidas.
 
 | ID | Tipo | Lida? |
 | --- | --- | --- |
-| `00000000-0000-0000-0000-000000000001` | APPOINTMENT_CREATED | não |
-| `00000000-0000-0000-0000-000000000002` | APPOINTMENT_CONFIRMED | não |
-| `00000000-0000-0000-0000-000000000003` | APPOINTMENT_CANCELLED | sim |
-| `00000000-0000-0000-0000-000000000004` | APPOINTMENT_RESCHEDULED | não |
-| *(16 notificações adicionais com mix de tipos e status)* | | |
+| `n-001` | APPOINTMENT_CONFIRMED | não |
+| `n-002` | APPOINTMENT_RESCHEDULED | não |
+| `n-003` | APPOINTMENT_CREATED | não |
+| `n-004` | APPOINTMENT_CREATED | sim |
+| *(96 notificações adicionais com mix de tipos e status)* | | |
 
 ---
 
@@ -62,7 +62,7 @@ Cenários que cobrem o `DotBadge` exibido sobre o ícone de sino na aba "Alertas
 **Pré-condição:** Mock server com pelo menos 3 notificações com `read: false`.
 
 **Passos:**
-1. Iniciar o mock server: `node mock-server/server.js` (porta 3001)
+1. Iniciar o mock server: `node src/web/mock-server/server.js` (porta 3000)
 2. Iniciar o app: `npx expo start` e abrir no simulador iOS
 3. Fazer login como paciente (Ana Paciente)
 4. Observar o badge vermelho sobre o ícone de sino na aba "Alertas"
@@ -115,7 +115,7 @@ Cenários que cobrem a listagem de notificações e seus diferentes estados visu
 
 **Objetivo:** Demonstrar que o indicador de carregamento aparece enquanto a lista de notificações é buscada da API.
 
-**Pré-condição:** App no simulador iOS. Mock server rodando na porta 3001.
+**Pré-condição:** App no simulador iOS. Mock server rodando na porta 3000.
 
 **Passos:**
 1. Navegar para a aba "Alertas"
@@ -406,7 +406,7 @@ Cenários que cobrem o fluxo de permissões e recebimento de notificações push
        },
        "sound": "default"
      },
-     "appointmentId": "00000000-0000-0000-0000-000000000002"
+     "appointmentId": "a-02"
    }
    EOF
    ```
@@ -422,7 +422,7 @@ Cenários que cobrem o fluxo de permissões e recebimento de notificações push
 - Comando `xcrun simctl push` retorna sem erro
 - Banner de notificação visível no topo da tela enquanto o app está em foreground
 - Notificação exibe o título "Consulta confirmada" e o corpo corretamente
-- Ao tocar no banner, o app navega diretamente para o detalhe da consulta `00000000-0000-0000-0000-000000000002`
+- Ao tocar no banner, o app navega diretamente para o detalhe da consulta `a-02`
 - Em background: push aparece como notificação nativa do iOS; ao tocar, o app abre diretamente no detalhe da consulta
 
 **Mídia:** [▶ Cenário 13](assets/mobile/cenarios-de-teste/cenario-teste-13.mp4)
