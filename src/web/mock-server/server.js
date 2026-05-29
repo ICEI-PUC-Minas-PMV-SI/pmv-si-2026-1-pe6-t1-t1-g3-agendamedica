@@ -9,6 +9,7 @@ const data = (file) =>
     JSON.parse(readFileSync(join(__dirname, "data", file), "utf-8"));
 
 const app = express();
+app.set('etag', false);
 app.use(cors());
 app.use(express.json());
 
