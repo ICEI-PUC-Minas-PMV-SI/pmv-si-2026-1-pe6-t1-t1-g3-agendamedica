@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ViewStyle } from 'react-native';
 import { colors, spacing, typography } from '@/lib/tokens';
+import { InboxEmptyIcon } from './Icon';
 import { Button } from './Button';
 
 interface EmptyStateProps {
@@ -14,7 +15,7 @@ export function EmptyState({ title, body, actionLabel, onAction }: EmptyStatePro
   return (
     <View style={styles.container}>
       <View style={styles.icon}>
-        <Text style={styles.emoji}>📭</Text>
+        <InboxEmptyIcon color={colors.inkMuted} size={40} />
       </View>
       <Text style={styles.title}>{title}</Text>
       {body ? <Text style={styles.body}>{body}</Text> : null}
@@ -40,9 +41,6 @@ const styles = StyleSheet.create({
   icon: {
     marginBottom: spacing[4],
   } as ViewStyle,
-  emoji: {
-    fontSize: 40,
-  },
   title: {
     fontFamily: typography.displayFont,
     fontSize: typography.size.xl,

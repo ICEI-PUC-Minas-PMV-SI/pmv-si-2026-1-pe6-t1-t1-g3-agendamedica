@@ -96,13 +96,13 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 3. Aguardar a lista renderizar completamente
 4. Identificar uma notificação com `read: false` — verificar fundo `accentSoft`, título em negrito (`bodyBold`) e ponto azul no canto superior direito do card
 5. Identificar uma notificação com `read: true` — verificar fundo neutro, título em peso normal (`bodyMedium`) e ausência de ponto indicador
-6. Localizar na lista uma notificação de cada tipo e verificar o emoji exibido
+6. Localizar na lista uma notificação de cada tipo e verificar o ícone exibido no badge circular à esquerda do card
 
 **Resultado esperado:**
 - Estado de carregamento visível enquanto `GET /notifications` está em andamento
 - Notificações **não lidas**: fundo `accentSoft`, título em negrito, ponto azul visível
 - Notificações **lidas**: fundo neutro, título normal, sem ponto indicador
-- `APPOINTMENT_CREATED` → 📅 · `APPOINTMENT_CONFIRMED` → ✅ · `APPOINTMENT_CANCELLED` → ❌ · `APPOINTMENT_RESCHEDULED` → 🔄
+- `APPOINTMENT_CREATED` → ícone de calendário · `APPOINTMENT_CONFIRMED` → ícone de check · `APPOINTMENT_CANCELLED` → ícone de X · `APPOINTMENT_RESCHEDULED` → ícone de relógio
 
 **Mídia:** [▶ Cenário 2](assets/mobile/cenarios-de-teste/cenario-teste-2.mp4)
 

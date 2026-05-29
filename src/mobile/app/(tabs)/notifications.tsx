@@ -21,14 +21,14 @@ import { colors, spacing, radius, typography, shadows } from '@/lib/tokens';
 import { relTime } from '@/lib/utils';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { LoadingState } from '@/components/ui/LoadingState';
-import { CheckIcon } from '@/components/ui/Icon';
+import { BellIcon, CalendarIcon, CheckIcon, XIcon, ClockIcon } from '@/components/ui/Icon';
 import type { Notification } from '@/lib/types';
 
-const TYPE_EMOJI: Record<string, string> = {
-  APPOINTMENT_CREATED: '📅',
-  APPOINTMENT_CONFIRMED: '✅',
-  APPOINTMENT_CANCELLED: '❌',
-  APPOINTMENT_RESCHEDULED: '🔄',
+const TYPE_ICON: Record<string, { Icon: React.FC<{ color?: string; size?: number }>; color: string }> = {
+  APPOINTMENT_CREATED: { Icon: CalendarIcon, color: colors.accent },
+  APPOINTMENT_CONFIRMED: { Icon: CheckIcon, color: '#16a34a' },
+  APPOINTMENT_CANCELLED: { Icon: XIcon, color: '#dc2626' },
+  APPOINTMENT_RESCHEDULED: { Icon: ClockIcon, color: '#d97706' },
 };
 
 export default function NotificationsScreen() {
@@ -150,10 +150,12 @@ export default function NotificationsScreen() {
               {/* Unread dot */}
               {!item.read && <View style={styles.dot} />}
 
-              <View style={styles.emoji}>
-                <Text style={styles.emojiText}>
-                  {TYPE_EMOJI[item.type] ?? '🔔'}
-                </Text>
+              <View style={styles.iconBadge}>
+                {(() => {
+                  const entry = TYPE_ICON[item.type];
+                  if (!entry) return <BellIcon color={colors.inkMuted} size={18} />;
+                  return <entry.Icon color={entry.color} size={18} />;
+                })()}
               </View>
 
               <View style={styles.body}>
@@ -234,7 +236,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.accent,
   } as ViewStyle,
 
-  emoji: {
+  iconBadge: {
     width: 40,
     height: 40,
     borderRadius: radius.pill,
@@ -242,7 +244,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   } as ViewStyle,
-  emojiText: { fontSize: 20 },
 
   body: { flex: 1, gap: 3 } as ViewStyle,
   notifTitle: {
