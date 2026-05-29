@@ -218,7 +218,7 @@ eas build --platform ios
 
 | Funcionalidade | Documento de testes |
 | --- | --- |
-| Agendar, visualizar e cancelar consultas (RF-001) | — |
+| Agendar, visualizar e cancelar consultas (RF-001) | [Cenários de Teste — Agendamento Mobile](rf-001-appointments/cenarios-de-teste-mobile.md) |
 | Controle de acesso — apenas pacientes no mobile (RF-003) | — |
 | Prevenção de conflito de horários (RF-004) | — |
 | Login e cadastro de paciente (RF-005) | — |
