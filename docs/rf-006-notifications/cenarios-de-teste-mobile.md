@@ -293,7 +293,9 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
        },
        "sound": "default"
      },
-     "appointmentId": "a-02"
+     "body": {
+       "appointmentId": "a-02"
+     }
    }
    EOF
    ```
