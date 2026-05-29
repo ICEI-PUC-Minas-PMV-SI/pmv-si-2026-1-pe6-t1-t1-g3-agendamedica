@@ -80,6 +80,11 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 **Mídia:** [▶ Cenário 1](assets/mobile/cenarios-de-teste/cenario-teste-1.mp4)
 
+
+https://github.com/user-attachments/assets/dd21a050-350b-4c8e-b051-adc5655c0225
+
+
+
 ---
 
 ## Seção 2 — Tela de Notificações
@@ -112,6 +117,12 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 **Mídia:** [▶ Cenário 2](assets/mobile/cenarios-de-teste/cenario-teste-2.mp4)
 
+
+
+https://github.com/user-attachments/assets/bc0e4d85-3a3d-4fee-ba69-4c8094a5cb1d
+
+
+
 ---
 
 ### Cenário 3 — Pull-to-refresh atualiza a lista
@@ -142,6 +153,12 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 **Mídia:** [▶ Cenário 3](assets/mobile/cenarios-de-teste/cenario-teste-3.mp4)
 
+
+
+https://github.com/user-attachments/assets/106f211d-8558-4aa3-9d28-ee60a98de645
+
+
+
 ---
 
 ### Cenário 4 — Estado vazio quando não há notificações
@@ -166,6 +183,12 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 - Badge na aba "Alertas" oculto
 
 **Mídia:** [▶ Cenário 4](assets/mobile/cenarios-de-teste/cenario-teste-4.mp4)
+
+
+
+https://github.com/user-attachments/assets/f46195f2-ce1b-4528-a74a-486210aa5073
+
+
 
 ---
 
@@ -204,6 +227,12 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 **Mídia:** [▶ Cenário 5](assets/mobile/cenarios-de-teste/cenario-teste-5.mp4)
 
+
+
+https://github.com/user-attachments/assets/49e2f4d6-8e98-466a-8103-688e4ba91c48
+
+
+
 ---
 
 ### Cenário 6 — Marcar todas as notificações como lidas
@@ -234,6 +263,12 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 - Botão removido da interface
 
 **Mídia:** [▶ Cenário 6](assets/mobile/cenarios-de-teste/cenario-teste-6.mp4)
+
+
+
+https://github.com/user-attachments/assets/3f194e29-3d5a-4b9a-be59-97e6765c6134
+
+
 
 ---
 
@@ -267,6 +302,12 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 - O app permanece funcional após o diálogo — falha no registro do token não bloqueia o acesso
 
 **Mídia:** [▶ Cenário 7](assets/mobile/cenarios-de-teste/cenario-teste-7.mp4)
+
+
+
+https://github.com/user-attachments/assets/86792878-0219-499b-9fa6-ca67917b85cf
+
+
 
 ---
 
@@ -313,3 +354,9 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 - Ao tocar no banner, o app navega diretamente para o detalhe da consulta `a-001`
 
 **Mídia:** [▶ Cenário 8](assets/mobile/cenarios-de-teste/cenario-teste-8.mp4)
+
+
+
+https://github.com/user-attachments/assets/c947bb41-24eb-4c6a-af8c-6e66bd26d2b1
+
+
