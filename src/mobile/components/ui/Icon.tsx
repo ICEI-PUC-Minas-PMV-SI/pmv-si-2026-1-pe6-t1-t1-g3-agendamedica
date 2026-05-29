@@ -152,3 +152,31 @@ export function SearchIcon({ color = '#000', size = 24 }: IconProps) {
     </Svg>
   );
 }
+
+export function InboxEmptyIcon({ color = '#000', size = 24 }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M3 12h3.5l2 3h7l2-3H21"
+        stroke={color}
+        strokeWidth={1.6}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M5.5 12L7.93 4.56A1 1 0 018.87 4h6.26a1 1 0 01.94.56L18.5 12"
+        stroke={color}
+        strokeWidth={1.6}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M3 12v7a1 1 0 001 1h16a1 1 0 001-1v-7"
+        stroke={color}
+        strokeWidth={1.6}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}

@@ -37,6 +37,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "bc86de0e-5838-4752-95a4-fa8eb1481418"
+      }
+    },
+    "owner": "gabrielrnascimento"
   }
 }
