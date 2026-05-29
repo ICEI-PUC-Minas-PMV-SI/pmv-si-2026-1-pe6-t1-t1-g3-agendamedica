@@ -209,8 +209,13 @@ app.patch("/appointments/confirmAppointment", requireAuth, (req, res) => {
     res.json(appointments[idx]);
 });
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 // ── Notifications ─────────────────────────────────────────────
-app.get("/notifications/", (_req, res) => res.json(notifications));
+app.get("/notifications/", async (_req, res) => {
+    await delay(1000);
+    res.json(notifications);
+});
 
 app.get("/notifications/unread-count", (_req, res) => {
     res.json({ count: notifications.filter((n) => !n.read).length });
