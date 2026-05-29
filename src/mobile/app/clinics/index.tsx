@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, ActivityIndicator, Alert, ListRenderItem, Platform } from 'react-native';
 
-// 1. Tipagem autossuficiente (já que o grupo ainda não criou no types.ts)
+// 1. Tipagem autossuficiente
 interface Clinic {
   id: string;
   name: string;
@@ -9,7 +9,7 @@ interface Clinic {
   phone: string;
 }
 
-// 2. Cores padronizadas internamente (para não depender do arquivo tokens do grupo)
+// 2. Cores padronizadas internamente
 const colors = {
   bg: '#F3F4F6',
   surface: '#FFFFFF',
