@@ -294,7 +294,7 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
        "sound": "default"
      },
      "body": {
-       "appointmentId": "a-02"
+       "appointmentId": "a-001"
      }
    }
    EOF
@@ -305,11 +305,11 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
    xcrun simctl push $DEVICE br.com.medhub.app /tmp/medhub-push.apns
    ```
 4. Observar o banner de notificação aparecer sobre o app
-5. Tocar no banner e verificar a navegação para o detalhe da consulta `a-02`
+5. Tocar no banner e verificar a navegação para o detalhe da consulta `a-001`
 
 **Resultado esperado:**
 - Comando `xcrun simctl push` retorna sem erro
 - Banner de notificação visível no topo da tela com título "Consulta confirmada" e corpo corretos
-- Ao tocar no banner, o app navega diretamente para o detalhe da consulta `a-02`
+- Ao tocar no banner, o app navega diretamente para o detalhe da consulta `a-001`
 
 **Mídia:** [▶ Cenário 8](assets/mobile/cenarios-de-teste/cenario-teste-8.mp4)
