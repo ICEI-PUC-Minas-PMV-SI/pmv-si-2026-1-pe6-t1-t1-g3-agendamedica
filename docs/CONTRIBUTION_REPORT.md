@@ -1,6 +1,6 @@
 # 📊 Relatório de Contribuições do Projeto
 
-**Última atualização:** 29/05/2026 01:24
+**Última atualização:** 29/05/2026 02:33
 
 ---
 
@@ -8,20 +8,20 @@
 
 | Aluno                 |   Commits |   Linhas+ |   Linhas- |   Arquivos |   Docs Commits |   Docs Arquivos |
 |-----------------------|-----------|-----------|-----------|------------|----------------|-----------------|
-| Alice                 |         8 |     14435 |       277 |         25 |              3 |               2 |
-| Alice Abreu           |        52 |       131 |       133 |         10 |             45 |              10 |
+| Alice                 |        10 |     14747 |       290 |         38 |              5 |               4 |
+| Alice Abreu           |        53 |       132 |       134 |         11 |             46 |              11 |
 | AliceAbreu            |        13 |      1632 |       772 |         23 |              9 |               4 |
 | Gabriel Nascimento    |       189 |     38946 |      6897 |        169 |             59 |               8 |
 | LeticiaOliAquino      |        30 |       521 |       205 |         18 |             21 |               5 |
 | Martha Beatriz        |        99 |     21147 |     14743 |         66 |             74 |               8 |
 | Omar Martins          |        34 |      2555 |       768 |         55 |             19 |              10 |
-| github-actions[bot]   |        68 |       589 |       570 |          3 |             68 |               1 |
+| github-actions[bot]   |        69 |       608 |       589 |          3 |             69 |               1 |
 | github-classroom[bot] |         1 |      2152 |         0 |         45 |              1 |              13 |
 
 
 ## 📅 Contribuições Semanais (Todo o Semestre)
 
-**2026-05-22**: Alice: 1, Gabriel Nascimento: 22, Martha Beatriz: 6, github-actions[bot]: 3
+**2026-05-22**: Alice: 3, Alice Abreu: 1, Gabriel Nascimento: 22, Martha Beatriz: 6, github-actions[bot]: 4
 
 **2026-05-15**: Gabriel Nascimento: 26, Martha Beatriz: 1, github-actions[bot]: 3
 
