@@ -14,14 +14,14 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 ## Ferramentas utilizadas
 
-| Ferramenta | O que é | Por que usamos |
-| --- | --- | --- |
-| **Expo Go** | App cliente para rodar o projeto no simulador iOS | Executa o app React Native sem necessidade de build nativo — usado nas Seções 1–3 |
-| **Development Build** | Build nativo do MedHub gerado via `npx expo run:ios` | Instala o app como `MedHub.app` no simulador, habilitando push notifications via APNs local — necessário para a Seção 4 |
-| **Mock Server** | Servidor Express local (`src/web/mock-server/server.js`) | Substitui o backend real em desenvolvimento — serve notificações e simula as operações de leitura sem depender do banco |
-| **Expo DevTools / Metro** | Console do Metro Bundler | Confirmar que as chamadas de API foram disparadas ao interagir com notificações |
-| **xcrun simctl** | Ferramenta de linha de comando do Xcode | Enviar payloads APNs diretamente ao simulador iOS sem depender da infraestrutura APNs real |
-| **Proxyman / Charles** | Proxy HTTP local (opcional) | Inspecionar requisições de rede do simulador iOS para confirmar as chamadas PATCH |
+| Ferramenta                | O que é                                                  | Por que usamos                                                                                                          |
+| ------------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Expo Go**               | App cliente para rodar o projeto no simulador iOS        | Executa o app React Native sem necessidade de build nativo — usado nas Seções 1–3                                       |
+| **Development Build**     | Build nativo do MedHub gerado via `npx expo run:ios`     | Instala o app como `MedHub.app` no simulador, habilitando push notifications via APNs local — necessário para a Seção 4 |
+| **Mock Server**           | Servidor Express local (`src/web/mock-server/server.js`) | Substitui o backend real em desenvolvimento — serve notificações e simula as operações de leitura sem depender do banco |
+| **Expo DevTools / Metro** | Console do Metro Bundler                                 | Confirmar que as chamadas de API foram disparadas ao interagir com notificações                                         |
+| **xcrun simctl**          | Ferramenta de linha de comando do Xcode                  | Enviar payloads APNs diretamente ao simulador iOS sem depender da infraestrutura APNs real                              |
+| **Proxyman / Charles**    | Proxy HTTP local (opcional)                              | Inspecionar requisições de rede do simulador iOS para confirmar as chamadas PATCH                                       |
 
 ---
 
@@ -34,13 +34,13 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 **Estado inicial do mock server:** 100 notificações para o paciente autenticado, com mix de tipos (`APPOINTMENT_CREATED`, `APPOINTMENT_CONFIRMED`, `APPOINTMENT_CANCELLED`, `APPOINTMENT_RESCHEDULED`) e 51 lidas / 49 não lidas.
 
-| ID | Tipo | Lida? |
-| --- | --- | --- |
-| `n-001` | APPOINTMENT_CONFIRMED | não |
-| `n-002` | APPOINTMENT_RESCHEDULED | não |
-| `n-003` | APPOINTMENT_CREATED | não |
-| `n-004` | APPOINTMENT_CREATED | sim |
-| *(96 notificações adicionais com mix de tipos e status)* | | |
+| ID                                                       | Tipo                    | Lida? |
+| -------------------------------------------------------- | ----------------------- | ----- |
+| `n-001`                                                  | APPOINTMENT_CONFIRMED   | não   |
+| `n-002`                                                  | APPOINTMENT_RESCHEDULED | não   |
+| `n-003`                                                  | APPOINTMENT_CREATED     | não   |
+| `n-004`                                                  | APPOINTMENT_CREATED     | sim   |
+| *(96 notificações adicionais com mix de tipos e status)* |                         |       |
 
 ---
 
@@ -63,14 +63,20 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 2. Iniciar o app: `npx expo start` e abrir no simulador iOS
 3. Observar o badge vermelho sobre o ícone de sino na aba "Alertas"
 4. Confirmar que o número exibido corresponde à quantidade de não lidas retornada por `GET /notifications/unread-count`
-5. Editar `src/web/mock-server/data/notifications.json` para incluir uma nova notificação com `read: false` e reiniciar o servidor
+5. No terminal, adicionar uma nova notificação ao servidor sem reiniciá-lo:
+   ```bash
+   curl -s -X POST http://localhost:3000/notifications/ \
+     -H "Content-Type: application/json" \
+     -d '{"type":"APPOINTMENT_CONFIRMED","title":"Consulta confirmada","message":"Sua consulta com Dr. Carlos foi confirmada."}' \
+     | jq .
+   ```
 6. Aguardar aproximadamente 30 segundos sem interação com o app
-7. Observar o badge atualizar automaticamente para refletir a nova contagem
+7. Observar o badge incrementar automaticamente em 1
 
 **Resultado esperado:**
 - Badge vermelho (`danger`) visível com a contagem correta de não lidas
 - Badge atualiza sem necessidade de recarregar o app ou navegar entre telas
-- Atualização ocorre em até 30 segundos após mudança no servidor
+- Atualização ocorre em até 30 segundos após a chamada `POST /notifications/`
 
 **Mídia:** [▶ Cenário 1](assets/mobile/cenarios-de-teste/cenario-teste-1.mp4)
 
@@ -119,10 +125,16 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 **Pré-condição:** App na tela "Alertas" com a lista já carregada. Mock server rodando.
 
 **Passos:**
-1. Com a lista carregada, editar `src/web/mock-server/data/notifications.json` para incluir uma nova notificação e reiniciar o servidor
+1. Com a lista carregada, adicionar uma nova notificação ao servidor no terminal:
+   ```bash
+   curl -s -X POST http://localhost:3000/notifications/ \
+     -H "Content-Type: application/json" \
+     -d '{"type":"APPOINTMENT_CANCELLED","title":"Consulta cancelada","message":"Sua consulta com Dra. Beatriz foi cancelada."}' \
+     | jq .
+   ```
 2. Na tela do simulador, puxar a lista de notificações para baixo e soltar
 3. Observar o `RefreshControl` aparecer durante o recarregamento
-4. Verificar que a nova notificação aparece na lista após o refresh
+4. Verificar que a nova notificação aparece no topo da lista após o refresh
 
 **Resultado esperado:**
 - `RefreshControl` (spinner nativo do iOS) visível enquanto recarrega
@@ -176,19 +188,19 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 2. Identificar uma notificação com estilo de não lida (fundo `accentSoft`, ponto azul) — anotar o badge atual
 3. Tocar na notificação
 4. Observar: fundo retorna ao neutro, ponto azul desaparece, badge decrementa em 1
-5. Verificar no console do Metro a chamada `PATCH /notifications/:id/read`
+5. Verificar no Proxyman a chamada `PATCH /notifications/:id/read` com status 200
 6. Tocar novamente na mesma notificação (agora lida)
 7. Selecionar a opção de marcar como não lida
 8. Observar: fundo volta a `accentSoft`, ponto azul reaparece, badge incrementa em 1
-9. Verificar no console do Metro a chamada `PATCH /notifications/:id/unread`
+9. Verificar no Proxyman a chamada `PATCH /notifications/:id/unread` com status 200
 
 **Resultado esperado:**
 - Estilo da notificação muda imediatamente para "lida" ao primeiro toque (sem recarregar a lista)
 - Badge da aba decrementado em 1
-- Chamada `PATCH /notifications/:id/read` disparada com o ID correto
+- Chamada `PATCH /notifications/:id/read` visível no Proxyman com o ID correto e status 200
 - Estilo restaurado para "não lida" ao selecionar reverter
 - Badge incrementado em 1
-- Chamada `PATCH /notifications/:id/unread` disparada com o ID correto
+- Chamada `PATCH /notifications/:id/unread` visível no Proxyman com o ID correto e status 200
 
 **Mídia:** [▶ Cenário 5](assets/mobile/cenarios-de-teste/cenario-teste-5.mp4)
 
@@ -211,14 +223,14 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 4. Tocar no botão "Marcar todas como lidas"
 5. Observar todas as notificações mudarem visualmente para o estilo "lida"
 6. Confirmar que o badge da aba zera e fica oculto imediatamente
-7. Verificar no console do Metro a chamada `PATCH /notifications/read-all`
+7. Verificar no Proxyman a chamada `PATCH /notifications/read-all` com status 200
 8. Confirmar que o botão "Marcar todas como lidas" desapareceu da interface
 
 **Resultado esperado:**
 - Botão visível no topo da lista quando há pelo menos uma notificação não lida
 - Todas as notificações passam para o estilo "lida" sem recarregar a lista
 - Badge zerado e oculto imediatamente após o toque
-- Chamada `PATCH /notifications/read-all` disparada
+- Chamada `PATCH /notifications/read-all` visível no Proxyman com status 200
 - Botão removido da interface
 
 **Mídia:** [▶ Cenário 6](assets/mobile/cenarios-de-teste/cenario-teste-6.mp4)
@@ -239,18 +251,19 @@ Este documento descreve os cenários de teste para o app mobile de notificaçõe
 
 **Objetivo:** Demonstrar que o app solicita permissão de notificações push ao usuário na primeira autenticação e que a resposta não bloqueia o uso do app.
 
-**Pré-condição:** Development build instalado no simulador via `npx expo run:ios`. App com sessão ativa como Ana Paciente.
+**Pré-condição:** Development build recém-instalado no simulador via `npx expo run:ios` — primeira execução do app, sem sessão prévia.
 
 **Passos:**
-1. Resetar as permissões de notificação do MedHub: `Simulator > Privacy & Security > Notifications > MedHub > Reset`
-2. Encerrar a sessão no app (logout) e autenticar novamente para disparar `registerForPushNotifications()`
-3. Observar o diálogo de permissão de notificações do iOS aparecer automaticamente
+1. Abrir o app `MedHub` no simulador pela primeira vez
+2. Realizar o login com as credenciais de Ana Paciente
+3. Observar o diálogo de permissão de notificações do iOS aparecer automaticamente após o login
 4. Conceder a permissão tocando em "Permitir"
-5. Verificar no console do Metro que `Push notification permission status: granted` foi registrado
+5. Verificar no Proxyman a chamada `PATCH /users/me/push-token` com status 200
+6. Confirmar que o app navega para a tela principal normalmente sem travar ou exibir erro
 
 **Resultado esperado:**
-- Diálogo de permissão de notificações iOS aparece após a autenticação
-- Console do Metro exibe `Push notification permission status: granted`
+- Diálogo de permissão de notificações iOS aparece imediatamente após o login
+- Chamada `PATCH /users/me/push-token` visível no Proxyman com status 200
 - O app permanece funcional após o diálogo — falha no registro do token não bloqueia o acesso
 
 **Mídia:** [▶ Cenário 7](assets/mobile/cenarios-de-teste/cenario-teste-7.mp4)
