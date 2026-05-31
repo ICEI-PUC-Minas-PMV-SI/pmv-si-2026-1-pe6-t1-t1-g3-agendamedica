@@ -31,6 +31,22 @@ A identidade visual do MedHub Mobile é uma extensão direta do sistema de desig
 
 A experiência do usuário mobile é guiada pelo uso estratégico do tom Teal como principal sinalizador de ação, adaptado para interações por toque e feedbacks visuais responsivos. O sistema é validado por princípios de acessibilidade e legibilidade, utilizando tokens de cor OKLCH para garantir uma percepção visual uniforme e inclusiva em toda a jornada de uso.
 
+#### Relação entre o design web e mobile
+
+O MedHub Web e Mobile compartilham o mesmo sistema de design base. Os tokens de estilo do mobile (`src/mobile/lib/tokens.ts`) foram definidos como um espelho direto das variáveis CSS do web (`src/web/src/styles/globals.css`), garantindo que cores, tipografia e espaçamentos sigam as mesmas diretrizes visuais nas duas plataformas. A única diferença técnica nas cores é o formato: no web, são declaradas em OKLCH para percepção uniforme. No mobile, são pré-convertidas para hex, pois o React Native não suporta esse formato nativamente.
+
+**Diferenças por necessidade de plataforma**
+
+Fontes, paleta de cores e hierarquia visual são idênticas nas duas versões. As diferenças a seguir existem exclusivamente por limitações ou convenções de cada plataforma:
+
+| Aspecto                  | Web                                          | Mobile                                |
+| ------------------------ | -------------------------------------------- | ------------------------------------- |
+| Navegação principal      | Sidebar fixa (244px) + header (64px)         | Bottom tab bar (60px)                 |
+| Responsividade           | Media queries (`max-width: 1000px`, `520px`) | `SafeAreaView` + flexbox nativo       |
+| Tamanho de fonte base    | 14px                                         | 15px (`typography.size.base`)         |
+| Variantes de accent      | Teal, Coral, Indigo, Forest                  | Apenas Teal                           |
+| Adaptação ao dispositivo | CSS Grid + breakpoints                       | Flexbox com dimensões fixas em tokens |
+
 **Tipografia**
 
 A fonte Fraunces foi selecionada para a hierarquia principal (H1, H2 e H3) por ser uma Soft Serif que equilibra autoridade clínica com um tom acolhedor, estabelecendo uma hierarquia semântica clara que organiza e facilita a busca e extração de informações.
@@ -217,19 +233,12 @@ eas build --platform ios
 
 ### Cenários de teste documentados
 
-| Funcionalidade                                  | Requisito                                                                       |
-| ----------------------------------------------- | ------------------------------------------------------------------------------- |
-| Agendar, visualizar e cancelar consultas        | RF-001                                                                          |
-| Controle de acesso (apenas pacientes no mobile) | RF-003                                                                          |
-| Prevenção de conflito de horários               | RF-004                                                                          |
-| Login e cadastro de paciente                    | [Cenários de Teste — Login e Cadastro](rf-005-auth/cenarios-de-teste-mobile.md) |
-| Notificações push e in-app                      | RF-006                                                                          |
 | Funcionalidade | Documento de testes |
 | --- | --- |
 | Agendar, visualizar e cancelar consultas (RF-001) | [Cenários de Teste — Agendamento Mobile](rf-001-appointments/cenarios-de-teste-mobile.md) |
 | Controle de acesso — apenas pacientes no mobile (RF-003) | — |
 | Prevenção de conflito de horários (RF-004) | — |
-| Login e cadastro de paciente (RF-005) | — |
+| Login e cadastro de paciente (RF-005) |[Cenários de Teste — Login e Cadastro](rf-005-auth/cenarios-de-teste-mobile.md) |
 | Notificações push e in-app (RF-006) | [Cenários de Teste — Notificações Mobile](rf-006-notifications/cenarios-de-teste-mobile.md) |
 
 ---
