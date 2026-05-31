@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
+import * as Notifications from 'expo-notifications';
 import {
   useFonts,
   Fraunces_700Bold,
@@ -15,6 +16,14 @@ import { AuthProvider, useAuth } from '@/lib/auth-context';
 import { NotificationCountProvider } from '@/lib/notification-count-context';
 
 SplashScreen.preventAutoHideAsync();
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth();
@@ -32,6 +41,19 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
       router.replace('/(tabs)');
     }
   }, [user, isLoading, segments]);
+
+  useEffect(() => {
+    const sub = Notifications.addNotificationResponseReceivedListener((response) => {
+      if (!user) return;
+      const appointmentId = response.notification.request.content.data?.appointmentId;
+      if (appointmentId && typeof appointmentId === 'string') {
+        router.push(`/appointment/${appointmentId}`);
+      } else {
+        router.push('/(tabs)/notifications');
+      }
+    });
+    return () => sub.remove();
+  }, [user]);
 
   return <>{children}</>;
 }

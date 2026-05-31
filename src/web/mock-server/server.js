@@ -9,6 +9,7 @@ const data = (file) =>
     JSON.parse(readFileSync(join(__dirname, "data", file), "utf-8"));
 
 const app = express();
+app.set('etag', false);
 app.use(cors());
 app.use(express.json());
 
@@ -35,7 +36,7 @@ app.get("/health", (_req, res) => res.json({ status: "ok" }));
 app.post("/auth/login", (req, res) => {
     const { email } = req.body;
     let user = users.find(u => u.email === email);
-    
+
     if (!user) user = users[0];
 
     res.json({ token: "mock-token", user });
@@ -127,7 +128,7 @@ app.post("/appointments/createAppointment", requireAuth, (req, res) => {
     if (apptDate < new Date()) {
         return res.status(400).json({ error: "Não é possível agendar em datas passadas." });
     }
-    
+
     const appointmentDurationMs = 20 * 60 * 1000;
     const startWindow = new Date(apptDate.getTime() - appointmentDurationMs);
     const endWindow = new Date(apptDate.getTime() + appointmentDurationMs);
@@ -136,7 +137,7 @@ app.post("/appointments/createAppointment", requireAuth, (req, res) => {
         if (a.status === "CANCELLED") return false;
 
         if (a.doctorId !== doctorId && a.doctor !== doctor.name) return false;
-        
+
         const existingDate = new Date(a.date);
         return existingDate > startWindow && existingDate < endWindow;
     });
@@ -183,9 +184,9 @@ app.patch("/appointments/:id", requireAuth, (req, res) => {
         return res.status(409).json({ error: "Horário indisponível. Há um conflito com outra consulta já agendada próxima a este horário." });
     }
 
-    appointments[idx] = { 
-        ...appointments[idx], 
-        date, 
+    appointments[idx] = {
+        ...appointments[idx],
+        date,
         notes: notes || null,
         status: "PENDING"
     };
@@ -208,11 +209,37 @@ app.patch("/appointments/confirmAppointment", requireAuth, (req, res) => {
     res.json(appointments[idx]);
 });
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// ── Users ─────────────────────────────────────────────────────
+app.patch("/users/me/push-token", requireAuth, (req, res) => {
+    const { expoPushToken } = req.body;
+    const user = users[0];
+    res.json({ id: user.id, expoPushToken });
+});
+
 // ── Notifications ─────────────────────────────────────────────
-app.get("/notifications/", (_req, res) => res.json(notifications));
+app.get("/notifications/", async (_req, res) => {
+    await delay(2000);
+    res.json(notifications);
+});
 
 app.get("/notifications/unread-count", (_req, res) => {
     res.json({ count: notifications.filter((n) => !n.read).length });
+});
+
+app.post("/notifications/", (req, res) => {
+    const { type = "APPOINTMENT_CREATED", title, message } = req.body;
+    const n = {
+        id: `n-${Date.now()}`,
+        type,
+        title: title ?? "Nova notificação",
+        message: message ?? "",
+        read: false,
+        createdAt: new Date().toISOString(),
+    };
+    notifications = [n, ...notifications];
+    res.status(201).json(n);
 });
 
 app.patch("/notifications/read-all", (_req, res) => {

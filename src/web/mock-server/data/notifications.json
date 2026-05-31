@@ -46,9 +46,9 @@
     },
     {
         "id": "n-006",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Você tem uma consulta com Dra. Marina Figueiredo amanhã às 14:30. Não se esqueça.",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Marina Figueiredo foi confirmada pela clínica.",
         "createdAt": "2026-05-03T08:00:00",
         "read": true,
         "appointmentId": "a-01"
@@ -91,9 +91,9 @@
     },
     {
         "id": "n-011",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Você tem uma teleconsulta com Dr. Rafael Monteiro em 2 dias. Teste sua câmera e microfone.",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua teleconsulta com Dr. Rafael Monteiro foi confirmada. Acesse pelo app no horário marcado.",
         "createdAt": "2026-04-29T08:00:00",
         "read": false,
         "appointmentId": "a-02"
@@ -127,9 +127,9 @@
     },
     {
         "id": "n-015",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Você tem uma consulta com Dr. Paulo Saraiva amanhã às 08:30. Chegue com 15 minutos de antecedência.",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dr. Paulo Saraiva foi confirmada. Chegue com 15 minutos de antecedência.",
         "createdAt": "2026-04-25T08:00:00",
         "read": false,
         "appointmentId": null
@@ -163,9 +163,9 @@
     },
     {
         "id": "n-019",
-        "type": "REMINDER",
-        "title": "Lembrete de preparo",
-        "message": "Sua consulta de Cardiologia com Dr. Rafael Monteiro é em 3 dias. Faça um jejum de 4h antes.",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta de Cardiologia com Dr. Rafael Monteiro foi confirmada pela recepção.",
         "createdAt": "2026-04-21T08:00:00",
         "read": false,
         "appointmentId": "a-02"
@@ -208,9 +208,9 @@
     },
     {
         "id": "n-024",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Você tem uma consulta com Dra. Marina Figueiredo amanhã. Confirme o endereço da clínica.",
+        "type": "APPOINTMENT_CONFIRMED",
+        "title": "Consulta confirmada",
+        "message": "Sua consulta com Dra. Marina Figueiredo foi confirmada. Confirme o endereço da clínica antes de sair.",
         "createdAt": "2026-04-16T08:00:00",
         "read": true,
         "appointmentId": "a-01"
@@ -244,9 +244,9 @@
     },
     {
         "id": "n-028",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Sua consulta com Dr. Paulo Saraiva é amanhã. Prepare os documentos necessários.",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Consulta agendada",
+        "message": "Sua consulta com Dr. Paulo Saraiva foi agendada. Prepare os documentos necessários.",
         "createdAt": "2026-04-12T08:00:00",
         "read": false,
         "appointmentId": null
@@ -289,9 +289,9 @@
     },
     {
         "id": "n-033",
-        "type": "REMINDER",
-        "title": "Lembrete de preparo",
-        "message": "Sua consulta de Neurologia é em 3 dias. Anote seus sintomas para relatar ao médico.",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Consulta agendada",
+        "message": "Sua consulta de Neurologia foi agendada. Anote seus sintomas para relatar ao médico.",
         "createdAt": "2026-04-07T08:00:00",
         "read": true,
         "appointmentId": null
@@ -334,9 +334,9 @@
     },
     {
         "id": "n-038",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Você tem uma consulta de Endocrinologia amanhã. Leve seus resultados de exames de sangue.",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Consulta agendada",
+        "message": "Sua consulta de Endocrinologia foi agendada. Leve seus resultados de exames anteriores.",
         "createdAt": "2026-04-02T08:00:00",
         "read": false,
         "appointmentId": null
@@ -379,9 +379,9 @@
     },
     {
         "id": "n-043",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Sua consulta com Dr. Rafael Monteiro é em 2 dias. Confirme pelo app.",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Consulta agendada",
+        "message": "Sua consulta com Dr. Rafael Monteiro foi agendada. Confirme os detalhes pelo app.",
         "createdAt": "2026-03-28T08:00:00",
         "read": false,
         "appointmentId": "a-02"
@@ -424,9 +424,9 @@
     },
     {
         "id": "n-048",
-        "type": "REMINDER",
-        "title": "Lembrete de preparo",
-        "message": "Sua consulta de Psiquiatria é amanhã. Anote os medicamentos que está tomando.",
+        "type": "APPOINTMENT_CREATED",
+        "title": "Consulta agendada",
+        "message": "Sua consulta de Psiquiatria foi agendada. Anote os medicamentos que está tomando.",
         "createdAt": "2026-03-23T08:00:00",
         "read": true,
         "appointmentId": null
@@ -469,9 +469,9 @@
     },
     {
         "id": "n-053",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Sua consulta de Oftalmologia é amanhã. Evite usar lentes de contato no dia.",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta de Oftalmologia foi cancelada. Entre em contato para reagendar.",
         "createdAt": "2026-03-18T08:00:00",
         "read": false,
         "appointmentId": null
@@ -514,9 +514,9 @@
     },
     {
         "id": "n-058",
-        "type": "REMINDER",
-        "title": "Lembrete de preparo",
-        "message": "Sua consulta com Dra. Helena Prado é em 3 dias. Separe os últimos exames realizados.",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Helena Prado foi cancelada. Entre em contato para reagendar.",
         "createdAt": "2026-03-13T08:00:00",
         "read": false,
         "appointmentId": "a-03"
@@ -559,9 +559,9 @@
     },
     {
         "id": "n-063",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Sua consulta com Dra. Sofia Torres é amanhã. Anote os pontos dolorosos para relatar.",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta com Dra. Sofia Torres foi cancelada. Entre em contato para reagendar.",
         "createdAt": "2026-03-08T08:00:00",
         "read": true,
         "appointmentId": null
@@ -604,9 +604,9 @@
     },
     {
         "id": "n-068",
-        "type": "REMINDER",
-        "title": "Lembrete de preparo",
-        "message": "Sua consulta de Gastroenterologia é em 2 dias. Faça dieta leve 24h antes.",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua consulta de Gastroenterologia foi cancelada. Entre em contato para reagendar.",
         "createdAt": "2026-03-03T08:00:00",
         "read": false,
         "appointmentId": null
@@ -649,9 +649,9 @@
     },
     {
         "id": "n-073",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Você tem uma teleconsulta com Dr. Rafael Monteiro amanhã. Tenha boa conexão de internet.",
+        "type": "APPOINTMENT_CANCELLED",
+        "title": "Consulta cancelada",
+        "message": "Sua teleconsulta com Dr. Rafael Monteiro foi cancelada. Entre em contato para reagendar.",
         "createdAt": "2026-02-26T08:00:00",
         "read": false,
         "appointmentId": "a-02"
@@ -694,9 +694,9 @@
     },
     {
         "id": "n-078",
-        "type": "REMINDER",
-        "title": "Lembrete de preparo",
-        "message": "Sua consulta de Pneumologia é amanhã. Evite atividades físicas intensas no dia anterior.",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Sua consulta de Pneumologia foi remarcada para uma nova data. Verifique o novo horário no app.",
         "createdAt": "2026-02-21T08:00:00",
         "read": true,
         "appointmentId": null
@@ -739,9 +739,9 @@
     },
     {
         "id": "n-083",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Sua consulta de Urologia é em 3 dias. Colete amostra de urina no dia do exame.",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Sua consulta de Urologia foi remarcada para uma nova data. Verifique o novo horário no app.",
         "createdAt": "2026-02-16T08:00:00",
         "read": false,
         "appointmentId": null
@@ -784,9 +784,9 @@
     },
     {
         "id": "n-088",
-        "type": "REMINDER",
-        "title": "Lembrete de preparo",
-        "message": "Sua consulta com Dra. Carla Mendes é amanhã. Relaxe e descanse bem antes.",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Sua consulta foi remarcada para um novo horário. Verifique os detalhes no app.",
         "createdAt": "2026-02-11T08:00:00",
         "read": false,
         "appointmentId": null
@@ -829,9 +829,9 @@
     },
     {
         "id": "n-093",
-        "type": "REMINDER",
-        "title": "Lembrete de consulta",
-        "message": "Sua consulta de Geriatria é amanhã. Traga a lista completa de medicamentos em uso.",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Sua consulta de Geriatria foi remarcada. Traga a lista completa de medicamentos em uso.",
         "createdAt": "2026-02-06T08:00:00",
         "read": true,
         "appointmentId": null
@@ -874,9 +874,9 @@
     },
     {
         "id": "n-098",
-        "type": "REMINDER",
-        "title": "Lembrete de preparo",
-        "message": "Sua consulta de Hematologia é em 2 dias. Faça jejum de 8h e evite atividades físicas.",
+        "type": "APPOINTMENT_RESCHEDULED",
+        "title": "Horário remarcado",
+        "message": "Sua consulta de Hematologia foi remarcada para uma nova data. Verifique o novo horário no app.",
         "createdAt": "2026-02-01T08:00:00",
         "read": false,
         "appointmentId": null
