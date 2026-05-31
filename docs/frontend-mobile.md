@@ -233,19 +233,12 @@ eas build --platform ios
 
 ### Cenários de teste documentados
 
-| Funcionalidade                                  | Requisito                                                                       |
-| ----------------------------------------------- | ------------------------------------------------------------------------------- |
-| Agendar, visualizar e cancelar consultas        | RF-001                                                                          |
-| Controle de acesso (apenas pacientes no mobile) | RF-003                                                                          |
-| Prevenção de conflito de horários               | RF-004                                                                          |
-| Login e cadastro de paciente                    | [Cenários de Teste — Login e Cadastro](rf-005-auth/cenarios-de-teste-mobile.md) |
-| Notificações push e in-app                      | RF-006                                                                          |
 | Funcionalidade | Documento de testes |
 | --- | --- |
 | Agendar, visualizar e cancelar consultas (RF-001) | [Cenários de Teste — Agendamento Mobile](rf-001-appointments/cenarios-de-teste-mobile.md) |
 | Controle de acesso — apenas pacientes no mobile (RF-003) | — |
 | Prevenção de conflito de horários (RF-004) | — |
-| Login e cadastro de paciente (RF-005) | — |
+| Login e cadastro de paciente (RF-005) |[Cenários de Teste — Login e Cadastro](rf-005-auth/cenarios-de-teste-mobile.md) |
 | Notificações push e in-app (RF-006) | [Cenários de Teste — Notificações Mobile](rf-006-notifications/cenarios-de-teste-mobile.md) |
 
 ---
