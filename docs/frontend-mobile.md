@@ -10,18 +10,9 @@ A interface foi construída como um aplicativo React Native com roteamento basea
 
 ### Wireframes
 
-Os wireframes cobrem as principais telas do aplicativo, organizados para refletir o fluxo real de uso:
+Os wireframes foram produzidos em alta fidelidade e cobrem as principais telas do aplicativo, organizados para refletir o fluxo real de uso: autenticação, agendamento, acompanhamento de consultas e notificações.
 
-| Tela             | Caminho                 | Descrição                                                    |
-| ---------------- | ----------------------- | ------------------------------------------------------------ |
-| Login            | `/auth/login`           | Autenticação com e-mail e senha                              |
-| Cadastro         | `/auth/register`        | Criação de conta de paciente                                 |
-| Início           | `/(tabs)/`              | Dashboard com saudação, card hero e próximas consultas       |
-| Consultas        | `/(tabs)/appointments`  | Lista filtrada por status (próximas, realizadas, canceladas) |
-| Notificações     | `/(tabs)/notifications` | Feed de notificações com indicador de não lidas              |
-| Perfil           | `/(tabs)/profile`       | Dados do usuário e botão de logout                           |
-| Agendar consulta | `/appointment/new`      | Wizard em 3 etapas: médico → data/hora → confirmação         |
-| Detalhe          | `/appointment/[id]`     | Informações completas da consulta e ação de cancelamento     |
+Os wireframes completos podem ser visualizados em: [Wireframes MedHub](img/medbub-wireframes-mobile.pdf).
 
 ---
 
