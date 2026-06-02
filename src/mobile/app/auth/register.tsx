@@ -23,6 +23,7 @@ export default function RegisterScreen() {
   const [email, setEmail] = useState('');
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -32,7 +33,19 @@ export default function RegisterScreen() {
     if (!email.trim()) e.email = 'E-mail obrigatório.';
     if (cpf.replace(/\D/g, '').length < 11) e.cpf = 'CPF deve ter 11 dígitos.';
     if (password.length < 6) e.password = 'Senha deve ter no mínimo 6 caracteres.';
+    if (password !== confirm) e.confirm = 'As senhas não coincidem.';
     return e;
+  }
+
+  function mapApiError(err: unknown): string {
+    const msg = err instanceof Error ? err.message : '';
+    if (msg.toLowerCase().includes('e-mail') && msg.toLowerCase().includes('uso')) {
+      return 'E-mail já cadastrado.';
+    }
+    if (msg.toLowerCase().includes('cpf') && msg.toLowerCase().includes('cadastrado')) {
+      return 'CPF já cadastrado.';
+    }
+    return msg || 'Erro ao criar conta.';
   }
 
   async function handleRegister() {
@@ -46,7 +59,7 @@ export default function RegisterScreen() {
     try {
       await register(name.trim(), email.trim(), cpf.replace(/\D/g, ''), password);
     } catch (err: unknown) {
-      setErrors({ general: err instanceof Error ? err.message : 'Erro ao criar conta.' });
+      setErrors({ general: mapApiError(err) });
     } finally {
       setLoading(false);
     }
@@ -111,6 +124,16 @@ export default function RegisterScreen() {
               autoComplete="new-password"
               placeholder="Mínimo 6 caracteres"
               error={errors.password}
+              containerStyle={styles.gap}
+            />
+            <Input
+              label="Confirmar senha"
+              value={confirm}
+              onChangeText={setConfirm}
+              secureTextEntry
+              autoComplete="new-password"
+              placeholder="Repita a senha"
+              error={errors.confirm}
               containerStyle={styles.gap}
             />
 
