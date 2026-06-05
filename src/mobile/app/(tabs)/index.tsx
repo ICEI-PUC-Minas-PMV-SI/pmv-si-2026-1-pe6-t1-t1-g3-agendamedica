@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   RefreshControl,
   ViewStyle,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@/lib/auth-context';
 import { fetchAppointments } from '@/lib/api';
@@ -38,7 +38,7 @@ export default function HomeScreen() {
         .filter(
           (a) =>
             new Date(a.date) >= now &&
-            (a.status === 'PENDING' || a.status === 'CONFIRMED'),
+            (a.status === 'PENDING' || a.status === 'CONFIRMED' || a.status === 'RESCHEDULED'),
         )
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
         .slice(0, 3);
@@ -51,9 +51,11 @@ export default function HomeScreen() {
     }
   }
 
-  useEffect(() => {
-    load();
-  }, [user]);
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [user])
+  );
 
   function onRefresh() {
     setRefreshing(true);

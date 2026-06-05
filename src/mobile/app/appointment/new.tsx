@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  Platform,
   ViewStyle,
   ScrollView,
   TextInput,
@@ -13,17 +14,26 @@ import {
 import { useRouter, Stack } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@/lib/auth-context';
-import { fetchDoctors, createAppointment } from '@/lib/api';
-import { colors, spacing, radius, typography, shadows } from '@/lib/tokens';
+import { fetchDoctors, fetchPatients, createAppointment } from '@/lib/api';
+import { colors, spacing, radius, typography } from '@/lib/tokens';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { LoadingState } from '@/components/ui/LoadingState';
+import { MonthCalendar } from '@/components/ui/MonthCalendar';
 import { SearchIcon, CheckIcon } from '@/components/ui/Icon';
-import type { Doctor } from '@/lib/types';
+import type { Doctor, User } from '@/lib/types';
 
-type Step = 'doctor' | 'datetime' | 'confirm';
+function showAlert(title: string, message: string) {
+  if (Platform.OS === 'web') {
+    window.alert(`${title}\n\n${message}`);
+  } else {
+    Alert.alert(title, message);
+  }
+}
 
-// Generate time slots for a given date (08:00–18:00, every 30 min)
+type Step = 'patient' | 'doctor' | 'datetime' | 'confirm';
+
+// Generates time slots for a given date (08:00–18:00, every 30 min)
 function generateSlots(dateStr: string): string[] {
   const slots: string[] = [];
   for (let h = 8; h < 18; h++) {
@@ -36,36 +46,28 @@ function generateSlots(dateStr: string): string[] {
   return slots;
 }
 
-// Generate next 14 days as YYYY-MM-DD
-function nextDays(n = 14): string[] {
-  const days: string[] = [];
-  const now = new Date();
-  for (let i = 1; i <= n; i++) {
-    const d = new Date(now);
-    d.setDate(now.getDate() + i);
-    days.push(d.toISOString().slice(0, 10));
-  }
-  return days;
-}
-
-function fmtDayLabel(dateStr: string): { weekday: string; day: string; month: string } {
-  const d = new Date(`${dateStr}T12:00:00`);
-  return {
-    weekday: d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', ''),
-    day: String(d.getDate()).padStart(2, '0'),
-    month: d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', ''),
-  };
+function todayStr(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
 export default function NewAppointmentScreen() {
   const router = useRouter();
   const { user } = useAuth();
+  
+  const isReceptionist = user?.role === 'RECEPTIONIST';
 
-  const [step, setStep] = useState<Step>('doctor');
+  const [step, setStep] = useState<Step>(isReceptionist ? 'patient' : 'doctor');
+  
   const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [patients, setPatients] = useState<User[]>([]);
   const [search, setSearch] = useState('');
+  const [patientSearch, setPatientSearch] = useState('');
   const [loadingDoctors, setLoadingDoctors] = useState(true);
+  const [loadingPatients, setLoadingPatients] = useState(true);
+  
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+  const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [notes, setNotes] = useState('');
@@ -76,7 +78,14 @@ export default function NewAppointmentScreen() {
       .then(setDoctors)
       .catch(() => {})
       .finally(() => setLoadingDoctors(false));
-  }, []);
+      
+    if (isReceptionist) {
+      fetchPatients()
+        .then(setPatients)
+        .catch(() => {})
+        .finally(() => setLoadingPatients(false));
+    }
+  }, [isReceptionist]);
 
   const filteredDoctors = doctors.filter(
     (d) =>
@@ -84,113 +93,190 @@ export default function NewAppointmentScreen() {
       d.specialty.toLowerCase().includes(search.toLowerCase()),
   );
 
-  const days = nextDays(14);
+  const filteredPatients = patients.filter((p) =>
+    p.name.toLowerCase().includes(patientSearch.toLowerCase()),
+  );
+
   const slots = selectedDate ? generateSlots(selectedDate) : [];
 
+  const effectivePatientId = isReceptionist ? selectedPatient?.id : user?.id;
+
   async function handleConfirm() {
-    if (!user || !selectedDoctor || !selectedSlot) return;
+    if (!effectivePatientId || !selectedDoctor || !selectedSlot) return;
     setSubmitting(true);
     try {
       const appointment = await createAppointment(
-        user.id,
+        effectivePatientId,
         selectedDoctor.id,
         new Date(selectedSlot).toISOString(),
         notes || undefined,
       );
-      Alert.alert('Consulta agendada!', 'Sua consulta foi agendada com sucesso.', [
-        {
-          text: 'Ver detalhes',
-          onPress: () => router.replace(`/appointment/${appointment.id}` as any),
-        },
-      ]);
+      if (Platform.OS === 'web') {
+        window.alert('Consulta agendada!\n\nSua consulta foi agendada com sucesso.');
+        router.replace(`/appointment/${appointment.id}` as any);
+      } else {
+        Alert.alert('Consulta agendada!', 'Sua consulta foi agendada com sucesso.', [
+          {
+            text: 'Ver detalhes',
+            onPress: () => router.replace(`/appointment/${appointment.id}` as any),
+          },
+        ]);
+      }
     } catch (err: unknown) {
-      Alert.alert('Erro', err instanceof Error ? err.message : 'Não foi possível agendar.');
+      showAlert('Erro', err instanceof Error ? err.message : 'Não foi possível agendar.');
     } finally {
       setSubmitting(false);
     }
   }
 
-  const stepTitle =
-    step === 'doctor'
-      ? 'Escolha o médico'
-      : step === 'datetime'
-      ? 'Data e horário'
-      : 'Confirmar consulta';
+  function renderDoctorItem({ item }: { item: Doctor }) {
+    const isSelected = selectedDoctor?.id === item.id;
+    return (
+      <TouchableOpacity
+        style={[styles.card, isSelected && styles.cardSelected]}
+        onPress={() => setSelectedDoctor(item)}
+        activeOpacity={0.7}
+      >
+        <Avatar name={item.name} src={item.avatarUrl} size="md" />
+        <View style={styles.cardInfo}>
+          <Text style={styles.cardName}>{item.name}</Text>
+          <Text style={styles.cardSub}>{item.specialty}</Text>
+          <Text style={styles.cardMeta}>{item.clinic}</Text>
+        </View>
+        <View style={[styles.radio, isSelected && styles.radioSelected]}>
+          {isSelected && <CheckIcon size={12} color="#fff" />}
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  function renderPatientItem({ item }: { item: User }) {
+    const isSelected = selectedPatient?.id === item.id;
+    return (
+      <TouchableOpacity
+        style={[styles.card, isSelected && styles.cardSelected]}
+        onPress={() => setSelectedPatient(item)}
+        activeOpacity={0.7}
+      >
+        <Avatar name={item.name} size="md" />
+        <View style={styles.cardInfo}>
+          <Text style={styles.cardName}>{item.name}</Text>
+          <Text style={styles.cardMeta}>{item.email}</Text>
+        </View>
+        <View style={[styles.radio, isSelected && styles.radioSelected]}>
+          {isSelected && <CheckIcon size={12} color="#fff" />}
+        </View>
+      </TouchableOpacity>
+    );
+  }
 
   return (
     <>
-      <Stack.Screen options={{ title: stepTitle }} />
+      <Stack.Screen options={{ title: 'Nova consulta', headerBackTitle: 'Cancelar' }} />
       <SafeAreaView style={styles.safe} edges={['bottom']}>
-        {/* Progress indicator */}
-        <View style={styles.progress}>
-          {(['doctor', 'datetime', 'confirm'] as Step[]).map((s, i) => (
-            <View
-              key={s}
-              style={[
-                styles.progressStep,
-                step === s && styles.progressStepActive,
-                (step === 'datetime' && i === 0) ||
-                (step === 'confirm' && i <= 1)
-                  ? styles.progressStepDone
-                  : null,
-              ]}
-            />
-          ))}
+        {/* Progress header */}
+        <View style={styles.progressHeader}>
+          {isReceptionist && (
+            <View style={styles.progressStep}>
+              <View style={[styles.progressDot, step === 'patient' && styles.progressDotActive]} />
+              <Text style={[styles.progressText, step === 'patient' && styles.progressTextActive]}>
+                Paciente
+              </Text>
+            </View>
+          )}
+          <View style={styles.progressStep}>
+            <View style={[styles.progressDot, step === 'doctor' && styles.progressDotActive]} />
+            <Text style={[styles.progressText, step === 'doctor' && styles.progressTextActive]}>
+              Médico
+            </Text>
+          </View>
+          <View style={styles.progressStep}>
+            <View style={[styles.progressDot, step === 'datetime' && styles.progressDotActive]} />
+            <Text style={[styles.progressText, step === 'datetime' && styles.progressTextActive]}>
+              Data
+            </Text>
+          </View>
+          <View style={styles.progressStep}>
+            <View style={[styles.progressDot, step === 'confirm' && styles.progressDotActive]} />
+            <Text style={[styles.progressText, step === 'confirm' && styles.progressTextActive]}>
+              Revisar
+            </Text>
+          </View>
         </View>
 
-        {/* Step: Doctor selection */}
-        {step === 'doctor' && (
+        {/* Step: Patient (Receptionist only) */}
+        {step === 'patient' && isReceptionist && (
           <View style={styles.stepContainer}>
-            {/* Search */}
-            <View style={styles.searchBar}>
-              <SearchIcon color={colors.inkMuted} size={18} />
+            <View style={styles.searchContainer}>
+              <SearchIcon color={colors.inkMuted} size={20} />
               <TextInput
-                value={search}
-                onChangeText={setSearch}
-                placeholder="Buscar por nome ou especialidade"
-                placeholderTextColor={colors.inkMuted}
                 style={styles.searchInput}
+                placeholder="Buscar paciente por nome..."
+                placeholderTextColor={colors.inkMuted}
+                value={patientSearch}
+                onChangeText={setPatientSearch}
               />
             </View>
+            {loadingPatients ? (
+              <LoadingState />
+            ) : (
+              <FlatList
+                data={filteredPatients}
+                keyExtractor={(item) => item.id}
+                renderItem={renderPatientItem}
+                contentContainerStyle={styles.listContent}
+                keyboardShouldPersistTaps="handled"
+              />
+            )}
+            <View style={styles.footer}>
+              <Button
+                label="Próximo"
+                onPress={() => setStep('doctor')}
+                disabled={!selectedPatient}
+                style={{ flex: 1 }}
+              />
+            </View>
+          </View>
+        )}
 
+        {/* Step: Doctor */}
+        {step === 'doctor' && (
+          <View style={styles.stepContainer}>
+            <View style={styles.searchContainer}>
+              <SearchIcon color={colors.inkMuted} size={20} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Buscar por nome ou especialidade..."
+                placeholderTextColor={colors.inkMuted}
+                value={search}
+                onChangeText={setSearch}
+              />
+            </View>
             {loadingDoctors ? (
-              <LoadingState rows={4} />
+              <LoadingState />
             ) : (
               <FlatList
                 data={filteredDoctors}
-                keyExtractor={(d) => d.id}
+                keyExtractor={(item) => item.id}
+                renderItem={renderDoctorItem}
                 contentContainerStyle={styles.listContent}
-                ItemSeparatorComponent={() => <View style={{ height: spacing[3] }} />}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={[
-                      styles.doctorCard,
-                      selectedDoctor?.id === item.id && styles.doctorCardSelected,
-                    ]}
-                    onPress={() => setSelectedDoctor(item)}
-                    activeOpacity={0.75}
-                  >
-                    <Avatar name={item.name} size="md" />
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.doctorName}>{item.name}</Text>
-                      <Text style={styles.doctorSpec}>{item.specialty}</Text>
-                      {item.clinic ? (
-                        <Text style={styles.doctorClinic}>{item.clinic}</Text>
-                      ) : null}
-                    </View>
-                    {selectedDoctor?.id === item.id && (
-                      <CheckIcon color={colors.accent} size={20} />
-                    )}
-                  </TouchableOpacity>
-                )}
+                keyboardShouldPersistTaps="handled"
               />
             )}
-
             <View style={styles.footer}>
+              {isReceptionist && (
+                <Button
+                  label="Voltar"
+                  variant="secondary"
+                  onPress={() => setStep('patient')}
+                  style={{ flex: 1 }}
+                />
+              )}
               <Button
                 label="Próximo"
                 onPress={() => setStep('datetime')}
                 disabled={!selectedDoctor}
+                style={{ flex: 1 }}
               />
             </View>
           </View>
@@ -201,31 +287,12 @@ export default function NewAppointmentScreen() {
           <View style={styles.stepContainer}>
             <ScrollView contentContainerStyle={styles.dateTimeContent}>
               <Text style={styles.sectionLabel}>Selecione a data</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.daysScroll}>
-                <View style={styles.daysRow}>
-                  {days.map((d) => {
-                    const lbl = fmtDayLabel(d);
-                    const active = selectedDate === d;
-                    return (
-                      <TouchableOpacity
-                        key={d}
-                        style={[styles.dayChip, active && styles.dayChipActive]}
-                        onPress={() => { setSelectedDate(d); setSelectedSlot(null); }}
-                      >
-                        <Text style={[styles.dayWeekday, active && styles.textWhite]}>
-                          {lbl.weekday}
-                        </Text>
-                        <Text style={[styles.dayDay, active && styles.textWhite]}>
-                          {lbl.day}
-                        </Text>
-                        <Text style={[styles.dayMonth, active && styles.textWhite]}>
-                          {lbl.month}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
-              </ScrollView>
+              
+              <MonthCalendar
+                selectedDate={selectedDate}
+                minDate={todayStr()}
+                onSelectDate={(d) => { setSelectedDate(d); setSelectedSlot(null); }}
+              />
 
               {selectedDate && (
                 <>
@@ -272,37 +339,60 @@ export default function NewAppointmentScreen() {
 
         {/* Step: Confirm */}
         {step === 'confirm' && selectedDoctor && selectedSlot && (
-          <ScrollView contentContainerStyle={styles.confirmContent}>
-            <Text style={styles.confirmTitle}>Resumo do agendamento</Text>
+          <View style={styles.stepContainer}>
+            <ScrollView contentContainerStyle={styles.confirmContent}>
+              <View style={styles.confirmCard}>
+                <Text style={styles.confirmTitle}>Resumo da consulta</Text>
+                
+                {isReceptionist && selectedPatient && (
+                  <View style={styles.confirmRow}>
+                    <Text style={styles.confirmLabel}>Paciente</Text>
+                    <Text style={styles.confirmValue}>{selectedPatient.name}</Text>
+                  </View>
+                )}
 
-            <View style={styles.confirmCard}>
-              <ConfirmRow label="Médico" value={selectedDoctor.name} />
-              <ConfirmRow label="Especialidade" value={selectedDoctor.specialty} />
-              {selectedDoctor.clinic && (
-                <ConfirmRow label="Clínica" value={selectedDoctor.clinic} />
-              )}
-              <ConfirmRow
-                label="Data"
-                value={new Date(`${selectedDate}T12:00:00`).toLocaleDateString('pt-BR', {
-                  weekday: 'long',
-                  day: 'numeric',
-                  month: 'long',
-                })}
+                <View style={styles.confirmRow}>
+                  <Text style={styles.confirmLabel}>Médico</Text>
+                  <Text style={styles.confirmValue}>{selectedDoctor.name}</Text>
+                </View>
+                
+                <View style={styles.confirmRow}>
+                  <Text style={styles.confirmLabel}>Especialidade</Text>
+                  <Text style={styles.confirmValue}>{selectedDoctor.specialty}</Text>
+                </View>
+
+                <View style={styles.confirmRow}>
+                  <Text style={styles.confirmLabel}>Local</Text>
+                  <Text style={styles.confirmValue}>{selectedDoctor.clinic}</Text>
+                </View>
+                
+                <View style={styles.confirmRow}>
+                  <Text style={styles.confirmLabel}>Data</Text>
+                  <Text style={styles.confirmValue}>
+                    {new Date(selectedSlot).toLocaleDateString('pt-BR')}
+                  </Text>
+                </View>
+                
+                <View style={styles.confirmRow}>
+                  <Text style={styles.confirmLabel}>Horário</Text>
+                  <Text style={styles.confirmValue}>{selectedSlot.slice(11, 16)}</Text>
+                </View>
+              </View>
+
+              <Text style={[styles.sectionLabel, { marginTop: spacing[5] }]}>
+                Observações (opcional)
+              </Text>
+              <TextInput
+                style={styles.notesInput}
+                placeholder="Ex: Primeira consulta, levar exames..."
+                placeholderTextColor={colors.inkMuted}
+                value={notes}
+                onChangeText={setNotes}
+                multiline
+                numberOfLines={3}
+                textAlignVertical="top"
               />
-              <ConfirmRow label="Horário" value={selectedSlot.slice(11, 16)} />
-            </View>
-
-            <Text style={styles.notesLabel}>Observações (opcional)</Text>
-            <TextInput
-              value={notes}
-              onChangeText={setNotes}
-              placeholder="Descreva o motivo da consulta ou outras informações..."
-              placeholderTextColor={colors.inkMuted}
-              multiline
-              numberOfLines={3}
-              style={styles.notesInput}
-              textAlignVertical="top"
-            />
+            </ScrollView>
 
             <View style={styles.footer}>
               <Button
@@ -312,58 +402,64 @@ export default function NewAppointmentScreen() {
                 style={{ flex: 1 }}
               />
               <Button
-                label="Confirmar"
+                label="Confirmar agendamento"
                 onPress={handleConfirm}
                 loading={submitting}
-                style={{ flex: 1 }}
+                style={{ flex: 2 }}
               />
             </View>
-          </ScrollView>
+          </View>
         )}
       </SafeAreaView>
     </>
   );
 }
 
-function ConfirmRow({ label, value }: { label: string; value: string }) {
-  return (
-    <View style={styles.confirmRow}>
-      <Text style={styles.confirmLabel}>{label}</Text>
-      <Text style={styles.confirmValue}>{value}</Text>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.bg },
-  progress: {
+  progressHeader: {
     flexDirection: 'row',
-    gap: spacing[2],
-    paddingHorizontal: spacing[5],
-    paddingVertical: spacing[3],
+    justifyContent: 'center',
+    padding: spacing[4],
+    backgroundColor: colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    gap: spacing[6],
   } as ViewStyle,
   progressStep: {
-    flex: 1,
-    height: 4,
-    borderRadius: radius.pill,
+    alignItems: 'center',
+    gap: spacing[1],
+  } as ViewStyle,
+  progressDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
     backgroundColor: colors.border,
   } as ViewStyle,
-  progressStepActive: { backgroundColor: colors.accent } as ViewStyle,
-  progressStepDone: { backgroundColor: colors.accentDark } as ViewStyle,
-
+  progressDotActive: {
+    backgroundColor: colors.accent,
+  } as ViewStyle,
+  progressText: {
+    fontFamily: typography.bodyMedium,
+    fontSize: typography.size.xs,
+    color: colors.inkMuted,
+  },
+  progressTextActive: {
+    color: colors.ink,
+    fontFamily: typography.bodyBold,
+  },
   stepContainer: { flex: 1 } as ViewStyle,
-
-  searchBar: {
+  searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: spacing[5],
-    marginBottom: spacing[3],
+    backgroundColor: colors.surface,
+    margin: spacing[5],
+    marginBottom: spacing[2],
     paddingHorizontal: spacing[3],
     height: 44,
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.surface,
     gap: spacing[2],
   } as ViewStyle,
   searchInput: {
@@ -372,85 +468,72 @@ const styles = StyleSheet.create({
     fontSize: typography.size.base,
     color: colors.ink,
   },
-
-  listContent: { paddingHorizontal: spacing[5], paddingBottom: spacing[10] } as ViewStyle,
-  doctorCard: {
+  listContent: {
+    padding: spacing[5],
+    gap: spacing[3],
+  } as ViewStyle,
+  card: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing[3],
-    padding: spacing[4],
     backgroundColor: colors.surface,
+    padding: spacing[4],
     borderRadius: radius.lg,
     borderWidth: 1,
     borderColor: colors.border,
-    ...shadows.sm,
+    gap: spacing[3],
   } as ViewStyle,
-  doctorCardSelected: {
+  cardSelected: {
     borderColor: colors.accent,
-    backgroundColor: colors.accentSoft,
+    backgroundColor: colors.bgSubtle,
   } as ViewStyle,
-  doctorName: {
+  cardInfo: { flex: 1 } as ViewStyle,
+  cardName: {
     fontFamily: typography.bodyBold,
     fontSize: typography.size.base,
     color: colors.ink,
   },
-  doctorSpec: {
+  cardSub: {
     fontFamily: typography.bodyFont,
     fontSize: typography.size.sm,
     color: colors.inkMuted,
   },
-  doctorClinic: {
+  cardMeta: {
     fontFamily: typography.bodyFont,
     fontSize: typography.size.xs,
     color: colors.inkMuted,
-    marginTop: 2,
+    marginTop: spacing[1],
   },
-
-  dateTimeContent: { paddingHorizontal: spacing[5], paddingBottom: spacing[10] } as ViewStyle,
+  radio: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  } as ViewStyle,
+  radioSelected: {
+    borderColor: colors.accent,
+    backgroundColor: colors.accent,
+  } as ViewStyle,
+  footer: {
+    flexDirection: 'row',
+    padding: spacing[5],
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    backgroundColor: colors.surface,
+    gap: spacing[3],
+  } as ViewStyle,
+  dateTimeContent: {
+    padding: spacing[5],
+    paddingBottom: spacing[10],
+  } as ViewStyle,
   sectionLabel: {
     fontFamily: typography.bodyBold,
     fontSize: typography.size.sm,
     color: colors.ink2,
     marginBottom: spacing[3],
   },
-  daysScroll: { marginHorizontal: -spacing[5] },
-  daysRow: {
-    flexDirection: 'row',
-    gap: spacing[2],
-    paddingHorizontal: spacing[5],
-  } as ViewStyle,
-  dayChip: {
-    width: 56,
-    alignItems: 'center',
-    paddingVertical: spacing[3],
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.surface,
-  } as ViewStyle,
-  dayChipActive: {
-    backgroundColor: colors.accent,
-    borderColor: colors.accent,
-  } as ViewStyle,
-  dayWeekday: {
-    fontFamily: typography.bodyFont,
-    fontSize: typography.size.xs,
-    color: colors.inkMuted,
-    textTransform: 'capitalize',
-  },
-  dayDay: {
-    fontFamily: typography.displayFont,
-    fontSize: typography.size.xl,
-    color: colors.ink,
-  },
-  dayMonth: {
-    fontFamily: typography.bodyFont,
-    fontSize: typography.size.xs,
-    color: colors.inkMuted,
-    textTransform: 'capitalize',
-  },
-  textWhite: { color: '#fff' },
-
   slotsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -474,33 +557,28 @@ const styles = StyleSheet.create({
     fontSize: typography.size.sm,
     color: colors.ink,
   },
-
+  textWhite: { color: '#fff' },
   confirmContent: {
     padding: spacing[5],
     paddingBottom: spacing[10],
   } as ViewStyle,
-  confirmTitle: {
-    fontFamily: typography.displayFont,
-    fontSize: typography.size.xl,
-    color: colors.ink,
-    marginBottom: spacing[5],
-  },
   confirmCard: {
     backgroundColor: colors.surface,
     borderRadius: radius.lg,
     borderWidth: 1,
     borderColor: colors.border,
-    marginBottom: spacing[5],
-    overflow: 'hidden',
-    ...shadows.sm,
+    padding: spacing[4],
+    gap: spacing[3],
   } as ViewStyle,
+  confirmTitle: {
+    fontFamily: typography.bodyBold,
+    fontSize: typography.size.base,
+    color: colors.ink,
+    marginBottom: spacing[2],
+  },
   confirmRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[4],
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
   } as ViewStyle,
   confirmLabel: {
     fontFamily: typography.bodyFont,
@@ -511,35 +589,16 @@ const styles = StyleSheet.create({
     fontFamily: typography.bodyMedium,
     fontSize: typography.size.sm,
     color: colors.ink,
-    maxWidth: '60%',
-    textAlign: 'right',
-  },
-
-  notesLabel: {
-    fontFamily: typography.bodyMedium,
-    fontSize: typography.size.sm,
-    color: colors.ink2,
-    marginBottom: spacing[2],
   },
   notesInput: {
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: radius.md,
     padding: spacing[3],
+    minHeight: 80,
     fontFamily: typography.bodyFont,
     fontSize: typography.size.base,
     color: colors.ink,
-    backgroundColor: colors.surface,
-    minHeight: 80,
-    marginBottom: spacing[6],
   },
-
-  footer: {
-    flexDirection: 'row',
-    gap: spacing[3],
-    padding: spacing[5],
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-    backgroundColor: colors.surface,
-  } as ViewStyle,
 });

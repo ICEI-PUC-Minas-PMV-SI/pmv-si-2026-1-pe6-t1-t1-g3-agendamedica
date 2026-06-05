@@ -158,6 +158,22 @@ app.post("/appointments/createAppointment", requireAuth, (req, res) => {
     res.status(201).json(newAppt);
 });
 
+app.post("/appointments/cancelAppointment", requireAuth, (req, res) => {
+    const { appointmentId } = req.body;
+    const idx = appointments.findIndex((a) => a.id === appointmentId);
+    if (idx === -1) return res.status(404).json({ error: "Consulta não encontrada" });
+    appointments[idx] = { ...appointments[idx], status: "CANCELLED" };
+    res.json(appointments[idx]);
+});
+
+app.patch("/appointments/confirmAppointment", requireAuth, (req, res) => {
+    const { appointmentId } = req.body;
+    const idx = appointments.findIndex((a) => a.id === appointmentId);
+    if (idx === -1) return res.status(404).json({ error: "Consulta não encontrada" });
+    appointments[idx] = { ...appointments[idx], status: "CONFIRMED" };
+    res.json(appointments[idx]);
+});
+
 app.patch("/appointments/:id", requireAuth, (req, res) => {
     const { id } = req.params;
     const { date, notes } = req.body;
@@ -193,21 +209,6 @@ app.patch("/appointments/:id", requireAuth, (req, res) => {
     res.json(appointments[idx]);
 });
 
-app.post("/appointments/cancelAppointment", requireAuth, (req, res) => {
-    const { appointmentId } = req.body;
-    const idx = appointments.findIndex((a) => a.id === appointmentId);
-    if (idx === -1) return res.status(404).json({ error: "Consulta não encontrada" });
-    appointments[idx] = { ...appointments[idx], status: "CANCELLED" };
-    res.json(appointments[idx]);
-});
-
-app.patch("/appointments/confirmAppointment", requireAuth, (req, res) => {
-    const { appointmentId } = req.body;
-    const idx = appointments.findIndex((a) => a.id === appointmentId);
-    if (idx === -1) return res.status(404).json({ error: "Consulta não encontrada" });
-    appointments[idx] = { ...appointments[idx], status: "CONFIRMED" };
-    res.json(appointments[idx]);
-});
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 

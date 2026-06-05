@@ -11,6 +11,23 @@ import { Platform } from 'react-native';
 import * as api from './api';
 import type { User } from './types';
 
+// SecureStore não funciona no browser — usa localStorage como fallback
+const storage = {
+  async get(key: string): Promise<string | null> {
+    if (Platform.OS === 'web') return localStorage.getItem(key);
+    return SecureStore.getItemAsync(key);
+  },
+  async set(key: string, value: string): Promise<void> {
+    if (Platform.OS === 'web') { localStorage.setItem(key, value); return; }
+    return SecureStore.setItemAsync(key, value);
+  },
+  async del(key: string): Promise<void> {
+    if (Platform.OS === 'web') { localStorage.removeItem(key); return; }
+    return SecureStore.deleteItemAsync(key);
+  },
+};
+
+
 async function registerForPushNotifications() {
   if (Platform.OS === 'web') return;
   const { status } = await Notifications.requestPermissionsAsync();
@@ -50,8 +67,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     async function restore() {
-      const token = await SecureStore.getItemAsync(TOKEN_KEY);
-      const userJson = await SecureStore.getItemAsync(USER_KEY);
+      const token = await storage.get(TOKEN_KEY);
+      const userJson = await storage.get(USER_KEY);
       if (token && userJson) {
         api.setToken(token);
         setState({ user: JSON.parse(userJson), token, isLoading: false });
@@ -64,8 +81,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function login(email: string, password: string) {
     const { token, user } = await api.login(email, password);
-    await SecureStore.setItemAsync(TOKEN_KEY, token);
-    await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user));
+    await storage.set(TOKEN_KEY, token);
+    await storage.set(USER_KEY, JSON.stringify(user));
     api.setToken(token);
     setState({ user, token, isLoading: false });
     registerForPushNotifications();
@@ -73,16 +90,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function register(name: string, email: string, cpf: string, password: string) {
     const { token, user } = await api.register(name, email, cpf, password);
-    await SecureStore.setItemAsync(TOKEN_KEY, token);
-    await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user));
+    await storage.set(TOKEN_KEY, token);
+    await storage.set(USER_KEY, JSON.stringify(user));
     api.setToken(token);
     setState({ user, token, isLoading: false });
     registerForPushNotifications();
   }
 
   async function logout() {
-    await SecureStore.deleteItemAsync(TOKEN_KEY);
-    await SecureStore.deleteItemAsync(USER_KEY);
+    await storage.del(TOKEN_KEY);
+    await storage.del(USER_KEY);
     api.setToken(null);
     setState({ user: null, token: null, isLoading: false });
   }
