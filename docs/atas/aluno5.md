@@ -17,10 +17,10 @@
 | 20/04 - 26/04 | Computação Ubíqua e Pervasiva e IoT - Unidade 2 | ✅ |  |Desenvolvi o consumo dinâmico da lista de clínicas. Implementei a lógica de busca (GET) para popular a tabela de unidades, garantindo que os dados (nome, endereço e telefone) fossem renderizados em tempo real a partir do arquivo de dados do sistema.  |
 | 27/04 - 03/05 | Desenvolvimento de Aplicações Móveis - Unidade 1 | ✅ |  |Foquei na experiência do usuário para a gestão das clínicas. Implementei o formulário de edição, utilizando estados do React para capturar e enviar as alterações de endereço e contato de unidades específicas, tratando a passagem de dados via initialData para garantir a integridade da edição.  |
 | 04/05 - 10/05 | Desenvolvimento de Aplicações Móveis - Unidade 2 | ✅ |  |Finalizei a persistência de dados das clínicas com a implementação do método PUT. Validei a atualização automática no arquivo físico clinics.json e realizei o refinamento final da interface de gerenciamento, removendo elementos de depuração para a apresentação do protótipo funcional.  |
-| 11/05 - 17/05 | Desenvolvimento de Aplicações Móveis - Unidade 2 | ⬜ |  |  |
-| 18/05 - 24/05 | Fundamentos de Projeto e Análise de Algoritmos - Unidade 1 | ⬜ |  |  |
-| 25/05 - 31/05 | Fundamentos de Projeto e Análise de Algoritmos - Unidade 2 | ⬜ |  |  |
-| 01/06 - 07/06 |  | ⬜ |  |  |
+| 11/05 - 17/05 | Desenvolvimento de Aplicações Móveis - Unidade 2 | ✅ |  | Iniciamos a configuração estrutural da interface mobile do gerenciamento de clínicas. Atuamos na resolução de bugs de compilação no ambiente web e mobile do Expo |
+| 18/05 - 24/05 | Fundamentos de Projeto e Análise de Algoritmos - Unidade 1 | ✅ |  | Avançamos com a integração da aplicação móvel com a base de dados definitiva. |
+| 25/05 - 31/05 | Fundamentos de Projeto e Análise de Algoritmos - Unidade 2 | ✅ |  | Desenvolvemos condições no código do frontend móvel para garantir que os botões de criação e edição de clínicas|
+| 01/06 - 07/06 |  | ✅ |  | Concluímos a etapa com a realização dos testes do fluxo completo do mobile e a gravação do vídeo de evidência. Estruturamos a documentação da funcionalidade em Markdown, integramos o link de visualização dos testes |
 | 08/06 - 14/06 |  | ⬜ |  |  |
 
 **Legenda:** ✅ Estudou | ⬜ Não estudou
