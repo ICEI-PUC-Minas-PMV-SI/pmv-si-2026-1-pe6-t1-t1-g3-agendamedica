@@ -74,44 +74,16 @@ Todos os ícones são SVG inline, definidos em `src/mobile/components/ui/Icon.ts
 
 ## Fluxo de Dados
 
-O fluxo de navegação do usuário segue a seguinte sequência:
+O fluxo de dados mapeia a navegação do usuário através das diferentes interfaces do aplicativo MedHub, ilustrando como as interações levam de uma tela para outra.
 
-```
-Inicialização
-  → SecureStore verifica token salvo
-  → Autenticado? → Tabs (Início)
-  → Não autenticado? → /auth/login
+![Fluxo de Telas do App Mobile](./img/data-flow-mobile.png)
 
-/auth/login
-  → POST /auth/login → token + user
-  → Salva em SecureStore
-  → Registra Expo Push Token
-  → Redireciona para /(tabs)
+**Pontos-chave da Navegação:**
+- **Autenticação (`/auth/login`)**: Porta de entrada do aplicativo que redireciona para a interface principal após login bem-sucedido.
+- **Tela Inicial (`/(tabs)/index`)**: Painel principal (Início) que exibe o hero card, as próximas consultas e atalhos rápidos.
+- **Navegação Principal (`Tabs`)**: Controla o acesso às principais seções do aplicativo: Início, Consultas, Notificações e Perfil.
+- **Gestão de Agendamentos (`/appointment/...`)**: Telas em pilha (stack) dedicadas à criação de novas consultas e visualização de detalhes de agendamentos.
 
-/(tabs)/index (Início)
-  → GET /appointments/listAppointments → lista filtrada (próximas 3)
-  → Exibe hero card + atalhos + próximas consultas
-
-/(tabs)/appointments
-  → GET /appointments/listAppointments → todos os agendamentos
-  → Filtros: Próximas / Realizadas / Canceladas
-
-/(tabs)/notifications
-  → GET /notifications → feed paginado
-  → PATCH /notifications/:id/read → marca como lida
-  → PATCH /notifications/read-all → marca todas
-
-/appointment/new
-  → GET /doctors → lista de médicos
-  → Seleção de data e horário
-  → POST /appointments/createAppointment → novo agendamento
-
-/appointment/[id]
-  → GET /appointments/:id → detalhes
-  → POST /appointments/cancelAppointment → cancelar
-```
-
-**AuthContext** (`lib/auth-context.tsx`) mantém o estado de autenticação globalmente. **NotificationCountContext** (`lib/notification-count-context.tsx`) gerencia o badge de não lidas no tab bar, atualizando a cada 30 segundos.
 
 ---
 
