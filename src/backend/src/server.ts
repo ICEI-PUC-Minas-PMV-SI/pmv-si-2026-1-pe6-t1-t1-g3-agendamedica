@@ -12,6 +12,9 @@ import authRoutes from "./modules/auth/auth.routes";
 
 const app = express();
 
+import cors from "cors";
+app.use(cors());
+
 app.use(express.json());
 app.use("/appointments", appointmentRoutes);
 app.use("/auth", authRoutes);

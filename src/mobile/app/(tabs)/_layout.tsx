@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, typography } from '@/lib/tokens';
 import {
   HomeIcon,
@@ -12,6 +13,7 @@ import { useNotificationCount } from '@/lib/notification-count-context';
 
 export default function TabsLayout() {
   const { count } = useNotificationCount();
+  const { bottom } = useSafeAreaInsets();
 
   return (
     <Tabs
@@ -23,8 +25,8 @@ export default function TabsLayout() {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
           borderTopWidth: 1,
-          height: 60,
-          paddingBottom: 8,
+          height: 60 + bottom,
+          paddingBottom: 8 + bottom,
         },
         tabBarLabelStyle: {
           fontFamily: typography.bodyMedium,

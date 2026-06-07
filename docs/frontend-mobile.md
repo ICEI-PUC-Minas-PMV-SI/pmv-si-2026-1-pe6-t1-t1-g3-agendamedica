@@ -10,18 +10,9 @@ A interface foi construída como um aplicativo React Native com roteamento basea
 
 ### Wireframes
 
-Os wireframes cobrem as principais telas do aplicativo, organizados para refletir o fluxo real de uso:
+Os wireframes foram produzidos em alta fidelidade e cobrem as principais telas do aplicativo, organizados para refletir o fluxo real de uso: autenticação, agendamento, acompanhamento de consultas e notificações.
 
-| Tela             | Caminho                 | Descrição                                                    |
-| ---------------- | ----------------------- | ------------------------------------------------------------ |
-| Login            | `/auth/login`           | Autenticação com e-mail e senha                              |
-| Cadastro         | `/auth/register`        | Criação de conta de paciente                                 |
-| Início           | `/(tabs)/`              | Dashboard com saudação, card hero e próximas consultas       |
-| Consultas        | `/(tabs)/appointments`  | Lista filtrada por status (próximas, realizadas, canceladas) |
-| Notificações     | `/(tabs)/notifications` | Feed de notificações com indicador de não lidas              |
-| Perfil           | `/(tabs)/profile`       | Dados do usuário e botão de logout                           |
-| Agendar consulta | `/appointment/new`      | Wizard em 3 etapas: médico → data/hora → confirmação         |
-| Detalhe          | `/appointment/[id]`     | Informações completas da consulta e ação de cancelamento     |
+Os wireframes completos podem ser visualizados em: [Wireframes MedHub](img/medbub-wireframes-mobile.pdf).
 
 ---
 
@@ -83,44 +74,16 @@ Todos os ícones são SVG inline, definidos em `src/mobile/components/ui/Icon.ts
 
 ## Fluxo de Dados
 
-O fluxo de navegação do usuário segue a seguinte sequência:
+O fluxo de dados mapeia a navegação do usuário através das diferentes interfaces do aplicativo MedHub, ilustrando como as interações levam de uma tela para outra.
 
-```
-Inicialização
-  → SecureStore verifica token salvo
-  → Autenticado? → Tabs (Início)
-  → Não autenticado? → /auth/login
+![Fluxo de Telas do App Mobile](./img/data-flow-mobile.png)
 
-/auth/login
-  → POST /auth/login → token + user
-  → Salva em SecureStore
-  → Registra Expo Push Token
-  → Redireciona para /(tabs)
+**Pontos-chave da Navegação:**
+- **Autenticação (`/auth/login`)**: Porta de entrada do aplicativo que redireciona para a interface principal após login bem-sucedido.
+- **Tela Inicial (`/(tabs)/index`)**: Painel principal (Início) que exibe o hero card, as próximas consultas e atalhos rápidos.
+- **Navegação Principal (`Tabs`)**: Controla o acesso às principais seções do aplicativo: Início, Consultas, Notificações e Perfil.
+- **Gestão de Agendamentos (`/appointment/...`)**: Telas em pilha (stack) dedicadas à criação de novas consultas e visualização de detalhes de agendamentos.
 
-/(tabs)/index (Início)
-  → GET /appointments/listAppointments → lista filtrada (próximas 3)
-  → Exibe hero card + atalhos + próximas consultas
-
-/(tabs)/appointments
-  → GET /appointments/listAppointments → todos os agendamentos
-  → Filtros: Próximas / Realizadas / Canceladas
-
-/(tabs)/notifications
-  → GET /notifications → feed paginado
-  → PATCH /notifications/:id/read → marca como lida
-  → PATCH /notifications/read-all → marca todas
-
-/appointment/new
-  → GET /doctors → lista de médicos
-  → Seleção de data e horário
-  → POST /appointments/createAppointment → novo agendamento
-
-/appointment/[id]
-  → GET /appointments/:id → detalhes
-  → POST /appointments/cancelAppointment → cancelar
-```
-
-**AuthContext** (`lib/auth-context.tsx`) mantém o estado de autenticação globalmente. **NotificationCountContext** (`lib/notification-count-context.tsx`) gerencia o badge de não lidas no tab bar, atualizando a cada 30 segundos.
 
 ---
 

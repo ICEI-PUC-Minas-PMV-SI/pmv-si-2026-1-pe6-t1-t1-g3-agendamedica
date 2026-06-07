@@ -31,6 +31,17 @@ const updateAppointmentBodySchema = z.object({
     notes: z.string().optional(),
 });
 
+function mapAppointment(a: any) {
+    const { patient, doctor, ...rest } = a;
+    return {
+        ...rest,
+        patientName: patient?.name ?? 'Paciente',
+        doctor: doctor
+            ? { id: doctor.id, name: doctor.user?.name ?? 'Não informado', specialty: doctor.specialty, clinicId: doctor.clinicId }
+            : undefined,
+    };
+}
+
 export class AppointmentController {
     private readonly createService = new CreateAppointmentService(new AppointmentRepository());
     private readonly listService = new ListAppointmentsByUserService(new AppointmentRepository());
@@ -74,11 +85,8 @@ export class AppointmentController {
         try {
             const { userId } = listAppointmentsBodySchema.parse(req.query);
 
-            const appointments = await this.listService.execute(userId);
-            const mapped = appointments.map((a: any) => {
-                const { patient, ...rest } = a;
-                return { ...rest, patientName: patient?.name || "Paciente" };
-            });
+            const appointments = await this.listService.execute(userId, req.userRole);
+            const mapped = appointments.map(mapAppointment);
             return res.status(200).json(mapped);
         } catch (error) {
             if (error instanceof z.ZodError) {
@@ -98,10 +106,7 @@ export class AppointmentController {
                 return res.status(401).json({ error: "Usuário não autenticado." });
             }
             const appointments = await this.listService.execute(userId, req.userRole);
-            const mapped = appointments.map((a: any) => {
-                const { patient, ...rest } = a;
-                return { ...rest, patientName: patient?.name || "Paciente" };
-            });
+            const mapped = appointments.map(mapAppointment);
             return res.status(200).json(mapped);
         } catch (error) {
             if (error instanceof Error) {
@@ -164,8 +169,7 @@ export class AppointmentController {
             }
 
             const appointment: any = await this.getService.execute(id, userId, userRole);
-            const { patient, ...rest } = appointment;
-            const mapped = { ...rest, patientName: patient?.name || "Paciente" };
+            const mapped = mapAppointment(appointment);
 
             return res.status(200).json(mapped);
         } catch (error) {
