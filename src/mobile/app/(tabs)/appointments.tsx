@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   RefreshControl,
   ViewStyle,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@/lib/auth-context';
 import { fetchAppointments } from '@/lib/api';
@@ -49,10 +49,15 @@ export default function AppointmentsScreen() {
     }
   }
 
-  useEffect(() => { load(); }, [user]);
+  useFocusEffect(
+    useCallback(() => { load(); }, [user])
+  );
 
   const filtered = useMemo(() => {
     const now = new Date();
+    // Normalizar "agora" para ignorar horas se quisermos que 'upcoming' mostre o dia todo?
+    // Não, vamos usar a data real, mas com uma pequena tolerância se for o caso.
+    
     if (filter === 'upcoming') {
       return all
         .filter(
@@ -67,11 +72,12 @@ export default function AppointmentsScreen() {
         .filter((a) => a.status === 'CANCELLED')
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     }
-    // past
+    // past (Realizadas): Excluir pendentes esquecidas!
     return all
       .filter(
         (a) =>
-          new Date(a.date) < now && a.status !== 'CANCELLED',
+          new Date(a.date) < now &&
+          (a.status === 'CONFIRMED' || a.status === 'RESCHEDULED'),
       )
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [all, filter]);

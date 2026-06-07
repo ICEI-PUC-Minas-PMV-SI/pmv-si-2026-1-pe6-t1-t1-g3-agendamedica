@@ -85,7 +85,7 @@ export class AppointmentController {
         try {
             const { userId } = listAppointmentsBodySchema.parse(req.query);
 
-            const appointments = await this.listService.execute(userId);
+            const appointments = await this.listService.execute(userId, req.userRole);
             const mapped = appointments.map(mapAppointment);
             return res.status(200).json(mapped);
         } catch (error) {

@@ -23,7 +23,7 @@ export class CreateAppointmentService {
             data.date,
         );
         if (conflict) {
-            throw new Error(`Horário indisponível. Há um conflito com outra consulta já agendada próxima às ${conflict.date.toLocaleString('pt-BR', { timeZone: 'UTC' })}.`);
+            throw new Error(`Horário indisponível. Há um conflito com outra consulta já agendada próxima às ${conflict.date.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}.`);
         }
 
         return this.repository.create(data);
@@ -112,7 +112,7 @@ export class UpdateAppointmentService {
             );
 
             if (conflict && conflict.id !== appointmentId) {
-                throw new Error(`Horário indisponível. Conflito com consulta próxima às ${conflict.date.toLocaleString('pt-BR', { timeZone: 'UTC' })}.`);
+                throw new Error(`Horário indisponível. Conflito com consulta próxima às ${conflict.date.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}.`);
             }
         }
 

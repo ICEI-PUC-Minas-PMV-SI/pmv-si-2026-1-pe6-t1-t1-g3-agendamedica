@@ -88,6 +88,24 @@ export async function cancelAppointment(appointmentId: string): Promise<Appointm
   });
 }
 
+export async function confirmAppointment(appointmentId: string): Promise<Appointment> {
+  return request<Appointment>('/appointments/confirmAppointment', {
+    method: 'PATCH',
+    body: JSON.stringify({ appointmentId }),
+  });
+}
+
+export async function rescheduleAppointment(
+  appointmentId: string,
+  date: string,
+  notes?: string,
+): Promise<Appointment> {
+  return request<Appointment>(`/appointments/${appointmentId}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ date, notes }),
+  });
+}
+
 export async function fetchAppointmentById(id: string): Promise<Appointment> {
   return request<Appointment>(`/appointments/${id}`);
 }
@@ -96,6 +114,12 @@ export async function fetchAppointmentById(id: string): Promise<Appointment> {
 export async function fetchDoctors(): Promise<Doctor[]> {
   return request<Doctor[]>('/doctors');
 }
+
+// Patients (para recepcionista escolher ao agendar)
+export async function fetchPatients(): Promise<User[]> {
+  return request<User[]>('/patients/');
+}
+
 
 // Notifications
 export async function fetchNotifications(

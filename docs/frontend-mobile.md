@@ -199,9 +199,10 @@ eas build --platform ios
 | Funcionalidade | Documento de testes |
 | --- | --- |
 | Agendar, visualizar e cancelar consultas (RF-001) | [Cenários de Teste — Agendamento Mobile](rf-001-appointments/cenarios-de-teste-mobile.md) |
-| Controle de acesso — apenas pacientes no mobile (RF-003) | — |
-| Prevenção de conflito de horários (RF-004) | — |
-| Login e cadastro de paciente (RF-005) |[Cenários de Teste — Login e Cadastro](rf-005-auth/cenarios-de-teste-mobile.md) |
+| Gestão de Agendamentos (RF-002) | [Cenários de Teste — Gestão Mobile](rf-002-appointments-management/cenarios-de-teste-mobile.md) |
+| Controle de acesso a consultas (RF-003) | [Cenários de Teste — Segurança Mobile](rf-003-appointments-security/cenarios-de-teste-mobile.md) |
+| Prevenção de conflito de horários (RF-004) | [Cenários de Teste — Concorrência Mobile](rf-004-appointments-concurrency/cenarios-de-teste-mobile.md) |
+| Login e cadastro de paciente (RF-005) | [Cenários de Teste — Login e Cadastro](rf-005-auth/cenarios-de-teste-mobile.md) |
 | Notificações push e in-app (RF-006) | [Cenários de Teste — Notificações Mobile](rf-006-notifications/cenarios-de-teste-mobile.md) |
 
 ---
