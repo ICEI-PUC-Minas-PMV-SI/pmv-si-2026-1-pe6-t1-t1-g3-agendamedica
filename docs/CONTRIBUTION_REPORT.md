@@ -1,6 +1,6 @@
 # 📊 Relatório de Contribuições do Projeto
 
-**Última atualização:** 07/06/2026 19:29
+**Última atualização:** 07/06/2026 19:37
 
 ---
 
@@ -9,19 +9,19 @@
 | Aluno                 |   Commits |   Linhas+ |   Linhas- |   Arquivos |   Docs Commits |   Docs Arquivos |
 |-----------------------|-----------|-----------|-----------|------------|----------------|-----------------|
 | Alice                 |        13 |     14752 |       295 |         39 |              8 |               5 |
-| Alice Abreu           |        59 |       133 |       135 |         11 |             50 |              11 |
+| Alice Abreu           |        60 |       141 |       142 |         11 |             51 |              11 |
 | AliceAbreu            |        13 |      1632 |       772 |         23 |              9 |               4 |
 | Gabriel Nascimento    |       190 |     38947 |      6898 |        169 |             60 |               8 |
 | LeticiaOliAquino      |        37 |       812 |       301 |         24 |             24 |               9 |
 | Martha Beatriz        |       104 |     21164 |     14751 |         66 |             78 |               8 |
 | Omar Martins          |        42 |      3581 |      1188 |         78 |             23 |              14 |
-| github-actions[bot]   |        84 |       776 |       753 |          3 |             84 |               1 |
+| github-actions[bot]   |        85 |       783 |       760 |          3 |             85 |               1 |
 | github-classroom[bot] |         1 |      2152 |         0 |         45 |              1 |              13 |
 
 
 ## 📅 Contribuições Semanais (Todo o Semestre)
 
-**2026-05-31**: Alice: 3, Alice Abreu: 6, Gabriel Nascimento: 1, LeticiaOliAquino: 5, Martha Beatriz: 3, Omar Martins: 8, github-actions[bot]: 13
+**2026-05-31**: Alice: 3, Alice Abreu: 7, Gabriel Nascimento: 1, LeticiaOliAquino: 5, Martha Beatriz: 3, Omar Martins: 8, github-actions[bot]: 14
 
 **2026-05-24**: Alice: 3, Alice Abreu: 1, Gabriel Nascimento: 22, LeticiaOliAquino: 2, Martha Beatriz: 4, github-actions[bot]: 4
 
