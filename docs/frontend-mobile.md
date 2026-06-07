@@ -240,8 +240,7 @@ eas build --platform ios
 | Prevenção de conflito de horários (RF-004)               | —                                                                                           |
 | Login e cadastro de paciente (RF-005)                    | [Cenários de Teste — Login e Cadastro](rf-005-auth/cenarios-de-teste-mobile.md)             |
 | Notificações push e in-app (RF-006)                      | [Cenários de Teste — Notificações Mobile](rf-006-notifications/cenarios-de-teste-mobile.md) |
-| Gerenciamento de Clínicas (RF-007)                       | [Cenários de Teste - Clínicas](rf-007-clinics/testes-clinicas.md)                           |
-
+| Gerenciamento de Clínicas (RF-007)                       | [Cenários de Teste - Clínicas](rf-007-clinics/cenarios-de-teste-mobile.md)                  |
 ---
 
 # Referências
