@@ -26,7 +26,8 @@ function showAlert(title: string, msg: string) {
 }
 
 export default function AppointmentDetailScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const rawId = useLocalSearchParams<{ id?: string }>().id;
+  const id = typeof rawId === 'string' ? rawId : undefined;
   const router = useRouter();
   const { user } = useAuth();
   const [appointment, setAppointment] = useState<Appointment | null>(null);
@@ -35,11 +36,16 @@ export default function AppointmentDetailScreen() {
   const [confirming, setConfirming] = useState(false);
 
   useEffect(() => {
+    if (!id) {
+      // id ausente ou inválido → volta para a tela anterior
+      router.back();
+      return;
+    }
     fetchAppointmentById(id)
       .then(setAppointment)
       .catch(() => router.back())
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, router]);
 
   function confirmCancel() {
     if (Platform.OS === 'web') {

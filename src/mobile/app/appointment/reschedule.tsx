@@ -31,7 +31,8 @@ function generateSlots(dateStr: string): string[] {
 }
 
 export default function RescheduleScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const rawId = useLocalSearchParams<{ id?: string }>().id;
+  const id = typeof rawId === 'string' ? rawId : undefined;
   const router = useRouter();
   const [appointment, setAppointment] = useState<Appointment | null>(null);
   const [loading, setLoading] = useState(true);
@@ -41,11 +42,16 @@ export default function RescheduleScreen() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    if (!id) {
+      // id ausente ou inválido → volta para a tela anterior
+      router.back();
+      return;
+    }
     fetchAppointmentById(id)
       .then(a => { setAppointment(a); setNotes(a.notes ?? ''); })
       .catch(() => router.back())
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, router]);
 
   const slots = selectedDate ? generateSlots(selectedDate) : [];
 

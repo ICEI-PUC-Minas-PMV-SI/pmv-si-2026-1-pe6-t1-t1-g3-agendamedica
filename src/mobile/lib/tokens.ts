@@ -1,6 +1,5 @@
 // Design tokens mirroring the web app's globals.css CSS custom properties.
 // All OKLCH values are pre-converted to hex for React Native compatibility.
-import { Platform } from 'react-native';
 
 export const colors = {
   // Brand accent — teal (oklch(0.55 0.09 195) → #2B7A78)
