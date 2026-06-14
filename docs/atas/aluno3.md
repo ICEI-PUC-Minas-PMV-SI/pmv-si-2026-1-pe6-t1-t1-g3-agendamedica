@@ -21,6 +21,6 @@
 | 18/05 - 24/05 | Fundamentos de Projeto e Análise de Algoritmos - Unidade 1 | ⬜ |  |  |
 | 25/05 - 31/05 | Fundamentos de Projeto e Análise de Algoritmos - Unidade 2 | ⬜ |  |  |
 | 01/06 - 07/06 |  | ⬜ |  |  |
-| 08/06 - 14/06 |  | ⬜ |  |  |
+| 08/06 - 14/06 | Apresentação Final | ✅ | Preparar e apresentar a solução na reunião de encerramento | Gravação do vídeo de demonstração da solução para a apresentação final. Apresentação do sistema na reunião de encerramento do semestre. |
 
 **Legenda:** ✅ Estudou | ⬜ Não estudou
