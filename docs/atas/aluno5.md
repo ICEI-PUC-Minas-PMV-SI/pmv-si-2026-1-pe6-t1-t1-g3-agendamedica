@@ -21,6 +21,6 @@
 | 18/05 - 24/05 | Fundamentos de Projeto e Análise de Algoritmos - Unidade 1 | ✅ |  | Avançamos com a integração da aplicação móvel com a base de dados definitiva. |
 | 25/05 - 31/05 | Fundamentos de Projeto e Análise de Algoritmos - Unidade 2 | ✅ |  | Desenvolvemos condições no código do frontend móvel para garantir que os botões de criação e edição de clínicas|
 | 01/06 - 07/06 |  | ✅ |  | Concluímos a etapa com a realização dos testes do fluxo completo do mobile e a gravação do vídeo de evidência. Estruturamos a documentação da funcionalidade em Markdown, integramos o link de visualização dos testes |
-| 08/06 - 14/06 |  | ⬜ |  |  |
+| 08/06 - 14/06 | Apresentação Final | ✅ | Preparar material para a apresentação final | Ajustes gerais no projeto para a apresentação final. |
 
 **Legenda:** ✅ Estudou | ⬜ Não estudou

@@ -1,29 +1,33 @@
 cff-version: 1.0.1
 message: Please cite this software using these metadata.
-title:
+title: "MedHub — Sistema Distribuído de Agenda Médica"
 authors:
-  - family-names:
-    given-names:
-  - family-names:
-    given-names:
-  - family-names:
-    given-names:
-  - family-names:
-    given-names:
-  - family-names:
-    given-names:
-  - family-names:
-    given-names:
-  - family-names:
-    given-names:
-  - name-suffix: Professor XXXX
+  - family-names: Abreu dos Reis
+    given-names: Alice
     affiliation: PUC Minas
-    family-names:
-    given-names:
+  - family-names: dos Reis Nascimento
+    given-names: Gabriel
+    affiliation: PUC Minas
+  - family-names: Beatriz Siqueira da Silva
+    given-names: Martha
+    affiliation: PUC Minas
+  - family-names: Petronilio Martins de Abreu
+    given-names: Omar
+    affiliation: PUC Minas
+  - family-names: Oliveira Aquino
+    given-names: Letícia
+    affiliation: PUC Minas
+  - name-suffix: Orientador
+    family-names: Jacques Ferreira de Souza
+    given-names: Kleber
+    affiliation: PUC Minas
 keywords:
-  -
-  -
-repository-code:
+  - agenda médica
+  - sistemas distribuídos
+  - agendamento de consultas
+  - API REST
+  - React Native
+repository-code: https://github.com/ICEI-PUC-Minas-PMV-SI/pmv-si-2026-1-pe6-t1-t1-g3-agendamedica
 license: CC-BY-4.0
 version: 1.0.0
-date-released: 2023-06-30
+date-released: 2026-06-14
