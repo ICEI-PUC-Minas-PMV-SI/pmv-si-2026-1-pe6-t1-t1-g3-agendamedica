@@ -1,6 +1,6 @@
 # 📊 Relatório de Contribuições do Projeto
 
-**Última atualização:** 02/11/2026 00:15
+**Última atualização:** 09/11/2026 00:15
 
 ---
 
@@ -15,13 +15,13 @@
 | LeticiaOliAquino      |        37 |       812 |       301 |         24 |             24 |               9 |
 | Martha Beatriz        |        85 |      5661 |      4149 |         56 |             73 |               8 |
 | Omar Martins          |        42 |      3581 |      1188 |         78 |             23 |              14 |
-| github-actions[bot]   |       108 |       943 |       906 |          3 |            108 |               1 |
+| github-actions[bot]   |       109 |       949 |       912 |          3 |            109 |               1 |
 | github-classroom[bot] |         1 |      2152 |         0 |         45 |              1 |              13 |
 
 
 ## 📅 Contribuições Semanais (Todo o Semestre)
 
-**2026-10-26**: github-actions[bot]: 1
+**2026-10-26**: github-actions[bot]: 2
 
 **2026-10-19**: github-actions[bot]: 1
 
@@ -64,8 +64,6 @@
 **2026-06-01**: Alice: 3, Alice Abreu: 7, Gabriel Nascimento: 1, LeticiaOliAquino: 5, Omar Martins: 8, github-actions[bot]: 14
 
 **2026-05-25**: Alice: 3, Alice Abreu: 1, Gabriel Nascimento: 22, LeticiaOliAquino: 2, Martha Beatriz: 7, github-actions[bot]: 5
-
-**2026-05-18**: Gabriel Nascimento: 2, Martha Beatriz: 4, github-actions[bot]: 4
 
 
 
